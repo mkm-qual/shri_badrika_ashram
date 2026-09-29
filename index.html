@@ -771,7 +771,7 @@
     position: absolute;
     right: 0;
     bottom: calc(100% + 8px);
-    min-width: 168px;
+    min-width: 212px;
     padding: 6px;
     display: none;
     border: 1px solid var(--light-green-active);
@@ -794,6 +794,15 @@
   .season-menu button[aria-checked="true"] { color: var(--brown); }
   .season-menu button[aria-checked="true"]::after { content: "✓"; }
   .season-menu small { color: var(--dark-tertiary); font-size: 11px; }
+  .season-sep { height: 1px; margin: 6px 4px; background: var(--rule); }
+  .season-menu .clouds-toggle { align-items: center; gap: 12px; white-space: nowrap; }
+  .season-menu .clouds-toggle::after { content: none !important; }
+  .switch { position: relative; flex-shrink: 0; width: 28px; height: 16px; border-radius: 999px; background: var(--light-green-active); transition: background-color .2s ease; }
+  .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform .2s ease; }
+  .clouds-toggle[aria-checked="true"] .switch { background: var(--olive); }
+  .clouds-toggle[aria-checked="true"] .switch::after { transform: translateX(12px); }
+  .season-menu .clouds-toggle[aria-checked="true"] { color: var(--ink); }   /* a switch, not a selected season */
+  .no-clouds .cloud-band { display: none; }
   @media (max-width: 768px) { .season-picker { right: 12px; bottom: 12px; } }
   @media (prefers-reduced-motion: reduce) { .season-layer { display: none; } }
 
@@ -1261,6 +1270,15 @@
 
     let pref = 'auto';
     try { pref = localStorage.getItem('sba-season') || 'auto'; } catch (e) {}
+    let cloudsOn = true;
+    try { cloudsOn = localStorage.getItem('sba-clouds') !== 'off'; } catch (e) {}
+    const setClouds = (on) => {
+      cloudsOn = on;
+      document.documentElement.classList.toggle('no-clouds', !on);
+      if (!on) document.documentElement.classList.remove('clouds-on');
+      try { localStorage.setItem('sba-clouds', on ? 'on' : 'off'); } catch (e) {}
+    };
+    document.documentElement.classList.toggle('no-clouds', !cloudsOn);
     const active = () => pref === 'auto' ? bySeason() : pref;   // may be 'off'
     const dark = () => document.documentElement.getAttribute('data-theme') === 'dark';
 
@@ -1376,7 +1394,9 @@
       const opts = [['auto', 'Auto', `by month · ${SEASONS[bySeason()].label}`],
         ...Object.entries(SEASONS).map(([k, v]) => [k, v.label, v.hint]), ['off', 'Off', 'no animation']];
       menu.innerHTML = opts.map(([k, l, h]) =>
-        `<button type="button" role="menuitemradio" aria-checked="${pref === k}" data-season="${k}"><span>${l} <small>${h}</small></span></button>`).join('');
+        `<button type="button" role="menuitemradio" aria-checked="${pref === k}" data-season="${k}"><span>${l} <small>${h}</small></span></button>`).join('') +
+        `<div class="season-sep" role="separator"></div>` +
+        `<button type="button" class="clouds-toggle" role="menuitemcheckbox" aria-checked="${cloudsOn}" data-clouds><span>Clouds <small>while scrolling</small></span><i class="switch" aria-hidden="true"></i></button>`;
     }
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -1384,6 +1404,11 @@
       btn.setAttribute('aria-expanded', open);
     });
     menu.addEventListener('click', (e) => {
+      if (e.target.closest('[data-clouds]')) {          // clouds switch: keep the menu open so the state change is visible
+        e.stopPropagation();
+        setClouds(!cloudsOn); renderPicker();
+        return;
+      }
       const b = e.target.closest('[data-season]'); if (!b) return;
       pref = b.dataset.season;
       try { localStorage.setItem('sba-season', pref); } catch (err) {}
@@ -1453,6 +1478,7 @@
     // clouds fade in while the page is moving and melt away shortly after scrolling stops
     const root = document.documentElement;
     const onScroll = () => {
+      if (root.classList.contains('no-clouds')) return;   // switched off in the season menu
       root.classList.add('clouds-on');
       clearTimeout(idle); idle = setTimeout(() => root.classList.remove('clouds-on'), 700);
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
