@@ -499,7 +499,7 @@
   /* Place card: opens on hover or click, anchored to its pill (Figma "Garden hover card") */
   .place-card {
     position: absolute;
-    top: calc(100% + 10px);
+    bottom: calc(100% + 10px);                    /* opens above its tag */
     left: 0;
     width: 320px;
     display: none;
@@ -514,11 +514,9 @@
     white-space: normal;
     cursor: default;
   }
-  /* invisible bridge so the pointer can travel from pill to card without it closing */
-  .place-card::before { content: ""; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+  /* invisible bridge below the card so the pointer can travel up from tag to card */
+  .place-card::before { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; }
   .callout[data-align="end"] .place-card { left: auto; right: 0; }
-  .callout[data-side="above"] .place-card { top: auto; bottom: calc(100% + 10px); }
-  .callout[data-side="above"] .place-card::before { top: auto; bottom: -12px; }
   .callout.is-open .place-card { display: flex; animation: panel-in .18s ease; }
   @media (hover: hover) { .callout:hover .place-card { display: flex; } }
   .place-card img { width: 100%; height: 164px; object-fit: cover; border-radius: 6px; }
@@ -724,7 +722,6 @@
     .callout { position: static; }
     /* On phones the card opens full-width under the row of pills */
     .place-card, .callout[data-align="end"] .place-card { left: 0; right: 0; width: auto; max-width: 360px; margin: 0 auto; }
-    .callout[data-side="above"] .place-card { top: calc(100% + 10px); bottom: auto; }
     .copyright { line-height: 16px; }
     .footer-actions { flex-direction: column; gap: 15px; }
     .disclosure .panel { right: 50%; transform: translateX(50%); }
@@ -831,6 +828,35 @@
     .cloud-band { display: none; }
     .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
   }
+
+  /* Pulsing marker dots on the grounds illustration */
+  .marker { position: relative; display: inline-flex; flex-shrink: 0; width: 7px; height: 7px; }
+  .marker img { position: relative; z-index: 1; }
+  .marker::before, .marker::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: var(--pulse);
+    opacity: 0;
+    animation: marker-pulse 2.4s cubic-bezier(.2,.6,.3,1) infinite;
+    animation-delay: var(--pulse-delay, 0s);
+  }
+  .marker::after { animation-delay: calc(var(--pulse-delay, 0s) + 1.2s); }   /* second ring, half a beat later */
+  .marker-saffron { --pulse: #a9582c; }
+  .marker-olive { --pulse: #6f785f; }
+  :root[data-theme="dark"] .marker-saffron { --pulse: #e0915c; }
+  :root[data-theme="dark"] .marker-olive { --pulse: #b5b894; }
+  .callout:nth-child(2) .marker { --pulse-delay: .5s; }
+  .callout:nth-child(3) .marker { --pulse-delay: 1s; }
+  .callout:nth-child(4) .marker { --pulse-delay: 1.5s; }
+  @keyframes marker-pulse {
+    0%   { transform: scale(1);   opacity: .55; }
+    100% { transform: scale(3.6); opacity: 0; }
+  }
+  .callout:hover .marker::before, .callout.is-open .marker::before,
+  .callout:hover .marker::after, .callout.is-open .marker::after { animation-duration: 1.6s; }
+  @media (prefers-reduced-motion: reduce) { .marker::before, .marker::after { animation: none; } }
 </style>
 </head>
 <body>
@@ -1008,7 +1034,7 @@
          alt="Watercolour map of the ashram grounds: meditation hall, Shri Hari Mandir, yagashala and Vatika gardens"></div>
     <ul class="callouts" aria-label="Places on the grounds">
       <li class="callout" style="--x-right:34.74%; --y-top:26.29%">
-        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-mandir"><img src="assets/marker-olive.svg" width="7" height="7" alt="">Shri Hari Mandir</button>
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-mandir"><span class="marker marker-olive"><img src="assets/marker-olive.svg" width="7" height="7" alt=""></span>Shri Hari Mandir</button>
         <div class="place-card" id="place-mandir" role="group" aria-label="Shri Hari Mandir">
           <img src="assets/card-mandir.webp" alt="" loading="lazy">
           <div class="body">
@@ -1018,7 +1044,7 @@
         </div>
       </li>
       <li class="callout" style="--x-right:57.37%; --y-top:29.86%">
-        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-yagashala"><img src="assets/marker-olive.svg" width="7" height="7" alt="">Yagashala</button>
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-yagashala"><span class="marker marker-olive"><img src="assets/marker-olive.svg" width="7" height="7" alt=""></span>Yagashala</button>
         <div class="place-card" id="place-yagashala" role="group" aria-label="Yagashala">
           <img src="assets/card-yagashala.webp" alt="" loading="lazy">
           <div class="body">
@@ -1028,7 +1054,7 @@
         </div>
       </li>
       <li class="callout" style="--x-right:7.16%; --y-top:33.43%" data-align="end">
-        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-vatika"><img src="assets/marker-olive.svg" width="7" height="7" alt="">Vatika gardens</button>
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-vatika"><span class="marker marker-olive"><img src="assets/marker-olive.svg" width="7" height="7" alt=""></span>Vatika gardens</button>
         <div class="place-card" id="place-vatika" role="group" aria-label="Vatika gardens">
           <img src="assets/card-vatika.webp" alt="" loading="lazy">
           <div class="body">
@@ -1037,8 +1063,8 @@
           </div>
         </div>
       </li>
-      <li class="callout" style="--x-left:35.26%; --y-top:61.86%" data-side="above">
-        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-meditation"><img src="assets/marker-saffron.svg" width="7" height="7" alt="">Meditation hall</button>
+      <li class="callout" style="--x-left:35.26%; --y-top:61.86%">
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-meditation"><span class="marker marker-saffron"><img src="assets/marker-saffron.svg" width="7" height="7" alt=""></span>Meditation hall</button>
         <div class="place-card" id="place-meditation" role="group" aria-label="Meditation hall">
           <img src="assets/card-meditation.webp" alt="" loading="lazy">
           <div class="body">
