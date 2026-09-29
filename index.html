@@ -660,8 +660,8 @@
       border-bottom: 1px solid var(--nav-border);
     }
     /* Serif display type steps down for phone widths */
-    .display-2xl { font-size: 34px; line-height: 38px; }
-    .display-lg  { font-size: 26px; line-height: 30px; }
+    .display-2xl { font-size: 36px; line-height: 40px; }   /* 44px on desktop */
+    .display-lg  { font-size: 24px; line-height: 28px; }   /* 32px on desktop */
     .drawer nav a { font-size: 24px; line-height: 28px; padding: 14px 0; }
 
     .nav-brand img { max-width: 100%; height: auto; }
@@ -670,19 +670,20 @@
     .nav-tabs { padding: 0; gap: 20px; }
 
     .hero {
-      height: 415px;
-      padding: 72px 24px 48px;
+      height: 500px;               /* more room under the links so the range shows clearly */
+      padding: 32px 24px 48px;     /* less empty space above the eyebrow */
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start; /* text sits at the top; the range fills the space below */
     }
     .hero-bg { background: var(--cream); }
     .hero-bg .veil { display: block; position: absolute; inset: 0; background: var(--bg); }
     .hero-bg .mountains {
       inset: auto;
       left: -22.74%;
-      top: 32.14%;
+      top: 100px;                  /* peaks start just below the links */
       width: 145.24%;
-      height: 91%;
+      height: 378px;               /* same size as before, fixed so a taller hero doesn't stretch it */
       object-fit: fill;
     }
     .hero-copy { width: 100%; gap: 18px; }
@@ -735,7 +736,6 @@
 
   @media (max-width: 360px) {
     .actions { flex-wrap: wrap; }
-    .display-2xl { font-size: 30px; line-height: 34px; }
   }
 
 
