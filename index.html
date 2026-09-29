@@ -813,9 +813,9 @@
     opacity: 0;                                      /* only visible while scrolling */
     filter: brightness(.9) sepia(.14) saturate(.9);  /* a soft grey-cream so white clouds read on the white page */
     transform: translate3d(var(--x), 0, 0) scaleX(var(--flip, 1));
-    transition: opacity .9s ease;
+    transition: opacity 2s cubic-bezier(.33,0,.2,1);   /* slow, gentle fade-out after scrolling stops */
   }
-  .clouds-on .cloud-band img { opacity: var(--o); transition-duration: .35s; }
+  .clouds-on .cloud-band img { opacity: var(--o); transition: opacity .45s ease; }   /* quicker fade-in */
   :root[data-theme="dark"] .cloud-band img { filter: brightness(1.1); }
   :root[data-theme="dark"].clouds-on .cloud-band img { opacity: calc(var(--o) * .38); }
 
@@ -1428,7 +1428,7 @@
     const root = document.documentElement;
     const onScroll = () => {
       root.classList.add('clouds-on');
-      clearTimeout(idle); idle = setTimeout(() => root.classList.remove('clouds-on'), 450);
+      clearTimeout(idle); idle = setTimeout(() => root.classList.remove('clouds-on'), 700);
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     };
     addEventListener('scroll', onScroll, { passive: true });
