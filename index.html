@@ -322,6 +322,7 @@
   .hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .hero-bg .texture { opacity: .2; }
   /* The mountain watercolour has an opaque white ground: invert it and screen it onto the dark page */
+  .hero-bg .mountains { object-position: 50% 30%; }   /* sit the range a little lower in the hero */
   .hero-bg .mountains.night { display: none; }
   :root[data-theme="dark"] .hero-bg .mountains.day { display: none; }
   :root[data-theme="dark"] .hero-bg .mountains.night { display: block; opacity: .85; } /* pre-rendered night version (no runtime filter/blend) */
