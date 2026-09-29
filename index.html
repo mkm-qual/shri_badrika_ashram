@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sri Badrika Ashram</title>
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<style>
+  @font-face {
+    font-family: "Forum";
+    src: url("fonts/Forum-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --font-heading: "Forum", Georgia, serif;
+    --font-body: "Segoe UI", "Segoe UI Web (West European)", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+    --dark: #1b1f14;
+    --ink: #29231d;
+    --ink-muted: #625a50;
+    --olive: #707359;
+    --olive-active: #545643;
+    --dark-secondary: #555450;
+    --dark-tertiary: #8d8f89;
+    --saffron: #a9582c;
+    --brown: #793c22;
+    --rule: #d8ccbb;
+    --cream: #fcf9f2;
+    --sand: #f7f1e7;
+    --paper: #fefdfc;
+    --light-green: #f8f9f4;
+    --light-green-hover: #f5f5ef;
+    --light-green-active: #eaebde;
+    --light-green-normal-hover: #a7ac86;
+
+    --bg: #fff;
+    --nav-bg: rgba(255,255,255,.6);
+    --nav-bg-m: rgba(255,255,255,.2);
+    --nav-border: rgba(0,0,0,.1);
+    --shadow: rgba(41,35,29,.08);
+    --brown-wash: rgba(121,60,34,.06);
+    --card-hover: rgba(252,249,242,.6);
+    --btn-primary: #793c22;
+    --btn-primary-hover: #65311b;
+    --footer-border: #a49d99;
+    --footer-bg: rgba(255,255,255,.5);
+    --field-bg: #fff;
+    --sign-in-bg: var(--light-green-active);
+    --sign-in-bg-hover: #dfe0cf;
+    --callout-bg: rgba(251,248,240,.84);
+    --callout-border: rgba(217,207,190,.67);
+    --callout-ink: #2e2a24;
+    --card-bg: #fff;
+    --card-muted: #6f785f;
+
+    /* Monochrome SVG icons are recoloured with filters in dark mode */
+    --icon-ink: none;
+    --icon-tint: none;
+
+    --gutter: 140px;
+    color-scheme: light;
+  }
+
+  :root[data-theme="dark"] {
+    --dark: #ece6da;
+    --ink: #f1e9dd;
+    --ink-muted: #b9ad9d;
+    --olive: #b5b894;
+    --olive-active: #c4c6a6;
+    --dark-secondary: #a8a49c;
+    --dark-tertiary: #7f7b73;
+    --saffron: #e0915c;
+    --brown: #eaa47b;
+    --rule: #3a3229;
+    --cream: #221d17;
+    --sand: #1d1914;
+    --paper: #1a1612;
+    --light-green: #1f1c17;
+    --light-green-hover: #28231d;
+    --light-green-active: #332d25;
+
+    --bg: #15120f;
+    --nav-bg: rgba(21,18,15,.72);
+    --nav-bg-m: rgba(21,18,15,.72);
+    --nav-border: rgba(255,255,255,.08);
+    --shadow: rgba(0,0,0,.45);
+    --brown-wash: rgba(234,164,123,.08);
+    --card-hover: rgba(255,255,255,.02);
+    --btn-primary: #a9582c;
+    --btn-primary-hover: #bd6634;
+    --footer-border: #3d362e;
+    --footer-bg: rgba(21,18,15,.5);
+    --field-bg: #1f1c17;
+    --sign-in-bg: #2b2a22;
+    --sign-in-bg-hover: #35342a;
+    --callout-bg: rgba(26,22,18,.82);
+    --callout-border: rgba(255,255,255,.12);
+    --callout-ink: #f1e9dd;
+    --card-bg: #1f1b16;
+    --card-muted: #b5b894;
+
+    --icon-ink: invert(1) brightness(.92);
+    --icon-tint: brightness(0) invert(.8) sepia(.5) saturate(1.8) hue-rotate(-14deg);
+
+    color-scheme: dark;
+  }
+
+  body, .nav, .dropdown, .drawer, .event-card, .subscribe, .btn {
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+  }
+
+  /* Dark-ink icons (logo, menu, chevrons, theme icons) */
+  img[src$="logo.svg"], img[src$="arrow-down.svg"],
+  img[src$="person.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
+    filter: var(--icon-ink);
+  }
+  /* Coloured line icons (brown / olive / grey arrows, calendar, clock) */
+  img[src*="arrow-right-olive"], img[src*="arrow-right-brown"], img[src$="m-arrow-right.svg"],
+  img[src*="arrow-up-right"], img[src$="calendar.svg"], img[src$="clock.svg"], img[src*="arrow-right-subscribe"] {
+    filter: var(--icon-tint);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  html { overflow-x: hidden; }   /* keeps body's overflow on body, not the viewport */
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-synthesis: none;
+    font-kerning: normal;
+    overflow: clip;               /* nothing decorative can extend the page past the footer */
+  }
+  input, button { font-weight: inherit; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  img { display: block; }
+  a { color: inherit; text-decoration: none; }
+  p, h1, h2, h3 { margin: 0; font-weight: inherit; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+  .m-only { display: none !important; }
+
+  /* ---------- Type ---------- */
+  .eyebrow {
+    font-size: 11px;
+    line-height: normal;
+    letter-spacing: 1.54px;
+    text-transform: uppercase;
+    color: var(--saffron);
+  }
+  .display-2xl { font-family: var(--font-heading); font-size: 44px; line-height: 48px; color: var(--ink); }
+  .display-lg  { font-family: var(--font-heading); font-size: 32px; line-height: 36px; color: var(--ink); }
+
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--brown);
+    white-space: nowrap;
+  }
+  .text-link:hover span { text-decoration: underline; text-underline-offset: 3px; }
+  .text-link img { transition: transform .2s ease; }
+  .text-link:hover img { transform: translateX(2px); }
+
+  .section-heading { display: flex; flex-direction: column; gap: 12px; }
+
+  /* ---------- Navigation ---------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 60px 8px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: var(--nav-bg);
+  }
+  .nav-brand { display: flex; align-items: center; gap: 16px; }
+  .nav-actions { flex: 1; display: flex; align-items: center; justify-content: flex-end; }
+  .nav-tabs { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 8px 10px; border-radius: 8px; }
+  .nav-menu { position: relative; }
+  .nav-tab {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 24px;
+    padding-bottom: 3px;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--dark);
+  }
+  .nav-tab:hover span { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    margin: -6px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .theme-toggle:hover { background: var(--light-green-hover); }
+  .theme-toggle .sun { display: none; }
+  :root[data-theme="dark"] .theme-toggle .sun { display: block; }
+  :root[data-theme="dark"] .theme-toggle .moon { display: none; }
+  .sign-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85px;
+    height: 32px;
+    padding: 0 8px 3px;
+    border-radius: 29px;
+    background: var(--sign-in-bg);
+    color: var(--light-green-normal-hover);
+    font-size: 16px;
+    line-height: 20px;
+    white-space: nowrap;
+  }
+  .sign-in:hover { background: var(--sign-in-bg-hover); }
+  .nav-tab img { transition: transform .2s ease; }
+  .nav-menu.open .nav-tab img { transform: rotate(180deg); }
+  .icon-btn { display: inline-flex; align-items: center; justify-content: center; }
+  .dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    min-width: 220px;
+    padding: 8px;
+    background: var(--paper);
+    border: 1px solid var(--light-green-active);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px var(--shadow);
+    display: none;
+  }
+  .nav-menu.open .dropdown { display: block; }
+  .menu-group { display: flex; flex-direction: column; gap: 4px; }
+  .menu-heading {
+    font-size: 11px;
+    line-height: normal;
+    letter-spacing: 1.54px;
+    text-transform: uppercase;
+    color: var(--saffron);
+  }
+  .dropdown a {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .dropdown a:hover { background: var(--light-green-hover); }
+
+  /* More details: same look as the header menu dropdown, grouped into columns */
+  .footer-menu { position: relative; }
+  .footer-dropdown {
+    top: auto;
+    bottom: calc(100% + 8px);
+    padding: 24px 28px;
+    min-width: 0;
+    z-index: 5;
+  }
+  .footer-links { display: grid; grid-template-columns: repeat(4, minmax(140px, auto)); gap: 8px 28px; }
+  .footer-menu.open .footer-dropdown { display: block; animation: panel-in .2s ease; }
+  .footer-dropdown .subscribe { width: 100%; margin-top: 20px; }
+  @keyframes panel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .footer-dropdown .menu-heading { margin-bottom: 8px; }
+  .footer-dropdown a { padding: 6px 0; font-size: 14px; border-radius: 0; }
+  .footer-dropdown a:hover { background: none; color: var(--brown); }
+
+  .footer-toggle {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 48px;
+    padding: 12px 12px 12px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--dark);
+  }
+  .footer-toggle:hover { background: var(--light-green-hover); }
+  .footer-toggle img { transition: transform .2s ease; margin-bottom: -3px; }
+  .footer-toggle[aria-expanded="true"] img { transform: rotate(180deg); }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    height: 758px;
+    padding: 120px var(--gutter);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  .hero-bg { position: absolute; inset: 0; pointer-events: none; }
+  .hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-bg .texture { opacity: .2; }
+  /* The mountain watercolour has an opaque white ground: invert it and screen it onto the dark page */
+  .hero-bg .mountains.night { display: none; }
+  :root[data-theme="dark"] .hero-bg .mountains.day { display: none; }
+  :root[data-theme="dark"] .hero-bg .mountains.night { display: block; opacity: .85; } /* pre-rendered night version (no runtime filter/blend) */
+  :root[data-theme="dark"] .hero-bg .texture { display: none; }
+  :root[data-theme="dark"] .deity .halo { opacity: .75; }
+  :root[data-theme="dark"] .grounds-art { opacity: .8; }
+  .hero-bg .veil { display: none; }
+  .hero-copy {
+    position: relative;
+    width: 480px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .hero-links { display: flex; gap: 24px; }
+  .hero-links .text-link { color: var(--olive-active); }
+
+  /* ---------- Upcoming events ---------- */
+  .events {
+    padding: 112px var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    background: var(--bg);
+  }
+  .events-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .events-head .section-heading { width: 690px; max-width: 100%; }
+  .view-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: normal;
+    color: var(--brown);
+    white-space: nowrap;
+  }
+  .view-all:hover { background: var(--brown-wash); }
+  .event-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .event-card {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 26px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, transparent 0%, var(--cream) 50%, transparent 100%);
+    transition: background-color .2s ease;
+  }
+  .event-card:hover { background-color: var(--card-hover); }
+  .event-title { display: flex; flex-direction: column; gap: 8px; }
+  .event-title-inner { display: flex; flex-direction: column; gap: 10px; }
+  .event-sub { font-size: 16px; line-height: 20px; color: var(--olive); }
+  .event-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .event-meta div { display: flex; align-items: center; gap: 10px; font-size: 14px; line-height: 20px; color: var(--ink); white-space: nowrap; }
+
+  /* ---------- Sri Hari Bhagwan ---------- */
+  .divine {
+    padding: 96px var(--gutter);
+    display: flex;
+    align-items: center;
+    gap: 88px;
+    background: var(--bg);
+  }
+  .deity {
+    position: relative;
+    flex-shrink: 0;
+    width: 510px;
+    height: 570px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .deity .halo {
+    position: absolute;
+    left: 50%;
+    top: calc(50% - 24px);
+    transform: translate(-50%, -50%);
+  }
+  .deity .idol { position: relative; width: 443px; height: 568px; object-fit: cover; }
+  .divine-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+  .divine-body { font-size: 15px; line-height: 1.68; color: var(--ink-muted); }
+  .actions { display: flex; gap: 12px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ink);
+    white-space: nowrap;
+    transition: background-color .2s ease, border-color .2s ease;
+  }
+  .btn:hover { background: var(--light-green-hover); }
+  .btn-primary { background: var(--btn-primary); border-color: var(--btn-primary); color: #fff; }
+  .btn-primary:hover { background: var(--btn-primary-hover); border-color: var(--btn-primary-hover); }
+
+  /* ---------- Sanctuary ---------- */
+
+
+
+  /* ---------- Around the ashram: illustrated grounds ---------- */
+  .grounds {
+    padding: 100px var(--gutter);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    background: var(--bg);
+  }
+  .section-heading.centered { width: 680px; max-width: 100%; align-items: center; text-align: center; }
+  .section-heading.wide { width: 955px; }
+  .grounds-body { font-size: 16px; line-height: 20px; color: var(--olive); }
+  .grounds-map { position: relative; width: 950px; max-width: 100%; aspect-ratio: 950 / 700; }
+  /* Painting fills the frame and fades out top and bottom */
+  .grounds-frame {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    -webkit-mask: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%) top / 100% 88.57% no-repeat;
+            mask: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%) top / 100% 88.57% no-repeat;
+  }
+  .grounds-art {
+    position: absolute;
+    left: 0;
+    top: -0.16%;
+    width: 100%;
+    height: 100.16%;
+    object-fit: cover;
+    opacity: .92;
+  }
+  .callouts { list-style: none; margin: 0; padding: 0; }
+  .callout {
+    position: absolute;
+    left: var(--x-left, auto);
+    right: var(--x-right, auto);
+    top: var(--y-top, auto);
+    bottom: var(--y-bottom, auto);
+    z-index: 13;                                  /* pills + place cards stay above drifting clouds */
+  }
+  .callout:hover, .callout.is-open { z-index: 14; }
+  .callout-pill {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 14px 9px 12px;
+    border: 1px solid var(--callout-border);
+    border-radius: 999px;
+    background: var(--callout-bg);
+    -webkit-backdrop-filter: blur(2px);
+            backdrop-filter: blur(2px);
+    font-size: 12px;
+    line-height: normal;
+    color: var(--callout-ink);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease;
+  }
+  .callout-pill:hover, .callout.is-open .callout-pill { background: var(--card-bg); border-color: var(--rule); }
+  .callout-pill:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+
+  /* Place card: opens on hover or click, anchored to its pill (Figma "Garden hover card") */
+  .place-card {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 320px;
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--callout-border);
+    border-radius: 16px;
+    background: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0,0,0,.05), 0 8px 12px rgba(0,0,0,.1);
+    text-align: left;
+    white-space: normal;
+    cursor: default;
+  }
+  /* invisible bridge so the pointer can travel from pill to card without it closing */
+  .place-card::before { content: ""; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+  .callout[data-align="end"] .place-card { left: auto; right: 0; }
+  .callout[data-side="above"] .place-card { top: auto; bottom: calc(100% + 10px); }
+  .callout[data-side="above"] .place-card::before { top: auto; bottom: -12px; }
+  .callout.is-open .place-card { display: flex; animation: panel-in .18s ease; }
+  @media (hover: hover) { .callout:hover .place-card { display: flex; } }
+  .place-card img { width: 100%; height: 164px; object-fit: cover; border-radius: 6px; }
+  .place-card .body { display: flex; flex-direction: column; gap: 8px; }
+  .place-card .title { font-size: 14px; line-height: normal; color: var(--callout-ink); }
+  .place-card .sub { font-size: 12px; line-height: normal; font-weight: 600; color: var(--card-muted); }
+  .place-card .desc { font-size: 12px; line-height: 18px; color: var(--card-muted); }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    position: relative;
+    padding: 44px 0 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    background: linear-gradient(180deg, var(--bg) 0%, var(--sand) 43.27%, var(--sand) 100%);
+  }
+  .footer-inner {
+    position: relative;
+    z-index: 13; /* dropdown must sit above drifting clouds */
+    width: 1168px;
+    max-width: calc(100% - 2 * var(--gutter) + 272px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .copyright { font-size: 14px; line-height: 24px; color: var(--dark-secondary); white-space: nowrap; }
+  .footer-actions { display: flex; align-items: center; gap: 15px; }
+  .subscribe {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 286px;
+    padding: 14px 18px;
+    border: 1px solid var(--light-green-active);
+    border-radius: 8px;
+    background: var(--light-green);
+  }
+  .subscribe input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--ink);
+    padding: 0;
+  }
+  .subscribe input::placeholder { color: var(--dark-tertiary); }
+  .subscribe:focus-within { border-color: var(--olive); }
+  .subscribe button { display: inline-flex; }
+
+  .disclosure { position: relative; }
+  .disclosure summary {
+    list-style: none;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    height: 48px;
+    padding: 12px 12px 12px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 20px;
+    color: var(--dark);
+    cursor: pointer;
+  }
+  .disclosure summary::-webkit-details-marker { display: none; }
+  .disclosure summary:hover { background: var(--light-green-hover); }
+  .disclosure summary img { transition: transform .2s ease; margin-bottom: -3px; }
+  .disclosure[open] summary img { transform: rotate(180deg); }
+  .disclosure .panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    min-width: 240px;
+    padding: 12px 16px;
+    background: var(--paper);
+    border: 1px solid var(--light-green-active);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px var(--shadow);
+    font-size: 14px;
+    color: var(--ink-muted);
+  }
+  .disclosure .panel a { display: block; padding: 6px 0; color: var(--ink); }
+  .disclosure .panel a:hover { color: var(--brown); }
+
+
+  /* Mobile drawer */
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: none;
+    flex-direction: column;
+    background: var(--paper);
+  }
+  .drawer.open { display: flex; }
+  .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; min-height: 64px; border-bottom: 1px solid var(--nav-border); }
+  .drawer-close { width: 40px; height: 40px; font-size: 28px; line-height: 1; color: var(--dark); }
+  .drawer nav { display: flex; flex-direction: column; padding: 16px 24px; }
+  .drawer-sign-in { margin: 8px 24px; width: auto; height: 48px; }
+  .drawer { overflow-y: auto; }
+  .drawer nav a { padding: 16px 0; border-bottom: 1px solid var(--rule); font-family: var(--font-heading); font-size: 28px; line-height: 32px; color: var(--ink); }
+
+  /* ---------- Intermediate widths ---------- */
+  @media (max-width: 1360px) {
+    :root { --gutter: 80px; }
+    .divine { gap: 56px; }
+    .deity { width: 440px; height: 520px; }
+    .deity .idol { width: 390px; height: 500px; }
+    .footer-inner { width: 100%; max-width: none; padding: 0 var(--gutter); }
+  }
+  @media (max-width: 1100px) {
+    :root { --gutter: 48px; }
+    .nav { padding-left: 32px; padding-right: 32px; }
+    .event-cards { grid-template-columns: 1fr 1fr; }
+    .divine { flex-direction: column; align-items: stretch; }
+    .deity { align-self: center; }
+    .footer-inner { flex-direction: column; align-items: center; }
+  }
+
+  /* ---------- Mobile (Figma: 390 frame) ---------- */
+  @media (max-width: 768px) {
+    :root { --gutter: 24px; }
+    .d-only { display: none !important; }
+    .m-only { display: revert !important; }
+    img.m-only { display: block !important; }
+    .text-link.m-only { display: inline-flex !important; }
+
+    .nav {
+      padding: 8px 16px;
+      min-height: 64px;
+      gap: 24px;
+      background: var(--nav-bg-m);
+      border-bottom: 1px solid var(--nav-border);
+    }
+    /* Serif display type steps down for phone widths */
+    .display-2xl { font-size: 34px; line-height: 38px; }
+    .display-lg  { font-size: 26px; line-height: 30px; }
+    .drawer nav a { font-size: 24px; line-height: 28px; padding: 14px 0; }
+
+    .nav-brand img { max-width: 100%; height: auto; }
+    .nav-brand { min-width: 0; }
+    .nav-actions { gap: 8px; }
+    .nav-tabs { padding: 0; gap: 20px; }
+
+    .hero {
+      height: 415px;
+      padding: 72px 24px 48px;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hero-bg { background: var(--cream); }
+    .hero-bg .veil { display: block; position: absolute; inset: 0; background: var(--bg); }
+    .hero-bg .mountains {
+      inset: auto;
+      left: -22.74%;
+      top: 32.14%;
+      width: 145.24%;
+      height: 91%;
+      object-fit: fill;
+    }
+    .hero-copy { width: 100%; gap: 18px; }
+    .hero-links { flex-direction: column; align-items: center; gap: 14px; }
+    .hero-links .text-link { color: var(--brown); gap: 9px; }
+
+    .text-link { gap: 9px; }
+
+    .events { padding: 72px 24px; gap: 32px; align-items: center; background: var(--bg); }
+    .events-head { width: 100%; }
+    .events-head .section-heading { width: 100%; }
+    .event-cards { width: 100%; grid-template-columns: 1fr; gap: 16px; }
+    .events .view-all-m { font-size: 14px; line-height: 1.4; }
+
+    .divine { padding: 72px 24px; gap: 38px; background: var(--paper); }
+    .deity { width: 100%; height: 390px; }
+    .deity .halo { top: calc(50% - 20px); }
+    .deity .idol { width: 280px; height: 360px; }
+    .divine-copy { gap: 22px; }
+    .divine-body { font-size: 14px; line-height: 20px; }
+    .actions { justify-content: space-between; gap: 8px; }
+    .btn { padding: 13px 20px; gap: 8px; }
+    .btn-secondary { background: var(--paper); }
+
+
+
+
+    .footer { padding: 44px 0 60px; }
+    .footer-inner { padding: 0; flex-direction: column; gap: 28px; }
+    .copyright { order: 2; }  /* phones: More details, Legal fine print, then copyright */
+
+    .grounds { padding: 72px 24px; gap: 28px; }
+    /* On phones the pills move below the painting so they don't crowd it */
+    .grounds-map { aspect-ratio: auto; }
+    .grounds-frame { position: relative; inset: auto; margin: 0 -24px -9.5%; aspect-ratio: 950 / 700; }
+    .grounds-body { font-size: 14px; color: var(--ink-muted); }
+    .callouts { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 12px; }
+    .callout { position: static; }
+    /* On phones the card opens full-width under the row of pills */
+    .place-card, .callout[data-align="end"] .place-card { left: 0; right: 0; width: auto; max-width: 360px; margin: 0 auto; }
+    .callout[data-side="above"] .place-card { top: calc(100% + 10px); bottom: auto; }
+    .copyright { line-height: 16px; }
+    .footer-actions { flex-direction: column; gap: 15px; }
+    .disclosure .panel { right: 50%; transform: translateX(50%); }
+
+
+    .footer-dropdown { right: 50%; transform: translateX(50%); width: min(342px, calc(100vw - 48px)); padding: 20px; }
+    .footer-links { grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+    .footer-menu.open .footer-dropdown { animation: none; }
+  }
+
+  @media (max-width: 360px) {
+    .actions { flex-wrap: wrap; }
+    .display-2xl { font-size: 30px; line-height: 34px; }
+  }
+
+
+  /* ---------- Seasonal ambience ---------- */
+  .season-layer {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15;               /* above sections, below the sticky nav (20) and menus */
+    pointer-events: none;
+    /* keep the reading column calm: particles live mostly in the margins */
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.95) 16%, rgba(0,0,0,.42) 34%, rgba(0,0,0,.42) 66%, rgba(0,0,0,.95) 84%, #000 100%);
+            mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.95) 16%, rgba(0,0,0,.42) 34%, rgba(0,0,0,.42) 66%, rgba(0,0,0,.95) 84%, #000 100%);
+  }
+  .season-picker { position: fixed; right: 20px; bottom: 20px; z-index: 30; }
+  .season-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--callout-border);
+    border-radius: 999px;
+    background: var(--callout-bg);
+    -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+    font-size: 12px;
+    color: var(--callout-ink);
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .season-btn:hover { background: var(--card-bg); }
+  .season-menu {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 8px);
+    min-width: 168px;
+    padding: 6px;
+    display: none;
+    border: 1px solid var(--light-green-active);
+    border-radius: 12px;
+    background: var(--paper);
+    box-shadow: 0 12px 32px var(--shadow);
+  }
+  .season-picker.open .season-menu { display: block; animation: panel-in .18s ease; }
+  .season-menu button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--ink);
+    text-align: left;
+  }
+  .season-menu button:hover { background: var(--light-green-hover); }
+  .season-menu button[aria-checked="true"] { color: var(--brown); }
+  .season-menu button[aria-checked="true"]::after { content: "✓"; }
+  .season-menu small { color: var(--dark-tertiary); font-size: 11px; }
+  @media (max-width: 768px) { .season-picker { right: 12px; bottom: 12px; } }
+  @media (prefers-reduced-motion: reduce) { .season-layer { display: none; } }
+
+  /* ---------- Scroll clouds + section reveal ---------- */
+  .cloud-band { position: relative; height: 0; z-index: 12; pointer-events: none; }  /* over content, under season layer + nav */
+  .cloud-band img {
+    position: absolute;
+    left: 0;
+    top: var(--y);
+    width: var(--w);
+    min-width: 220px;
+    max-width: 572px;
+    height: auto;
+    opacity: 0;                                      /* only visible while scrolling */
+    filter: brightness(.9) sepia(.14) saturate(.9);  /* a soft grey-cream so white clouds read on the white page */
+    transform: translate3d(var(--x), 0, 0) scaleX(var(--flip, 1));
+    transition: opacity .9s ease;
+  }
+  .clouds-on .cloud-band img { opacity: var(--o); transition-duration: .35s; }
+  :root[data-theme="dark"] .cloud-band img { filter: brightness(1.1); }
+  :root[data-theme="dark"].clouds-on .cloud-band img { opacity: calc(var(--o) * .38); }
+
+  .js-reveal .reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1), background-color .25s ease;
+    transition-delay: var(--d, 0ms);
+  }
+  .js-reveal .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cloud-band { display: none; }
+    .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ Navigation ============ -->
+<header class="nav" data-node-id="40000030:5787">
+  <div class="nav-brand">
+    <a href="#" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs" data-node-id="40000046:7143">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown" role="menu" data-menu="nav" data-mode="top" data-order="events,offerings,ashram,involved"></div>
+    </div>
+    <a href="#" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram" style="max-width:70%;height:auto">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="top" data-order="events,offerings,ashram,involved"></nav>
+  <a href="#" class="sign-in drawer-sign-in">Sign in</a>
+</div>
+
+<main>
+
+<!-- ============ Vaikuntha introduction ============ -->
+<section class="hero" data-node-id="40000030:5808">
+  <div class="hero-bg" aria-hidden="true">
+    <img class="texture" src="assets/hero-texture.png" alt="">
+    <div class="veil"></div>
+    <img class="mountains day" src="assets/hero-mountains.png" alt="">
+    <img class="mountains night" src="assets/hero-mountains-dark.webp" alt="" loading="lazy">
+  </div>
+  <div class="hero-copy">
+    <p class="eyebrow">Sri Badrika Ashram @ Himalayan Foothills</p>
+    <h1 class="display-2xl">Your Gateway to Vaikuntha</h1>
+    <div class="hero-links">
+      <a class="text-link" href="#ashram">
+        <span>Discover the ashram</span>
+        <img class="d-only" src="assets/arrow-right-olive.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/m-arrow-right.svg" width="15" height="15" alt="">
+      </a>
+      <a class="text-link" href="#divine">
+        <span>Discover the divine</span>
+        <img class="d-only" src="assets/arrow-right-olive.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/m-arrow-right.svg" width="15" height="15" alt="">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Upcoming events ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="events" id="events" data-node-id="40000030:5832">
+  <div class="events-head">
+    <div class="section-heading">
+      <p class="eyebrow">Immersion at ashram</p>
+      <h2 class="display-2xl">Upcoming events</h2>
+    </div>
+    <a class="view-all d-only" href="#">
+      <span>View all events</span>
+      <img src="assets/arrow-up-right.svg" width="15" height="15" alt="">
+    </a>
+  </div>
+
+  <div class="event-cards">
+    <article class="event-card">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Atma Vimarsha</h3>
+          <p class="event-sub">Contemplation of the Self</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 April — 31 July</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 7 April — 31 July</div>
+      </div>
+    </article>
+    <article class="event-card">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Tantra</h3>
+          <p class="event-sub">Ancient Secrets of the Sacred Flame</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 April — 31 July</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 7 April — 31 July</div>
+      </div>
+    </article>
+    <article class="event-card">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Guru Sadhana</h3>
+          <p class="event-sub">Awaken Your Guiding Light</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 April — 31 July</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 7 April — 31 July</div>
+      </div>
+    </article>
+  </div>
+
+  <a class="text-link view-all-m m-only" href="#">
+    <span>View all events</span>
+    <img src="assets/arrow-up-right.svg" width="15" height="15" alt="">
+  </a>
+</section>
+
+<!-- ============ Sri Hari Bhagwan ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="divine" id="divine" data-node-id="40000030:5890">
+  <div class="deity">
+    <img class="halo d-only" src="assets/halo.svg" width="360" height="360" alt="">
+    <img class="halo m-only" src="assets/m-halo.svg" width="274" height="274" alt="">
+    <img class="idol" src="assets/deity.png" alt="The consecrated idol of Sri Hari, adorned with garlands and saffron silk">
+  </div>
+  <div class="divine-copy">
+    <div class="section-heading">
+      <p class="eyebrow">The Divine</p>
+      <h2 class="display-2xl">Sri Hari Bhagwan</h2>
+    </div>
+    <p class="divine-body">The consecrated idol of Śrī Hari is ceremoniously worshipped with Abhishekam — a holy bathing ritual accompanied by the transcendent chanting of the Vishnu Sahasranama or Lalita Sahasranama. On auspicious days, seekers gather to invoke and revere the awakened Divine Energies within.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#">
+        <span>Explore offerings</span>
+        <img class="d-only" src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/m-arrow-right-white.svg" width="15" height="15" alt="">
+      </a>
+      <a class="btn btn-secondary" href="#">About Abhishekam</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ Around the ashram ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="grounds" id="ashram" data-node-id="40000073:8815">
+  <div class="section-heading centered wide">
+    <p class="eyebrow">The Ashram</p>
+    <h2 class="display-2xl">A sanctuary for stillness, service and sadhana</h2>
+    <p class="grounds-body">Tucked into the quiet folds of the Shivalik hills, Sri Badrika Ashram is a sacred space to pause, turn inward and experience the living traditions of Sanatana Dharma. Here, devotion is woven into the everyday rhythm of prayer, silence, study and seva.</p>
+    <a class="text-link" href="#">
+      <span>Explore Ashram</span>
+      <img class="d-only" src="assets/arrow-right-brown.svg" width="16" height="16" alt="">
+      <img class="m-only" src="assets/m-arrow-right.svg" width="15" height="15" alt="">
+    </a>
+  </div>
+  <div class="grounds-map" data-node-id="40000062:8609">
+    <div class="grounds-frame"><img class="grounds-art" src="assets/grounds.webp" width="2000" height="1632"
+         alt="Watercolour map of the ashram grounds: meditation hall, Shri Hari Mandir, yagashala and Vatika gardens"></div>
+    <ul class="callouts" aria-label="Places on the grounds">
+      <li class="callout" style="--x-right:34.74%; --y-top:26.29%">
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-mandir"><img src="assets/marker-olive.svg" width="7" height="7" alt="">Shri Hari Mandir</button>
+        <div class="place-card" id="place-mandir" role="group" aria-label="Shri Hari Mandir">
+          <img src="assets/card-mandir.webp" alt="" loading="lazy">
+          <div class="body">
+            <div><p class="title">Shri Hari Mandir</p><p class="sub">A sacred space for meditation and reflection.</p></div>
+            <p class="desc">The temple hosts daily pujas and aarti ceremonies, which are open to all seekers. The serene atmosphere, combined with the majestic presence of the deity, creates an environment where one can transcend the mundane and experience profound peace.</p>
+          </div>
+        </div>
+      </li>
+      <li class="callout" style="--x-right:57.37%; --y-top:29.86%">
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-yagashala"><img src="assets/marker-olive.svg" width="7" height="7" alt="">Yagashala</button>
+        <div class="place-card" id="place-yagashala" role="group" aria-label="Yagashala">
+          <img src="assets/card-yagashala.webp" alt="" loading="lazy">
+          <div class="body">
+            <div><p class="title">Yagashala</p><p class="sub">The home of the sacred fire.</p></div>
+            <p class="desc">Havans and yagyas are performed here on auspicious days, offering ghee, grains and prayers into the consecrated fire. Seekers may sit in quiet witness as Vedic mantras fill the air.</p>
+          </div>
+        </div>
+      </li>
+      <li class="callout" style="--x-right:7.16%; --y-top:33.43%" data-align="end">
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-vatika"><img src="assets/marker-olive.svg" width="7" height="7" alt="">Vatika gardens</button>
+        <div class="place-card" id="place-vatika" role="group" aria-label="Vatika gardens">
+          <img src="assets/card-vatika.webp" alt="" loading="lazy">
+          <div class="body">
+            <div><p class="title">Vatika gardens</p><p class="sub">Gardens that invite you to slow down.</p></div>
+            <p class="desc">Winding paths lead past flowering beds, prayer flags and small stupas beneath the trees. The vatika is a place for mindful walks, quiet japa and simply sitting with nature.</p>
+          </div>
+        </div>
+      </li>
+      <li class="callout" style="--x-left:35.26%; --y-top:61.86%" data-side="above">
+        <button class="callout-pill" type="button" aria-expanded="false" aria-controls="place-meditation"><img src="assets/marker-saffron.svg" width="7" height="7" alt="">Meditation hall</button>
+        <div class="place-card" id="place-meditation" role="group" aria-label="Meditation hall">
+          <img src="assets/card-meditation.webp" alt="" loading="lazy">
+          <div class="body">
+            <div><p class="title">Meditation hall</p><p class="sub">A quiet hall for sitting in stillness.</p></div>
+            <p class="desc">Guided and silent meditation sessions are held through the day. Cushions and shawls are provided, and the hall stays open for personal practice in the early mornings and evenings.</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer" data-node-id="40000062:8630">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <div class="footer-menu" id="footerMenu">
+        <button class="footer-toggle" id="footerDetailsBtn" aria-haspopup="true" aria-expanded="false" aria-controls="footerDetails">
+          More details <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+        </button>
+        <div class="dropdown footer-dropdown" id="footerDetails">
+          <div class="footer-links" data-menu="footer" data-order="events,offerings,ashram,involved"></div>
+          <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+            <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+            <button type="submit" aria-label="Subscribe">
+              <img src="assets/arrow-right-subscribe.svg" width="16" height="16" alt="">
+            </button>
+          </form>
+        </div>
+      </div>
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // Single source for the site's navigation links (header menu, mobile drawer, footer details)
+  const SITE_MENU = {
+    events: { title: 'Events', href: '#events', links: [
+      ['Upcoming Events', '#events'], ['Gallery', '#'], ['Download Pics', '#'] ] },
+    offerings: { title: 'Offerings', href: '#divine', links: [
+      ['Sri Hari Abhishekam', '#divine'], ['Sri Hari Aarti', '#'], ['Sri Hari Sahasranama', '#'], ['Sri Hari Sringar', '#'] ] },
+    ashram: { title: 'Ashram', href: '#ashram', links: [
+      ['Virtual Tour', '#ashram'], ['Temple', '#ashram'], ['Direction', '#'], ['Contact us', '#'],
+      ['Important Guidelines', '#'], ['Career', '#'] ] },
+    involved: { title: 'Get Involved', href: '#footerDetails', links: [
+      ['Donate', '#'], ['Form 10BE', '#'] ] },
+  };
+  const groupHTML = (key, extraClass = '') => {
+    const g = SITE_MENU[key];
+    return `<div class="menu-group ${extraClass}"><p class="menu-heading">${g.title}</p>` +
+      g.links.map(([label, href]) => `<a href="${href}">${label}</a>`).join('') + `</div>`;
+  };
+  document.querySelectorAll('[data-menu]').forEach(el => {
+    // Header menu + drawer: the four top-level options only
+    if (el.dataset.mode === 'top') {
+      el.innerHTML = el.dataset.order.split(',')
+        .map(k => `<a href="${SITE_MENU[k].href}" role="menuitem">${SITE_MENU[k].title}</a>`).join('');
+      return;
+    }
+    // More details: every group with its links; "a+b" stacks groups in one column
+    el.innerHTML = el.dataset.order.split(',').map(col => {
+      const keys = col.split('+');
+      const html = keys.map((k, i) => groupHTML(k, i ? 'stacked' : '')).join('');
+      return keys.length > 1 ? `<div class="col">${html}</div>` : html;
+    }).join('');
+  });
+
+  // More details panel
+  const footerMenu = document.getElementById('footerMenu');
+  const footerBtn = document.getElementById('footerDetailsBtn');
+  const setFooterDetails = (open) => {
+    footerMenu.classList.toggle('open', open);
+    footerBtn.setAttribute('aria-expanded', open);
+  };
+  footerBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setFooterDetails(!footerMenu.classList.contains('open'));
+  });
+  footerMenu.querySelectorAll('.footer-dropdown a').forEach(a => a.addEventListener('click', () => setFooterDetails(false)));
+  // "Get Involved" in the header menu opens More details
+  document.querySelectorAll('a[href="#footerDetails"]').forEach(a => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navMenu.classList.remove('open');
+    document.querySelector('.footer').scrollIntoView({ behavior: 'smooth', block: 'end' });
+    setFooterDetails(true);
+  }));
+
+  // Grounds map: hover previews a place card; click pins it open; click outside / Escape closes
+  const callouts = [...document.querySelectorAll('.callout')];
+  const setCallout = (li, open) => {
+    li.classList.toggle('is-open', open);
+    li.querySelector('.callout-pill').setAttribute('aria-expanded', open);
+  };
+  const closeCallouts = (except) => callouts.forEach(li => li !== except && setCallout(li, false));
+  callouts.forEach(li => {
+    li.querySelector('.callout-pill').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = !li.classList.contains('is-open');
+      closeCallouts(li);
+      setCallout(li, open);
+    });
+    li.querySelector('.place-card').addEventListener('click', (e) => e.stopPropagation());
+    // hovering another place hides a card that was pinned open, so only one shows at a time
+    li.addEventListener('mouseenter', () => closeCallouts(li));
+  });
+
+  // Desktop menu dropdown
+  const navMenu = document.getElementById('navMenu');
+  const navMenuBtn = document.getElementById('navMenuBtn');
+  navMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = navMenu.classList.toggle('open');
+    navMenuBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', (e) => {
+    if (!navMenu.contains(e.target)) { navMenu.classList.remove('open'); navMenuBtn.setAttribute('aria-expanded', false); }
+    if (!footerMenu.contains(e.target)) setFooterDetails(false);
+    if (!e.target.closest('.callout')) closeCallouts();
+    document.querySelectorAll('.disclosure[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; });
+  });
+  navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+  // Mobile drawer
+  const drawer = document.getElementById('drawer');
+  const setDrawer = (open) => {
+    drawer.classList.toggle('open', open);
+    drawer.setAttribute('aria-hidden', !open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  document.getElementById('drawerOpen').addEventListener('click', () => setDrawer(true));
+  document.getElementById('drawerClose').addEventListener('click', () => setDrawer(false));
+  drawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setDrawer(false); navMenu.classList.remove('open'); setFooterDetails(false); closeCallouts(); } });
+
+  // Light / dark theme
+  const themeToggle = document.getElementById('themeToggle');
+  const syncThemeLabel = () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    themeToggle.setAttribute('aria-pressed', dark);
+  };
+  syncThemeLabel();
+  themeToggle.addEventListener('click', () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('sba-theme', next); } catch (e) {}
+    syncThemeLabel();
+  });
+
+</script>
+
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+
+<script>
+  // ---------- Seasonal ambience ----------
+  // One canvas, <=40 particles, 30fps, paused when hidden, off for prefers-reduced-motion.
+  (() => {
+    const SEASONS = {
+      vasant:  { label: 'Vasant',  hint: 'Spring · petals',   months: [1, 2, 3] },
+      grishma: { label: 'Grishma', hint: 'Summer · light',    months: [4, 5] },
+      varsha:  { label: 'Varsha',  hint: 'Monsoon · rain',    months: [6, 7, 8] },
+      sharad:  { label: 'Sharad',  hint: 'Autumn · leaves',   months: [9, 10] },
+      shishir: { label: 'Shishir', hint: 'Winter · snow',     months: [11, 0] },
+    };
+    const bySeason = () => Object.keys(SEASONS).find(k => SEASONS[k].months.includes(new Date().getMonth()));
+    const canvas = document.getElementById('seasonLayer');
+    const ctx = canvas.getContext('2d');
+    const picker = document.getElementById('seasonPicker');
+    const btn = document.getElementById('seasonBtn');
+    const menu = picker.querySelector('.season-menu');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    // Tuning: SPEED scales all motion, DENSITY the particle count, SIZE and ALPHA their presence
+    const SPEED = 1.6, DENSITY = 1.5, SIZE = 1.2, ALPHA = 1.25;
+
+    let pref = 'auto';
+    try { pref = localStorage.getItem('sba-season') || 'auto'; } catch (e) {}
+    const active = () => pref === 'auto' ? bySeason() : pref;   // may be 'off'
+    const dark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+
+    // ----- particles -----
+    let W = 0, H = 0, dpr = 1, parts = [];
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const pick = (arr) => arr[(Math.random() * arr.length) | 0];
+
+    function spawn(kind, initial) {
+      const p = { x: rand(0, W), y: initial ? rand(0, H) : -20, t: rand(0, 6.28), a: rand(0, 6.28) };
+      switch (kind) {
+        case 'vasant':
+          Object.assign(p, { r: rand(4, 7), vy: rand(.25, .55), vx: rand(-.15, .25), va: rand(-.02, .02),
+            c: pick(['#f2bccb', '#eeaabd', '#f7d3dc', '#e9a0b4']), o: rand(.45, .75) }); break;
+        case 'grishma':
+          Object.assign(p, { y: initial ? rand(0, H) : H + 10, r: rand(1.6, 3), vy: -rand(.08, .22), vx: rand(-.1, .1),
+            c: pick(['#e0a646', '#e9bb5f', '#d4953c']), o: rand(.4, .75) }); break;
+        case 'varsha':
+          Object.assign(p, { len: rand(12, 20), vy: rand(5, 7.5), vx: -1.2, o: rand(.18, .34) }); break;
+        case 'sharad':
+          Object.assign(p, { r: rand(7, 11), vy: rand(.35, .7), vx: rand(-.3, .3), va: rand(-.03, .03),
+            c: pick(['#c9803f', '#b8612f', '#d49a45', '#a8542b']), o: rand(.5, .8) }); break;
+        case 'shishir':
+          Object.assign(p, { r: rand(1.6, 3.4), vy: rand(.25, .7), vx: rand(-.15, .15), o: rand(.5, .9) }); break;
+      }
+      if (p.r) p.r *= SIZE;
+      if (p.len) p.len *= SIZE;
+      p.o = Math.min(1, p.o * ALPHA);
+      return p;
+    }
+    function count(kind) {
+      const area = W * H;
+      const per = { vasant: 45000, grishma: 38000, varsha: 16000, sharad: 60000, shishir: 20000 }[kind];
+      const cap = { vasant: 28, grishma: 30, varsha: 40, sharad: 18, shishir: 40 }[kind];
+      return Math.round(Math.min(cap, Math.max(8, area / per)) * DENSITY);
+    }
+    function reset() {
+      const kind = active();
+      parts = kind && kind !== 'off' ? Array.from({ length: count(kind) }, () => spawn(kind, true)) : [];
+    }
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = innerWidth; H = innerHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      reset();
+    }
+
+    function drawPetal(p) {
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a);
+      ctx.globalAlpha = p.o; ctx.fillStyle = p.c;
+      ctx.beginPath(); ctx.ellipse(0, 0, p.r, p.r * .55, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    }
+    function drawLeaf(p) {
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.a); ctx.scale(1, Math.cos(p.t) * .6 + .4);
+      ctx.globalAlpha = p.o; ctx.fillStyle = p.c;
+      ctx.beginPath();
+      ctx.moveTo(0, -p.r); ctx.quadraticCurveTo(p.r * .9, 0, 0, p.r); ctx.quadraticCurveTo(-p.r * .9, 0, 0, -p.r);
+      ctx.fill(); ctx.restore();
+    }
+    function step() {
+      const kind = active();
+      ctx.clearRect(0, 0, W, H);
+      if (!kind || kind === 'off') return;
+      const isDark = dark();
+      for (const p of parts) {
+        p.t += .02 * SPEED;
+        if (kind === 'vasant' || kind === 'sharad') {
+          p.x += (p.vx + Math.sin(p.t) * .35) * SPEED; p.y += p.vy * SPEED; p.a += p.va * SPEED;
+          kind === 'vasant' ? drawPetal(p) : drawLeaf(p);
+        } else if (kind === 'grishma') {
+          p.x += (p.vx + Math.sin(p.t) * .15) * SPEED; p.y += p.vy * SPEED;
+          const tw = (Math.sin(p.t * 2) + 1) / 2;
+          ctx.globalAlpha = p.o * (.4 + .6 * tw) * (isDark ? 1.3 : 1);
+          const R = p.r * (isDark ? 3.2 : 2.6), col = isDark ? '243,210,122' : '224,166,70';
+          const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, R);
+          glow.addColorStop(0, `rgba(${col},1)`); glow.addColorStop(.35, `rgba(${col},.55)`); glow.addColorStop(1, `rgba(${col},0)`);
+          ctx.fillStyle = glow;
+          ctx.beginPath(); ctx.arc(p.x, p.y, R, 0, Math.PI * 2); ctx.fill();
+        } else if (kind === 'varsha') {
+          p.x += p.vx * SPEED; p.y += p.vy * SPEED;
+          ctx.globalAlpha = p.o; ctx.strokeStyle = isDark ? '#b9c6cf' : '#7f93a1'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + p.vx * 2.4, p.y + p.len * 1.15); ctx.stroke();
+        } else if (kind === 'shishir') {
+          p.x += (p.vx + Math.sin(p.t) * .3) * SPEED; p.y += p.vy * SPEED;
+          ctx.globalAlpha = p.o; ctx.fillStyle = isDark ? '#f4f1ea' : '#a3b2bc';
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+        // recycle
+        if (p.y > H + 24 || p.y < -24 || p.x < -30 || p.x > W + 30) Object.assign(p, spawn(kind, false), kind === 'grishma' ? {} : { x: rand(0, W) });
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    // ----- loop: 30fps, paused when hidden or reduced motion -----
+    let raf = 0, last = 0;
+    const loop = (now) => {
+      raf = requestAnimationFrame(loop);
+      if (now - last < 33) return;
+      last = now; step();
+    };
+    const start = () => { if (!raf && !reduced.matches && !document.hidden && active() !== 'off') raf = requestAnimationFrame(loop); };
+    const stop = () => { cancelAnimationFrame(raf); raf = 0; ctx.clearRect(0, 0, W, H); };
+    document.addEventListener('visibilitychange', () => document.hidden ? stop() : start());
+    reduced.addEventListener?.('change', () => reduced.matches ? stop() : start());
+    let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 150); });
+
+    // ----- picker -----
+    function renderPicker() {
+      const cur = active();
+      btn.textContent = cur === 'off' ? 'Season: off' : `Season: ${SEASONS[cur].label}`;
+      const opts = [['auto', 'Auto', `by month · ${SEASONS[bySeason()].label}`],
+        ...Object.entries(SEASONS).map(([k, v]) => [k, v.label, v.hint]), ['off', 'Off', 'no animation']];
+      menu.innerHTML = opts.map(([k, l, h]) =>
+        `<button type="button" role="menuitemradio" aria-checked="${pref === k}" data-season="${k}"><span>${l} <small>${h}</small></span></button>`).join('');
+    }
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = picker.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
+    });
+    menu.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-season]'); if (!b) return;
+      pref = b.dataset.season;
+      try { localStorage.setItem('sba-season', pref); } catch (err) {}
+      picker.classList.remove('open'); btn.setAttribute('aria-expanded', false);
+      renderPicker(); stop(); reset(); start();
+    });
+    document.addEventListener('click', (e) => { if (!picker.contains(e.target)) { picker.classList.remove('open'); btn.setAttribute('aria-expanded', false); } });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') picker.classList.remove('open'); });
+
+    // ?season=vasant etc. for quick previews
+    const q = new URLSearchParams(location.search).get('season');
+    if (q && (q === 'off' || q === 'auto' || SEASONS[q])) pref = q;
+    const qt = new URLSearchParams(location.search).get('theme');
+    if (qt === 'dark' || qt === 'light') document.documentElement.setAttribute('data-theme', qt);
+
+    resize(); renderPicker(); start();
+  })();
+</script>
+
+<script>
+  // ---------- Scroll clouds + section reveal ----------
+  (() => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // Clouds: every band gets its own random set (shape, size, height, speed, mirror); no shape repeats
+    // inside a band or in the band next to it. Each band drifts left -> right as it moves up the screen.
+    const CLOUD_SCALE = 1.1;   // overall cloud size (1 = original)
+    const SHAPES = Array.from({ length: 10 }, (_, i) => `assets/cloud-${i + 1}.webp`);
+    const r = (a, b) => a + Math.random() * (b - a);
+    const mobile = () => innerWidth <= 768;
+    const imgs = [];
+    let prev = [];
+    document.querySelectorAll('.cloud-band').forEach((band) => {
+      const pool = SHAPES.filter(src => !prev.includes(src)).sort(() => Math.random() - .5);
+      const isLast = !band.nextElementSibling || band.nextElementSibling.matches('footer');
+      const n = mobile() ? Math.round(r(2, 3)) : Math.round(r(3, 5));
+      const used = pool.slice(0, n);
+      used.forEach((src, i) => {
+        const el = new Image();
+        el.src = src; el.alt = ''; el.decoding = 'async';
+        // natural sizes, scattered across the width; the last band stays clear of the footer's bottom edge
+        const w = (mobile() ? r(50, 78) : r(16, 30)) * CLOUD_SCALE;  // vw
+        const lane = 100 / n;                                        // spread clouds across the screen
+        el.style.setProperty('--w', `${w.toFixed(1)}vw`);
+        el.style.setProperty('--x', `${(i * lane + r(-.25, .35) * lane - w * .35 - 18).toFixed(1)}vw`);
+        el.style.setProperty('--y', `${Math.round(isLast ? r(-420, -260) : r(-320, 40))}px`);
+        el.style.setProperty('--o', r(.5, .78).toFixed(2));
+        el.style.setProperty('--flip', Math.random() < .5 ? -1 : 1);
+        band.appendChild(el);
+        imgs.push({ el, band, speed: r(.55, 1.5), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
+      });
+      prev = used;
+    });
+
+    let ticking = false, idle;
+    const update = () => {
+      ticking = false;
+      const vh = innerHeight, travel = innerWidth * .55;
+      for (const c of imgs) {
+        const top = c.band.getBoundingClientRect().top;
+        if (top < -vh * .7 || top > vh * 1.7) continue;          // off-screen: skip work
+        const p = 1 - top / vh;                                   // 0 entering at bottom -> 1 at top
+        const dx = (p - .5) * travel * c.speed;
+        c.el.style.transform = `translate3d(calc(${c.base} + ${dx.toFixed(1)}px), 0, 0) scaleX(${c.flip})`;
+      }
+    };
+    // clouds fade in while the page is moving and melt away shortly after scrolling stops
+    const root = document.documentElement;
+    const onScroll = () => {
+      root.classList.add('clouds-on');
+      clearTimeout(idle); idle = setTimeout(() => root.classList.remove('clouds-on'), 450);
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => requestAnimationFrame(update));
+    update();
+
+    // Sections: fade and rise into place as they enter the viewport
+    document.documentElement.classList.add('js-reveal');
+    const targets = [
+      ['.events-head'], ['.event-card', 140], ['.deity'], ['.divine-copy', 0, 150],
+      ['.grounds .section-heading'], ['.grounds-map', 0, 150],   // footer is always shown (it can sit below the trigger zone)
+    ];
+    const io = new IntersectionObserver((entries) => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+    targets.forEach(([sel, stagger = 0, delay = 0]) =>
+      document.querySelectorAll(sel).forEach((el, i) => {
+        el.classList.add('reveal');
+        el.style.setProperty('--d', `${delay + i * stagger}ms`);
+        io.observe(el);
+      }));
+  })();
+</script>
+</body>
+</html>
