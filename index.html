@@ -124,7 +124,7 @@
 
   /* Dark-ink icons (logo, menu, chevrons, theme icons) */
   img[src$="logo.svg"], img[src$="arrow-down.svg"],
-  img[src$="person.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
+  img[src$="person.svg"], img[src$="arrow-right-ink.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
     filter: var(--icon-ink);
   }
   /* Coloured line icons (brown / olive / grey arrows, calendar, clock) */
@@ -359,7 +359,7 @@
     gap: 10px;
     padding: 11px 18px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 14px;
     line-height: normal;
     color: var(--brown);
     white-space: nowrap;
@@ -703,8 +703,8 @@
     .deity .idol { width: 280px; height: 360px; }
     .divine-copy { gap: 22px; }
     .divine-body { font-size: 14px; line-height: 20px; }
-    .actions { justify-content: space-between; gap: 8px; }
-    .btn { padding: 13px 20px; gap: 8px; }
+    .actions { justify-content: space-between; flex-wrap: wrap; gap: 10px 8px; }   /* wraps only if both don't fit */
+    .btn { padding: 13px 15px; gap: 8px; }
     .btn-secondary { background: var(--paper); }
 
 
@@ -1145,7 +1145,11 @@
         <img class="d-only" src="assets/arrow-right-white.svg" width="16" height="16" alt="">
         <img class="m-only" src="assets/m-arrow-right-white.svg" width="15" height="15" alt="">
       </a>
-      <a class="btn btn-secondary" href="#">About Abhishekam</a>
+      <a class="btn btn-secondary" href="#">
+        <span>About Abhishekam</span>
+        <img class="d-only" src="assets/arrow-right-ink.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/arrow-right-ink.svg" width="15" height="15" alt="">
+      </a>
     </div>
   </div>
 </section>
