@@ -825,6 +825,10 @@
   .clouds-on .cloud-band img { opacity: var(--o); transition: opacity .45s var(--ease-out); }   /* quicker fade-in */
   :root[data-theme="dark"] .cloud-band img { filter: brightness(1.1); }
   :root[data-theme="dark"].clouds-on .cloud-band img { opacity: calc(var(--o) * .38); }
+  /* Backdrop clouds: small, softly blurred and behind the main clouds, for a sense of distance */
+  .cloud-band img { z-index: 1; }
+  .cloud-band img.far { z-index: 0; min-width: 110px; max-width: 260px; filter: blur(var(--blur)) brightness(.9) sepia(.14) saturate(.9); }
+  :root[data-theme="dark"] .cloud-band img.far { filter: blur(var(--blur)) brightness(1.1); }
 
   .js-reveal .reveal {
     opacity: 0;
@@ -1619,6 +1623,24 @@
         band.appendChild(el);
         imgs.push({ el, band, speed: r(.55, 1.5), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
       });
+      // backdrop layer: a few small, blurred, fainter clouds that drift slowly behind the main ones
+      const farCount = mobile() ? Math.round(r(1, 2)) : Math.round(r(3, 5));
+      const farPool = SHAPES.filter(src => !used.includes(src)).sort(() => Math.random() - .5);
+      for (let i = 0; i < farCount; i++) {
+        const el = new Image();
+        el.src = farPool[i % farPool.length]; el.alt = ''; el.decoding = 'async';
+        el.className = 'far';
+        const w = (mobile() ? r(22, 34) : r(7, 13)) * CLOUD_SCALE;   // vw
+        const lane = 100 / farCount;
+        el.style.setProperty('--w', `${w.toFixed(1)}vw`);
+        el.style.setProperty('--x', `${(i * lane + r(0, .7) * lane - w * .5 - 8).toFixed(1)}vw`);
+        el.style.setProperty('--y', `${Math.round(isLast ? r(-440, -300) : r(-360, -40))}px`);
+        el.style.setProperty('--o', r(.28, .45).toFixed(2));
+        el.style.setProperty('--blur', `${r(2.5, 4.5).toFixed(1)}px`);
+        el.style.setProperty('--flip', Math.random() < .5 ? -1 : 1);
+        band.insertBefore(el, band.firstChild);
+        imgs.push({ el, band, speed: r(.2, .4), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
+      }
       prev = used;
     });
 
