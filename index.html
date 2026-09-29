@@ -119,7 +119,7 @@
   }
 
   body, .nav, .dropdown, .drawer, .event-card, .subscribe, .btn {
-    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
   }
 
   /* Dark-ink icons (logo, menu, chevrons, theme icons) */
@@ -821,14 +821,14 @@
     transform: translate3d(var(--x), 0, 0) scaleX(var(--flip, 1));
     transition: opacity 2s cubic-bezier(.33,0,.2,1);   /* slow, gentle fade-out after scrolling stops */
   }
-  .clouds-on .cloud-band img { opacity: var(--o); transition: opacity .45s ease; }   /* quicker fade-in */
+  .clouds-on .cloud-band img { opacity: var(--o); transition: opacity .45s var(--ease-out); }   /* quicker fade-in */
   :root[data-theme="dark"] .cloud-band img { filter: brightness(1.1); }
   :root[data-theme="dark"].clouds-on .cloud-band img { opacity: calc(var(--o) * .38); }
 
   .js-reveal .reveal {
     opacity: 0;
-    transform: translate3d(0, 28px, 0);
-    transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1), background-color .25s ease;
+    transform: translate3d(0, 20px, 0);
+    transition: opacity 700ms var(--ease-out-quart), transform 700ms var(--ease-out-quart), background-color 150ms ease;
     transition-delay: var(--d, 0ms);
   }
   .js-reveal .reveal.in { opacity: 1; transform: none; }
@@ -866,6 +866,127 @@
   .callout:hover .marker::before, .callout.is-open .marker::before,
   .callout:hover .marker::after, .callout.is-open .marker::after { animation-duration: 1.6s; }
   @media (prefers-reduced-motion: reduce) { .marker::before, .marker::after { animation: none; } }
+
+  /* =====================================================================
+     Motion system (per web-animation-design guide)
+     - enter/exit: ease-out, <=180ms in / ~20% faster out; origin-aware scale from .97
+     - on-screen movement (chevrons): ease-in-out; hovers/colour: ease 150ms
+     - only transform + opacity animate; every timing collapses to 0 for reduced motion
+     ===================================================================== */
+  :root {
+    --ease-out: cubic-bezier(.23, 1, .32, 1);          /* ease-out-quint */
+    --ease-out-quart: cubic-bezier(.165, .84, .44, 1);
+    --ease-in-out: cubic-bezier(.645, .045, .355, 1);  /* ease-in-out-cubic */
+    --t-pop-in: 180ms;
+    --t-pop-out: 140ms;
+    --t-drawer-in: 260ms;
+    --t-drawer-out: 200ms;
+    --t-press: 150ms;
+    --t-hover: 150ms;
+    --t-rotate: 200ms;
+  }
+
+  /* Popovers: menu dropdown, More details, season menu, place cards */
+  .dropdown, .season-menu { display: block; }
+  .place-card { display: flex; }
+  .dropdown, .season-menu, .place-card {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(var(--pop-y, 4px)) scale(.97);
+    transition: opacity var(--t-pop-out) var(--ease-out), transform var(--t-pop-out) var(--ease-out),
+                visibility 0s linear var(--t-pop-out);
+  }
+  .nav-menu .dropdown { --pop-y: -4px; transform-origin: top right; }
+  .footer-dropdown, .season-menu { transform-origin: bottom right; }
+  .place-card { transform-origin: bottom left; }
+  .callout[data-align="end"] .place-card { transform-origin: bottom right; }
+  .nav-menu.open .dropdown,
+  .footer-menu.open .footer-dropdown,
+  .season-picker.open .season-menu,
+  .callout.is-open .place-card {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    animation: none;
+    transition: opacity var(--t-pop-in) var(--ease-out), transform var(--t-pop-in) var(--ease-out), visibility 0s;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .callout:hover .place-card {
+      visibility: visible; opacity: 1; pointer-events: auto; transform: none;
+      transition: opacity var(--t-pop-in) var(--ease-out), transform var(--t-pop-in) var(--ease-out), visibility 0s;
+    }
+  }
+  /* moving straight from one tag to the next: show the next card instantly */
+  .callouts.instant .callout .place-card { transition-duration: 0s; transition-delay: 0s; }
+
+  /* Legal fine print (<details>) — enter only; native close is instant */
+  @keyframes pop-in { from { opacity: 0; transform: translateY(4px) scale(.97); } }
+  .disclosure .panel { transform-origin: bottom right; }
+  .disclosure[open] .panel { animation: pop-in var(--t-pop-in) var(--ease-out); }
+
+  /* Mobile full-screen menu */
+  .drawer { display: flex; }
+  .drawer {
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity var(--t-drawer-out) var(--ease-out), transform var(--t-drawer-out) var(--ease-out),
+                visibility 0s linear var(--t-drawer-out);
+  }
+  .drawer.open {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--t-drawer-in) var(--ease-out), transform var(--t-drawer-in) var(--ease-out), visibility 0s;
+  }
+
+  /* Chevrons rotate in place: ease-in-out */
+  .nav-tab img, .footer-toggle img, .disclosure summary img { transition: transform var(--t-rotate) var(--ease-in-out); }
+
+  /* Press feedback + calm colour hovers */
+  .btn, .sign-in, .callout-pill, .season-btn, .theme-toggle, .nav-tab, .footer-toggle,
+  .disclosure summary, .view-all, .subscribe button, .drawer-close, .icon-btn {
+    transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease,
+                border-color var(--t-hover) ease, color var(--t-hover) ease;
+  }
+  .btn:active, .sign-in:active, .callout-pill:active, .season-btn:active, .theme-toggle:active, .nav-tab:active,
+  .footer-toggle:active, .disclosure summary:active, .view-all:active, .subscribe button:active,
+  .drawer-close:active, .icon-btn:active { transform: scale(.97); }
+  .event-card { transition: background-color var(--t-hover) ease; }
+  .season-menu button, .dropdown a { transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
+  .switch, .switch::after { transition-duration: var(--t-hover); }
+  .text-link img { transition: transform var(--t-hover) var(--ease-out); }
+  @media (hover: none) { .text-link:hover img { transform: none; } }
+
+  /* 44px minimum hit areas on touch screens, without changing layout */
+  @media (pointer: coarse) {
+    .theme-toggle, .sign-in, .season-btn, .callout-pill, .icon-btn, .drawer-close, .subscribe button { position: relative; }
+    .theme-toggle::after, .sign-in::after, .season-btn::after, .callout-pill::after, .icon-btn::after,
+    .drawer-close::after, .subscribe button::after {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      width: 100%; height: 100%; min-width: 44px; min-height: 44px;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  /* Phones: centre popovers with the separate `translate` property so `transform` stays free for motion */
+  @media (max-width: 768px) {
+    .footer-dropdown { right: auto; left: 50%; translate: -50% 0; transform-origin: bottom center; }
+    .disclosure .panel { right: auto; left: 50%; transform: none; translate: -50% 0; transform-origin: bottom center; }
+    .place-card, .callout[data-align="end"] .place-card { transform-origin: bottom center; }
+  }
+
+  /* Reduced motion: every UI timing drops to zero */
+  @media (prefers-reduced-motion: reduce) {
+    :root { --t-pop-in: 0ms; --t-pop-out: 0ms; --t-drawer-in: 0ms; --t-drawer-out: 0ms;
+            --t-press: 0ms; --t-hover: 0ms; --t-rotate: 0ms; }
+    body, .nav, .dropdown, .drawer, .event-card, .subscribe, .btn { transition: none; }
+    .btn:active, .sign-in:active, .callout-pill:active, .season-btn:active, .theme-toggle:active, .nav-tab:active,
+    .footer-toggle:active, .disclosure summary:active, .view-all:active, .subscribe button:active,
+    .drawer-close:active, .icon-btn:active { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -1178,6 +1299,8 @@
 
   // Grounds map: hover previews a place card; click pins it open; click outside / Escape closes
   const callouts = [...document.querySelectorAll('.callout')];
+  const calloutList = document.querySelector('.callouts');
+  let lastLeave = -1e9, instantT;
   const setCallout = (li, open) => {
     li.classList.toggle('is-open', open);
     li.querySelector('.callout-pill').setAttribute('aria-expanded', open);
@@ -1192,7 +1315,14 @@
     });
     li.querySelector('.place-card').addEventListener('click', (e) => e.stopPropagation());
     // hovering another place hides a card that was pinned open, so only one shows at a time
-    li.addEventListener('mouseenter', () => closeCallouts(li));
+    li.addEventListener('mouseenter', () => {
+      closeCallouts(li);
+      if (performance.now() - lastLeave < 250) {              // came straight from another tag: no re-animation
+        calloutList.classList.add('instant');
+        clearTimeout(instantT); instantT = setTimeout(() => calloutList.classList.remove('instant'), 300);
+      }
+    });
+    li.addEventListener('mouseleave', () => { lastLeave = performance.now(); });
   });
 
   // Desktop menu dropdown
@@ -1518,8 +1648,8 @@
     // Sections: fade and rise into place as they enter the viewport
     document.documentElement.classList.add('js-reveal');
     const targets = [
-      ['.events-head'], ['.event-card', 140], ['.deity'], ['.divine-copy', 0, 150],
-      ['.grounds .section-heading'], ['.grounds-map', 0, 150],   // footer is always shown (it can sit below the trigger zone)
+      ['.events-head'], ['.event-card', 100], ['.deity'], ['.divine-copy', 0, 120],
+      ['.grounds .section-heading'], ['.grounds-map', 0, 120],   // footer is always shown (it can sit below the trigger zone)
     ];
     const io = new IntersectionObserver((entries) => entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
