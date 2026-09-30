@@ -64,6 +64,13 @@
     --callout-border: rgba(217,207,190,.67);
     --callout-ink: #2e2a24;
     --card-bg: #fff;
+    --panel-bg: #fffefe;
+    --panel-border: #e9e5da;
+    --panel-rule: #e6d9bf;
+    --panel-heading: #a85a3b;
+    --panel-link: #403d3a;
+    --field-soft: #fafaf7;
+    --field-placeholder: #a3a19b;
     --card-muted: #6f785f;
 
     /* Monochrome SVG icons are recoloured with filters in dark mode */
@@ -110,6 +117,13 @@
     --callout-border: rgba(255,255,255,.12);
     --callout-ink: #f1e9dd;
     --card-bg: #1f1b16;
+    --panel-bg: #1a1612;
+    --panel-border: #332d25;
+    --panel-rule: #3a3229;
+    --panel-heading: #e0915c;
+    --panel-link: #e2d9cc;
+    --field-soft: #1f1c17;
+    --field-placeholder: #7f7b73;
     --card-muted: #b5b894;
 
     --icon-ink: invert(1) brightness(.92);
@@ -124,7 +138,7 @@
 
   /* Dark-ink icons (logo, menu, chevrons, theme icons) */
   img[src$="logo.svg"], img[src$="arrow-down.svg"],
-  img[src$="person.svg"], img[src$="arrow-right-ink.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
+  img[src$="person.svg"], img[src$="arrow-right-ink.svg"], img[src$="submit-arrow.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
     filter: var(--icon-ink);
   }
   /* Coloured line icons (brown / olive / grey arrows, calendar, clock) */
@@ -279,20 +293,36 @@
 
   /* More details: same look as the header menu dropdown, grouped into columns */
   .footer-menu { position: relative; }
+  /* More details panel (Figma "More details"): link columns, Swamiji note, e-mail subscribe */
   .footer-dropdown {
     top: auto;
     bottom: calc(100% + 8px);
-    padding: 24px 28px;
+    width: 701px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    padding: 26px 28px 24px;
     min-width: 0;
     z-index: 5;
+    background: var(--panel-bg);
+    border: 1px solid var(--panel-border);
+    border-radius: 13px;
+    box-shadow: 0 8px 24px -8px rgba(68,59,45,.07), 0 12px 32px var(--shadow);
   }
-  .footer-links { display: grid; grid-template-columns: repeat(4, minmax(140px, auto)); gap: 8px 28px; }
+  .footer-dropdown > * + * { margin-top: 23px; }
+  .footer-links { display: grid; grid-template-columns: repeat(4, 144px); gap: 24px; }
   .footer-menu.open .footer-dropdown { display: block; animation: panel-in .2s ease; }
-  .footer-dropdown .subscribe { width: 100%; margin-top: 20px; }
+  .footer-dropdown .menu-group { gap: 16px; }
   @keyframes panel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-  .footer-dropdown .menu-heading { margin-bottom: 8px; }
-  .footer-dropdown a { padding: 6px 0; font-size: 14px; border-radius: 0; }
+  .footer-dropdown .menu-heading { font-size: 11px; line-height: 14px; letter-spacing: 1.5px; color: var(--panel-heading); }
+  .footer-dropdown a { padding: 0; font-size: 14px; line-height: 20px; color: var(--panel-link); border-radius: 0; white-space: normal; }
   .footer-dropdown a:hover { background: none; color: var(--brown); }
+  .panel-rule { border: 0; border-top: 1px solid var(--panel-rule); margin-left: 0; margin-right: 0; }
+  .swami-note { display: flex; align-items: center; gap: 30px; }
+  .swami-note img { flex-shrink: 0; width: 189px; height: 155px; border-radius: 20px; object-fit: cover; }
+  .swami-note p { flex: 1; min-width: 0; font-size: 15px; line-height: 1.68; color: var(--ink-muted); }
+  .footer-dropdown .subscribe { width: 100%; height: 50px; padding: 0 12px 0 18px; background: var(--field-soft); border-color: var(--panel-border); }
+  .footer-dropdown .subscribe input::placeholder { color: var(--field-placeholder); }
 
   .footer-toggle {
     display: flex;
@@ -732,8 +762,14 @@
     .disclosure .panel { right: 50%; transform: translateX(50%); }
 
 
-    .footer-dropdown { right: 50%; transform: translateX(50%); width: min(342px, calc(100vw - 48px)); padding: 20px; }
-    .footer-links { grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+    .footer-dropdown { right: 50%; transform: translateX(50%); width: min(342px, calc(100vw - 32px)); padding: 20px; }
+    .footer-dropdown > * + * { margin-top: 20px; }
+    .footer-links { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
+    .footer-dropdown .menu-group { gap: 12px; }
+    .footer-dropdown { max-height: min(62vh, 560px); }    /* opens fully below the sticky header; scrolls inside if needed */
+    .swami-note { align-items: flex-start; gap: 14px; }
+    .swami-note img { width: 96px; height: 118px; border-radius: 14px; object-position: 38% 50%; }
+    .swami-note p { font-size: 13px; line-height: 1.55; }
     .footer-menu.open .footer-dropdown { animation: none; }
   }
 
@@ -1234,10 +1270,15 @@
         </button>
         <div class="dropdown footer-dropdown" id="footerDetails">
           <div class="footer-links" data-menu="footer" data-order="events,offerings,ashram,involved"></div>
+          <hr class="panel-rule">
+          <div class="swami-note">
+            <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+            <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+          </div>
           <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
             <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
             <button type="submit" aria-label="Subscribe">
-              <img src="assets/arrow-right-subscribe.svg" width="16" height="16" alt="">
+              <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
             </button>
           </form>
         </div>
