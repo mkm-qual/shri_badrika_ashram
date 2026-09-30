@@ -1409,8 +1409,9 @@
     // Tuning: SPEED scales all motion, DENSITY the particle count, SIZE and ALPHA their presence
     const SPEED = 1.6, DENSITY = 1.5, SIZE = 1.2, ALPHA = 1.25;
 
-    let pref = 'auto';
-    try { pref = localStorage.getItem('sba-season') || 'auto'; } catch (e) {}
+    // Default: seasonal animation off. A visitor's own choice in the picker (incl. Auto) is remembered.
+    let pref = 'off';
+    try { pref = localStorage.getItem('sba-season') || 'off'; } catch (e) {}
     let cloudsOn = true;
     try { cloudsOn = localStorage.getItem('sba-clouds') !== 'off'; } catch (e) {}
     const setClouds = (on) => {
