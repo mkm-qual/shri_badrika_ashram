@@ -826,7 +826,7 @@
   }
   .clouds-on .cloud-band img { opacity: var(--o); transition: opacity .45s var(--ease-out); }   /* quicker fade-in */
   :root[data-theme="dark"] .cloud-band img { filter: brightness(1.1); }
-  :root[data-theme="dark"].clouds-on .cloud-band img { opacity: calc(var(--o) * .38); }
+  :root[data-theme="dark"].clouds-on .cloud-band img { opacity: calc(var(--o) * .42); }
   /* Backdrop clouds: small, softly blurred and behind the main clouds, for a sense of distance */
   .cloud-band img { z-index: 1; }
   .cloud-band img.far { z-index: 0; min-width: 110px; max-width: 260px; filter: blur(var(--blur)) brightness(.9) sepia(.14) saturate(.9); }
@@ -1625,10 +1625,10 @@
         el.style.setProperty('--w', `${w.toFixed(1)}vw`);
         el.style.setProperty('--x', `${(i * lane + r(-.25, .35) * lane - w * .35 - 18).toFixed(1)}vw`);
         el.style.setProperty('--y', `${Math.round(isLast ? r(-420, -260) : r(-320, 40))}px`);
-        el.style.setProperty('--o', r(.5, .78).toFixed(2));
+        el.style.setProperty('--o', r(.3, .45).toFixed(2));
         el.style.setProperty('--flip', Math.random() < .5 ? -1 : 1);
         band.appendChild(el);
-        imgs.push({ el, band, speed: r(.55, 1.5), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
+        imgs.push({ el, band, dir: 1, speed: r(.55, 1.5), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
       });
       // backdrop layer: a few small, blurred, fainter clouds that drift slowly behind the main ones
       const farCount = mobile() ? Math.round(r(1, 2)) : Math.round(r(3, 5));
@@ -1642,11 +1642,27 @@
         el.style.setProperty('--w', `${w.toFixed(1)}vw`);
         el.style.setProperty('--x', `${(i * lane + r(0, .7) * lane - w * .5 - 8).toFixed(1)}vw`);
         el.style.setProperty('--y', `${Math.round(isLast ? r(-440, -300) : r(-360, -40))}px`);
-        el.style.setProperty('--o', r(.28, .45).toFixed(2));
+        el.style.setProperty('--o', r(.17, .28).toFixed(2));
         el.style.setProperty('--blur', `${r(2.5, 4.5).toFixed(1)}px`);
         el.style.setProperty('--flip', Math.random() < .5 ? -1 : 1);
         band.insertBefore(el, band.firstChild);
-        imgs.push({ el, band, speed: r(.2, .4), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
+        imgs.push({ el, band, dir: 1, speed: r(.2, .4), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
+      }
+      // counter-drift layer: a few clouds that cross the other way (right -> left) as you scroll down
+      const backCount = mobile() ? 1 : Math.round(r(1, 2));
+      const backPool = SHAPES.filter(src => !used.includes(src)).sort(() => Math.random() - .5);
+      for (let i = 0; i < backCount; i++) {
+        const el = new Image();
+        el.src = backPool[i % backPool.length]; el.alt = ''; el.decoding = 'async';
+        el.className = 'counter';
+        const w = (mobile() ? r(44, 64) : r(14, 22)) * CLOUD_SCALE;  // vw — a touch smaller than the main clouds
+        el.style.setProperty('--w', `${w.toFixed(1)}vw`);
+        el.style.setProperty('--x', `${(r(38, 72) + i * 18).toFixed(1)}vw`);   // start on the right half
+        el.style.setProperty('--y', `${Math.round(isLast ? r(-430, -280) : r(-340, 0))}px`);
+        el.style.setProperty('--o', r(.25, .38).toFixed(2));
+        el.style.setProperty('--flip', Math.random() < .5 ? -1 : 1);
+        band.appendChild(el);
+        imgs.push({ el, band, dir: -1, speed: r(.5, 1), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
       }
       prev = used;
     });
@@ -1659,7 +1675,7 @@
         const top = c.band.getBoundingClientRect().top;
         if (top < -vh * .7 || top > vh * 1.7) continue;          // off-screen: skip work
         const p = 1 - top / vh;                                   // 0 entering at bottom -> 1 at top
-        const dx = (p - .5) * travel * c.speed;
+        const dx = (p - .5) * travel * c.speed * c.dir;             // dir -1 = counter layer, right -> left
         c.el.style.transform = `translate3d(calc(${c.base} + ${dx.toFixed(1)}px), 0, 0) scaleX(${c.flip})`;
       }
     };
