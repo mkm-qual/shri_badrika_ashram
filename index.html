@@ -1401,8 +1401,9 @@
     // Default: seasonal animation off. A visitor's own choice in the picker (incl. Auto) is remembered.
     let pref = 'off';
     try { pref = localStorage.getItem('sba-season') || 'off'; } catch (e) {}
-    let cloudsOn = true;
-    try { cloudsOn = localStorage.getItem('sba-clouds') !== 'off'; } catch (e) {}
+    // Default: clouds off. A visitor who switches them on in the season popup keeps that choice.
+    let cloudsOn = false;
+    try { cloudsOn = localStorage.getItem('sba-clouds') === 'on'; } catch (e) {}
     const setClouds = (on) => {
       cloudsOn = on;
       document.documentElement.classList.toggle('no-clouds', !on);
