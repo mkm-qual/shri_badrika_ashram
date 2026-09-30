@@ -226,21 +226,22 @@
   .theme-toggle .sun { display: none; }
   :root[data-theme="dark"] .theme-toggle .sun { display: block; }
   :root[data-theme="dark"] .theme-toggle .moon { display: none; }
+  /* Sign in: same outline-pill style as the About Abhishekam button, sized for the nav */
   .sign-in {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 85px;
-    height: 32px;
-    padding: 0 8px 3px;
-    border-radius: 29px;
-    background: var(--sign-in-bg);
-    color: var(--light-green-normal-hover);
-    font-size: 16px;
+    height: 36px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink);
+    font-size: 14px;
     line-height: 20px;
     white-space: nowrap;
   }
-  .sign-in:hover { background: var(--sign-in-bg-hover); }
+  .sign-in:hover { background: var(--light-green-hover); }
   .nav-tab img { transition: transform .2s ease; }
   .nav-menu.open .nav-tab img { transform: rotate(180deg); }
   .icon-btn { display: inline-flex; align-items: center; justify-content: center; }
@@ -961,7 +962,7 @@
   .btn:active, .sign-in:active, .callout-pill:active, .season-btn:active, .theme-toggle:active, .nav-tab:active,
   .footer-toggle:active, .disclosure summary:active, .view-all:active, .subscribe button:active,
   .drawer-close:active, .icon-btn:active { transform: scale(.97); }
-  .event-card { transition: background-color var(--t-hover) ease; }
+  .event-card { transition: background-color var(--t-hover) ease; cursor: pointer; }   /* cards are clickable */
   .season-menu button, .dropdown a { transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
   .switch, .switch::after { transition-duration: var(--t-hover); }
   .text-link img { transition: transform var(--t-hover) var(--ease-out); }
