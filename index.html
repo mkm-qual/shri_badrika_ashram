@@ -44,7 +44,6 @@
     --light-green: #f8f9f4;
     --light-green-hover: #f5f5ef;
     --light-green-active: #eaebde;
-    --light-green-normal-hover: #a7ac86;
 
     --bg: #fff;
     --nav-bg: rgba(255,255,255,.6);
@@ -55,11 +54,6 @@
     --card-hover: rgba(252,249,242,.6);
     --btn-primary: #793c22;
     --btn-primary-hover: #65311b;
-    --footer-border: #a49d99;
-    --footer-bg: rgba(255,255,255,.5);
-    --field-bg: #fff;
-    --sign-in-bg: var(--light-green-active);
-    --sign-in-bg-hover: #dfe0cf;
     --callout-bg: rgba(251,248,240,.84);
     --callout-border: rgba(217,207,190,.67);
     --callout-ink: #2e2a24;
@@ -108,11 +102,6 @@
     --card-hover: rgba(255,255,255,.02);
     --btn-primary: #a9582c;
     --btn-primary-hover: #bd6634;
-    --footer-border: #3d362e;
-    --footer-bg: rgba(21,18,15,.5);
-    --field-bg: #1f1c17;
-    --sign-in-bg: #2b2a22;
-    --sign-in-bg-hover: #35342a;
     --callout-bg: rgba(26,22,18,.82);
     --callout-border: rgba(255,255,255,.12);
     --callout-ink: #f1e9dd;
@@ -132,18 +121,19 @@
     color-scheme: dark;
   }
 
-  body, .nav, .dropdown, .drawer, .event-card, .subscribe, .btn {
+  /* theme switch: colours ease across (popovers, drawer, cards and buttons set their own in the motion system) */
+  body, .nav, .subscribe {
     transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
   }
 
   /* Dark-ink icons (logo, menu, chevrons, theme icons) */
   img[src$="logo.svg"], img[src$="arrow-down.svg"],
-  img[src$="person.svg"], img[src$="arrow-right-ink.svg"], img[src$="submit-arrow.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
+  img[src$="arrow-right-ink.svg"], img[src$="submit-arrow.svg"], img[src$="m-menu.svg"], img[src$="moon.svg"], img[src$="sun.svg"] {
     filter: var(--icon-ink);
   }
   /* Coloured line icons (brown / olive / grey arrows, calendar, clock) */
   img[src*="arrow-right-olive"], img[src*="arrow-right-brown"], img[src$="m-arrow-right.svg"],
-  img[src*="arrow-up-right"], img[src$="calendar.svg"], img[src$="clock.svg"], img[src*="arrow-right-subscribe"] {
+  img[src*="arrow-up-right"], img[src$="calendar.svg"], img[src$="clock.svg"] {
     filter: var(--icon-tint);
   }
 
@@ -193,7 +183,6 @@
     white-space: nowrap;
   }
   .text-link:hover span { text-decoration: underline; text-underline-offset: 3px; }
-  .text-link img { transition: transform .2s ease; }
   .text-link:hover img { transform: translateX(2px); }
 
   .section-heading { display: flex; flex-direction: column; gap: 12px; }
@@ -256,7 +245,6 @@
     white-space: nowrap;
   }
   .sign-in:hover { background: var(--light-green-hover); }
-  .nav-tab img { transition: transform .2s ease; }
   .nav-menu.open .nav-tab img { transform: rotate(180deg); }
   .icon-btn { display: inline-flex; align-items: center; justify-content: center; }
   .dropdown {
@@ -269,9 +257,7 @@
     border: 1px solid var(--light-green-active);
     border-radius: 12px;
     box-shadow: 0 12px 32px var(--shadow);
-    display: none;
   }
-  .nav-menu.open .dropdown { display: block; }
   .menu-group { display: flex; flex-direction: column; gap: 4px; }
   .menu-heading {
     font-size: 11px;
@@ -311,9 +297,7 @@
   }
   .footer-dropdown > * + * { margin-top: 23px; }
   .footer-links { display: grid; grid-template-columns: repeat(4, 144px); gap: 24px; }
-  .footer-menu.open .footer-dropdown { display: block; animation: panel-in .2s ease; }
   .footer-dropdown .menu-group { gap: 16px; }
-  @keyframes panel-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .footer-dropdown .menu-heading { font-size: 11px; line-height: 14px; letter-spacing: 1.5px; color: var(--panel-heading); }
   .footer-dropdown a { padding: 0; font-size: 14px; line-height: 20px; color: var(--panel-link); border-radius: 0; white-space: normal; }
   .footer-dropdown a:hover { background: none; color: var(--brown); }
@@ -336,7 +320,7 @@
     color: var(--dark);
   }
   .footer-toggle:hover { background: var(--light-green-hover); }
-  .footer-toggle img { transition: transform .2s ease; margin-bottom: -3px; }
+  .footer-toggle img { margin-bottom: -3px; }
   .footer-toggle[aria-expanded="true"] img { transform: rotate(180deg); }
 
   /* ---------- Hero ---------- */
@@ -405,7 +389,6 @@
     padding: 26px;
     border-radius: 16px;
     background: linear-gradient(180deg, transparent 0%, var(--cream) 50%, transparent 100%);
-    transition: background-color .2s ease;
   }
   .event-card:hover { background-color: var(--card-hover); }
   .event-title { display: flex; flex-direction: column; gap: 8px; }
@@ -458,15 +441,12 @@
     line-height: 20px;
     color: var(--ink);
     white-space: nowrap;
-    transition: background-color .2s ease, border-color .2s ease;
   }
   .btn:hover { background: var(--light-green-hover); }
   .btn-primary { background: var(--btn-primary); border-color: var(--btn-primary); color: #fff; }
   .btn-primary:hover { background: var(--btn-primary-hover); border-color: var(--btn-primary-hover); }
 
   /* ---------- Sanctuary ---------- */
-
-
 
   /* ---------- Around the ashram: illustrated grounds ---------- */
   .grounds {
@@ -523,7 +503,6 @@
     color: var(--callout-ink);
     white-space: nowrap;
     cursor: pointer;
-    transition: background-color .2s ease, border-color .2s ease;
   }
   .callout-pill:hover, .callout.is-open .callout-pill { background: var(--card-bg); border-color: var(--rule); }
   .callout-pill:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
@@ -549,8 +528,6 @@
   /* invisible bridge below the card so the pointer can travel up from tag to card */
   .place-card::before { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; }
   .callout[data-align="end"] .place-card { left: auto; right: 0; }
-  .callout.is-open .place-card { display: flex; animation: panel-in .18s ease; }
-  @media (hover: hover) { .callout:hover .place-card { display: flex; } }
   .place-card img { width: 100%; height: 164px; object-fit: cover; border-radius: 6px; }
   .place-card .body { display: flex; flex-direction: column; gap: 8px; }
   .place-card .title { font-size: 14px; line-height: normal; color: var(--callout-ink); }
@@ -622,7 +599,7 @@
   }
   .disclosure summary::-webkit-details-marker { display: none; }
   .disclosure summary:hover { background: var(--light-green-hover); }
-  .disclosure summary img { transition: transform .2s ease; margin-bottom: -3px; }
+  .disclosure summary img { margin-bottom: -3px; }
   .disclosure[open] summary img { transform: rotate(180deg); }
   .disclosure .panel {
     position: absolute;
@@ -640,20 +617,18 @@
   .disclosure .panel a { display: block; padding: 6px 0; color: var(--ink); }
   .disclosure .panel a:hover { color: var(--brown); }
 
-
   /* Mobile drawer */
   .drawer {
     position: fixed;
     inset: 0;
     z-index: 40;
-    display: none;
     flex-direction: column;
     background: var(--paper);
   }
-  .drawer.open { display: flex; }
   .drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; min-height: 64px; border-bottom: 1px solid var(--nav-border); }
   .drawer-close { width: 40px; height: 40px; font-size: 28px; line-height: 1; color: var(--dark); }
   .drawer nav { display: flex; flex-direction: column; padding: 16px 24px; }
+  .drawer-logo { width: 204px; max-width: 70%; height: auto; }   /* same size as the mobile header logo */
   .drawer-sign-in { margin: 8px 24px; width: auto; height: 48px; }
   .drawer { overflow-y: auto; }
   .drawer nav a { padding: 16px 0; border-bottom: 1px solid var(--rule); font-family: var(--font-heading); font-size: 28px; line-height: 32px; color: var(--ink); }
@@ -741,9 +716,6 @@
     .btn { padding: 13px 15px; gap: 8px; }
     .btn-secondary { background: var(--paper); }
 
-
-
-
     .footer { padding: 44px 0 60px; }
     .footer-inner { padding: 0; flex-direction: column; gap: 28px; }
     .copyright { order: 2; }  /* phones: More details, Legal fine print, then copyright */
@@ -759,24 +731,16 @@
     .place-card, .callout[data-align="end"] .place-card { left: 0; right: 0; width: auto; max-width: 360px; margin: 0 auto; }
     .copyright { line-height: 16px; }
     .footer-actions { flex-direction: column; gap: 15px; }
-    .disclosure .panel { right: 50%; transform: translateX(50%); }
 
-
-    .footer-dropdown { right: 50%; transform: translateX(50%); width: min(342px, calc(100vw - 32px)); padding: 20px; }
+    /* opens fully below the sticky header; scrolls inside if needed */
+    .footer-dropdown { width: min(342px, calc(100vw - 32px)); max-height: min(62vh, 560px); padding: 20px; }
     .footer-dropdown > * + * { margin-top: 20px; }
     .footer-links { grid-template-columns: 1fr 1fr; gap: 20px 16px; }
     .footer-dropdown .menu-group { gap: 12px; }
-    .footer-dropdown { max-height: min(62vh, 560px); }    /* opens fully below the sticky header; scrolls inside if needed */
     .swami-note { align-items: flex-start; gap: 14px; }
     .swami-note img { width: 96px; height: 118px; border-radius: 14px; object-position: 38% 50%; }
     .swami-note p { font-size: 13px; line-height: 1.55; }
-    .footer-menu.open .footer-dropdown { animation: none; }
   }
-
-  @media (max-width: 360px) {
-    .actions { flex-wrap: wrap; }
-  }
-
 
   /* ---------- Seasonal ambience ---------- */
   .season-layer {
@@ -813,13 +777,11 @@
     bottom: calc(100% + 8px);
     min-width: 212px;
     padding: 6px;
-    display: none;
     border: 1px solid var(--light-green-active);
     border-radius: 12px;
     background: var(--paper);
     box-shadow: 0 12px 32px var(--shadow);
   }
-  .season-picker.open .season-menu { display: block; animation: panel-in .18s ease; }
   .season-menu button {
     display: flex;
     justify-content: space-between;
@@ -1036,7 +998,7 @@
 <body>
 
 <!-- ============ Navigation ============ -->
-<header class="nav" data-node-id="40000030:5787">
+<header class="nav">
   <div class="nav-brand">
     <a href="#" aria-label="Sri Badrika Ashram — home">
       <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
@@ -1044,7 +1006,7 @@
     </a>
   </div>
   <div class="nav-actions">
-   <div class="nav-tabs" data-node-id="40000046:7143">
+   <div class="nav-tabs">
     <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
       <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
       <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
@@ -1067,7 +1029,7 @@
 <!-- Mobile drawer -->
 <div class="drawer" id="drawer" aria-hidden="true">
   <div class="drawer-head">
-    <img src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram" style="width:204px;max-width:70%;height:auto">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
     <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
   </div>
   <nav data-menu="drawer" data-mode="top" data-order="events,offerings,ashram,involved"></nav>
@@ -1077,7 +1039,7 @@
 <main>
 
 <!-- ============ Vaikuntha introduction ============ -->
-<section class="hero" data-node-id="40000030:5808">
+<section class="hero">
   <div class="hero-bg" aria-hidden="true">
     <img class="texture" src="assets/hero-texture.png" alt="">
     <div class="veil"></div>
@@ -1104,7 +1066,7 @@
 
 <!-- ============ Upcoming events ============ -->
 <div class="cloud-band" aria-hidden="true"></div>
-<section class="events" id="events" data-node-id="40000030:5832">
+<section class="events" id="events">
   <div class="events-head">
     <div class="section-heading">
       <p class="eyebrow">Immersion at ashram</p>
@@ -1166,7 +1128,7 @@
 
 <!-- ============ Sri Hari Bhagwan ============ -->
 <div class="cloud-band" aria-hidden="true"></div>
-<section class="divine" id="divine" data-node-id="40000030:5890">
+<section class="divine" id="divine">
   <div class="deity">
     <img class="halo d-only" src="assets/halo.svg" width="360" height="360" alt="">
     <img class="halo m-only" src="assets/m-halo.svg" width="274" height="274" alt="">
@@ -1193,10 +1155,9 @@
   </div>
 </section>
 
-
 <!-- ============ Around the ashram ============ -->
 <div class="cloud-band" aria-hidden="true"></div>
-<section class="grounds" id="ashram" data-node-id="40000073:8815">
+<section class="grounds" id="ashram">
   <div class="section-heading centered wide">
     <p class="eyebrow">The Ashram</p>
     <h2 class="display-2xl">A sanctuary for stillness, service and sadhana</h2>
@@ -1207,7 +1168,7 @@
       <img class="m-only" src="assets/m-arrow-right.svg" width="15" height="15" alt="">
     </a>
   </div>
-  <div class="grounds-map" data-node-id="40000062:8609">
+  <div class="grounds-map">
     <div class="grounds-frame"><img class="grounds-art" src="assets/grounds.webp" width="2000" height="1632"
          alt="Watercolour map of the ashram grounds: meditation hall, Shri Hari Mandir, yagashala and Vatika gardens"></div>
     <ul class="callouts" aria-label="Places on the grounds">
@@ -1259,7 +1220,7 @@
 
 <div class="cloud-band" aria-hidden="true"></div>
 <!-- ============ Footer ============ -->
-<footer class="footer" data-node-id="40000062:8630">
+<footer class="footer">
 
   <div class="footer-inner">
     <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
@@ -1295,9 +1256,8 @@
   </div>
 </footer>
 
-
 <script>
-  // Single source for the site's navigation links (header menu, mobile drawer, footer details)
+  // Single source for the site's navigation links (header menu, mobile drawer, More details panel)
   const SITE_MENU = {
     events: { title: 'Events', href: '#events', links: [
       ['Upcoming Events', '#events'], ['Gallery', '#'], ['Download Pics', '#'] ] },
