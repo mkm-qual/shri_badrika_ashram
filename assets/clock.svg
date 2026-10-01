@@ -1,9 +1,9 @@
-<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="clock-3" clip-path="url(#clip0_0_102)">
-<path id="Vector" d="M8 3.99968V8H10.6669M14.6672 8C14.6672 11.6822 11.6822 14.6672 8 14.6672C4.31781 14.6672 1.3328 11.6822 1.3328 8C1.3328 4.31781 4.31781 1.3328 8 1.3328C11.6822 1.3328 14.6672 4.31781 14.6672 8Z" stroke="#5F6549" stroke-width="1.4" stroke-linecap="round"/>
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_40000109_13181)">
+<path d="M7.99923 3.99989V8.00021H10.6661M14.6664 8.00021C14.6664 11.6824 11.6814 14.6674 7.99923 14.6674C4.31704 14.6674 1.33203 11.6824 1.33203 8.00021C1.33203 4.31801 4.31704 1.33301 7.99923 1.33301C11.6814 1.33301 14.6664 4.31801 14.6664 8.00021Z" stroke="#5F6549" stroke-width="1.4" stroke-linecap="round"/>
 </g>
 <defs>
-<clipPath id="clip0_0_102">
+<clipPath id="clip0_40000109_13181">
 <rect width="16" height="16" fill="white"/>
 </clipPath>
 </defs>

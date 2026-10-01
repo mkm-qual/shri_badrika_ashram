@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Children of Tomorrow — Sri Badrika Ashram</title>
+<meta name="description" content="A three-day retreat at Sri Badrika Ashram dedicated to young minds.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="detail">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="#" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="#" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+<div class="detail-wrap">
+  <article class="detail">
+
+    <!-- ============ Event introduction ============ -->
+    <div class="detail-intro">
+      <div class="detail-hero">
+        <div class="detail-copy">
+          <p class="eyebrow">A retreat for young minds</p>
+          <h1 class="display-detail">The Children of Tomorrow</h1>
+          <div class="paras">
+            <p>After almost a decade, Swamiji has decided to conduct a retreat exclusively dedicated to young minds—the children who will shape the world of tomorrow.</p>
+            <p>The Children of Tomorrow is a three-day journey to nurture young minds, awaken their potential, and plant the seeds of wisdom and purpose.</p>
+            <p>Because the future is not something we wait for; it is something we nurture today. And every great future begins with a seed.</p>
+          </div>
+        </div>
+        <section class="card" id="summary" aria-labelledby="summary-title">
+          <h2 class="card-title" id="summary-title">Event summary</h2>
+          <div class="summary-list">
+            <div class="summary-item">
+              <img src="assets/icon-calendar-day.svg" width="22" height="22" alt="">
+              <div><p class="eyebrow">Check-in</p><strong>12 November 2026 (Thursday)</strong></div>
+            </div>
+            <div class="summary-item">
+              <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+              <div><p class="eyebrow">Check-out</p><strong>15 November 2026 (Sunday), after the discourse</strong></div>
+            </div>
+          </div>
+          <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">A three-day journey dedicated to young minds.</p>
+        </section>
+      </div>
+      <div class="booking">
+        <p>(Swamiji will be present only on the Discourse Date)</p>
+        <a class="btn btn-primary btn-book" href="#">
+          <span>Book</span>
+          <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+        </a>
+        <p>Booking opens: 7 April — 31 July</p>
+      </div>
+    </div>
+
+    <!-- ============ Schedule ============ -->
+    <section class="section-heading" id="schedule">
+      <p class="eyebrow">Plan your visit</p>
+      <h2 class="display-2xl">Schedule and Important Details</h2>
+    </section>
+    <div class="schedule-cards">
+      <section class="card" id="discourse" aria-labelledby="discourse-title">
+        <h3 class="card-title" id="discourse-title">Discourse Schedule</h3>
+        <ol class="times">
+          <li class="time-row">
+            <div class="date-chip"><b>13</b><span>Nov</span></div>
+            <div class="time-copy"><span>Friday</span><strong>13 November: 6:00 PM IST</strong></div>
+            <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+          </li>
+          <li class="time-row">
+            <div class="date-chip"><b>14</b><span>Nov</span></div>
+            <div class="time-copy"><span>Saturday</span><strong>14 November: 9:00 AM IST</strong></div>
+            <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+          </li>
+          <li class="time-row">
+            <div class="date-chip"><b>15</b><span>Nov</span></div>
+            <div class="time-copy"><span>Sunday</span><strong>15 November: 9:00 AM IST</strong></div>
+            <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+          </li>
+        </ol>
+      </section>
+      <section class="card" aria-labelledby="stay-title">
+        <div class="card-head">
+          <h3 class="card-title" id="stay-title">Stay schedule</h3>
+          <span class="icon-disc sm"><img src="assets/icon-calendar.svg" width="24" height="24" alt=""></span>
+        </div>
+        <div class="stay-list">
+          <div class="stay-item"><p class="eyebrow">Check-in</p><strong>12 November 2026 (Thursday)</strong></div>
+          <div class="stay-item"><p class="eyebrow">Check-out</p><strong>15 November 2026 (Sunday), after the discourse</strong></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ Booking guidelines ============ -->
+    <section id="guidelines">
+      <div class="guide-intro">
+        <p class="eyebrow">Before you book</p>
+        <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
+        <p>Review every guideline before proceeding with your booking.</p>
+      </div>
+      <ol class="guidelines">
+        <li>There are a total of six events under the name The Glorious Presence. If you are not attending Maha Rudra Sadhana 2027 (English), you may book a maximum of 3 of these events.</li>
+        <li>Participants attending “The Children of Tomorrow” may attend a maximum of 2 of these events.</li>
+        <li>Participants attending Maha Rudra Sadhana 2027 (English) are not eligible to attend these events. Participants who attended Maha Rudra Sadhana 2026 (Hindi) will not be eligible to participate in Maha Rudra Sadhana 2027 (English).</li>
+        <li>Children below 10 years of age are not permitted to stay at the Ashram during these events.</li>
+        <li>This event includes both discourse and non-discourse dates. A booking may be made for a minimum of 2 nights and for any additional dates available within that event. Please carefully check the schedule, particularly the dates on which Swamiji will be giving discourse, before making your booking.</li>
+        <li>Participants with any physical limitations or health-related conditions are kindly requested not to register for this event.</li>
+        <li>Day visits are not permitted at any time during the entire duration of the event.</li>
+      </ol>
+      <div class="card meeting">
+        <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
+        <div>
+          <h3>Personal Meetings with Swamiji</h3>
+          <p>Personal meetings with Swamiji will be held on discourse days only and will be selected through a draw system.</p>
+        </div>
+      </div>
+    </section>
+
+    <figure class="card quote">
+      <span class="quote-mark" aria-hidden="true">“</span>
+      <div>
+        <blockquote>“I realize now, more than ever, that the future of our world rests entirely upon our children. Upon their shoulders rests a great nation, a baffling world, and a beautiful planet.”</blockquote>
+        <figcaption>-&nbsp; Om Swami</figcaption>
+      </div>
+    </figure>
+
+    <!-- ============ Accommodation ============ -->
+    <section class="section-heading wide" id="accommodation">
+      <p class="eyebrow">Your stay</p>
+      <h2 class="display-2xl">Accommodation Details:</h2>
+    </section>
+    <div class="card stay-card wide">
+      <div class="card-head">
+        <div><p class="eyebrow">Daily contribution</p><p class="amount">₹1,800</p></div>
+        <span class="icon-disc paper"><img src="assets/icon-rupee.svg" width="25" height="25" alt=""></span>
+      </div>
+      <p class="lead">A contribution of ₹1,800 per person per day is required for your stay. This contribution covers two meals (Lunch &amp; Dinner) and dormitory accommodation.</p>
+      <hr>
+      <div class="card-head">
+        <h3>Room Upgrade</h3>
+        <span class="icon-disc cream"><img src="assets/icon-ac.svg" width="25" height="25" alt=""></span>
+      </div>
+      <p class="body">Room upgrades to sharing basis may be available on a first-come, first-served basis, subject to availability upon arrival. Additional contribution will apply, depending on the accommodation category selected.</p>
+      <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">We humbly request you to kindly note that prior requests for room upgrades cannot be accommodated.</p>
+    </div>
+  </article>
+
+  <!-- On this page -->
+  <nav class="toc" aria-label="On this page">
+    <div class="toc-inner">
+      <p class="eyebrow">On this page</p>
+      <ol>
+        <li><a href="#summary">Event Summary</a></li>
+        <li><a href="#schedule">Schedules &amp; Important details</a></li>
+        <li><a href="#discourse">Discourse Schedule</a></li>
+        <li><a href="#guidelines">Booking guidelines</a></li>
+        <li><a href="#accommodation">Accomodation details</a></li>
+      </ol>
+    </div>
+  </nav>
+</div>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+  // "On this page": highlight the section currently in view
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const secs = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+  const mark = () => {
+    const y = innerHeight * .35;
+    let cur = 0;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top <= y) cur = i; });
+    tocLinks.forEach((a, i) => a.setAttribute('aria-current', i === cur));
+  };
+  addEventListener('scroll', mark, { passive: true });
+  mark();
+</script>
+
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js"></script>
+<script src="assets/clouds.js"></script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events — Sri Badrika Ashram</title>
+<meta name="description" content="Sacred rituals, contemplative retreats and teachings at Sri Badrika Ashram.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="events">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="#" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="#" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ Events introduction ============ -->
+<section class="ev-intro">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="ev-intro-copy">
+    <p class="eyebrow">Immersion at the ashram</p>
+    <h1 class="display-hero">Events for the inward journey</h1>
+    <p class="lede">Explore sacred rituals, contemplative retreats and teachings held in the quiet folds of the Shivalik hills. Each gathering is an invitation to pause, practise and return to what is essential.</p>
+  </div>
+  <div class="ev-summary">
+    <div><strong>18 gatherings</strong><span>April through December 2026</span></div>
+    <div><strong>All seekers</strong><span>On-site and online experiences</span></div>
+  </div>
+</section>
+
+<!-- ============ Upcoming gatherings ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="listing events" id="upcoming">
+  <div class="events-head">
+    <div class="section-heading">
+      <p class="eyebrow">At ashram</p>
+      <h2 class="display-2xl">Upcoming events</h2>
+    </div>
+    <button class="sort" id="sortBtn" type="button" aria-label="Sort events">Sort by <b>Soonest first&nbsp;&nbsp;↓</b></button>
+  </div>
+
+  <div class="event-cards" id="eventCards">
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">A retreat for young minds</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">The Children of Tomorrow</h3>
+          <p class="event-sub">A three-day journey to nurture young minds</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 April — 31 July</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 7 April — 31 July</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Tantra</h3>
+          <p class="event-sub">Ancient Secrets of the Sacred Flame</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 April — 31 July</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 7 April — 31 July</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Guru Sadhana</h3>
+          <p class="event-sub">Awaken Your Guiding Light</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 April — 31 July</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 7 April — 31 July</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Immersive retreat</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">A Weekend of Silence</h3>
+          <p class="event-sub">Resting the mind in the Himalayan foothills</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">15 Sept — 31 Oct</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 15 Sept — 31 Oct</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Group events</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Sri Hari Abhishekam</h3>
+          <p class="event-sub">A morning of worship and sacred chanting</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">12 May — 15 June</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 12 May — 15 June</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">A Day of Seva</h3>
+          <p class="event-sub">Service in the gardens and community kitchen</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">20 June — 10 Aug</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 20 June — 10 Aug</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Navratri at the Ashram</h3>
+          <p class="event-sub">Nine nights of devotion to the Divine Mother</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 Aug — 30 Sept</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 1 Aug — 30 Sept</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Winter Sadhana</h3>
+          <p class="event-sub">Seven days of stillness, study and practice</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 Nov — 20 Dec</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 1 Nov — 20 Dec</div>
+      </div>
+    </a>
+    <a class="event-card" href="event-children-of-tomorrow.html">
+      <div class="event-title">
+        <p class="eyebrow">Sacred ritual</p>
+        <div class="event-title-inner">
+          <h3 class="display-lg">Bhakti Sadhana</h3>
+          <p class="event-sub">The Heart of Devotion</p>
+        </div>
+      </div>
+      <div class="event-meta">
+        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 Nov — 20 Dec</div>
+        <div><img src="assets/clock.svg" width="16" height="16" alt="">Booking opens: 1 Nov — 20 Dec</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="listing-more">
+    <p>Showing 9 of 18 events</p>
+    <button class="btn btn-outline-brown" type="button">
+      <span>Load more events</span>
+      <img src="assets/icon-chevron-down.svg" width="16" height="16" alt="">
+    </button>
+  </div>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+  // Sort: soonest first (as listed) or latest first
+  const sortBtn = document.getElementById('sortBtn'), cards = document.getElementById('eventCards');
+  let soonest = true;
+  sortBtn.addEventListener('click', () => {
+    soonest = !soonest;
+    [...cards.children].reverse().forEach(c => cards.appendChild(c));
+    sortBtn.querySelector('b').innerHTML = soonest ? 'Soonest first&nbsp;&nbsp;↓' : 'Latest first&nbsp;&nbsp;↑';
+  });
+</script>
+
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js"></script>
+<script src="assets/clouds.js"></script>
+</body>
+</html>
