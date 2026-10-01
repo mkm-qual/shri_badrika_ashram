@@ -1,4 +1,4 @@
-// Album detail: photo grid / list, numbered selection, downloads and the immersive viewer
+// Album detail: photo grid / list and the immersive viewer (view only; downloads live on the Download Pics page)
 const params = new URLSearchParams(location.search);
 const album = GALLERY.find(a => a.id === params.get('id')) || GALLERY.find(a => a.id === 'vaag-beej-sadhana');
 const PAGE = 28, MORE = 24;
@@ -7,7 +7,6 @@ const state = {
   order: album.photos.map((_, i) => i),   // captured order
   byName: false,
   shown: Math.min(PAGE, album.photos.length),
-  selected: [],                            // photo indexes, in the order they were picked
   layout: 'grid',
 };
 const $ = (id) => document.getElementById(id);
@@ -22,7 +21,6 @@ $('albumLede').textContent = album.subtitle
   ? `${album.subtitle} — a visual chronicle from Sri Badrika Ashram.`
   : 'A visual chronicle from Sri Badrika Ashram.';
 $('albumMeta').textContent = `${album.date} · Sri Badrika Ashram`;
-$('selectAll').querySelector('span').textContent = `Select all ${total}`;
 $('footTotal').textContent = plural(total, 'image');
 
 // ----- Grid -----
@@ -32,15 +30,12 @@ const sorted = () => state.byName
 
 const photoHTML = (i) => {
   const [name, w, h] = album.photos[i];
-  const n = state.selected.indexOf(i) + 1;
-  return `<div class="ph${n ? ' selected' : ''}" data-i="${i}">
+  return `<div class="ph" data-i="${i}">
     <button class="ph-open" type="button" aria-label="Open ${escapeHTML(name)}">
-      <img src="${thumbSrc(album, i)}" alt="" loading="lazy" width="${Math.round(w / 2.5)}" height="${Math.round(h / 2.5)}">
+      <img src="${thumbSrc(album, i)}" alt="" loading="lazy" draggable="false" width="${Math.round(w / 2.5)}" height="${Math.round(h / 2.5)}">
     </button>
-    <button class="ph-sel" type="button" aria-pressed="${!!n}" aria-label="${n ? `Deselect ${escapeHTML(name)}` : `Select ${escapeHTML(name)}`}">${n || ''}</button>
     <span class="ph-name">${escapeHTML(name)}</span>
     <span class="ph-dims">${w} × ${h}</span>
-    <a class="round-btn ph-dl" href="${photoSrc(album, i)}" download="${escapeHTML(name)}" aria-label="Download ${escapeHTML(name)}">${icon('download', 16)}</a>
   </div>`;
 };
 
@@ -52,50 +47,15 @@ const renderGrid = () => {
   $('loadMore').textContent = `Load ${Math.min(MORE, total - state.shown)} more`;
 };
 
-// Selection only re-paints the affected tiles and the toolbar
-const renderSelection = () => {
-  const n = state.selected.length;
-  $('selChip').hidden = !n;
-  $('selChip').querySelector('span:not(.ic)').textContent = `${n} selected`;
-  $('clearSel').hidden = !n;
-  $('dlSelected').disabled = !n;
-  $('dlSelected').querySelector('span:not(.ic)').textContent = `Download selected (${n})`;
-  grid.querySelectorAll('.ph').forEach(el => {
-    const i = +el.dataset.i, k = state.selected.indexOf(i) + 1;
-    const name = album.photos[i][0];
-    el.classList.toggle('selected', !!k);
-    const sel = el.querySelector('.ph-sel');
-    sel.textContent = k || '';
-    sel.setAttribute('aria-pressed', !!k);
-    sel.setAttribute('aria-label', `${k ? 'Deselect' : 'Select'} ${name}`);
-  });
-};
-const toggle = (i) => {
-  const k = state.selected.indexOf(i);
-  k >= 0 ? state.selected.splice(k, 1) : state.selected.push(i);
-  renderSelection();
-};
-
 grid.addEventListener('click', (e) => {
   const tile = e.target.closest('.ph');
   if (!tile) return;
-  const i = +tile.dataset.i;
-  if (e.target.closest('.ph-sel')) return toggle(i);
-  if (e.target.closest('.ph-open')) openViewer(sorted().indexOf(i));
+  if (e.target.closest('.ph-open')) openViewer(sorted().indexOf(+tile.dataset.i));
 });
-$('selectAll').addEventListener('click', () => {
-  // Selecting everything also reveals everything, so the numbers stay visible
-  sorted().forEach(i => { if (!state.selected.includes(i)) state.selected.push(i); });
-  state.shown = total;
-  renderGrid();
-  renderSelection();
-});
-$('clearSel').addEventListener('click', () => { state.selected = []; renderSelection(); });
 $('sortBtn').addEventListener('click', () => {
   state.byName = !state.byName;
   $('sortBtn').querySelector('span:not(.ic)').textContent = state.byName ? 'File name' : 'Captured order';
   renderGrid();
-  renderSelection();
 });
 document.querySelectorAll('[data-layout]').forEach(btn => btn.addEventListener('click', () => {
   state.layout = btn.dataset.layout;
@@ -106,27 +66,23 @@ $('loadMore').addEventListener('click', () => {
   const first = state.shown;
   state.shown = Math.min(total, state.shown + MORE);
   renderGrid();
-  renderSelection();
   grid.children[first]?.querySelector('button').focus({ preventScroll: true });
 });
-$('dlSelected').addEventListener('click', () => withProgress($('dlSelected'), 'Preparing', (p) =>
-  downloadPhotos(album, state.selected, `${album.id}-selected`, p)));
-$('dlAlbum').addEventListener('click', () => withProgress($('dlAlbum'), 'Preparing', (p) =>
-  downloadPhotos(album, album.photos.map((_, i) => i), album.id, p)));
 
 renderGrid();
-renderSelection();
+protectImages(grid);
 
 /* ---------- Immersive viewer ---------- */
 const viewer = $('viewer');
 const vImg = $('vImg');
+protectImages(viewer);
 const strip = $('vThumbs');
 let pos = 0;              // position within sorted()
 let lastFocus = null;
 
 const buildStrip = () => {
   strip.innerHTML = sorted().map((i, p) =>
-    `<button class="v-thumb" type="button" data-p="${p}" aria-label="Show ${escapeHTML(album.photos[i][0])}"><img src="${thumbSrc(album, i)}" alt="" loading="lazy"></button>`).join('');
+    `<button class="v-thumb" type="button" data-p="${p}" aria-label="Show ${escapeHTML(album.photos[i][0])}"><img src="${thumbSrc(album, i)}" alt="" loading="lazy" draggable="false"></button>`).join('');
 };
 const show = (p, jump) => {
   const list = sorted();
@@ -139,8 +95,6 @@ const show = (p, jump) => {
   vImg.alt = `${album.heading}, photo ${pos + 1} of ${list.length}`;
   $('vCount').textContent = `${pos + 1} of ${list.length}`;
   $('vName').textContent = name;
-  $('vDownload').href = photoSrc(album, i);
-  $('vDownload').download = name;
   $('vPrev').disabled = pos === 0;
   $('vNext').disabled = pos === list.length - 1;
   $('vInfoName').textContent = name;

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download Pics — Sri Badrika Ashram</title>
+<meta name="description" content="Download pictures of Om Swami and Sri Hari Bhagwan from Sri Badrika Ashram.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css?v=20261001e">
+</head>
+<body data-page="downloads">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="#" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="#" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<main class="gl album has-crumbs" id="downloads">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="events.html"><span class="ic" style="--i:url('icons/arrow-left.svg')" aria-hidden="true"></span>Events</a>
+    <span class="sep" aria-hidden="true">/</span>
+    <span aria-current="page">Download Pics</span>
+  </nav>
+
+  <div class="album-head">
+    <div class="gl-heading">
+      <p class="eyebrow">Free to download · 7 pictures</p>
+      <h1 class="display-2xl">Download Pics</h1>
+      <p class="lede">Pictures of Om Swami and Sri Hari Bhagwan, shared for your personal devotion. Each one downloads in its original resolution.</p>
+    </div>
+    <div class="album-actions">
+      <button class="pill-btn primary" type="button" id="dlAll"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download all (18 MB)</span></button>
+    </div>
+  </div>
+
+  <div class="sel-bar">
+    <p class="sel-note">Only the pictures on this page can be downloaded. For other images, please contact <a href="mailto:Contact.omswami@gmail.com">Contact.omswami@gmail.com</a>.</p>
+  </div>
+
+  <div class="dl-grid">
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/om-swami-with-sri-hari-bhagwan.jpg" target="_blank" rel="noopener" aria-label="View Om Swami with Sri Hari Bhagwan at full size">
+        <img src="assets/downloads/thumb/om-swami-with-sri-hari-bhagwan.jpg" width="629" height="900" alt="Om Swami with Sri Hari Bhagwan" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Om Swami with Sri Hari Bhagwan</h2>
+          <p>JPG · 3997 × 5716 px · 7.2 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/om-swami-with-sri-hari-bhagwan.jpg" download="om-swami-with-sri-hari-bhagwan.jpg" aria-label="Download Om Swami with Sri Hari Bhagwan (7.2 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/sri-hari-bhagwan-white-garland.jpg" target="_blank" rel="noopener" aria-label="View Sri Hari Bhagwan at full size">
+        <img src="assets/downloads/thumb/sri-hari-bhagwan-white-garland.jpg" width="600" height="900" alt="Sri Hari Bhagwan" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Sri Hari Bhagwan</h2>
+          <p>JPG · 2877 × 4315 px · 0.7 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/sri-hari-bhagwan-white-garland.jpg" download="sri-hari-bhagwan-white-garland.jpg" aria-label="Download Sri Hari Bhagwan (0.7 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/sri-hari-bhagwan-yellow-silk.jpg" target="_blank" rel="noopener" aria-label="View Sri Hari Bhagwan in yellow silk at full size">
+        <img src="assets/downloads/thumb/sri-hari-bhagwan-yellow-silk.jpg" width="675" height="900" alt="Sri Hari Bhagwan in yellow silk" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Sri Hari Bhagwan in yellow silk</h2>
+          <p>JPG · 4672 × 6224 px · 0.9 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/sri-hari-bhagwan-yellow-silk.jpg" download="sri-hari-bhagwan-yellow-silk.jpg" aria-label="Download Sri Hari Bhagwan in yellow silk (0.9 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/sri-hari-bhagwan-red-silk.jpg" target="_blank" rel="noopener" aria-label="View Sri Hari Bhagwan in red silk at full size">
+        <img src="assets/downloads/thumb/sri-hari-bhagwan-red-silk.jpg" width="675" height="900" alt="Sri Hari Bhagwan in red silk" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Sri Hari Bhagwan in red silk</h2>
+          <p>JPG · 2654 × 3538 px · 3.5 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/sri-hari-bhagwan-red-silk.jpg" download="sri-hari-bhagwan-red-silk.jpg" aria-label="Download Sri Hari Bhagwan in red silk (3.5 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/om-swami-portrait.jpg" target="_blank" rel="noopener" aria-label="View Om Swami at full size">
+        <img src="assets/downloads/thumb/om-swami-portrait.jpg" width="642" height="900" alt="Om Swami" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Om Swami</h2>
+          <p>JPG · 2853 × 3995 px · 1.9 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/om-swami-portrait.jpg" download="om-swami-portrait.jpg" aria-label="Download Om Swami (1.9 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/om-swami-at-the-sri-hari-mandir.jpg" target="_blank" rel="noopener" aria-label="View Om Swami at the Sri Hari Mandir at full size">
+        <img src="assets/downloads/thumb/om-swami-at-the-sri-hari-mandir.jpg" width="675" height="900" alt="Om Swami at the Sri Hari Mandir" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Om Swami at the Sri Hari Mandir</h2>
+          <p>JPG · 3464 × 4618 px · 1.2 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/om-swami-at-the-sri-hari-mandir.jpg" download="om-swami-at-the-sri-hari-mandir.jpg" aria-label="Download Om Swami at the Sri Hari Mandir (1.2 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+    <article class="dl-card">
+      <a class="dl-photo" href="assets/downloads/om-swami-in-saffron.jpg" target="_blank" rel="noopener" aria-label="View Om Swami in saffron at full size">
+        <img src="assets/downloads/thumb/om-swami-in-saffron.jpg" width="900" height="600" alt="Om Swami in saffron" loading="lazy">
+      </a>
+      <div class="dl-info">
+        <div>
+          <h2>Om Swami in saffron</h2>
+          <p>JPG · 5063 × 3375 px · 2.2 MB</p>
+        </div>
+        <a class="pill-btn" href="assets/downloads/om-swami-in-saffron.jpg" download="om-swami-in-saffron.jpg" aria-label="Download Om Swami in saffron (2.2 MB)"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download</span></a>
+      </div>
+    </article>
+  </div>
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261001e"></script>
+<script src="assets/gallery.js?v=20261001e"></script>
+<script src="assets/downloads.js?v=20261001e"></script>
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js?v=20261001e"></script>
+<script src="assets/clouds.js?v=20261001e"></script>
+</body>
+</html>

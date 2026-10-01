@@ -1,4 +1,4 @@
-// Gallery helpers shared by the album gallery and album detail pages
+// Gallery helpers shared by the album gallery, album detail and Download Pics pages
 // (icon paths are relative to assets/site.css, where the mask is applied)
 const icon = (name, size) =>
   `<span class="ic" style="--i:url('icons/${name}.svg')${size ? `;--s:${size}px` : ''}" aria-hidden="true"></span>`;
@@ -10,7 +10,31 @@ const coverSrc = (album) => `assets/gallery/${album.id}/cover.jpg`;
 const albumURL = (album) => `album.html?id=${encodeURIComponent(album.id)}`;
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
-// Downloads: one photo is a plain link; several photos are bundled into a zip in the browser
+// Album photos are view-only. Right-clicking, dragging or long-pressing a photo shows how to request images.
+const CONTACT_EMAIL = 'Contact.omswami@gmail.com';
+let imgToast, imgToastTimer;
+const imageNotice = () => {
+  if (!imgToast) {
+    imgToast = document.createElement('div');
+    imgToast.className = 'img-notice';
+    imgToast.setAttribute('role', 'status');
+    imgToast.innerHTML = `<p>For images please contact us at <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a></p>` +
+      `<button type="button" aria-label="Dismiss">${icon('x', 15)}</button>`;
+    imgToast.querySelector('button').addEventListener('click', () => imgToast.classList.remove('show'));
+    document.body.appendChild(imgToast);
+  }
+  imgToast.classList.add('show');
+  clearTimeout(imgToastTimer);
+  imgToastTimer = setTimeout(() => imgToast.classList.remove('show'), 6000);
+};
+function protectImages(root) {
+  const onImage = (e) => e.target.closest && e.target.closest('img, .ph-open, .album-cover, .v-stage, .v-thumb');
+  root.addEventListener('contextmenu', (e) => { if (onImage(e)) { e.preventDefault(); imageNotice(); } });
+  root.addEventListener('dragstart', (e) => { if (onImage(e)) { e.preventDefault(); imageNotice(); } });
+  document.documentElement.classList.add('protect-images');
+}
+
+// Downloads (Download Pics page only): one file is a plain link; several are bundled into a zip in the browser
 let zipLib;
 const loadZip = () => zipLib || (zipLib = new Promise((resolve, reject) => {
   const s = document.createElement('script');
@@ -28,32 +52,19 @@ const saveBlob = (blob, filename) => {
   a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 };
-const downloadPhoto = (album, i) => {
-  const a = document.createElement('a');
-  a.href = photoSrc(album, i);
-  a.download = album.photos[i][0];
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-};
-// indexes: which photos to include; onProgress(done, total) lets the caller update its button
-async function downloadPhotos(album, indexes, zipName, onProgress) {
-  if (indexes.length === 1) return downloadPhoto(album, indexes[0]);
+// files: [{ url, name }]; onProgress(done, total) lets the caller update its button
+async function downloadFiles(files, zipName, onProgress) {
   const JSZip = await loadZip();
   const zip = new JSZip();
-  const used = new Set();
   let done = 0;
-  onProgress && onProgress(0, indexes.length);
-  for (const i of indexes) {
-    const res = await fetch(photoSrc(album, i));
-    let name = album.photos[i][0];
-    while (used.has(name)) name = name.replace(/(\.[^.]+)?$/, '-copy$1');
-    used.add(name);
-    zip.file(name, await res.blob());
-    onProgress && onProgress(++done, indexes.length);
+  onProgress && onProgress(0, files.length);
+  for (const f of files) {
+    const res = await fetch(f.url);
+    if (!res.ok) throw new Error(`Could not fetch ${f.name}`);
+    zip.file(f.name, await res.blob());
+    onProgress && onProgress(++done, files.length);
   }
-  const blob = await zip.generateAsync({ type: 'blob' });
-  saveBlob(blob, `${zipName}.zip`);
+  saveBlob(await zip.generateAsync({ type: 'blob' }), `${zipName}.zip`);
 }
 
 // Runs an async download behind a button, showing progress and blocking double clicks
@@ -87,7 +98,7 @@ if (galleryRoot) {
     <article class="album-card">
       <a href="${albumURL(a)}">
         <div class="album-cover" style="--ar: 426 / ${a.coverHeight}">
-          <img src="${coverSrc(a)}" alt="" loading="lazy">
+          <img src="${coverSrc(a)}" alt="" loading="lazy" draggable="false">
         </div>
         <div class="album-info">
           <div>
@@ -97,7 +108,6 @@ if (galleryRoot) {
           ${icon('arrow-up-right', 18)}
         </div>
       </a>
-      <button class="round-btn album-dl" type="button" data-album="${a.id}" aria-label="Download ${escapeHTML(a.title)} (${plural(a.photos.length, 'photo')})">${icon('download', 17)}</button>
     </article>`;
 
   const render = () => {
@@ -132,16 +142,7 @@ if (galleryRoot) {
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchEl.focus(); searchEl.select(); }
   });
-  galleryRoot.addEventListener('click', (e) => {
-    const btn = e.target.closest('.album-dl');
-    if (!btn) return;
-    const album = GALLERY.find(a => a.id === btn.dataset.album);
-    btn.classList.add('busy');
-    // The round button is too small for a label, so it shows a bare counter while zipping
-    withProgress(btn, '', () => downloadPhotos(album, album.photos.map((_, i) => i), album.id, (d, t) => {
-      btn.textContent = `${d}/${t}`;
-    })).finally(() => btn.classList.remove('busy'));
-  });
+  protectImages(galleryRoot);
   let lastCols = columnsFor();
   addEventListener('resize', () => { const n = columnsFor(); if (n !== lastCols) { lastCols = n; render(); } });
   render();
