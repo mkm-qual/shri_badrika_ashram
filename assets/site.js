@@ -1,7 +1,7 @@
 // Single source for the site's navigation links (header Menu panel and the mobile drawer accordion)
 const SITE_MENU = {
   events: { title: 'Events', href: '#events', links: [
-    ['Upcoming Events', 'events.html'], ['Gallery', '#'], ['Download Pics', '#'] ] },
+    ['Upcoming Events', 'events.html'], ['Gallery', 'gallery.html'], ['Download Pics', 'gallery.html'] ] },
   offerings: { title: 'Offerings', href: 'offerings.html', links: [
     ['Sri Hari Abhishekam', 'offerings.html#abhishekam'], ['Sri Hari Aarti', 'offerings.html#aarti'],
     ['Sri Hari Sahasranama', 'offerings.html#sahasranama'], ['Sri Hari Sringar', 'offerings.html#sringar'] ] },

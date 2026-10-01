@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Album — Gallery — Sri Badrika Ashram</title>
+<meta name="description" content="Photos from an event at Sri Badrika Ashram.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:opsz,wght@6..72,400&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="album">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only logo-green" src="assets/logo-green.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="#" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="#" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+
+<main class="gl album">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="gallery.html"><span class="ic" style="--i:url('icons/arrow-left.svg')" aria-hidden="true"></span>All albums</a>
+    <span class="sep" aria-hidden="true">/</span>
+    <span id="crumbTitle" aria-current="page"></span>
+  </nav>
+
+  <div class="album-head">
+    <div class="gl-heading">
+      <h1 class="gl-title" id="albumTitle"></h1>
+      <p class="gl-lede" id="albumLede"></p>
+      <p class="album-meta" id="albumMeta"></p>
+    </div>
+    <div class="album-actions">
+      <button class="pill-btn" type="button" id="dlSelected" disabled><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download selected (0)</span></button>
+      <button class="pill-btn primary" type="button" id="dlAlbum"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download album</span></button>
+    </div>
+  </div>
+
+  <div class="sel-bar">
+    <div class="sel-left">
+      <span class="chip soft" id="selChip" hidden><span class="ic" style="--i:url('icons/check.svg')" aria-hidden="true"></span><span>0 selected</span></span>
+      <button class="chip" type="button" id="selectAll"><span>Select all</span></button>
+      <button class="text-btn" type="button" id="clearSel" hidden>Clear selection</button>
+    </div>
+    <div class="sel-right">
+      <button class="chip" type="button" id="sortBtn" aria-label="Change photo order"><span class="ic" style="--i:url('icons/chevron-down.svg')" aria-hidden="true"></span><span>Captured order</span></button>
+      <div class="layout-switch" role="group" aria-label="Layout">
+        <button type="button" data-layout="grid" aria-pressed="true" aria-label="Grid view"><span class="ic" style="--i:url('icons/grid.svg')" aria-hidden="true"></span></button>
+        <button type="button" data-layout="list" aria-pressed="false" aria-label="List view"><span class="ic" style="--i:url('icons/rows.svg')" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ph-grid" id="photoGrid"></div>
+
+  <div class="grid-foot">
+    <p id="showing"></p>
+    <button class="pill-btn" type="button" id="loadMore">Load 24 more</button>
+    <p>Web resolution · <span id="footTotal"></span></p>
+  </div>
+</main>
+
+<!-- ============ Immersive image viewer ============ -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+  <div class="v-top">
+    <div class="v-context">
+      <button class="v-btn" type="button" id="vClose" aria-label="Close viewer"><span class="ic" style="--i:url('icons/x.svg')" aria-hidden="true"></span></button>
+      <div><strong id="vContext"></strong><span id="vCount"></span></div>
+    </div>
+    <div class="v-tools">
+      <button class="v-btn" type="button" id="vInfo" aria-pressed="false" aria-label="Image information" aria-controls="vInfoPanel"><span class="ic" style="--i:url('icons/info.svg')" aria-hidden="true"></span></button>
+      <button class="v-btn v-full" type="button" id="vFull" aria-pressed="false" aria-label="Full screen"><span class="ic" style="--i:url('icons/expand.svg')" aria-hidden="true"></span></button>
+      <a class="pill-btn primary" id="vDownload" href="#" download aria-label="Download image"><span class="ic" style="--i:url('icons/download.svg')" aria-hidden="true"></span><span>Download image</span></a>
+    </div>
+  </div>
+  <div class="v-stage-wrap">
+    <div class="v-stage" id="vStage">
+      <img id="vImg" alt="">
+      <button class="v-btn v-prev" type="button" id="vPrev" aria-label="Previous image"><span class="ic" style="--i:url('icons/chevron-left.svg')" aria-hidden="true"></span></button>
+      <button class="v-btn v-next" type="button" id="vNext" aria-label="Next image"><span class="ic" style="--i:url('icons/chevron-right.svg')" aria-hidden="true"></span></button>
+      <p class="v-status"><span class="ic" style="--i:url('icons/scan.svg')" aria-hidden="true"></span><span id="vName"></span></p>
+      <div class="v-info" id="vInfoPanel" hidden>
+        <dl>
+          <dt>File</dt><dd id="vInfoName"></dd>
+          <dt>Size</dt><dd id="vInfoSize"></dd>
+          <dt>Album</dt><dd id="vInfoAlbum"></dd>
+          <dt>Date</dt><dd id="vInfoDate"></dd>
+          <dt>Photo</dt><dd id="vInfoPos"></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="v-strip">
+    <button class="v-btn" type="button" id="vSetPrev" aria-label="Previous thumbnails"><span class="ic" style="--i:url('icons/chevron-left.svg')" aria-hidden="true"></span></button>
+    <div class="v-thumbs" id="vThumbs"></div>
+    <button class="v-btn" type="button" id="vSetNext" aria-label="Next thumbnails"><span class="ic" style="--i:url('icons/chevron-right.svg')" aria-hidden="true"></span></button>
+  </div>
+</div>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script src="assets/gallery-data.js"></script>
+<script src="assets/gallery.js"></script>
+<script src="assets/album.js"></script>
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js"></script>
+<script src="assets/clouds.js"></script>
+</body>
+</html>
