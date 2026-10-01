@@ -21,7 +21,7 @@ $('albumTitle').textContent = album.heading;
 $('albumLede').textContent = album.subtitle
   ? `${album.subtitle} — a visual chronicle from Sri Badrika Ashram.`
   : 'A visual chronicle from Sri Badrika Ashram.';
-$('albumMeta').textContent = `${album.date}  ·  Sri Badrika Ashram`;
+$('albumMeta').textContent = `${album.date} · Sri Badrika Ashram`;
 $('selectAll').querySelector('span').textContent = `Select all ${total}`;
 $('footTotal').textContent = plural(total, 'image');
 
