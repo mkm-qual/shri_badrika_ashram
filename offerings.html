@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sri Hari Offerings — Sri Badrika Ashram</title>
+<meta name="description" content="Abhishekam, Aarti, Sahasranama and Sringar — the sacred offerings to Sri Hari at Sri Badrika Ashram.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="offerings">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="#" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="#" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ Offerings introduction ============ -->
+<section class="off-intro">
+  <img class="off-glow" src="assets/saffron-glow.svg" width="520" height="520" alt="" aria-hidden="true">
+  <div class="off-hero">
+    <div class="off-hero-copy">
+      <p class="eyebrow">Sri Hari Mandir</p>
+      <h1 class="display-hero off-title">Sri Hari Offerings</h1>
+      <p class="lede">An offering is a quiet expression of love—an invitation to participate in the timeless worship of Sri Hari at the ashram. Each sacred ritual is performed with reverence, mantra and wholehearted devotion.</p>
+    </div>
+    <div class="off-portrait">
+      <img class="off-halo" src="assets/offering-halo.svg" width="330" height="330" alt="" aria-hidden="true">
+      <img class="off-idol" src="assets/deity.png" width="320" height="410" alt="The consecrated idol of Sri Hari, adorned with garlands and saffron silk">
+    </div>
+  </div>
+  <nav class="off-index" aria-label="Offerings">
+    <a href="#abhishekam"><span>01</span>Abhishekam</a>
+    <a href="#aarti"><span>02</span>Aarti</a>
+    <a href="#sahasranama"><span>03</span>Sahasranama</a>
+    <a href="#sringar"><span>04</span>Sri Hari Sringar</a>
+  </nav>
+</section>
+
+<!-- ============ Sacred offerings ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<div class="offerings">
+
+  <article class="offering" id="abhishekam" aria-labelledby="abhishekam-title">
+    <figure class="off-media">
+      <div class="off-frame">
+        <div class="off-photo" style="--w:108.21%;--h:111.72%;--l:-4.77%;--t:-8.39%">
+          <img src="assets/offering-abhishekam.jpg" width="933" height="1400" alt="Om Swami pouring sanctified water over the idol of Sri Hari" loading="lazy">
+        </div>
+      </div>
+      <figcaption>Om swami performing abhishekam</figcaption>
+    </figure>
+    <div class="off-copy">
+      <p class="eyebrow">Purification · Grace · Renewal</p>
+      <h2 class="off-name" id="abhishekam-title">Abhishekam</h2>
+      <hr class="off-divider">
+      <div class="off-text">
+        <p>The Abhishekam is one of the most sacred offerings in Sanātana tradition, a divine act of bathing the consecrated form of the Divine with sanctified waters, milk, honey, and fragrant essences. It is not merely an external ritual but a symbolic cleansing of the devotee’s heart, where each drop poured upon the Deity washes away lifetimes of impurities and awakens inner purity and devotion.</p>
+        <p>In the subtle realm, Abhishekam invokes the latent energies of the Divine form. When sacred mantras like the Viṣṇu Sahasranāma or Lalitā Sahasranāma are chanted during the ritual, each name vibrates through the waters, infusing them with the cosmic consciousness of the Divine, transforming the act into a living dialogue between the seeker and the Lord.</p>
+        <p>At Śrī Hari Temple, these Abhishekams are performed on spiritually charged tithis. On Ekādaśī, the day sacred to Lord Viṣṇu, the morning Abhishekam becomes a celebration of surrender and purity, invoking His boundless grace. On Pūrṇimā and Amāvasyā, when the moon completes and renews its cycle, the evening Abhishekam resonates with the luminous energy of Śrī Lalitā Tripurasundarī, symbolizing fullness, transformation, and inner awakening.</p>
+      </div>
+      <a class="btn btn-primary" href="#">
+        <span>Make Offerings</span>
+        <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+      </a>
+    </div>
+  </article>
+
+  <article class="offering flip" id="aarti" aria-labelledby="aarti-title">
+    <figure class="off-media">
+      <div class="off-frame">
+        <div class="off-photo" style="--w:111.82%;--h:115.45%;--l:-6.43%;--t:-11.44%">
+          <img src="assets/offering-aarti.jpg" width="933" height="1400" alt="Om Swami offering the Aarti lamp to Sri Hari" loading="lazy">
+        </div>
+      </div>
+      <figcaption>Om swami performing abhishekam</figcaption>
+    </figure>
+    <div class="off-copy">
+      <p class="eyebrow">Light · Hymn · Surrender</p>
+      <h2 class="off-name" id="aarti-title">Aarti</h2>
+      <hr class="off-divider">
+      <div class="off-text clamp" id="aarti-text" style="--lines:18">
+        <p>Śrī Hari Ārati is a sacred hymn of devotion, invoking the Divine in both aspects - Puruṣa as Lord Viṣṇu and Prakṛti as the Divine Mother. Composed by Om Swami, it is a garland of praises offered at the feet of the Supreme. Every word is a flame of love, every note a petal of surrender, every breath a prayer of gratitude that lifts the heart into truth and grace.</p>
+        <p>The hymn begins with “जय जय आरती हरि तुम्हारी, विष्णु प्रभु श्रीनाथ मुरारी” a jubilant call to Śrī Hari, the all-compassionate Lord Viṣṇu, Śrīnath the beloved of Goddess Lakṣmī, and Murāri, the flute-player who enchants the worlds. पीताम्बर वैजयंती माला, मेघवर्ण भुज नयन विशाला He shines in golden yellow, adorned with the Vaijayantī garland, His form like a rain-bearing cloud, His arms vast, His eyes radiant with infinite kindness. श्रीवास विभु श्रीवत्स-वक्षा, on His chest rests the sacred Śrīvatsa, the mark of the Divine Mother, for He is Śrīpati, the eternal consort of Goddess Lakṣmī. श्रीमाता श्रीपति त्रिपुरारी — She is Shri Mata, the Divine Mother of all, the very source of love, grace, and protection for every living being. Her consort, Shri Pati Tripurari, is the great Lord Shiva, the conqueror of the three worlds</p>
+        <p>With conch, lotus, mace, and discus in His hands, He blesses the worlds and upholds dharma. Seated upon Śeṣa and carried by mighty Garuḍa, He radiates majesty and compassion. क्षीर सागर वैकुण्ठ निवासा, लक्ष्मी पखारे चरण पुरारी dwelling in the ocean of milk, in the blissful abode of Vaikuṇṭha, He is tenderly served by Goddess Lakṣmī at His lotus feet. The Supreme, all-pervading One, He is the source of harmony, beauty, and strength before whom even the greatest bow with reverence.</p>
+        <p>The Ārati also glorifies the Divine Mother: “जय जगजननी जय जगवन्दना, जय अम्बे जय देवकीनन्दन” saluting Her as the origin of creation, and hailing Śrī Hari as the beloved son of Devakī. Together, Lord and Mother shine as the refuge and radiance of the entire universe.</p>
+        <p>With deep sweetness, the hymn honors the eternal divine couples - Sītā–Rāma, Rādhā–Kṛṣṇa, Umā–Śaṅkara, and Śrī–Śrīpati - each a reflection of the eternal union of Śakti and Śiva, of Mother and Lord. It rejoices in the many forms of Śrī Hari: Narasiṁha, Vāmana, Govinda, Mohana, Mohinī, Hari, Śrī Hari, and Hari-Hara proclaiming that in every form shines the same Infinite, the same Compassionate One.</p>
+        <p>The Ārati concludes with a joyful victory call: “श्री हरि भगवान की जय! गोविंदा गोविंदा गोविंदा!!! नमो पार्वतीपतये, हर-हर महादेव!!!” Victory to Śrī Hari, the Supreme Lord! Victory to Govinda! Salutations to Lord Śiva, beloved of Pārvatī.</p>
+        <p>In this sacred hymn we hail Śrī Hari in all His forms, for each form is filled with radiance and glory. Every verse is gratitude, every name is worship, every praise is a celebration of the Divine. That is the essence of Śrī Hari Ārati - devotion without measure, love without end.</p>
+      </div>
+      <button class="read-toggle" type="button" aria-controls="aarti-text" aria-expanded="false">Read more ...</button>
+      <a class="btn btn-primary" href="#">
+        <span>Make Offerings</span>
+        <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+      </a>
+    </div>
+  </article>
+
+  <article class="offering" id="sahasranama" aria-labelledby="sahasranama-title">
+    <figure class="off-media">
+      <div class="off-frame">
+        <div class="off-photo" style="--w:111.82%;--h:115.45%;--l:-6.43%;--t:-3.57%">
+          <img src="assets/offering-sahasranama.jpg" width="933" height="1400" alt="The idol of Sri Hari adorned with a marigold garland and white dhoti" loading="lazy">
+        </div>
+      </div>
+      <figcaption>Om swami performing abhishekam</figcaption>
+    </figure>
+    <div class="off-copy">
+      <p class="eyebrow">Purification · Grace · Renewal</p>
+      <h2 class="off-name" id="sahasranama-title">Sahasranama</h2>
+      <hr class="off-divider">
+      <div class="off-text clamp" id="sahasranama-text" style="--lines:17">
+        <p>At Sri Badrika Ashram, the sacred recitation of the Sahasranāma, the thousand divine names of the Lord, takes place every morning and evening without fail. Since the auspicious day when the Vigraha of Sri Hari Bhagwan was consecrated, this timeless chanting has never ceased. Each name uttered in devotion fills the air with sanctity, transforming the entire Ashram into a field of divine vibrations. It is not merely a practice, it is a living tradition, a continuous stream of praise flowing toward the Lord, day after day, breath after breath.</p>
+        <p>In the Mahābhārata, Bhīṣma Pitāmah revealed Śrī Viṣṇu Sahasranāma, gifting the world the jewel of a thousand divine names of the Supreme Lord Viṣṇu. This sacred and powerful hymn invokes the Divine in His majestic masculine form, bestowing devotees with prosperity and liberation.</p>
+        <p>Śrī Lalitā Sahasranāma, revealed in the Brahmāṇḍa Purāṇa, is the essence of all scriptures, composed by the Vāgdevīs on the command of Mā Lalitā Herself. In divine grace, the Divine Mother unveiled Her own glory to Lord Hayagrīva, who bestowed this celestial hymn upon Sage Agastya for the liberation of all beings.</p>
+        <p>As Swamiji often shares, chanting the Sahasranāma is like calling upon the Divine through His thousand attributes, each name a key unlocking His infinite grace. It is among the most potent and powerful ways to invoke the Lord’s presence, awakening purity, strength, and peace within every heart that listens or recites. Through this sacred sound, devotees not only remember the Divine, they experience His nearness, His love, and His eternal protection.</p>
+      </div>
+      <button class="read-toggle" type="button" aria-controls="sahasranama-text" aria-expanded="false">Read more ...</button>
+      <a class="btn btn-primary" href="#">
+        <span>Make Offerings</span>
+        <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+      </a>
+    </div>
+  </article>
+
+  <article class="offering flip" id="sringar" aria-labelledby="sringar-title">
+    <figure class="off-media">
+      <div class="off-frame">
+        <div class="off-photo" style="--w:115.22%;--h:105.81%;--l:-7.65%;--t:-3.1%">
+          <img src="assets/offering-sringar.jpg" width="1049" height="1400" alt="The idol of Sri Hari adorned in golden silk and garlands" loading="lazy">
+        </div>
+      </div>
+      <figcaption>Om swami performing abhishekam</figcaption>
+    </figure>
+    <div class="off-copy">
+      <p class="eyebrow">Light · Hymn · Surrender</p>
+      <h2 class="off-name" id="sringar-title">Sri Hari Sringar</h2>
+      <hr class="off-divider">
+      <div class="off-text">
+        <p>Śṛṅgāra Kalā – The Divine Art of Adorning the Lord</p>
+        <p>In the ancient tradition of Sanātana Dharma, Śṛṅgāra Kalā (the sacred art of adornment) is not merely decoration but a form of deep worship. When devotees adorn Lord Viṣṇu or Sri Krishna, each ornament, flower, and fragrance becomes a mantra in itself, an offering of the heart, a reflection of divine beauty, and a meditation on the Lord’s eternal glory.</p>
+        <p>From the radiant Kaustubhā Mani on His chest to the sacred Śrīvatsa mark symbolizing the presence of Mahālakṣmī, every ornament carries profound esoteric meaning. The Vaijayantī Māla, woven with forest flowers and imbued with the essence of the five elements, drapes the Lord in harmony with all creation. The lotus in His hand radiates purity, while His weapons - Sudarśana Chakra, Kaumodakī Gada, Śaṅkha, and Padma - signify His role as the eternal preserver of dharma.</p>
+      </div>
+      <a class="btn btn-primary" href="#">
+        <span>Make Offerings</span>
+        <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+      </a>
+    </div>
+  </article>
+
+</div>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script src="assets/offerings.js"></script>
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js"></script>
+<script src="assets/clouds.js"></script>
+</body>
+</html>
