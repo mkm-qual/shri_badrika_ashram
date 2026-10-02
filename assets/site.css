@@ -1429,7 +1429,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .album-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 600ms cubic-bezier(.22,.61,.36,1); }
 .album-card > a:hover .album-cover img { transform: scale(1.03); }
 .album-info { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.album-info h2 { font-family: var(--g-serif); font-weight: 400; font-size: 32px; line-height: 36px; color: var(--g-ink); }   /* same as event card titles */
+.album-info h2 { font-family: var(--g-serif); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--g-ink); }   /* h3 size, as on the other pages */
 .album-info p { margin-top: 6px; font-size: 12px; line-height: normal; color: var(--g-muted); }
 .album-info .ic { --s: 18px; margin-top: 4px; color: var(--g-ink); transition: transform 200ms ease; }
 .album-card > a:hover .album-info .ic { transform: translate(2px, -2px); }
@@ -1586,7 +1586,7 @@ body.viewer-open { overflow: hidden; }
   .gl-filters::-webkit-scrollbar { display: none; }
   .gl-search kbd { display: none; }
   .album-col { gap: 32px; }
-  .album-info h2 { font-size: 24px; line-height: 28px; }
+  .album-info h2 { font-size: 22px; }
   .album-actions { width: 100%; flex-direction: column; }
   .sel-bar { flex-wrap: wrap; }
   .sel-left { flex-wrap: wrap; }
