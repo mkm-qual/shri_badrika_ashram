@@ -2122,3 +2122,9 @@ fieldset.donate-section { display: block; margin-top: 80px; }   /* a legend sits
 }
 
 .gi-feature, .gi-card { scroll-margin-top: 96px; }
+
+/* Read more: fade the last lines out instead of cutting text mid-line */
+.off-text.clamp.truncated:not(.open) {
+  -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 3.2em), transparent 100%);
+  mask-image: linear-gradient(180deg, #000 calc(100% - 3.2em), transparent 100%);
+}

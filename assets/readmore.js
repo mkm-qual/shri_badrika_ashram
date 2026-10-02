@@ -9,6 +9,7 @@ document.querySelectorAll('.read-toggle').forEach(btn => {
   const sync = () => {
     if (isOpen()) return;
     btn.hidden = text.scrollHeight <= text.clientHeight + 1;
+    text.classList.toggle('truncated', !btn.hidden);   // only fade text that is actually cut off
   };
 
   const setOpen = (open) => {
