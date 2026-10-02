@@ -2114,7 +2114,7 @@ fieldset.donate-section { display: block; margin-top: 80px; }   /* a legend sits
   .gi-cards { grid-template-columns: 1fr; }
   .gi-card > img { height: 220px; }
   .gi-card .off-text.clamp { --lines: 6 !important; }   /* the offerings rule raises clamps to 12 lines on phones */
-  .donate-form { max-width: none; margin: 0 var(--gutter); padding-top: 32px; }
+  .donate-form { width: auto; max-width: none; margin: 0 var(--gutter); padding-top: 32px; }
   fieldset.donate-section { margin-top: 56px; }
   .donate-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 24px; }
   .donate-action { align-items: stretch; margin-bottom: 72px; }
@@ -2172,4 +2172,16 @@ fieldset.donate-section { display: block; margin-top: 80px; }   /* a legend sits
   .gd-quote { font-size: 19px; }
   .gd-times { grid-template-columns: 1fr 1fr; }
   .gd-help { padding: 36px var(--gutter) 64px; }
+}
+
+/* ===================== Form 10BE ===================== */
+.tbe-grid .field-hint + .field-error { margin-top: -2px; }
+.tbe-form .donate-action { margin-bottom: 0; margin-top: 44px; }
+.tbe-form .donate-action .btn .ic { --s: 16px; }
+.tbe-help { margin: 24px 0 104px; font-size: 14px; line-height: 1.6; color: var(--ink-muted); }
+.tbe-help a { color: var(--brown); text-decoration: underline; text-underline-offset: 2px; }
+@media (max-width: 768px) {
+  .tbe-form .donate-action { margin-top: 32px; }
+  .tbe-form .donate-action .btn { width: 100%; justify-content: center; }
+  .tbe-help { margin-bottom: 64px; }
 }

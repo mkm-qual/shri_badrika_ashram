@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gallery — Sri Badrika Ashram</title>
-<meta name="description" content="Event albums from Sri Badrika Ashram: sadhanas, discourses and celebrations.">
+<title>Form 10BE — Sri Badrika Ashram</title>
+<meta name="description" content="Download Form 10BE, the certificate of your donation to Sri Badrika Ashram, by financial year and PAN.">
 <script>
   // Apply the saved (or system) theme before first paint to avoid a flash
   (function () {
@@ -18,7 +18,7 @@
 </script>
 <link rel="stylesheet" href="assets/site.css?v=20261002i">
 </head>
-<body data-page="gallery">
+<body data-page="donate">
 
 <!-- ============ Navigation ============ -->
 <header class="nav">
@@ -84,38 +84,57 @@
   </div>
 </div>
 
+<main class="give">
 
-<main class="gl has-crumbs" id="gallery">
-  <nav class="crumbs" aria-label="Breadcrumb">
-    <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg')" aria-hidden="true"></span>Home</a>
-    <span class="sep" aria-hidden="true">/</span>
-    <span aria-current="page">Gallery</span>
-  </nav>
-  <div class="gl-intro">
-    <div class="gl-heading">
-      <p class="eyebrow">Sri Badrika Ashram · Event gallery</p>
-      <h1 class="display-2xl">Events, devotion, and community.</h1>
-      <p class="lede">A selection of recent event albums from Sri Badrika Ashram, sourced from the official Om Swami gallery.</p>
-    </div>
-    <p class="gl-count"><strong id="albumCount">11</strong><span>Albums</span></p>
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="get-involved.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Get Involved</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Form 10BE</span>
+</nav>
+
+<section class="give-intro">
+  <div class="section-heading">
+    <p class="eyebrow">Donation certificate</p>
+    <h1 class="display-2xl">Download Form 10BE</h1>
+    <p class="lede">Form 10BE is required for submitting audited financial details in accordance with regulatory requirements.</p>
+  </div>
+</section>
+
+<form class="donate-form tbe-form" id="tbeForm" novalidate>
+  <div class="donate-section">
+    <h2 class="display-lg">Find your form</h2>
+    <p class="donate-lede">Choose the financial year of your donation and enter the PAN you gave when donating.</p>
   </div>
 
-  <div class="gl-controls">
-    <div class="gl-filters" role="group" aria-label="Filter albums">
-      <button class="chip" type="button" data-filter="all" aria-pressed="true">All events</button>
-      <button class="chip" type="button" data-filter="sadhana" aria-pressed="false">Sadhana</button>
-      <button class="chip" type="button" data-filter="discourses" aria-pressed="false">Discourses</button>
-      <button class="chip" type="button" data-filter="celebrations" aria-pressed="false">Celebrations</button>
-      <button class="chip" type="button" id="albumSort" aria-label="Change sort order"><span class="ic" style="--i:url('icons/chevron-down.svg')" aria-hidden="true"></span><span>Latest first</span></button>
+  <div class="donate-grid tbe-grid">
+    <div class="field">
+      <label for="year">Financial Year<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input select"><select id="year" name="year" required aria-describedby="year-error">
+            <option value="">Select financial year</option>
+            <option value="2026-2027">2026 – 2027</option>
+            <option value="2025-2026">2025 – 2026</option>
+            <option value="2024-2025">2024 – 2025</option>
+            <option value="2023-2024">2023 – 2024</option>
+            <option value="2022-2023">2022 – 2023</option>
+            <option value="2021-2022">2021 – 2022</option>
+      </select></div>
+      <p class="field-error" id="year-error" hidden></p>
     </div>
-    <label class="gl-search">
-      <span class="ic" style="--i:url('icons/search.svg');--s:17px" aria-hidden="true"></span>
-      <input type="search" id="albumSearch" placeholder="Search events" aria-label="Search events" autocomplete="off">
-      <kbd>⌘ K</kbd>
-    </label>
+    <div class="field">
+      <label for="pan">PAN Number<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input"><input id="pan" name="pan" placeholder="ABCDE1234F" autocomplete="off" autocapitalize="characters" maxlength="10" required aria-describedby="pan-hint pan-error"></div>
+      <p class="field-hint" id="pan-hint">The same PAN you used for your donation receipt.</p>
+      <p class="field-error" id="pan-error" hidden></p>
+    </div>
   </div>
 
-  <div class="album-grid" id="albumGrid" aria-live="polite"></div>
+  <div class="donate-action">
+    <p class="auth-status" id="tbeStatus" role="status" hidden></p>
+    <button class="btn btn-primary" type="submit"><span class="ic" style="--i:url('icons/download.svg');--s:16px" aria-hidden="true"></span><span>Get Form 10BE</span></button>
+  </div>
+  <p class="tbe-help">Can’t find your form? Write to us at <a href="mailto:Contact.omswami@gmail.com">Contact.omswami@gmail.com</a> with your name, PAN and donation date.</p>
+</form>
+
 </main>
 
 <div class="cloud-band" aria-hidden="true"></div>
@@ -138,8 +157,7 @@
 </footer>
 
 <script src="assets/site.js?v=20261002i"></script>
-<script src="assets/gallery-data.js?v=20261002i"></script>
-<script src="assets/gallery.js?v=20261002i"></script>
+<script src="assets/form10be.js?v=20261002i"></script>
 <!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
 <canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
 <div class="season-picker" id="seasonPicker">

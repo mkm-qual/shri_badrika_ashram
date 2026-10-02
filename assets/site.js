@@ -9,7 +9,7 @@ const SITE_MENU = {
     ['Virtual Tour', 'ashram.html#tour'], ['Temple', 'ashram.html#sri-hari-mandir'], ['Direction', 'ashram.html#directions'], ['Contact us', '#'],
     ['Important Guidelines', 'guidelines.html'], ['Career', '#'] ] },
   involved: { title: 'Get Involved', href: 'get-involved.html', links: [
-    ['Ways to support', 'get-involved.html'], ['Donate', 'donate.html'], ['Form 10BE', '#'] ] },
+    ['Ways to support', 'get-involved.html'], ['Donate', 'donate.html'], ['Form 10BE', 'form-10be.html'] ] },
 };
 // Section links (#events…) point at the home page when used on another page
 const onHome = document.body.dataset.page === 'home';
