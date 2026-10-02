@@ -1689,9 +1689,6 @@ body.viewer-open { overflow: hidden; }
 .auth-glow.saffron { width: 460px; height: 460px; transform: translate(calc(-50% + 360px), calc(-50% - 230px)); }
 .auth-glow.sage { width: 520px; height: 520px; transform: translate(calc(-50% - 420px), calc(-50% + 170px)); }
 :root[data-theme="dark"] .auth-glow { opacity: .6; }
-.auth-hills { position: absolute; left: 0; right: 0; bottom: -52px; height: 330px; overflow: hidden; pointer-events: none; opacity: .11; }
-.auth-hills img { position: absolute; left: 0; top: 3.09%; width: 100%; height: 126.65%; object-fit: cover; }
-:root[data-theme="dark"] .auth-hills { opacity: .06; filter: invert(1); }
 
 .auth-card {
   position: relative;
