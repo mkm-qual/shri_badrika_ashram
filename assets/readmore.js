@@ -1,4 +1,4 @@
-// "Read more ..." expands a clamped text block in place; "Read less" collapses it again (offerings, ashram)
+// "Read more ..." expands a clamped text block in place; "Read less" collapses it again (offerings, ashram, get involved)
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 document.querySelectorAll('.read-toggle').forEach(btn => {
@@ -35,7 +35,7 @@ document.querySelectorAll('.read-toggle').forEach(btn => {
     setOpen(open);
     // When collapsing from far down, bring the offering back into view
     if (!open) {
-      const block = text.closest('.offering, .as-story') || text;
+      const block = text.closest('.offering, .as-story, .gi-card') || text;
       if (block.getBoundingClientRect().top < 0) block.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' });
     }
   });

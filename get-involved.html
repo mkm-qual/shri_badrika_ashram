@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get involved — Sri Badrika Ashram</title>
+<meta name="description" content="Support Sri Badrika Ashram through Sri Hari Vatika, Ann Bhandar, Chikitsa Kendra and the General Corpus.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css?v=20261002f">
+</head>
+<body data-page="get-involved">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="give">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Home</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Get Involved</span>
+</nav>
+
+<!-- ============ Introduction ============ -->
+<section class="give-intro">
+  <div class="section-heading">
+    <p class="eyebrow">Seva · Support · Stewardship</p>
+    <h1 class="display-2xl">Get involved</h1>
+  </div>
+  <div class="give-banner">
+    <img src="assets/give/banner-lotus-pond.jpg" alt="" fetchpriority="high">
+    <p class="give-banner-text light">Let’s make this happen today!</p>
+  </div>
+</section>
+
+<!-- ============ Verse ============ -->
+<section class="give-verse" aria-labelledby="verse-title">
+  <div class="give-verse-head">
+    <p class="eyebrow give-ornament">Bhagavad Gītā · 18.5</p>
+    <h2 class="display-2xl" id="verse-title">Giving, discipline and sacred action purify the heart</h2>
+  </div>
+  <figure class="give-verse-panel">
+    <span class="give-om" aria-hidden="true">ॐ</span>
+    <blockquote lang="sa">
+      <p>यज्ञदानतपःकर्म न त्याज्यं कार्यमेव तत् ।</p>
+      <p>यज्ञो दानं तपश्चैव पावनानि मनीषिणाम् ॥ ५ ॥</p>
+    </blockquote>
+    <span class="give-rule" aria-hidden="true"></span>
+    <figcaption>Acts of sacrifice, charity and austerity are not to be given up; they must be performed. Indeed, sacrifice, charity and austerity purify even the wise.</figcaption>
+  </figure>
+  <a class="btn btn-primary" href="donate.html"><span class="ic" style="--i:url('icons/sprout.svg');--s:14px" aria-hidden="true"></span><span>Donate Now</span></a>
+</section>
+
+<!-- ============ Ways to support ============ -->
+<section class="give-ways" aria-labelledby="ways-title">
+  <div class="give-ways-head">
+    <h2 class="display-2xl" id="ways-title">Four ways to carry the work forward</h2>
+    <p class="lede">Choose the initiative that speaks to you. Each contribution becomes part of a living practice of care, nourishment and stewardship.</p>
+  </div>
+
+  <article class="gi-feature" id="sri-hari-vatika">
+    <img src="assets/give/sri-hari-vatika.jpg" alt="The Sri Hari Vatika greenhouse beneath forested hills" loading="lazy">
+    <div class="gi-feature-content">
+      <div class="gi-feature-copy">
+        <h3>Sri Hari Vatika</h3>
+        <p>In the peaceful surroundings of Sri Badrika Ashram lies Sri Hari Vatika, a sacred garden where flowers are grown with devotion and care. Every bloom is cultivated organically with sunlight, pure water, and loving seva. These flowers are offered daily to Sri Hari Bhagwan, becoming garlands that carry the prayers of every devotee.</p>
+        <p>The Vatika reflects the ashram’s purity, devotion and sustainability. Every plant is treated as sacred, and devotees are welcome to contribute to its care and upkeep. Offerings made here help this divine garden flourish, where every flower blooms only for Bhagwan.</p>
+      </div>
+      <a class="btn gi-support on-dark" href="donate.html?cause=sri-hari-vatika"><span>Support</span><span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:15px" aria-hidden="true"></span></a>
+    </div>
+  </article>
+
+  <div class="gi-cards">
+    <article class="gi-card" id="ann-bhandar">
+      <img src="assets/give/ann-bhandar.jpg" alt="Sacks of grains and pulses for the ashram kitchen" loading="lazy">
+      <div class="gi-card-body">
+        <h3>Sri Hari Ann Bhandar</h3>
+        <div class="off-text clamp" id="ann-bhandar-text" style="--lines:6">
+          <p>At Sri Badrika Ashram, food is regarded as prasād — a divine gift. Offering a meal is one of the most sacred forms of seva, known in our tradition as Annadānam, the donation of food. When you sponsor a meal, you are not merely feeding seekers; you are offering nourishment to the Divine present in all beings.</p>
+        </div>
+        <button class="read-toggle" type="button" aria-controls="ann-bhandar-text" aria-expanded="false">Read more ...</button>
+        <a class="btn gi-support" href="donate.html?cause=ann-bhandar"><span>Support</span><span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:15px" aria-hidden="true"></span></a>
+      </div>
+    </article>
+    <article class="gi-card" id="chikitsa-kendra">
+      <img src="assets/give/chikitsa-kendra.jpg" alt="A doctor consulting a patient at the Chikitsa Kendra" loading="lazy">
+      <div class="gi-card-body">
+        <h3>Sri Hari Chikitsa Kendra</h3>
+        <div class="off-text clamp" id="chikitsa-kendra-text" style="--lines:6">
+          <p>The Sri Hari Chikitsā Kendra was inaugurated by Swamiji on 30th December 2016, with the pure intention of “Jagat Kalyān” (service to all beings). At the inauguration, Swamiji lovingly remarked: “Here at Sri Hari Temple, you receive spiritual health, and at the Chikitsā Kendra, you receive physical health.”</p>
+          <p>What began as a small room with two dedicated doctors travelling daily from Solan has now grown into a center of care and compassion. The Kendra provides free treatment and medicines to Ashram residents and nearby villagers, becoming a true symbol of seva and Sri Hari’s grace.</p>
+        </div>
+        <button class="read-toggle" type="button" aria-controls="chikitsa-kendra-text" aria-expanded="false">Read more ...</button>
+        <a class="btn gi-support" href="donate.html?cause=chikitsa-kendra"><span>Support</span><span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:15px" aria-hidden="true"></span></a>
+      </div>
+    </article>
+    <article class="gi-card" id="general-corpus">
+      <img src="assets/ashram/grounds.webp" alt="The ashram lawns beneath forested hills" loading="lazy">
+      <div class="gi-card-body">
+        <h3>General Corpus</h3>
+        <div class="off-text clamp" id="general-corpus-text" style="--lines:6">
+          <p>If you feel inspired to support the Ashram’s mission, you may contribute to the General Corpus Fund. Your offering is directed where it is most needed, maintaining essential services, supporting devotees, funding education and health projects, and meeting unforeseen requirements.</p>
+          <p>Each contribution strengthens the Ashram’s ability to serve with care and devotion. By contributing, you become a guardian of Sanātan Dharma, helping preserve its timeless values while sustaining the spiritual and social initiatives that touch countless lives.</p>
+        </div>
+        <button class="read-toggle" type="button" aria-controls="general-corpus-text" aria-expanded="false">Read more ...</button>
+        <a class="btn gi-support" href="donate.html?cause=general-corpus"><span>Support</span><span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:15px" aria-hidden="true"></span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261002f"></script>
+<script src="assets/readmore.js?v=20261002f"></script>
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js?v=20261002f"></script>
+<script src="assets/clouds.js?v=20261002f"></script>
+</body>
+</html>
