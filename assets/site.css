@@ -305,7 +305,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .hero-bg .mountains { object-position: 50% 30%; }   /* sit the range a little lower in the hero */
 .hero-bg .mountains.night { display: none; }
 :root[data-theme="dark"] .hero-bg .mountains.day { display: none; }
-:root[data-theme="dark"] .hero-bg .mountains.night { display: block; opacity: .85; } /* pre-rendered night version (no runtime filter/blend) */
+:root[data-theme="dark"] .hero-bg .mountains.night { display: block; } /* pre-rendered moonlit version (no runtime filter/blend) */
+/* a faint moonlit glow behind the range so it lifts off the dark page */
+:root[data-theme="dark"] .hero-bg::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 42% at 50% 64%, rgba(196, 206, 226, .09), transparent 70%); }
 :root[data-theme="dark"] .hero-bg .texture { display: none; }
 :root[data-theme="dark"] .deity .halo { opacity: .75; }
 /* The grounds painting has a light and a dark version; only the one for the current theme loads */
