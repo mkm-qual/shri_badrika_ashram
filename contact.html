@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Create your account — Sri Badrika Ashram</title>
-<meta name="description" content="Create your Sri Badrika Ashram account.">
+<title>Contact Us — Sri Badrika Ashram</title>
+<meta name="description" content="Contact Sri Badrika Ashram: write to us about visiting, events, travel and stay or donations, or find our address, email and phone.">
 <script>
   // Apply the saved (or system) theme before first paint to avoid a flash
   (function () {
@@ -18,7 +18,7 @@
 </script>
 <link rel="stylesheet" href="assets/site.css?v=20261002j">
 </head>
-<body data-page="signup">
+<body data-page="donate">
 
 <!-- ============ Navigation ============ -->
 <header class="nav">
@@ -84,58 +84,91 @@
   </div>
 </div>
 
-<main class="auth">
-  <img class="auth-glow saffron" src="assets/glow-saffron-soft.svg" width="460" height="460" alt="" aria-hidden="true">
-  <img class="auth-glow sage" src="assets/glow-sage.svg" width="520" height="520" alt="" aria-hidden="true">
-  <form class="auth-card" id="authForm" data-mode="signup" novalidate>
-    <div class="auth-intro">
-      <p class="eyebrow">Welcome to the ashram</p>
-      <h1 class="display-2xl">Create your account</h1>
-      <p class="lede">Welcome to a quieter space for practice, reflection and community.</p>
-    </div>
-    <div class="auth-fields">
-      <fieldset class="field">
-        <legend>Full name</legend>
-        <div class="input name">
-          <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
-          <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
-          <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
-        </div>
+<main class="give">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="ashram.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Ashram</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Contact Us</span>
+</nav>
+
+<section class="give-intro">
+  <div class="section-heading">
+    <p class="eyebrow">We’d love to hear from you</p>
+    <h1 class="display-2xl">Contact Us</h1>
+    <p class="lede">Whether you have questions about visiting, wish to participate in an event, or simply want to connect with our spiritual community, this is the place to do it. Our team is here to guide you and provide the information you need for a meaningful experience at Badrika Ashram.</p>
+  </div>
+</section>
+
+<section class="ct-layout">
+  <form class="ct-form" id="contactForm" novalidate aria-labelledby="ct-form-title">
+    <h2 class="display-lg" id="ct-form-title">Write to us</h2>
+    <div class="ct-row">
+      <div class="field">
+        <label for="name">Name<span class="req" aria-hidden="true"> *</span></label>
+        <div class="input"><input id="name" name="name" placeholder="Your full name" autocomplete="name" required aria-describedby="name-error"></div>
         <p class="field-error" id="name-error" hidden></p>
-      </fieldset>
-        <div class="field">
-          <label for="mobile">Mobile number</label>
-          <div class="input phone">
-            <select id="country" aria-label="Country code">
-              <option value="+91" data-len="10" selected>+91 IN</option>
-              <option value="+1" data-len="10">+1 US</option>
-              <option value="+44" data-len="10">+44 UK</option>
-              <option value="+61" data-len="9">+61 AU</option>
-              <option value="+65" data-len="8">+65 SG</option>
-              <option value="+971" data-len="9">+971 AE</option>
-            </select>
-            <span class="divider" aria-hidden="true"></span>
-            <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="00000-00000" required aria-describedby="mobile-error">
-          </div>
-          <p class="field-error" id="mobile-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="pan">PAN Number</label>
-          <div class="input"><input id="pan" name="pan" autocomplete="off" autocapitalize="characters" maxlength="10" placeholder="ABCDE1234F" required aria-describedby="pan-error"></div>
-          <p class="field-error" id="pan-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="email">Email address</label>
-          <div class="input"><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="email-error"></div>
-          <p class="field-error" id="email-error" hidden></p>
-        </div>
+      </div>
+      <div class="field">
+        <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
+        <div class="input"><input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required aria-describedby="email-error"></div>
+        <p class="field-error" id="email-error" hidden></p>
+      </div>
     </div>
-    <div class="auth-actions">
-      <button class="btn btn-primary auth-submit" type="submit"><span>Create account</span><img src="assets/arrow-right-white.svg" width="16" height="16" alt=""></button>
-      <p class="auth-status" id="authStatus" role="status" hidden></p>
-      <p class="auth-switch">Already have an account? <a href="signin.html">Sign in</a></p>
+    <div class="field">
+      <label for="type">Message Type<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input select"><select id="type" name="type" required aria-describedby="type-error">
+            <option value="">Select message type</option>
+            <option>Ashram Event Booking</option>
+            <option>General Feedback</option>
+            <option>Travel and Stay at Ashram</option>
+            <option>Donations</option>
+            <option>Publishing and Speaking Invitation</option>
+      </select></div>
+      <p class="field-error" id="type-error" hidden></p>
+    </div>
+    <div class="field">
+      <label for="subject">Subject<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input"><input id="subject" name="subject" placeholder="What is this about?" maxlength="70" required aria-describedby="subject-count subject-error"></div>
+      <p class="field-hint ct-count" id="subject-count">0 / 70</p>
+      <p class="field-error" id="subject-error" hidden></p>
+    </div>
+    <div class="field">
+      <label for="message">Message<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input area"><textarea id="message" name="message" rows="6" placeholder="Write your message" required aria-describedby="message-error"></textarea></div>
+      <p class="field-error" id="message-error" hidden></p>
+    </div>
+    <div class="ct-action">
+      <p class="auth-status" id="contactStatus" role="status" hidden></p>
+      <button class="btn btn-primary" type="submit"><span>Send</span><span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:16px" aria-hidden="true"></span></button>
     </div>
   </form>
+
+  <aside class="ct-details" aria-label="Contact details">
+    <div class="as-map ct-map">
+      <iframe title="Map showing Sri Badrika Ashram" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+        src="https://maps.google.com/maps?q=Sri+Badrika+Ashram,+Himachal+Pradesh&t=m&z=10&output=embed"></iframe>
+    </div>
+    <dl class="ct-list">
+      <div>
+        <dt><span class="ic" style="--i:url('icons/map-pin.svg');--s:16px" aria-hidden="true"></span>Address</dt>
+        <dd>Sri Badrika Ashram Cum Charitable &amp; Social Welfare Society<br>Village Shalamu, Post Kargaanu<br>Distt. Sirmour – 173223, H.P., India</dd>
+        <dd><a href="https://www.google.com/maps/dir/?api=1&destination=Sri+Badrika+Ashram,+Himachal+Pradesh" target="_blank" rel="noopener">Get directions</a></dd>
+      </div>
+      <div>
+        <dt><span class="ic" style="--i:url('icons/mail.svg');--s:16px" aria-hidden="true"></span>Email</dt>
+        <dd><a href="mailto:contact.omswami@gmail.com">contact.omswami@gmail.com</a></dd>
+      </div>
+      <div>
+        <dt><span class="ic" style="--i:url('icons/phone.svg');--s:16px" aria-hidden="true"></span>Phone</dt>
+        <dd><a href="tel:+918628838088">+91 8628 838 088</a></dd>
+        <dd class="ct-muted">Between 10 AM and 5 PM</dd>
+      </div>
+    </dl>
+    <p class="ct-note">Planning a visit? Please read the <a href="guidelines.html">Important Guidelines</a> first.</p>
+  </aside>
+</section>
+
 </main>
 
 <div class="cloud-band" aria-hidden="true"></div>
@@ -158,7 +191,7 @@
 </footer>
 
 <script src="assets/site.js?v=20261002j"></script>
-<script src="assets/auth.js?v=20261002j"></script>
+<script src="assets/contact.js?v=20261002j"></script>
 <!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
 <canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
 <div class="season-picker" id="seasonPicker">
