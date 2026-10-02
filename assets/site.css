@@ -308,7 +308,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 :root[data-theme="dark"] .hero-bg .mountains.night { display: block; opacity: .85; } /* pre-rendered night version (no runtime filter/blend) */
 :root[data-theme="dark"] .hero-bg .texture { display: none; }
 :root[data-theme="dark"] .deity .halo { opacity: .75; }
-:root[data-theme="dark"] .grounds-art { opacity: .8; }
+/* The grounds painting has a light and a dark version; only the one for the current theme loads */
+.art-dark { display: none !important; }
+:root[data-theme="dark"] .art-light { display: none !important; }
+:root[data-theme="dark"] .art-dark { display: block !important; }
 .hero-bg .veil { display: none; }
 .hero-copy {
   position: relative;
