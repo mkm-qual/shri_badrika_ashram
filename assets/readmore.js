@@ -1,4 +1,4 @@
-// Offerings: "Read more ..." expands the description in place; "Read less" collapses it again
+// "Read more ..." expands a clamped text block in place; "Read less" collapses it again (offerings, ashram)
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 document.querySelectorAll('.read-toggle').forEach(btn => {
@@ -35,8 +35,8 @@ document.querySelectorAll('.read-toggle').forEach(btn => {
     setOpen(open);
     // When collapsing from far down, bring the offering back into view
     if (!open) {
-      const top = text.closest('.offering').getBoundingClientRect().top;
-      if (top < 0) text.closest('.offering').scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+      const block = text.closest('.offering, .as-story') || text;
+      if (block.getBoundingClientRect().top < 0) block.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth' });
     }
   });
 

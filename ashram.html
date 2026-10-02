@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ashram — Sri Badrika Ashram</title>
+<meta name="description" content="Sri Badrika Ashram, a Himalayan sanctuary of devotion, silence and spiritual awakening in Himachal Pradesh — the spaces, a video tour and how to get there.">
+<script>
+  // Apply the saved (or system) theme before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="stylesheet" href="assets/site.css?v=20261002b">
+</head>
+<body data-page="ashram">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="24" height="24" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="ashram">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Home</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Ashram</span>
+</nav>
+
+<!-- ============ Hero ============ -->
+<section class="as-hero">
+  <div class="as-hero-card">
+    <img src="assets/ashram/grounds.webp" alt="The ashram lawns and buildings beneath forested Himalayan hills" fetchpriority="high">
+    <div class="as-hero-copy">
+      <p class="eyebrow as-place"><span class="ic" style="--i:url('icons/map-pin.svg');--s:18px" aria-hidden="true"></span>Himachal Pradesh · India</p>
+      <h1 class="display-2xl">Ashram</h1>
+      <p class="lede">A sacred Himalayan sanctuary of devotion, silence, and spiritual awakening.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ About ============ -->
+<section class="as-section as-about" id="about" aria-labelledby="about-title">
+  <div class="as-about-intro">
+    <div class="section-heading">
+      <p class="eyebrow">Sacred abode</p>
+      <h2 class="display-2xl" id="about-title">About the Ashram</h2>
+    </div>
+    <div class="as-copy">
+      <p>In the sacred land of the Himalayas, where sages once performed deep penance and awakened the cosmic energies, lies the holy abode of Sri Badrika Ashram.</p>
+      <p>In the gentle embrace of Mother Nature, the Ashram rests by the sacred Giri Ganga, whose waters sing an eternal hymn. Surrounded by lofty mountains, lush valleys, and a sky full of stars, it is a sanctuary of peace and devotion. Each dawn fills it with divine energy, each dusk with serene silence, this sacred home continues to welcome seekers into deeper spiritual bliss.</p>
+      <p>Here dwells the ever-smiling, four-armed Lord Sri Hari, the compassionate preserver of the universe. His radiant presence sanctifies the Ashram with divine grace, making it no less than Vaikuntha on earth for true seekers.</p>
+      <p>This serene Ashram is situated in Himachal Pradesh, about 30 kilometers from Solan and roughly 100 kilometers from Chandigarh.</p>
+      <p>Even before renouncing the world, Om Swami had divinely chosen both the name of the Ashram and its sacred location. Guided by the Divine, he foresaw this serene sanctuary where seekers would come to awaken, heal, and experience spiritual bliss.</p>
+    </div>
+  </div>
+
+  <figure class="card quote as-quote">
+    <span class="quote-mark" aria-hidden="true">“</span>
+    <div>
+      <blockquote>“If there’s one thing everyone must gift themselves in their lives, in my humble opinion, it is a stint of Himalayan solitude. It is transformational.”</blockquote>
+      <figcaption>-&nbsp; Om Swami</figcaption>
+    </div>
+  </figure>
+
+  <!-- Video: a styled cover; the YouTube player loads only when someone presses play -->
+  <div class="as-video" id="tour" data-video="1Ih4Pr6SkYQ">
+    <img src="assets/ashram/tour-thumb.jpg" alt="" loading="lazy">
+    <button class="as-video-play" type="button" aria-label="Play video: Sri Badrika Ashram — Take a Tour">
+      <span class="as-play"><span class="ic" style="--i:url('icons/play.svg');--s:28px" aria-hidden="true"></span></span>
+      <span class="as-video-title">Sri Badrika Ashram — Take a Tour</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============ Ashram activity ============ -->
+<section class="as-section as-activity" id="activities" aria-labelledby="activities-title">
+  <div class="as-activity-head">
+    <div class="section-heading">
+      <p class="eyebrow">Life at the Ashram</p>
+      <h2 class="display-2xl" id="activities-title">Ashram Activity</h2>
+      <p class="lede">Five sacred spaces, each carrying a distinct expression of seva, stillness, wisdom, and devotion.</p>
+    </div>
+    <div class="as-carousel-nav">
+      <button class="round-btn" type="button" id="storyPrev" aria-label="Previous space"><span class="ic" style="--i:url('icons/chevron-left.svg');--s:17px" aria-hidden="true"></span></button>
+      <button class="round-btn" type="button" id="storyNext" aria-label="Next space"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:17px" aria-hidden="true"></span></button>
+    </div>
+  </div>
+  <div class="as-stories" id="stories" tabindex="0" aria-label="Ashram spaces">
+      <article class="as-story" id="sri-hari-mandir" aria-labelledby="sri-hari-mandir-title">
+        <div class="as-story-media">
+          <img src="assets/ashram/sri-hari-mandir.webp" alt="The Sri Hari Mandir among the trees, its sign in red Devanagari" loading="lazy">
+          <p aria-hidden="true">Sri Hari Mandir</p>
+        </div>
+        <div class="as-story-copy">
+          <h3 class="display-lg" id="sri-hari-mandir-title">Sri Hari Mandir</h3>
+          <span class="as-accent" aria-hidden="true"></span>
+          <div class="off-text clamp" id="sri-hari-mandir-text" style="--lines:16">
+            <p>At the sacred heart of the Ashram stands the Sri Hari Temple, a sanctum of devotion. Within it resides the life-size black idol of Sri Hari, a rare and wondrous form uniting both the masculine and feminine aspects of the Divine. “Sri” is the radiance of Goddess Lalita Tripura Sundari, and “Hari” the grace of Lord Vishnu. When seen in Devi-bhāva, the idol reveals the Mother; when seen in Deva-bhāva, it shines as the Lord.</p>
+            <p>Lovingly consecrated by Swamiji on 4th April 2014, the temple has since been a fountain of devotion for seekers. Each morning, the Lord is gently awakened with the chanting of the Viṣṇu Sahasranāma, and each evening, He is lovingly put to rest with the Lalitā Sahasranāma, followed by the offering of āratī. These sacred vibrations fill the temple with divine harmony that uplifts every heart.</p>
+            <p>At Sri Hari Temple, abhishekams are offered on auspicious tithis. On every Ekādaśī (the eleventh day of the lunar fortnight), the morning abhishekam is performed with the chanting of the Viṣṇu Sahasranāma, while on every Pūrṇimā (full moon) and Amāvasyā (new moon), the evening abhishekam is conducted with the recitation of the Lalitā Sahasranāma.</p>
+            <p>The Sri Hari Temple is more than a shrine; it is the living heart of the Ashram, where the Divine is experienced as both Mother and Father, guiding seekers with compassion, strength, and grace.</p>
+          </div>
+          <button class="read-toggle" type="button" aria-controls="sri-hari-mandir-text" aria-expanded="false">Read more ...</button>
+        </div>
+      </article>
+      <article class="as-story" id="dining-hall" aria-labelledby="dining-hall-title">
+        <div class="as-story-media">
+          <img src="assets/ashram/dining-hall.webp" alt="The sunlit dining hall with rows of tables and chairs" loading="lazy">
+          <p aria-hidden="true">The Dining Hall</p>
+        </div>
+        <div class="as-story-copy">
+          <h3 class="display-lg" id="dining-hall-title">The Dining Hall</h3>
+          <span class="as-accent" aria-hidden="true"></span>
+          <div class="off-text clamp" id="dining-hall-text" style="--lines:16">
+            <p>The Dining Hall is one of the five integral spaces of our Ashram, alongside Śrī Hari Mandir, the Library, the Bookshop, and the serene Pathways and Gardens. It reflects the prosperity, purity, and spiritual depth of our sacred environment.</p>
+            <p>In earlier days, Ashram life flowed with simplicity and love. Everyone joyfully offered their seva according to their inclination; some cooked, some served, some cleaned, all as offerings to the Divine. The sannyasis often prepared the food with their own hands, while village women lovingly made fresh rotis. The kitchen was modest yet vibrant with devotion, serving the community during gatherings and bhandāras.</p>
+            <p>Over time, the Dining Hall has evolved into the tranquil and spacious facility it is today, a space for nourishment, harmony, and spiritual reflection. Swamiji often teaches that the act of eating itself is a sacred yajña. In this understanding, dining transcends physical sustenance and becomes an essential part of sādhanā, a mindful and reverential offering to the Divine.</p>
+            <p>Before 2017, Swamiji would sometimes join us for dinner, blessing us with his divine presence. He would also lovingly invite everyone to his cottage and personally serve simple yet sacred food. The food was the same for everyone, humble, wholesome, and filled with grace, a true symbol of oneness and equality.</p>
+            <p>The Dining Hall is also a space of silence, where quietude enhances the sattvic experience of food. Observing silence during meals allows seekers to connect more deeply with the divine presence and recognize the sacredness of nourishment. Meals are served at disciplined intervals: breakfast from 7:30 to 9:00 am, lunch from 11:45 am to 1:00 pm, and dinner from 6:00 to 7:00 pm, aligned with natural rhythms to support a balanced and harmonious lifestyle.</p>
+            <p>At Sri Badrika Ashram, food is regarded as an offering of seva. Sattvic meals, simple, wholesome, and lovingly prepared, are first offered to the Divine before being served to seekers. In this way, dining becomes more than nourishment; it is a spiritual practice rooted in gratitude, awareness, and love, a sacred celebration of unity and devotion.</p>
+            <p>If anyone wishes to sponsor a meal as an offering, you are most welcome to do so. Kindly click below to share your intention and participate in this loving seva.</p>
+          </div>
+          <button class="read-toggle" type="button" aria-controls="dining-hall-text" aria-expanded="false">Read more ...</button>
+        </div>
+      </article>
+      <article class="as-story" id="library" aria-labelledby="library-title">
+        <div class="as-story-media">
+          <img src="assets/ashram/library.webp" alt="The library, glass-fronted shelves lining a bright room" loading="lazy">
+          <p aria-hidden="true">Library</p>
+        </div>
+        <div class="as-story-copy">
+          <h3 class="display-lg" id="library-title">Library</h3>
+          <span class="as-accent" aria-hidden="true"></span>
+          <div class="off-text clamp" id="library-text" style="--lines:16">
+            <p>At the heart of Sri Badrika Ashram lies a gentle sanctuary of Divine wisdom — the library. More than a collection of books, it is a living treasure, welcoming every seeker with love. Shelves of rare scriptures, timeless writings on spirituality, meditation, wellness, self-help, travel, and children’s tales fill the space, each page carrying the subtle fragrance of our ancient heritage and whispering stories of devotion and insight. Some of these books have been lovingly offered by Swamiji himself from his personal collection, adding an extra touch of grace to the library. This is a universe of light, learning, and inspiration, a place where every visitor feels nurtured and uplifted.</p>
+            <p>Swamiji has revealed that Maa Saraswati, the Goddess of Wisdom, graces this sacred space with her divine presence. Her boundless grace infuses the library, inspiring every seeker who steps within its quiet walls. Words come alive here, and each book becomes a doorway to higher understanding, inviting the mind and soul to dissolve into the wisdom of the ages.</p>
+            <p>Nestled amidst majestic mountains and serene nature, the library of Sri Badrika Ashram shines like a celestial abode. Here, the seeker’s soul effortlessly merges with the ocean of wisdom, and the eternal glory of Sanātan Dharma is breathed into every corner. It is a radiant jewel of the Ashram, luminous with light and grace, where one can experience the profound stillness that nurtures insight and devotion.</p>
+            <p>For Om Swami, the library has always been sacred. Having spent much of his childhood immersed in the silence of such spaces, he knows that a library is more than a room of books. It is a temple of wisdom, a retreat where the boundaries of the self fade, where thought meets intuition, and knowledge transforms into true understanding. In that quiet, every word speaks, every story awakens, and every page becomes a step closer to the Divine.</p>
+            <p>If you wish to share in this spirit of giving, seekers are welcome to contribute books to the library, further enriching this sacred space of learning and devotion.</p>
+            <p>Those who wish to share the gift of wisdom are welcome to contribute books to this sacred collection. If you feel inspired to donate, you may do so by clicking below.</p>
+          </div>
+          <button class="read-toggle" type="button" aria-controls="library-text" aria-expanded="false">Read more ...</button>
+        </div>
+      </article>
+      <article class="as-story" id="meditation-hall" aria-labelledby="meditation-hall-title">
+        <div class="as-story-media">
+          <img src="assets/ashram/meditation-hall.webp" alt="The meditation hall with rows of red cushions facing the stage" loading="lazy">
+          <p aria-hidden="true">Meditation Hall</p>
+        </div>
+        <div class="as-story-copy">
+          <h3 class="display-lg" id="meditation-hall-title">Meditation Hall</h3>
+          <span class="as-accent" aria-hidden="true"></span>
+          <div class="off-text clamp" id="meditation-hall-text" style="--lines:16">
+            <p>The “Divya Dhyan Yog Kaksh” of Sri Badrika Ashram is the most loved place for seekers, where they journey inward to discover the Divine within their own hearts. As mentioned in the Lalita Sahasranama, “Antarmukha-samārādhyā Bahirmukha-sudurlabhā”: the Divine is easily attained by those who turn inwards, and remains distant to those who seek outwards.</p>
+            <p>Inaugurated by the then Hon’ble Chief Minister of Himachal Pradesh, it is one of the largest meditation halls in the state, designed to hold and magnify the energy of sincere spiritual practices. Surrounded by emerald peaks and whispering forests, it offers a serene environment where nature itself becomes a gentle guide.</p>
+            <p>As Om Swami shares, the human body is composed of nearly 70% water. Sitting close to the sacred Giri Ganga in the Meditation Hall and listening to its eternal murmur, the mind naturally and very easily slips into deep meditation. The breathtaking view of lush green mountains adds to the serenity, making this a perfect place for inner stillness.</p>
+            <p>Each one of us is a master of infinite possibilities at a universal scale. Through meditation we experience our own magnificence; our true potential. — Om Swami</p>
+          </div>
+          <button class="read-toggle" type="button" aria-controls="meditation-hall-text" aria-expanded="false">Read more ...</button>
+        </div>
+      </article>
+      <article class="as-story" id="yajna-shala" aria-labelledby="yajna-shala-title">
+        <div class="as-story-media">
+          <img src="assets/ashram/yajna-shala.webp" alt="Om Swami offering into the sacred fire at night" loading="lazy">
+          <p aria-hidden="true">Yajna Shala</p>
+        </div>
+        <div class="as-story-copy">
+          <h3 class="display-lg" id="yajna-shala-title">Yajna Shala</h3>
+          <span class="as-accent" aria-hidden="true"></span>
+          <div class="off-text clamp" id="yajna-shala-text" style="--lines:16">
+            <p>The Yajna Shala is the sacred heart of the Ashram, where every offering becomes divine energy. Built in 2022, it hosted its first Navadurga Sadhana under the guidance of Om Swami. What began as a simple structure now stands as a sanctified space of immense spiritual power. During the historic Sri Suktam Sadhana, it witnessed sixteen days of dawn Yajnas and nightly japa, with dedicated teams managing the yajna kunds, decoration, and cleanliness in perfect harmony.</p>
+            <p>Consecrated with 64 Yajna Kunds symbolizing the 64 Yoginis of the Divine Mother, the Shala rests beside the serene Giri Ganga. Every act, arranging wood, offering camphor, or collecting vibhuti, becomes a form of worship. During sadhanas, seva turns into meditation as devotees and volunteers lovingly serve the yajna shala. The presence of the Divine can be deeply felt, as even the rain and wind move in tune with the Yajna.</p>
+            <p>The Yajna Shala embodies devotion, discipline, and divine grace. It is the sacred ground where historic Maha Anushthanas unfold, grand spiritual ceremonies that sanctify the entire Kshetra with divine vibrations. To serve, attend, or simply witness a Yajna here is to be part of history, where every act is received by the Divine as pure love and surrender.</p>
+          </div>
+          <button class="read-toggle" type="button" aria-controls="yajna-shala-text" aria-expanded="false">Read more ...</button>
+        </div>
+      </article>
+  </div>
+</section>
+
+<!-- ============ Directions ============ -->
+<section class="as-section as-directions" id="directions" aria-labelledby="route-title">
+  <div class="as-route">
+    <div class="as-map">
+      <iframe id="mapFrame" title="Map showing Sri Badrika Ashram" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+        src="https://maps.google.com/maps?q=Sri+Badrika+Ashram,+Himachal+Pradesh&t=m&z=11&output=embed"></iframe>
+      <div class="as-map-layers" role="group" aria-label="Map type">
+        <button type="button" data-maptype="m" aria-pressed="true">Map</button>
+        <button type="button" data-maptype="k" aria-pressed="false">Satellite</button>
+      </div>
+    </div>
+    <div class="as-route-info">
+      <div class="as-route-top">
+        <div>
+          <h2 class="as-route-title" id="route-title">The road into stillness</h2>
+          <p class="as-coords">30.9049° N · 77.1437° E</p>
+        </div>
+        <dl class="as-facts">
+          <div><dt>From Chandigarh</dt><dd>Approx 100 km</dd></div>
+          <div><dt>From Solan</dt><dd>Approx 30 km</dd></div>
+          <div><dt>Arrival</dt><dd>Plan before dusk</dd></div>
+        </dl>
+        <p class="as-route-note"><span class="ic" style="--i:url('icons/pin.svg');--s:16px" aria-hidden="true"></span><span>Himachal Pradesh · Winding mountain route with scenic pine forest views and a final descent into the ashram valley.</span></p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://www.google.com/maps/dir/?api=1&destination=Sri+Badrika+Ashram,+Himachal+Pradesh" target="_blank" rel="noopener"><span>Open in maps</span><span class="ic" style="--i:url('icons/external.svg');--s:16px" aria-hidden="true"></span></a>
+        <a class="btn" href="#travel"><span>How to arrive</span><span class="ic" style="--i:url('icons/route-arrow.svg');--s:16px" aria-hidden="true"></span></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="as-travel-info">
+    <div class="as-travel-label">
+      <span class="ic" style="--i:url('icons/route.svg');--s:28px" aria-hidden="true"></span>
+      <h3>Important Travel Information</h3>
+    </div>
+    <div class="as-copy">
+      <p>The Ashram is accessible via a newly constructed road. During the monsoon season, the road may get damaged. Please check with the Ashram administration before traveling.</p>
+      <p><strong>Travel tip:</strong> Plan to reach the Ashram during the day, before sunset. Evening or night arrivals are not recommended as check-in support is limited.</p>
+      <p>Hotels are available in Chandigarh, Kalka, and Solan if overnight accommodation is needed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Travel methods ============ -->
+<section class="as-section as-travel" id="travel" aria-labelledby="travel-title">
+  <div class="section-heading">
+    <p class="eyebrow">How to arrive</p>
+    <h2 class="display-2xl" id="travel-title">Travel Methods</h2>
+    <p class="lede">All routes are shown below so you can plan your onward journey with confidence.</p>
+  </div>
+  <div class="as-methods">
+      <details class="as-method" id="by-train" open>
+        <summary>
+          <span class="as-method-icon"><span class="ic" style="--i:url('icons/train.svg');--s:20px" aria-hidden="true"></span></span>
+          <h3>By Train</h3>
+          <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+        </summary>
+        <div class="as-method-body">
+            <p>Take a train from Delhi to Chandigarh or Kalka. The nearest railway station to the Ashram is Kalka. From Kalka, take a bus or taxi to the Ashram: see <a href="#by-bus">By Bus</a> and <a href="#by-car">By Personal Car or Taxi</a> below.</p>
+        </div>
+      </details>
+      <details class="as-method" id="by-bus" open>
+        <summary>
+          <span class="as-method-icon"><span class="ic" style="--i:url('icons/bus.svg');--s:20px" aria-hidden="true"></span></span>
+          <h3>By Bus</h3>
+          <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+        </summary>
+        <div class="as-method-body">
+            <p>Direct buses run from Delhi, Chandigarh, and Kalka to Solan. From Solan, take a bus going to Giripul, then a local taxi to the Ashram via Rajgarh Highway. If traveling via train to Kalka, you can take a bus to Solan first, then continue as above.</p>
+        </div>
+      </details>
+      <details class="as-method" id="by-car" open>
+        <summary>
+          <span class="as-method-icon"><span class="ic" style="--i:url('icons/car.svg');--s:20px" aria-hidden="true"></span></span>
+          <h3>By Personal Car or Taxi</h3>
+          <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+        </summary>
+        <div class="as-method-body">
+            <p>You can hire a taxi or use your own car from Chandigarh, Kalka, Solan, or Giripul.</p>
+            <p class="as-sub">Directions from Solan:</p>
+            <ol>
+              <li>Take Rajgarh Highway towards Giripul.</li>
+              <li>After about 6 km, look for a milestone indicating Rajgarh – 10 km.</li>
+              <li>The Ashram signboard is between the 11 and 12 km milestones.</li>
+              <li>Take a right (U-turn) at the Ashram signboard onto the village (kaccha) road.</li>
+              <li>Follow this 11 km unmetalled road to reach the Ashram.</li>
+            </ol>
+            <p><strong>Taxi options:</strong> From the railway station or airport, taxis are available. Authorized taxi drivers:</p>
+            <ul class="as-drivers">
+              <li>Sanju (Maruti Ertiga): <a href="tel:+919816089386">+91 981 6089 386</a>; <a href="tel:+919817146386">+91 9817 146 386</a>; <a href="tel:+919418489384">+91 9418 489 384</a></li>
+              <li>Kashmiri (Maruti Ertiga): <a href="tel:+919816116602">+91 9816 116 602</a>; <a href="tel:+918894034601">+91 8894 034 601</a></li>
+            </ul>
+            <p><strong>Taxi charges</strong> (approximate and may vary): Solan → Ashram ₹1,500 · Kalka → Ashram ₹2,800 · Chandigarh Airport → Ashram ₹3,500.</p>
+            <p class="as-note"><span class="ic" style="--i:url('icons/alert.svg');--s:18px" aria-hidden="true"></span><span>Only book taxis with the authorized drivers above. Availability may be limited, so book early.</span></p>
+        </div>
+      </details>
+      <details class="as-method" id="by-air" open>
+        <summary>
+          <span class="as-method-icon"><span class="ic" style="--i:url('icons/plane.svg');--s:20px" aria-hidden="true"></span></span>
+          <h3>By Air</h3>
+          <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+        </summary>
+        <div class="as-method-body">
+            <p>The nearest airport is Chandigarh. From there, follow the <a href="#by-car">taxi instructions</a> above.</p>
+        </div>
+      </details>
+  </div>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="#">Privacy policy</a>
+          <a href="#">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261002b"></script>
+<script src="assets/readmore.js?v=20261002b"></script>
+<script src="assets/ashram.js?v=20261002b"></script>
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js?v=20261002b"></script>
+<script src="assets/clouds.js?v=20261002b"></script>
+</body>
+</html>
