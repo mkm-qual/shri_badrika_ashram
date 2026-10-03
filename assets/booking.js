@@ -193,13 +193,8 @@ $('backBtn').addEventListener('click', () => { setStep(1); $('toBilling').focus(
 const form = $('billForm');
 const code = $('country-code');
 const mobile = $('mobile');
-const digitsNeeded = () => +code.selectedOptions[0].dataset.len;
-const formatMobile = () => {
-  const d = mobile.value.replace(/\D/g, '').slice(0, digitsNeeded());
-  mobile.value = d.length > 5 && digitsNeeded() === 10 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
-};
-mobile.addEventListener('input', formatMobile);
-code.addEventListener('change', () => { formatMobile(); mobile.placeholder = digitsNeeded() === 10 ? '00000-00000' : '0'.repeat(digitsNeeded()); });
+// every country, with its own number format, length and checks (assets/phone.js)
+const phone = window.Phone && Phone.setup(code, mobile);
 $('pan').addEventListener('input', (e) => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
 
 const val = (id) => $(id).value.trim();
@@ -208,11 +203,7 @@ const checks = {
   bname: () => val('bname') ? '' : 'Please enter your full name.',
   email: () => !val('email') ? 'Please enter your email address.'
     : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email')) ? '' : 'Please enter a valid email address.',
-  mobile: () => {
-    const n = mobile.value.replace(/\D/g, '').length;
-    if (!n) return 'Please enter your mobile number.';
-    return n !== digitsNeeded() ? `Mobile numbers for ${code.value} have ${digitsNeeded()} digits.` : '';
-  },
+  mobile: () => phone ? phone.error() : (mobile.value.trim() ? '' : 'Please enter your mobile number.'),
   pan: () => !val('pan') || /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(val('pan')) ? '' : 'PAN numbers look like ABCDE1234F.',
   terms: () => $('terms').checked ? '' : 'Please agree to the terms and guidelines.',
 };
@@ -237,7 +228,7 @@ form.addEventListener('submit', (e) => {
   const ok = Object.keys(checks).map(show).every(Boolean);
   const status = $('billStatus');
   if (!ok) { status.hidden = true; form.querySelector('[aria-invalid="true"]')?.focus(); return; }
-  const gateway = code.value === '+91' ? 'Razorpay' : 'Stripe';
+  const gateway = (phone ? phone.country() === 'IN' : code.value === '+91') ? 'Razorpay' : 'Stripe';
   const n = slots();
   status.textContent = `Thank you, ${val('bname').split(' ')[0]}. Your booking for ${nightsText(n)} (${rupees(total())}) is ready, but online payments through ${gateway} are not connected yet. Nothing has been charged and no places have been held.`;
   status.hidden = false;

@@ -36,13 +36,8 @@ syncCountry();
 // ----- Formatting as people type -----
 const code = $('country-code');
 const mobile = $('mobile');
-const digitsNeeded = () => +code.selectedOptions[0].dataset.len;
-const formatMobile = () => {
-  const d = mobile.value.replace(/\D/g, '').slice(0, digitsNeeded());
-  mobile.value = d.length > 5 && digitsNeeded() === 10 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
-};
-mobile.addEventListener('input', formatMobile);
-code.addEventListener('change', () => { formatMobile(); mobile.placeholder = digitsNeeded() === 10 ? '00000-00000' : '0'.repeat(digitsNeeded()); });
+// every country, with its own number format, length and checks (assets/phone.js)
+const phone = window.Phone && Phone.setup(code, mobile);
 $('pan').addEventListener('input', (e) => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
 $('amount').addEventListener('input', (e) => {
   const n = e.target.value.replace(/\D/g, '').slice(0, 9);
@@ -59,11 +54,7 @@ const val = (id) => $(id).value.trim();
 const checks = {
   first: () => val('first') ? '' : 'Please enter your first name.',
   last: () => val('last') ? '' : 'Please enter your last name.',
-  mobile: () => {
-    const n = mobile.value.replace(/\D/g, '').length;
-    if (!n) return 'Please enter your mobile number.';
-    return n !== digitsNeeded() ? `Mobile numbers for ${code.value} have ${digitsNeeded()} digits.` : '';
-  },
+  mobile: () => phone ? phone.error() : (mobile.value.trim() ? '' : 'Please enter your mobile number.'),
   email: () => !val('email') ? 'Please enter your email address.'
     : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email')) ? '' : 'Please enter a valid email address.',
   address: () => val('address') ? '' : 'Please enter your address.',

@@ -1743,9 +1743,16 @@ body.viewer-open { overflow: hidden; }
 .input input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: none; font: 16px/1.4 var(--font-body); color: var(--ink); }   /* 16px keeps iPhone from zooming in on focus */
 .input input::placeholder { color: var(--placeholder); opacity: 1; }
 .input.name { gap: 20px; }
-.input.phone select {
+/* the country box sits 8px in from the field's edge on every side (50px field, 32px box) */
+.input.phone { padding-left: 8px; }
+.input.phone select,
+.input.phone .cc {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   height: 32px;
-  padding: 0 26px 0 12px;
+  padding: 0 26px 0 10px;
   border: 1px solid var(--rule);
   border-radius: 6px;
   background: var(--card-bg) url("arrow-down.svg") right 6px center / 14px no-repeat;
@@ -1755,8 +1762,12 @@ body.viewer-open { overflow: hidden; }
   -webkit-appearance: none;
   cursor: pointer;
 }
-:root[data-theme="dark"] .input.phone select { background-image: none; padding-right: 12px; }
-.input.phone select:focus-visible { outline: 2px solid var(--brown); outline-offset: 1px; }
+/* full country names live in the native list; the box itself shows the compact "+91 IN" */
+.input.phone .cc select { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; opacity: 0; font-size: 16px; }
+.input.phone .cc:focus-within { outline: 2px solid var(--brown); outline-offset: 1px; }
+.input.phone .cc-label { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.input.phone > select:focus-visible { outline: 2px solid var(--brown); outline-offset: 1px; }
+:root[data-theme="dark"] .input.phone > select, :root[data-theme="dark"] .input.phone .cc { background-image: none; padding-right: 12px; }
 .input .divider { width: 1px; height: 20px; background: var(--rule); flex-shrink: 0; }
 .field-error { font-size: var(--fs-sm); line-height: 1.4; color: var(--error); }
 

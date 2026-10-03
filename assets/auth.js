@@ -6,14 +6,8 @@ const country = document.getElementById('country');
 const mobile = document.getElementById('mobile');
 const status = document.getElementById('authStatus');
 
-const digitsNeeded = () => +country.selectedOptions[0].dataset.len;
-// 98765-43210 for 10 digits, otherwise plain digits
-const formatMobile = () => {
-  const d = mobile.value.replace(/\D/g, '').slice(0, digitsNeeded());
-  mobile.value = d.length > 5 && digitsNeeded() === 10 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
-};
-mobile.addEventListener('input', formatMobile);
-country.addEventListener('change', () => { formatMobile(); mobile.placeholder = digitsNeeded() === 10 ? '00000-00000' : '0'.repeat(digitsNeeded()); });
+// every country, with its own number format, length and checks (assets/phone.js)
+const phone = window.Phone && Phone.setup(country, mobile);
 
 const pan = document.getElementById('pan');
 pan?.addEventListener('input', () => { pan.value = pan.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
@@ -21,11 +15,7 @@ pan?.addEventListener('input', () => { pan.value = pan.value.toUpperCase().repla
 // Each check returns an error message, or '' when the value is fine
 const checks = [
   ['name', () => signup && (!form.first.value.trim() || !form.last.value.trim()) ? 'Please enter your first and last name.' : '', ['first', 'last']],
-  ['mobile', () => {
-    const n = mobile.value.replace(/\D/g, '').length;
-    if (!n) return 'Please enter your mobile number.';
-    return n !== digitsNeeded() ? `Mobile numbers for ${country.value} have ${digitsNeeded()} digits.` : '';
-  }, ['mobile']],
+  ['mobile', () => phone ? phone.error() : (mobile.value.trim() ? '' : 'Please enter your mobile number.'), ['mobile']],
   ['pan', () => {
     if (!signup) return '';
     if (!pan.value) return 'Please enter your PAN number.';
