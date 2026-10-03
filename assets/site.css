@@ -310,15 +310,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .hero-bg { position: absolute; inset: 0; pointer-events: none; }
 .hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.hero-bg .texture { opacity: .2; }
-/* The mountain watercolour has an opaque white ground: invert it and screen it onto the dark page */
+/* Both mountain paintings have transparent grounds, so the hero sits on the page colour like every other section */
 .hero-bg .mountains { object-position: 50% 30%; }   /* sit the range a little lower in the hero */
 .hero-bg .mountains.night { display: none; }
 :root[data-theme="dark"] .hero-bg .mountains.day { display: none; }
 :root[data-theme="dark"] .hero-bg .mountains.night { display: block; } /* pre-rendered moonlit version (no runtime filter/blend) */
 /* a faint moonlit glow behind the range so it lifts off the dark page */
 :root[data-theme="dark"] .hero-bg::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 42% at 50% 64%, rgba(196, 206, 226, .09), transparent 70%); }
-:root[data-theme="dark"] .hero-bg .texture { display: none; }
 :root[data-theme="dark"] .deity .halo { opacity: .75; }
 /* The grounds painting has a light and a dark version; only the one for the current theme loads */
 .art-dark { display: none !important; }
@@ -712,7 +710,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   .event-cards { width: 100%; grid-template-columns: 1fr; gap: 16px; }
   .events .view-all-m { font-size: var(--fs-ui); line-height: 1.4; }
 
-  .divine { padding: 72px 24px; gap: 38px; background: var(--paper); }
+  .divine { padding: 72px 24px; gap: 38px; }   /* same page colour as the hero above it */
   .deity { width: 100%; height: 390px; }
   .deity .halo { top: calc(50% - 20px); }
   .deity .idol { width: 280px; height: 360px; }
