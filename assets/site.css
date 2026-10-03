@@ -1012,10 +1012,11 @@ img[src*="icon-"] { filter: var(--icon-ink); }
   align-items: center;
   justify-content: space-between;
   gap: 48px;
-  overflow: hidden;
+  overflow-x: clip;                 /* trim sideways only, so the glow fades out instead of ending in a straight line */
 }
 .ev-intro .glow {
   position: absolute;
+  z-index: -1;                      /* behind the text here and in the next section */
   right: 84px;
   top: calc(50% + 8px);
   width: 390px;
@@ -1033,6 +1034,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .ev-summary span { font-size: var(--fs-ui); line-height: normal; color: var(--ink-muted); }
 
 /* ----- Upcoming gatherings ----- */
+.listing.events { background: none; }   /* lets the intro glow fade into it; same colour as the page anyway */
 .listing { padding: 84px var(--gutter) 104px; display: flex; flex-direction: column; gap: 42px; }
 .listing .events-head .section-heading { gap: 10px; width: 710px; }
 .sort { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-ui); line-height: normal; color: var(--ink-muted); white-space: nowrap; }
