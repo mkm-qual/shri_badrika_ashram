@@ -1,6 +1,6 @@
 // Single source for the site's navigation links (header Menu panel and the mobile drawer accordion)
 const SITE_MENU = {
-  events: { title: 'Events', href: '#events', links: [
+  events: { title: 'Events', href: 'events.html', links: [
     ['Upcoming Events', 'events.html'], ['Gallery', 'gallery.html'], ['Download Pics', 'downloads.html'] ] },
   offerings: { title: 'Offerings', href: 'offerings.html', links: [
     ['Sri Hari Abhishekam', 'offerings.html#abhishekam'], ['Sri Hari Aarti', 'offerings.html#aarti'],
@@ -16,7 +16,8 @@ const onHome = document.body.dataset.page === 'home';
 const link = (href) => (!onHome && href.length > 1 && href[0] === '#' ? './' + href : href);
 const groupHTML = (key, extraClass = '') => {
   const g = SITE_MENU[key];
-  return `<div class="menu-group ${extraClass}"><p class="menu-heading">${g.title}</p>` +
+  // the group title is itself a link to that section's main page
+  return `<div class="menu-group ${extraClass}"><a class="menu-heading" href="${link(g.href)}">${g.title}</a>` +
     g.links.map(([label, href]) => `<a href="${link(href)}">${label}</a>`).join('') + `</div>`;
 };
 document.querySelectorAll('[data-menu]').forEach(el => {
@@ -25,7 +26,8 @@ document.querySelectorAll('[data-menu]').forEach(el => {
     el.innerHTML = el.dataset.order.split(',').map(k => {
       const g = SITE_MENU[k];
       return `<details class="acc"><summary>${g.title}<img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>` +
-        `<div class="acc-links">${g.links.map(([label, href]) => `<a href="${link(href)}">${label}</a>`).join('')}</div></details>`;
+        // the summary opens the list, so the section's main page is the first link inside it
+        `<div class="acc-links"><a class="acc-overview" href="${link(g.href)}">Overview</a>${g.links.map(([label, href]) => `<a href="${link(href)}">${label}</a>`).join('')}</div></details>`;
     }).join('');
     // keep one group open at a time
     el.querySelectorAll('.acc').forEach(d => d.addEventListener('toggle', () => {
