@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gallery — Sri Badrika Ashram</title>
-<meta name="description" content="Event albums from Sri Badrika Ashram: sadhanas, discourses and celebrations.">
+<title>Career Opportunities — Sri Badrika Ashram</title>
+<meta name="description" content="Work and seva opportunities at Sri Badrika Ashram, in a peaceful setting at the foothills of the Himalayas.">
 <script>
   // Apply the saved (or system) theme before first paint to avoid a flash
   (function () {
@@ -18,7 +18,7 @@
 </script>
 <link rel="stylesheet" href="assets/site.css?v=20261003d">
 </head>
-<body data-page="gallery">
+<body data-page="donate">
 
 <!-- ============ Navigation ============ -->
 <header class="nav">
@@ -84,38 +84,34 @@
   </div>
 </div>
 
+<main class="give">
 
-<main class="gl has-crumbs" id="gallery">
-  <nav class="crumbs" aria-label="Breadcrumb">
-    <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg')" aria-hidden="true"></span>Home</a>
-    <span class="sep" aria-hidden="true">/</span>
-    <span aria-current="page">Gallery</span>
-  </nav>
-  <div class="gl-intro">
-    <div class="gl-heading">
-      <p class="eyebrow">Sri Badrika Ashram · Event gallery</p>
-      <h1 class="display-2xl">Events, devotion, and community.</h1>
-      <p class="lede">A selection of recent event albums from Sri Badrika Ashram, sourced from the official Om Swami gallery.</p>
-    </div>
-    <p class="gl-count"><strong id="albumCount">11</strong><span>Albums</span></p>
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="ashram.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Ashram</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Career</span>
+</nav>
+
+<section class="give-intro">
+  <div class="section-heading">
+    <p class="eyebrow">Work &amp; seva opportunities</p>
+    <h1 class="display-2xl">Career Opportunities</h1>
+    <p class="lede">Be a part of a dedicated team that supports spiritual growth, natural harmony, and service to humanity. We offer meaningful roles in a peaceful, natural environment at the foothills of the Himalayas.</p>
   </div>
+</section>
 
-  <div class="gl-controls">
-    <div class="gl-filters" role="group" aria-label="Filter albums">
-      <button class="chip" type="button" data-filter="all" aria-pressed="true">All events</button>
-      <button class="chip" type="button" data-filter="sadhana" aria-pressed="false">Sadhana</button>
-      <button class="chip" type="button" data-filter="discourses" aria-pressed="false">Discourses</button>
-      <button class="chip" type="button" data-filter="celebrations" aria-pressed="false">Celebrations</button>
-      <button class="chip" type="button" id="albumSort" aria-label="Change sort order"><span class="ic" style="--i:url('icons/chevron-down.svg')" aria-hidden="true"></span><span>Latest first</span></button>
+<section class="cr-openings" aria-labelledby="openings-title">
+  <h2 class="visually-hidden" id="openings-title">Current openings</h2>
+  <div class="cr-empty">
+    <span class="cr-empty-icon" aria-hidden="true"><span class="ic" style="--i:url('icons/sprout.svg');--s:22px"></span></span>
+    <p class="cr-empty-title">No openings right now</p>
+    <p class="cr-empty-text">Currently, no openings are available. Please check back soon for new opportunities.</p>
+    <div class="actions cr-actions">
+      <a class="btn" href="contact.html"><span>Write to us</span></a>
     </div>
-    <label class="gl-search">
-      <span class="ic" style="--i:url('icons/search.svg');--s:17px" aria-hidden="true"></span>
-      <input type="search" id="albumSearch" placeholder="Search events" aria-label="Search events" autocomplete="off">
-      <kbd>⌘ K</kbd>
-    </label>
   </div>
+</section>
 
-  <div class="album-grid" id="albumGrid" aria-live="polite"></div>
 </main>
 
 <div class="cloud-band" aria-hidden="true"></div>
@@ -138,8 +134,6 @@
 </footer>
 
 <script src="assets/site.js?v=20261003d"></script>
-<script src="assets/gallery-data.js?v=20261003d"></script>
-<script src="assets/gallery.js?v=20261003d"></script>
 <!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
 <canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
 <div class="season-picker" id="seasonPicker">
