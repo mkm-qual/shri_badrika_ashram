@@ -164,6 +164,10 @@ body {
   font-kerning: normal;
   overflow: clip;               /* nothing decorative can extend the page past the footer */
 }
+/* Sticky footer: the page is at least as tall as the screen and the main content takes up the slack,
+   so on short pages the footer still sits at the bottom instead of floating mid-screen */
+body { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+body > main { flex: 1 0 auto; }
 input, button { font-weight: inherit; }
 img { display: block; }
 a { color: inherit; text-decoration: none; }
@@ -1807,7 +1811,7 @@ body.viewer-open { overflow: hidden; }
 
 @media (max-width: 768px) {
   .auth { min-height: 0; padding: 32px var(--gutter) 64px; align-items: flex-start; }
-  .auth-card, .auth-card[data-mode="signin"] { min-height: 0; padding: 40px 0 32px; }
+  .auth-card, .auth-card[data-mode="signin"] { min-height: 0; padding: 40px 20px 32px; }   /* fields and button sit inside the card, not on its edge */
   .auth-intro .lede { width: auto; }
   .auth-glow.saffron { width: 300px; height: 300px; transform: translate(calc(-50% + 140px), calc(-50% - 240px)); }
   .auth-glow.sage { width: 340px; height: 340px; transform: translate(calc(-50% - 140px), calc(-50% + 220px)); }
