@@ -1135,6 +1135,11 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .booking p { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--olive-deep); }
 .booking p + p { margin-top: -12px; }   /* the two notes read as one block: 4px apart instead of 16px */
 .btn-book { min-width: 168px; justify-content: center; font-size: var(--fs-body); line-height: var(--lh-body); }
+.btn-full { border: 1px solid var(--rule); background: var(--paper); color: var(--ink-muted); cursor: default; }   /* event fully booked */
+.guide-warn { margin-top: 24px; border: 1px solid var(--rule); background: var(--paper); }
+.meeting a { color: var(--brown); text-decoration: underline; text-underline-offset: 2px; }
+.apply-card { min-height: 0; }
+.apply-link { align-self: flex-start; }
 
 .detail .section-heading h2 { line-height: 1.08; }
 .times { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
