@@ -21,15 +21,23 @@ document.querySelectorAll('.read-toggle').forEach(btn => {
 
     // Animate between the measured heights, then hand control back to CSS
     const to = open ? text.scrollHeight : collapsedHeight();
+    text.style.transition = 'none';
     text.style.maxHeight = from + 'px';
-    text.offsetHeight; // commit the start height
+    text.offsetHeight; // commit the start height without animating to it
+    text.style.transition = '';
     text.style.maxHeight = to + 'px';
     clearTimeout(text._settle);
-    text._settle = setTimeout(() => { text.style.maxHeight = ''; }, 460); // just after the 420ms transition
+    const done = () => { text.style.maxHeight = ''; text.removeEventListener('transitionend', done); };
+    text.addEventListener('transitionend', done);
+    text._settle = setTimeout(done, 600); // in case the transition never fires
   };
 
-  // The collapsed height comes from CSS (--lines × line-height)
-  const collapsedHeight = () => parseFloat(getComputedStyle(text).lineHeight) * parseFloat(getComputedStyle(text).getPropertyValue('--lines'));
+  // The collapsed height is whatever the CSS clamp settles at, so the animation ends exactly there
+  const collapsedHeight = () => {
+    text.style.transition = 'none';
+    text.style.maxHeight = '';
+    return text.getBoundingClientRect().height;
+  };
 
   btn.addEventListener('click', () => {
     const open = !isOpen();
