@@ -15,11 +15,11 @@ toggle.addEventListener('click', () => {
 items.forEach(d => d.addEventListener('toggle', syncToggle));
 
 // Arriving at #temple etc. (from the index or a shared link) opens that section
-const openFromHash = () => {
+const openFromHash = (e) => {
   const item = location.hash && items.find(d => '#' + d.id === location.hash);
   if (!item) return;
   item.open = true;
-  item.scrollIntoView({ block: 'start' });
+  item.scrollIntoView({ block: 'start', behavior: e ? 'auto' : 'instant' });   // glides from the index (CSS smooth scroll); lands straight there on arrival
   links.forEach(a => a.toggleAttribute('aria-current', a.hash === location.hash));
 };
 addEventListener('hashchange', openFromHash);

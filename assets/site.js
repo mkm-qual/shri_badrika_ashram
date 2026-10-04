@@ -77,11 +77,34 @@ const syncThemeLabel = () => {
   themeToggle.setAttribute('aria-pressed', dark);
 };
 syncThemeLabel();
+// The computer's setting leads. The toggle overrides it for this visit only; choosing the same as the
+// computer drops the override, and changing the computer's setting is always followed straight away.
+const systemDark = matchMedia('(prefers-color-scheme: dark)');
+// Every colour swaps in the same instant (no element lags behind and shows its corners), and where the
+// browser can, the whole page crossfades from the old look to the new one.
+const setTheme = (t) => {
+  const root = document.documentElement;
+  const apply = () => {
+    root.classList.add('theme-switching');
+    root.setAttribute('data-theme', t);
+    syncThemeLabel();
+    root.offsetWidth;   // commit the new colours with transitions off
+    root.classList.remove('theme-switching');
+  };
+  if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
+  else apply();
+};
 themeToggle.addEventListener('click', () => {
   const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  try { localStorage.setItem('sba-theme', next); } catch (e) {}
-  syncThemeLabel();
+  setTheme(next);
+  try {
+    if (next === (systemDark.matches ? 'dark' : 'light')) sessionStorage.removeItem('sba-theme');
+    else sessionStorage.setItem('sba-theme', next);
+  } catch (e) {}
+});
+systemDark.addEventListener('change', (e) => {
+  try { sessionStorage.removeItem('sba-theme'); } catch (err) {}
+  setTheme(e.matches ? 'dark' : 'light');
 });
 
 // Terms of Service and the Ashram guidelines open in a pop-up when linked from a page's content

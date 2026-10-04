@@ -164,6 +164,8 @@ const render = ({ keepPeople = false } = {}) => {
 const setStep = (n) => {
   $('step1').hidden = n !== 1;
   $('step2').hidden = n !== 2;
+  const shown = $('step' + n);
+  shown.classList.remove('entering'); shown.offsetWidth; shown.classList.add('entering');   // restart the ease-in
   const states = n === 1 ? ['current', 'pending'] : ['done', 'current'];
   [['step1Tab', states[0]], ['step2Tab', states[1]]].forEach(([id, s]) => {
     const tab = $(id);

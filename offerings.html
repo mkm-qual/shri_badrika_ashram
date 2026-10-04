@@ -6,10 +6,11 @@
 <title>Sri Hari Offerings — Sri Badrika Ashram</title>
 <meta name="description" content="Abhishekam, Aarti, Sahasranama and Sringar — the sacred offerings to Sri Hari at Sri Badrika Ashram.">
 <script>
-  // Apply the saved (or system) theme before first paint to avoid a flash
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
   (function () {
     var t = null;
-    try { t = localStorage.getItem('sba-theme'); } catch (e) {}
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
     if (t !== 'light' && t !== 'dark') {
       t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
@@ -17,7 +18,7 @@
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261004i">
+<link rel="stylesheet" href="assets/site.css?v=20261004l">
 </head>
 <body data-page="offerings">
 
@@ -249,15 +250,15 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261004i"></script>
-<script src="assets/readmore.js?v=20261004i"></script>
+<script src="assets/site.js?v=20261004l"></script>
+<script src="assets/readmore.js?v=20261004l"></script>
 <!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
 <canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
 <div class="season-picker" id="seasonPicker">
   <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
   <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
 </div>
-<script src="assets/seasons.js?v=20261004i"></script>
-<script src="assets/clouds.js?v=20261004i"></script>
+<script src="assets/seasons.js?v=20261004l"></script>
+<script src="assets/clouds.js?v=20261004l"></script>
 </body>
 </html>

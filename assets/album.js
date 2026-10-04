@@ -103,7 +103,7 @@ const show = (p, jump) => {
   strip.querySelectorAll('.v-thumb').forEach(t => t.setAttribute('aria-current', +t.dataset.p === pos));
   const cur = strip.querySelector(`[data-p="${pos}"]`);
   // centre the current thumbnail; jump straight there when the viewer first opens
-  if (cur) strip.scrollTo({ left: cur.offsetLeft - strip.offsetLeft - (strip.clientWidth - cur.offsetWidth) / 2, behavior: jump ? 'instant' : 'smooth' });
+  if (cur) strip.scrollTo({ left: cur.offsetLeft - strip.offsetLeft - (strip.clientWidth - cur.offsetWidth) / 2, behavior: jump || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
   // warm the neighbours so next / previous feel instant
   [list[pos - 1], list[pos + 1]].forEach(n => { if (n != null) new Image().src = photoSrc(album, n); });
   const url = new URL(location);

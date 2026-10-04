@@ -18,6 +18,8 @@ video.querySelector('.as-video-play').addEventListener('click', () => {
 const track = document.getElementById('stories');
 const prev = document.getElementById('storyPrev');
 const next = document.getElementById('storyNext');
+// glide between cards unless the visitor has asked for less motion
+const glide = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
 const step = () => {
   const card = track.querySelector('.as-story');
   return card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
@@ -26,8 +28,8 @@ const syncNav = () => {
   prev.disabled = track.scrollLeft < 4;
   next.disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
 };
-prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
-next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: glide() }));
+next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: glide() }));
 track.addEventListener('scroll', syncNav, { passive: true });
 addEventListener('resize', syncNav);
 syncNav();
