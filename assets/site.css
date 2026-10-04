@@ -1167,22 +1167,12 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 
 /* "On this page" — sticky in the right margin, highlights the section in view */
 .toc { position: absolute; top: 87px; right: 90px; bottom: 104px; width: 180px; }
-.toc-inner { position: sticky; top: 172px; display: flex; flex-direction: column; gap: 20px; }
-.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.toc a {
-  position: relative;
-  display: block;
-  padding: 4px 16px 7px;
-  font-size: var(--fs-ui);
-  line-height: var(--lh-ui);
-  color: var(--dark);
-  text-wrap: balance;                /* long entries wrap instead of being cut off */
-  transition: color var(--t-hover) ease;
-}
-.toc a::before { content: ""; position: absolute; left: 6px; top: 12px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .9; }
-.toc a:hover { color: var(--brown); }
-.toc a[aria-current="true"] { font-weight: 600; }
-.toc a[aria-current="true"]::before { background: var(--saffron); }
+.toc-inner { position: sticky; top: 172px; display: flex; flex-direction: column; gap: 18px; }
+/* "On this page" matches the Guidelines / Terms index: a hairline, numbered entries, a saffron mark on the current one */
+.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-left: 1px solid var(--rule); }
+.toc a { display: flex; align-items: baseline; gap: 12px; margin-left: -1px; padding: 9px 0 9px 18px; border-left: 2px solid transparent; font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-muted); text-decoration: none; transition: color var(--t-hover) ease, border-color var(--t-hover) ease; }
+.toc a:hover, .toc a[aria-current="true"] { color: var(--ink); border-left-color: var(--saffron); }
+.toc a:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; border-radius: 4px; }
 
 @media (max-width: 1360px) {
   .toc { right: 32px; width: 168px; }
@@ -2261,7 +2251,7 @@ fieldset.donate-section { display: block; margin-top: 80px; }   /* a legend sits
 .ct-form h2 { margin-bottom: 4px; }
 .ct-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .ct-count { text-align: right; font-variant-numeric: tabular-nums; }
-.ct-action { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; padding-top: 26px; border-top: 1px solid var(--rule); }
+.ct-action { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; padding-top: 8px; }
 .ct-action .auth-status { text-align: left; }
 .ct-action .auth-status a { color: var(--brown); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 
