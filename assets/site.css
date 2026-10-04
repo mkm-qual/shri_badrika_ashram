@@ -2285,6 +2285,11 @@ fieldset.donate-section { display: block; margin-top: 80px; }   /* a legend sits
 .lg-layout .gd-index { max-height: calc(100vh - 128px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 .lg-body { counter-reset: s; max-width: 760px; display: flex; flex-direction: column; gap: 48px; font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink); }
 .lg-sec { counter-increment: s; scroll-margin-top: 96px; display: flex; flex-direction: column; gap: 14px; }
+/* the sections are accordions now (same as Guidelines / FAQ): rows sit flush, the open one shows its clauses */
+.lg-body.gd-list { gap: 0; }
+.gd-item.lg-sec { display: block; }
+.lg-body .lg-notice { margin-bottom: 24px; }
+.lg-content { gap: 14px; color: var(--ink); }
 .lg-sec h2 { font-family: var(--font-heading); letter-spacing: -0.01em; font-weight: 400; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink); }
 .lg-n { color: var(--saffron); }
 .lg-sec p, .lg-sec ul, .lg-sec ol { margin: 0; }
