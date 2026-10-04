@@ -637,7 +637,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .drawer-close { width: 40px; height: 40px; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--dark); }
 .drawer nav { display: flex; flex-direction: column; padding: 16px 24px; }
 .drawer-logo { width: 204px; max-width: 70%; height: auto; }   /* same size as the mobile header logo */
-.drawer-sign-in { margin: 8px 24px; width: auto; height: 48px; }
+/* in the drawer, Sign in is one more menu row: same type, padding and divider as the sections above */
+.drawer-sign-in {
+  margin: -16px 24px 0; width: auto; height: auto; padding: 14px 0;
+  justify-content: space-between; border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; background: none;
+  font-family: var(--font-heading); letter-spacing: -0.01em; font-size: var(--fs-h4); line-height: var(--lh-h4); color: var(--ink);
+}
+.drawer-sign-in::after { content: ""; width: 20px; height: 20px; background: currentColor; -webkit-mask: url("arrow-right-line.svg") center / contain no-repeat; mask: url("arrow-right-line.svg") center / contain no-repeat; }   /* same 20px glyph and line weight as the section chevrons */
+.drawer-sign-in:hover { background: none; color: var(--brown); }
 .drawer { overflow-y: auto; }
 /* Drawer: each menu group is an accordion */
 .acc { border-bottom: 1px solid var(--rule); }
