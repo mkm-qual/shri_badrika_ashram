@@ -1003,8 +1003,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* 44px minimum hit areas on touch screens, without changing layout */
 @media (pointer: coarse) {
-  .theme-toggle, .sign-in, .season-btn, .callout-pill, .icon-btn, .drawer-close, .subscribe button { position: relative; }
-  .theme-toggle::after, .sign-in::after, .season-btn::after, .callout-pill::after, .icon-btn::after,
+  /* (the drawer's Sign in row is already a full-height row, and its ::after is the arrow) */
+  .theme-toggle, .sign-in:not(.drawer-sign-in), .season-btn, .callout-pill, .icon-btn, .drawer-close, .subscribe button { position: relative; }
+  .theme-toggle::after, .sign-in:not(.drawer-sign-in)::after, .season-btn::after, .callout-pill::after, .icon-btn::after,
   .drawer-close::after, .subscribe button::after {
     content: ""; position: absolute; top: 50%; left: 50%;
     width: 100%; height: 100%; min-width: 44px; min-height: 44px;
