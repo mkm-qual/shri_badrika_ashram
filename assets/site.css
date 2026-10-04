@@ -644,6 +644,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .drawer-sign-in::after { content: ""; width: 20px; height: 20px; background: currentColor; -webkit-mask: url("arrow-right-line.svg") center / contain no-repeat; mask: url("arrow-right-line.svg") center / contain no-repeat; }   /* same 20px glyph and line weight as the section chevrons */
 .drawer-sign-in:hover { background: none; color: var(--brown); }
+/* the arrow is never a touch hit-area layer: hold its size and place against any other ::after rule */
+.drawer .drawer-sign-in::after { position: static; transform: none; min-width: 0; min-height: 0; flex-shrink: 0; }
 .drawer { overflow-y: auto; }
 /* Drawer: each menu group is an accordion */
 .acc { border-bottom: 1px solid var(--rule); }
