@@ -431,7 +431,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .series-link:hover .series-go { transform: translateX(2px); }
 .series-link:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; border-radius: 8px; }
 .series-book { flex-shrink: 0; }
-.series-list + #guidelines { margin-top: 24px; }
+.series-list + #guidelines { margin-top: 96px; }   /* clear break between the event list and the booking guidelines */
+@media (max-width: 768px) { .series-list + #guidelines { margin-top: 64px; } }
 .series-tag { color: inherit; text-decoration: none; }
 .series-tag:hover { color: var(--brown); }
 @media (max-width: 768px) {
