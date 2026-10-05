@@ -12,6 +12,30 @@ const phone = window.Phone && Phone.setup(country, mobile);
 const pan = document.getElementById('pan');
 pan?.addEventListener('input', () => { pan.value = pan.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
 
+// Full name: a space at the end of First or Middle moves on to the next box, a full name pasted
+// into First is split across the three, and Backspace in an empty box goes back. Last keeps its spaces.
+const nameBoxes = signup ? ['first', 'middle', 'last'].map(id => form[id]) : [];
+const moveTo = (el) => { el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
+nameBoxes.slice(0, 2).forEach((el, i) => {
+  // the input event (not keydown) so phone keyboards, which don't report the space key, behave the same
+  el.addEventListener('input', () => {
+    if (!el.value.endsWith(' ') || el.selectionStart !== el.value.length) return;
+    el.value = el.value.trimEnd();
+    if (el.value) moveTo(nameBoxes[i + 1]);
+  });
+});
+nameBoxes[0]?.addEventListener('paste', (e) => {
+  const words = (e.clipboardData?.getData('text') || '').trim().split(/\s+/).filter(Boolean);
+  if (words.length < 2 || nameBoxes.some(el => el.value)) return;
+  e.preventDefault();
+  const [first, ...rest] = words, last = rest.pop();
+  nameBoxes[0].value = first; nameBoxes[1].value = rest.join(' '); nameBoxes[2].value = last;
+  moveTo(nameBoxes[2]);
+});
+nameBoxes.slice(1).forEach((el, i) => el.addEventListener('keydown', (e) => {
+  if (e.key === 'Backspace' && !el.value) { e.preventDefault(); moveTo(nameBoxes[i]); }
+}));
+
 // Each check returns an error message, or '' when the value is fine
 const checks = [
   ['name', () => signup && (!form.first.value.trim() || !form.last.value.trim()) ? 'Please enter your first and last name.' : '', ['first', 'last']],
@@ -42,7 +66,10 @@ const show = ([key, check, inputs]) => {
 
 // Re-check a field once the person leaves it, and live after it has shown an error
 checks.forEach(c => c[2].filter(id => form[id]).forEach(id => {
-  form[id].addEventListener('blur', () => { if (form[id].value) show(c); });
+  form[id].addEventListener('blur', (e) => {
+    if (c[0] === 'name' && e.relatedTarget?.closest('.input.name')) return;   // still filling in the name
+    if (form[id].value) show(c);
+  });
   form[id].addEventListener('input', () => { if (form[id].getAttribute('aria-invalid') === 'true') show(c); });
 }));
 
