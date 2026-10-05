@@ -78,6 +78,7 @@
   --icon-ink: none;
   --icon-tint: none;
 
+  --paper-texture: url("paper-texture.webp?v=2");   /* faint paper grain behind the page (light theme) */
   --gutter: 140px;
   color-scheme: light;
 }
@@ -122,6 +123,7 @@
   --field-placeholder: #7f7b73;
   --card-muted: #b5b894;
 
+  --paper-texture: none;
   --icon-ink: invert(1) brightness(.92);
   --icon-tint: brightness(0) invert(.8) sepia(.5) saturate(1.8) hue-rotate(-14deg);
 
@@ -152,7 +154,7 @@ html {
   text-rendering: optimizeLegibility;
 }
 body {
-  background: var(--bg);
+  background: var(--paper-texture) repeat, var(--bg);   /* 512px tile, white stays white */
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--fs-ui);
@@ -365,7 +367,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   display: flex;
   flex-direction: column;
   gap: 48px;
-  background: var(--bg);
+  background: transparent;
 }
 .events-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
 .events-head .section-heading { width: 690px; max-width: 100%; }
@@ -448,7 +450,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   display: flex;
   align-items: center;
   gap: 88px;
-  background: var(--bg);
+  background: transparent;
 }
 .deity {
   position: relative;
@@ -494,7 +496,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   flex-direction: column;
   align-items: center;
   gap: 48px;
-  background: var(--bg);
+  background: transparent;
 }
 .section-heading.centered { width: 680px; max-width: 100%; align-items: center; text-align: center; }
 .section-heading.wide { width: 955px; }
@@ -586,7 +588,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  background: linear-gradient(180deg, var(--bg) 0%, var(--sand) 43.27%, var(--sand) 100%);
+  background: var(--paper-texture) repeat, linear-gradient(180deg, var(--bg) 0%, var(--sand) 43.27%, var(--sand) 100%);
 }
 .footer-inner {
   position: relative;
@@ -776,7 +778,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
   .text-link { gap: 9px; }
 
-  .events { padding: 72px 24px; gap: 32px; align-items: center; background: var(--bg); }
+  .events { padding: 72px 24px; gap: 32px; align-items: center; background: transparent; }
   .events-head { width: 100%; }
   .events-head .section-heading { width: 100%; align-items: center; text-align: center; }   /* phones: centred heading */
   .event-cards { width: 100%; grid-template-columns: 1fr; gap: 16px; }
@@ -2562,7 +2564,7 @@ html.doc-open { overflow: hidden; }
 .doc-body .gd-item .as-method-body { padding: 0 0 24px 56px; }
 .doc-loading { color: var(--ink-muted); }
 .doc-loading a { color: var(--brown); text-decoration: underline; }
-.doc-foot { padding: 14px 24px; border-top: 1px solid var(--rule); background: var(--paper); }
+.doc-foot { padding: 14px 24px; border-top: 1px solid var(--rule); background: transparent; }   /* the dialog's paper shows through */
 .doc-foot .text-link { display: inline-flex; align-items: center; gap: 6px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--brown); }
 @media (max-width: 768px) {
   .doc-dialog { width: 100vw; max-width: 100vw; height: 92vh; max-height: 92vh; margin: auto 0 0; border-radius: 20px 20px 0 0; border-bottom: 0; }
@@ -2679,3 +2681,11 @@ html.doc-open { overflow: hidden; }
   .wh-tab { position: static; transform: none; padding: 8px 14px; border: 1px solid var(--rule); border-radius: 999px; font-size: var(--fs-ui); line-height: var(--lh-ui); }
   .wh-tab[aria-selected="true"] { border-color: var(--btn-primary); background: var(--btn-primary); color: #fff; }
 }
+
+/* Paper texture on menus and pop-ups too (light theme; none in dark) — the colour underneath stays as it was */
+.dropdown, .season-menu, .place-card, .disclosure .panel, .drawer, .doc-dialog, .img-notice {
+  background-image: var(--paper-texture);
+  background-repeat: repeat;
+}
+/* the Swamiji watercolour has a white ground: blend it into the paper instead of showing a white box */
+:root:not([data-theme="dark"]) .swami-note img { mix-blend-mode: multiply; }
