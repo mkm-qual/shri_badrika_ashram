@@ -49,6 +49,98 @@ $('pincode').addEventListener('input', (e) => { if (india()) e.target.value = e.
 const cause = new URLSearchParams(location.search).get('cause');
 if (cause && $('cause').querySelector(`option[value="${CSS.escape(cause)}"]`)) $('cause').value = cause;
 
+// ----- Recurring donation (optional): the Recurring switch in the amount field shows its options just below -----
+const recurBox = $('recur'), recurSwitch = $('recurSwitch');
+const startInput = $('recurStart'), daySel = $('recurDay'), monthSel = $('recurMonth');
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const ord = (n) => n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th');
+const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const fromIso = (v) => { const [y, m, d] = v.split('-').map(Number); return new Date(y, m - 1, d); };
+const daysIn = (y, m) => new Date(y, m + 1, 0).getDate();
+const longDate = (d) => d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+const shortDate = (d) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+const today = new Date(); today.setHours(0, 0, 0, 0);
+
+monthSel.innerHTML = MONTHS.map((m, i) => `<option value="${i}">${m}</option>`).join('');
+startInput.min = iso(today);
+startInput.value = iso(today);
+const fillDays = () => {   // monthly: 1st–31st; yearly: only the days the chosen month has (29 Feb included)
+  const keep = Number(daySel.value) || today.getDate();
+  const max = freq() === 'yearly' ? [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][monthSel.value] : 31;
+  daySel.innerHTML = Array.from({ length: max }, (_, i) => `<option value="${i + 1}">${ord(i + 1)}</option>`).join('');
+  daySel.value = Math.min(keep, max);
+};
+const freq = () => form.querySelector('input[name="freq"]:checked').value;
+const weekday = () => Number(form.querySelector('input[name="weekday"]:checked').value);
+const recurOn = () => recurSwitch.getAttribute('aria-checked') === 'true';
+
+// the first few payment dates on or after the start date
+const upcoming = (count) => {
+  const s = startInput.value ? fromIso(startInput.value) : today, out = [];
+  const f = freq(), day = Number(daySel.value);
+  if (f === 'daily') for (let i = 0; i < count; i++) out.push(new Date(s.getFullYear(), s.getMonth(), s.getDate() + i));
+  if (f === 'weekly') {
+    const first = new Date(s); first.setDate(s.getDate() + (weekday() - s.getDay() + 7) % 7);
+    for (let i = 0; i < count; i++) out.push(new Date(first.getFullYear(), first.getMonth(), first.getDate() + 7 * i));
+  }
+  if (f === 'monthly') for (let i = 0; out.length < count; i++) {
+    const y = s.getFullYear(), m = s.getMonth() + i, d = new Date(y, m, 1);
+    d.setDate(Math.min(day, daysIn(d.getFullYear(), d.getMonth())));
+    if (d >= s) out.push(d);
+  }
+  if (f === 'yearly') for (let i = 0; out.length < count; i++) {
+    const y = s.getFullYear() + i, m = Number(monthSel.value);
+    const d = new Date(y, m, Math.min(day, daysIn(y, m)));
+    if (d >= s) out.push(d);
+  }
+  return out;
+};
+const schedule = () => ({
+  daily: 'every day',
+  weekly: `every ${DAYS[weekday()]}`,
+  monthly: `on the ${ord(Number(daySel.value))} of every month`,
+  yearly: `every year on ${daySel.value} ${MONTHS[monthSel.value]}`,
+})[freq()];
+const amountText = () => { const n = Number($('amount').value.replace(/\D/g, '')); return n ? `₹${n.toLocaleString('en-IN')}` : 'Your donation'; };
+const programText = () => $('cause').value ? ` to ${$('cause').selectedOptions[0].textContent}` : '';
+
+const renderRecur = () => {
+  const f = freq();
+  $('weekdayField').hidden = f !== 'weekly';
+  $('dayField').hidden = !(f === 'monthly' || f === 'yearly');
+  $('monthField').hidden = f !== 'yearly';
+  $('recurDayLabel').textContent = f === 'yearly' ? 'Date' : 'Date each month';
+  $('shortMonthHint').hidden = !((f === 'monthly' && daySel.value > 28) || (f === 'yearly' && monthSel.value === '1' && daySel.value === '29'));
+  $('shortMonthHint').textContent = f === 'yearly' ? 'In years without 29 February, the payment is taken on 28 February.'
+    : 'In shorter months, the payment is taken on the last day of the month.';
+  const dates = startInput.value ? upcoming(4) : [];
+  $('recurSummary').textContent = `${amountText()}${programText()}, ${schedule()}.`;
+  $('recurNext').textContent = dates.length
+    ? `First payment ${longDate(dates[0])}, then ${dates.slice(1).map(d => f === 'yearly' ? `${shortDate(d)} ${d.getFullYear()}` : shortDate(d)).join(', ')} and so on.` : '';
+  const gateway = india() ? 'Razorpay' : 'Stripe';
+  const what = amountText() === 'Your donation' ? 'this donation' : amountText();
+  $('recurConsentText').textContent = `I authorise Sri Badrika Ashram to collect ${what} ${schedule()}${dates.length ? `, starting ${longDate(dates[0])},` : ''} through ${gateway} until I pause or cancel it. I will be notified before each payment.`;
+};
+const setRecur = (on) => {
+  recurBox.hidden = !on;
+  recurSwitch.setAttribute('aria-checked', on);
+  $('donateLabel').textContent = on ? 'Set up recurring donation' : 'Donate Now';
+  if (!on) { ['recurStart', 'recurConsent'].forEach(clear); $('recurCard').hidden = true; }
+  renderRecur();
+};
+recurSwitch.addEventListener('click', () => setRecur(!recurOn()));
+monthSel.addEventListener('change', () => { fillDays(); renderRecur(); });
+form.querySelectorAll('input[name="freq"]').forEach(r => r.addEventListener('change', () => { fillDays(); renderRecur(); }));
+form.querySelectorAll('input[name="weekday"]').forEach(r => r.addEventListener('change', renderRecur));
+[daySel, startInput, $('amount'), $('cause')].forEach(el => el.addEventListener(el.tagName === 'SELECT' ? 'change' : 'input', renderRecur));
+country.addEventListener('change', renderRecur);
+// start with the pattern of today's date: today's weekday and date
+form.querySelector(`input[name="weekday"][value="${today.getDay()}"]`).checked = true;
+monthSel.value = today.getMonth();
+fillDays();
+renderRecur();
+
 // ----- Checks: each returns an error message, or '' when the value is fine -----
 const val = (id) => $(id).value.trim();
 const checks = {
@@ -72,6 +164,9 @@ const checks = {
   pan: () => !india() ? '' : !val('pan') ? 'Please enter your PAN number.'
     : /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(val('pan')) ? '' : 'PAN numbers look like ABCDE1234F.',
   terms: () => $('terms').checked ? '' : 'Please agree to the terms and conditions.',
+  recurStart: () => !recurOn() ? '' : !startInput.value ? 'Please choose a start date.'
+    : fromIso(startInput.value) < today ? 'Please choose today or a later date.' : '',
+  recurConsent: () => !recurOn() || $('recurConsent').checked ? '' : 'Please authorise the automatic payments to set up a recurring donation.',
 };
 // the input that carries aria-invalid for each check
 const inputFor = (k) => k === 'state' ? (india() ? $('state') : $('state-text')) : $(k);
@@ -91,8 +186,8 @@ Object.keys(checks).forEach(k => {
   const ids = k === 'state' ? ['state', 'state-text'] : [k];
   ids.forEach(id => {
     $(id).addEventListener('blur', () => { if ($(id).value) show(k); });
-    $(id).addEventListener(id === 'terms' || $(id).tagName === 'SELECT' ? 'change' : 'input', () => {
-      if (inputFor(k).getAttribute('aria-invalid') === 'true' || id === 'terms') show(k);
+    $(id).addEventListener($(id).type === 'checkbox' || $(id).tagName === 'SELECT' ? 'change' : 'input', () => {
+      if (inputFor(k).getAttribute('aria-invalid') === 'true' || $(id).type === 'checkbox') show(k);
     });
   });
 });
@@ -105,6 +200,8 @@ form.addEventListener('submit', (e) => {
     form.querySelector('[aria-invalid="true"]')?.focus();
     return;
   }
+  if (recurOn()) { showRecurCard(); return; }
+  $('recurCard').hidden = true;
   const amount = Number(val('amount').replace(/\D/g, '')).toLocaleString('en-IN');
   const program = $('cause').selectedOptions[0].textContent;
   const gateway = india() ? 'Razorpay' : 'Stripe';
@@ -112,3 +209,37 @@ form.addEventListener('submit', (e) => {
   status.hidden = false;
   status.scrollIntoView({ block: 'nearest' });
 });
+
+// ----- After setting up: the recurring donation, with Pause / Resume and Cancel -----
+// (Payments aren't connected yet, so this is a preview of how it will be managed.)
+let paused = false;
+const card = $('recurCard');
+const setStatus = (label, cls) => { const el = $('recurStatus'); el.textContent = label; el.className = `recur-status ${cls}`; };
+const showRecurCard = () => {
+  paused = false;
+  status.hidden = true;
+  $('recurCardTitle').textContent = `${amountText()}, ${schedule()}`;
+  $('rcProgram').textContent = $('cause').selectedOptions[0].textContent;
+  $('rcNext').textContent = longDate(upcoming(1)[0]);
+  $('rcGateway').textContent = india() ? 'Razorpay' : 'Stripe';
+  $('rcPause').querySelector('span:last-child').textContent = 'Pause';
+  $('recurActions').hidden = false; $('recurConfirm').hidden = true;
+  setStatus('Active', 'is-active');
+  card.hidden = false;
+  card.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+};
+$('rcPause').addEventListener('click', () => {
+  paused = !paused;
+  $('rcPause').querySelector('span:last-child').textContent = paused ? 'Resume' : 'Pause';
+  $('rcPause').querySelector('.ic').style.setProperty('--i', `url('icons/${paused ? 'play' : 'pause'}.svg')`);
+  $('rcNext').textContent = paused ? 'None while paused' : longDate(upcoming(1)[0]);
+  setStatus(paused ? 'Paused' : 'Active', paused ? 'is-paused' : 'is-active');
+});
+$('rcCancel').addEventListener('click', () => { $('recurActions').hidden = true; $('recurConfirm').hidden = false; $('rcKeep').focus(); });
+$('rcKeep').addEventListener('click', () => { $('recurConfirm').hidden = true; $('recurActions').hidden = false; $('rcCancel').focus(); });
+$('rcCancelYes').addEventListener('click', () => {
+  $('recurConfirm').hidden = true;
+  $('rcNext').textContent = 'None, cancelled';
+  setStatus('Cancelled', 'is-cancelled');
+});
+

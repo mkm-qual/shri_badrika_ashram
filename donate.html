@@ -18,7 +18,7 @@
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261005c">
+<link rel="stylesheet" href="assets/site.css?v=20261006c">
 </head>
 <body data-page="donate">
 
@@ -179,14 +179,82 @@
 
   <fieldset class="donate-section">
     <legend class="display-lg">Your Donation</legend>
-    <div class="donate-grid">
-      <div class="donate-col">
-        <div class="field">
+    <div class="donate-grid donate-rows">
+        <div class="field d-amount">
           <label for="amount">Donation Amount<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><span class="currency" aria-hidden="true">₹</span><input id="amount" name="amount" inputmode="numeric" placeholder="Enter donation amount" required aria-describedby="amount-error amount-hint"></div><p class="field-hint" id="amount-hint">Minimum ₹100</p>
+          <div class="input"><span class="currency" aria-hidden="true">₹</span><input id="amount" name="amount" inputmode="numeric" placeholder="Enter donation amount" required aria-describedby="amount-error amount-hint"><span class="divider" aria-hidden="true"></span><button class="recur-switch" type="button" id="recurSwitch" role="switch" aria-checked="false" aria-controls="recur"><span>Recurring</span><i class="switch" aria-hidden="true"></i></button></div><p class="field-hint" id="amount-hint">Minimum ₹100</p>
           <p class="field-error" id="amount-error" hidden></p>
         </div>
-        <div class="field">
+        <div class="field d-pan" id="panField">
+          <label for="pan">PAN Number<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="pan" name="pan" placeholder="ABCDE1234F" autocomplete="off" autocapitalize="characters" maxlength="10" aria-describedby="pan-error"></div><p class="field-hint" id="pan-hint">Needed for donation receipts in India.</p>
+          <p class="field-error" id="pan-error" hidden></p>
+        </div>
+      <!-- Recurring donation: shown while the Recurring switch in the amount field is on -->
+      <div class="recur d-recur" id="recur" role="region" aria-labelledby="recurTitle" hidden>
+        <div class="recur-header">
+          <span class="recur-ic"><span class="ic" style="--i:url('icons/repeat.svg');--s:18px" aria-hidden="true"></span></span>
+          <span class="recur-head">
+            <span class="recur-title" id="recurTitle">Recurring donation</span>
+            <span class="recur-sub">Choose how often and when to start. Pause or cancel any time.</span>
+          </span>
+        </div>
+        <div class="recur-body" id="recurBody">
+          <fieldset class="field">
+            <legend>How often<span class="req" aria-hidden="true"> *</span></legend>
+            <div class="seg" role="radiogroup" aria-label="How often">
+              <label><input type="radio" name="freq" value="daily"><span>Daily</span></label>
+              <label><input type="radio" name="freq" value="weekly"><span>Weekly</span></label>
+              <label><input type="radio" name="freq" value="monthly" checked><span>Monthly</span></label>
+              <label><input type="radio" name="freq" value="yearly"><span>Yearly</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field" id="weekdayField" hidden>
+            <legend>Day of the week</legend>
+            <div class="seg seg-days" role="radiogroup" aria-label="Day of the week">
+              <label><input type="radio" name="weekday" value="1" checked><span>Mon</span></label>
+              <label><input type="radio" name="weekday" value="2"><span>Tue</span></label>
+              <label><input type="radio" name="weekday" value="3"><span>Wed</span></label>
+              <label><input type="radio" name="weekday" value="4"><span>Thu</span></label>
+              <label><input type="radio" name="weekday" value="5"><span>Fri</span></label>
+              <label><input type="radio" name="weekday" value="6"><span>Sat</span></label>
+              <label><input type="radio" name="weekday" value="0"><span>Sun</span></label>
+            </div>
+          </fieldset>
+
+          <div class="recur-row">
+            <div class="field" id="monthField" hidden>
+              <label for="recurMonth">Month</label>
+              <div class="input select"><select id="recurMonth"></select></div>
+            </div>
+            <div class="field" id="dayField">
+              <label for="recurDay" id="recurDayLabel">Date each month</label>
+              <div class="input select"><select id="recurDay"></select></div>
+            </div>
+            <div class="field">
+              <label for="recurStart">Start from</label>
+              <div class="input"><input id="recurStart" type="date" aria-describedby="recurStart-error"></div>
+              <p class="field-error" id="recurStart-error" hidden></p>
+            </div>
+          </div>
+          <p class="field-hint" id="shortMonthHint" hidden>In shorter months, the payment is taken on the last day of the month.</p>
+
+          <div class="recur-summary" aria-live="polite">
+            <p class="recur-summary-main" id="recurSummary"></p>
+            <p class="recur-summary-next" id="recurNext"></p>
+          </div>
+
+          <div class="donate-consent recur-consent">
+            <label class="check">
+              <input type="checkbox" id="recurConsent" aria-describedby="recurConsent-error">
+              <span id="recurConsentText">I authorise Sri Badrika Ashram to collect this donation automatically until I pause or cancel it.</span>
+            </label>
+            <p class="field-error" id="recurConsent-error" hidden></p>
+          </div>
+        </div>
+      </div>
+        <div class="field d-cause">
           <label for="cause">Get Involved<span class="req" aria-hidden="true"> *</span></label>
           <div class="input select"><select id="cause" name="cause" required aria-describedby="cause-error">
             <option value="">Select a program</option>
@@ -197,19 +265,11 @@
           </select></div>
           <p class="field-error" id="cause-error" hidden></p>
         </div>
-        <div class="field">
+        <div class="field d-remarks">
           <label for="remarks">Remarks</label>
           <div class="input area"><textarea id="remarks" name="remarks" rows="3" placeholder="Anything you would like us to know (optional)" aria-describedby="remarks-error"></textarea></div>
           <p class="field-error" id="remarks-error" hidden></p>
         </div>
-      </div>
-      <div class="donate-col">
-        <div class="field" id="panField">
-          <label for="pan">PAN Number<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><input id="pan" name="pan" placeholder="ABCDE1234F" autocomplete="off" autocapitalize="characters" maxlength="10" aria-describedby="pan-error"></div><p class="field-hint" id="pan-hint">Needed for donation receipts in India.</p>
-          <p class="field-error" id="pan-error" hidden></p>
-        </div>
-      </div>
     </div>
   </fieldset>
 
@@ -224,7 +284,33 @@
 
   <div class="donate-action">
     <p class="auth-status" id="donateStatus" role="status" hidden></p>
-    <button class="btn btn-primary" type="submit" id="donateBtn"><span class="ic" style="--i:url('icons/sprout.svg');--s:14px" aria-hidden="true"></span><span>Donate Now</span><span class="ic" style="--i:url('icons/chevron-right.svg');--s:13px" aria-hidden="true"></span></button>
+    <section class="recur-card" id="recurCard" aria-labelledby="recurCardTitle" hidden>
+      <div class="recur-card-head">
+        <div>
+          <p class="eyebrow">Your recurring donation</p>
+          <h3 class="recur-card-title" id="recurCardTitle"></h3>
+        </div>
+        <span class="recur-status" id="recurStatus">Active</span>
+      </div>
+      <dl class="recur-facts">
+        <div><dt>Program</dt><dd id="rcProgram"></dd></div>
+        <div><dt>Next payment</dt><dd id="rcNext"></dd></div>
+        <div><dt>Paid through</dt><dd id="rcGateway"></dd></div>
+      </dl>
+      <div class="recur-actions" id="recurActions">
+        <button class="btn btn-secondary" type="button" id="rcPause"><span class="ic" style="--i:url('icons/pause.svg');--s:14px" aria-hidden="true"></span><span>Pause</span></button>
+        <button class="recur-cancel" type="button" id="rcCancel">Cancel recurring donation</button>
+      </div>
+      <div class="recur-confirm" id="recurConfirm" hidden>
+        <p>Cancel this recurring donation? No further payments will be taken. Donations already made are not affected.</p>
+        <div class="recur-actions">
+          <button class="btn btn-secondary" type="button" id="rcKeep">Keep it</button>
+          <button class="btn btn-danger" type="button" id="rcCancelYes">Yes, cancel</button>
+        </div>
+      </div>
+      <p class="recur-preview-note">Preview: online payments are not connected yet, so nothing has been scheduled or charged.</p>
+    </section>
+    <button class="btn btn-primary" type="submit" id="donateBtn"><span class="ic" style="--i:url('icons/sprout.svg');--s:14px" aria-hidden="true"></span><span id="donateLabel">Donate Now</span><span class="ic" style="--i:url('icons/chevron-right.svg');--s:13px" aria-hidden="true"></span></button>
   </div>
 </form>
 
@@ -252,7 +338,7 @@
 <script src="assets/site.js?v=20261004r"></script>
 <script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
 <script src="assets/phone.js?v=20261004r"></script>
-<script src="assets/donate.js?v=20261004r"></script>
+<script src="assets/donate.js?v=20261006b"></script>
 <!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
 <canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
 <div class="season-picker" id="seasonPicker">
