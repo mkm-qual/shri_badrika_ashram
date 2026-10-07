@@ -1723,6 +1723,7 @@ body.viewer-open { overflow: hidden; }
 /* ----- Breadcrumbs on internal pages (same component as the album page) ----- */
 .crumbs-bar { position: relative; z-index: 1; padding: 32px var(--gutter) 0; }
 .crumbs-bar + .ev-intro { padding-top: 40px; min-height: 0; align-items: flex-end; }
+.crumbs-bar + .listing { padding-top: 40px; }   /* All events: the listing follows the breadcrumb directly */
 .crumbs-bar + .off-intro { padding-top: 40px; }
 .detail > .crumbs { margin: 0 0 40px; }
 .detail > .crumbs + * { margin-top: 0; }
