@@ -75,33 +75,36 @@ const freq = () => form.querySelector('input[name="freq"]:checked').value;
 const weekday = () => Number(form.querySelector('input[name="weekday"]:checked').value);
 const recurOn = () => recurSwitch.getAttribute('aria-checked') === 'true';
 
-// the first few payment dates on or after the start date
-const upcoming = (count) => {
-  const s = startInput.value ? fromIso(startInput.value) : today, out = [];
-  const f = freq(), day = Number(daySel.value);
-  if (f === 'daily') for (let i = 0; i < count; i++) out.push(new Date(s.getFullYear(), s.getMonth(), s.getDate() + i));
-  if (f === 'weekly') {
-    const first = new Date(s); first.setDate(s.getDate() + (weekday() - s.getDay() + 7) % 7);
+// Payment dates for a schedule { freq, weekday, day, month }, on or after `from`
+const occur = (sc, from, count) => {
+  const s = from, out = [], day = sc.day;
+  if (sc.freq === 'daily') for (let i = 0; i < count; i++) out.push(new Date(s.getFullYear(), s.getMonth(), s.getDate() + i));
+  if (sc.freq === 'weekly') {
+    const first = new Date(s); first.setDate(s.getDate() + (sc.weekday - s.getDay() + 7) % 7);
     for (let i = 0; i < count; i++) out.push(new Date(first.getFullYear(), first.getMonth(), first.getDate() + 7 * i));
   }
-  if (f === 'monthly') for (let i = 0; out.length < count; i++) {
-    const y = s.getFullYear(), m = s.getMonth() + i, d = new Date(y, m, 1);
+  if (sc.freq === 'monthly') for (let i = 0; out.length < count; i++) {
+    const d = new Date(s.getFullYear(), s.getMonth() + i, 1);
     d.setDate(Math.min(day, daysIn(d.getFullYear(), d.getMonth())));
     if (d >= s) out.push(d);
   }
-  if (f === 'yearly') for (let i = 0; out.length < count; i++) {
-    const y = s.getFullYear() + i, m = Number(monthSel.value);
-    const d = new Date(y, m, Math.min(day, daysIn(y, m)));
+  if (sc.freq === 'yearly') for (let i = 0; out.length < count; i++) {
+    const y = s.getFullYear() + i, d = new Date(y, sc.month, Math.min(day, daysIn(y, sc.month)));
     if (d >= s) out.push(d);
   }
   return out;
 };
-const schedule = () => ({
+const scheduleText = (sc) => ({
   daily: 'every day',
-  weekly: `every ${DAYS[weekday()]}`,
-  monthly: `on the ${ord(Number(daySel.value))} of every month`,
-  yearly: `every year on ${daySel.value} ${MONTHS[monthSel.value]}`,
-})[freq()];
+  weekly: `every ${DAYS[sc.weekday]}`,
+  monthly: `on the ${ord(sc.day)} of every month`,
+  yearly: `every year on ${sc.day} ${MONTHS[sc.month]}`,
+})[sc.freq];
+// the schedule chosen in the form
+const formSchedule = () => ({ freq: freq(), weekday: weekday(), day: Number(daySel.value), month: Number(monthSel.value) });
+// the first few payment dates on or after the start date
+const upcoming = (count) => occur(formSchedule(), startInput.value ? fromIso(startInput.value) : today, count);
+const schedule = () => scheduleText(formSchedule());
 const amountText = () => { const n = Number($('amount').value.replace(/\D/g, '')); return n ? `₹${n.toLocaleString('en-IN')}` : 'Your donation'; };
 const programText = () => $('cause').value ? ` to ${$('cause').selectedOptions[0].textContent}` : '';
 
@@ -226,6 +229,7 @@ const showRecurCard = () => {
   $('recurActions').hidden = false; $('recurConfirm').hidden = true;
   setStatus('Active', 'is-active');
   card.hidden = false;
+  if (signedIn) addToMine();
   card.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
 };
 $('rcPause').addEventListener('click', () => {
@@ -242,4 +246,115 @@ $('rcCancelYes').addEventListener('click', () => {
   $('rcNext').textContent = 'None, cancelled';
   setStatus('Cancelled', 'is-cancelled');
 });
+
+// ----- Signed in: "My recurring donations" -----
+// Accounts aren't live yet, so the signed-in view is a preview (donate.html?signed-in) with sample donations.
+const signedIn = new URLSearchParams(location.search).has('signed-in');
+const rupees = (n) => `₹${n.toLocaleString('en-IN')}`;
+const mine = [
+  { id: 'r1', amount: 1000, program: 'Sri Hari Ann Bhandar', sc: { freq: 'weekly', weekday: 1 }, start: new Date(2026, 7, 3), via: 'Razorpay · UPI AutoPay', state: 'active' },
+  { id: 'r2', amount: 5000, program: 'General Corpus', sc: { freq: 'monthly', day: 1 }, start: new Date(2026, 1, 1), via: 'Razorpay · Card ending 4242', state: 'paused', changed: new Date(2026, 8, 12) },
+  { id: 'r3', amount: 11000, program: 'Sri Hari Chikitsa Kendra', sc: { freq: 'yearly', day: 14, month: 0 }, start: new Date(2025, 0, 14), via: 'Razorpay · Netbanking mandate', state: 'active' },
+  { id: 'r4', amount: 500, program: 'Sri Hari Vatika', sc: { freq: 'monthly', day: 15 }, start: new Date(2025, 10, 15), via: 'Razorpay · UPI AutoPay', state: 'cancelled', changed: new Date(2026, 5, 2) },
+];
+// payments taken so far: from the start until today, or until it was paused or cancelled
+const paidDates = (r) => {
+  const until = r.state === 'active' ? today : r.changed;
+  return occur(r.sc, r.start, 600).filter(d => d <= until && d <= today);
+};
+const nextDate = (r) => r.state === 'active' ? occur(r.sc, today, 1)[0] : null;
+const medDate = (d) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+const STATUS = { active: ['Active', 'is-active'], paused: ['Paused', 'is-paused'], cancelled: ['Cancelled', 'is-cancelled'] };
+
+const renderMine = () => {
+  const list = $('mrList');
+  const order = { active: 0, paused: 1, cancelled: 2 };
+  const items = [...mine].sort((a, b) => order[a.state] - order[b.state]);
+  const live = mine.filter(r => r.state !== 'cancelled');
+  $('recurCount').textContent = live.length;
+  const total = mine.reduce((t, r) => t + paidDates(r).length * r.amount, 0);
+  const n = (k) => mine.filter(r => r.state === k).length;
+  $('mrSummary').textContent = [n('active') && `${n('active')} active`, n('paused') && `${n('paused')} paused`, n('cancelled') && `${n('cancelled')} cancelled`]
+    .filter(Boolean).join(' · ') + ` · ${rupees(total)} given so far`;
+  $('mrEmpty').hidden = mine.length > 0;
+  list.innerHTML = items.map(r => {
+    const paid = paidDates(r), next = nextDate(r), [label, cls] = STATUS[r.state];
+    const nextText = r.state === 'active' ? longDate(next) : r.state === 'paused' ? `Paused on ${medDate(r.changed)}` : `Cancelled on ${medDate(r.changed)}`;
+    const hist = paid.slice(-6).reverse().map(d => `<li><span>${medDate(d)}</span><span>${rupees(r.amount)}</span><span class="mr-paid">Paid</span></li>`).join('')
+      || '<li class="mr-none">No payments yet. The first one is on the start date.</li>';
+    return `<li class="mr-item ${r.state === 'cancelled' ? 'is-cancelled' : ''}" data-id="${r.id}">
+      <div class="mr-top">
+        <div class="mr-title">
+          <h3><span class="mr-amount">${rupees(r.amount)}</span> ${scheduleText(r.sc)}</h3>
+          <p>${r.program}</p>
+        </div>
+        <span class="recur-status ${cls}">${label}</span>
+      </div>
+      <dl class="mr-facts">
+        <div><dt>${r.state === 'active' ? 'Next payment' : 'Status'}</dt><dd>${nextText}</dd></div>
+        <div><dt>Started</dt><dd>${medDate(r.start)}</dd></div>
+        <div><dt>Paid via</dt><dd>${r.via}</dd></div>
+        <div><dt>Given so far</dt><dd>${rupees(paid.length * r.amount)} <span class="mr-muted">· ${paid.length} payment${paid.length === 1 ? '' : 's'}</span></dd></div>
+      </dl>
+      <div class="recur-actions mr-actions">
+        ${r.state === 'cancelled' ? '' : `<button class="btn btn-secondary" type="button" data-act="pause"><span class="ic" style="--i:url('icons/${r.state === 'paused' ? 'play' : 'pause'}.svg');--s:14px" aria-hidden="true"></span><span>${r.state === 'paused' ? 'Resume' : 'Pause'}</span></button>
+        <button class="recur-cancel" type="button" data-act="cancel">Cancel</button>`}
+        <button class="mr-history-btn" type="button" data-act="history" aria-expanded="false" aria-controls="h-${r.id}">Payment history <span class="ic" style="--i:url('icons/chevron-down.svg');--s:14px" aria-hidden="true"></span></button>
+      </div>
+      <div class="recur-confirm" data-confirm hidden>
+        <p>Cancel this recurring donation? No further payments will be taken. Donations already made are not affected.</p>
+        <div class="recur-actions">
+          <button class="btn btn-secondary" type="button" data-act="keep">Keep it</button>
+          <button class="btn btn-danger" type="button" data-act="cancel-yes">Yes, cancel</button>
+        </div>
+      </div>
+      <ol class="mr-history" id="h-${r.id}" hidden>${hist}</ol>
+    </li>`;
+  }).join('');
+};
+
+const addToMine = () => {
+  mine.unshift({ id: `n${Date.now()}`, amount: Number($('amount').value.replace(/\D/g, '')), program: $('cause').selectedOptions[0].textContent,
+    sc: formSchedule(), start: fromIso(startInput.value), via: india() ? 'Razorpay' : 'Stripe', state: 'active' });
+  renderMine();
+};
+
+if (signedIn) {
+  $('acctBar').hidden = false;
+  form.setAttribute('role', 'tabpanel');
+  form.setAttribute('aria-labelledby', 'tabDonate');
+  const tabs = [$('tabDonate'), $('tabRecurring')];
+  const showTab = (which) => {
+    const rec = which === 'recurring';
+    tabs[0].setAttribute('aria-selected', !rec); tabs[1].setAttribute('aria-selected', rec);
+    tabs[0].tabIndex = rec ? -1 : 0; tabs[1].tabIndex = rec ? 0 : -1;
+    form.hidden = rec; $('myRecurring').hidden = !rec;
+    history.replaceState(null, '', rec ? '#my-recurring' : location.pathname + location.search);
+  };
+  tabs[0].addEventListener('click', () => showTab('donate'));
+  tabs[1].addEventListener('click', () => showTab('recurring'));
+  // arrow keys move between the two tabs
+  tabs.forEach((t, i) => t.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const other = tabs[1 - i]; other.click(); other.focus();
+  }));
+  $('mrNew').addEventListener('click', () => { showTab('donate'); if (!recurOn()) setRecur(true); $('amount').focus(); });
+  $('mrList').addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-act]'); if (!btn) return;
+    const li = btn.closest('.mr-item'), r = mine.find(x => x.id === li.dataset.id), act = btn.dataset.act;
+    if (act === 'history') {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', open); li.querySelector('.mr-history').hidden = !open;
+      return;
+    }
+    if (act === 'cancel') { li.querySelector('.mr-actions').hidden = true; li.querySelector('[data-confirm]').hidden = false; li.querySelector('[data-act="keep"]').focus(); return; }
+    if (act === 'keep') { li.querySelector('[data-confirm]').hidden = true; li.querySelector('.mr-actions').hidden = false; li.querySelector('[data-act="cancel"]').focus(); return; }
+    if (act === 'pause') { r.state = r.state === 'paused' ? 'active' : 'paused'; r.changed = today; }
+    if (act === 'cancel-yes') { r.state = 'cancelled'; r.changed = today; }
+    renderMine();
+    document.querySelector(`.mr-item[data-id="${r.id}"] .mr-history-btn`)?.focus();   // keep the keyboard on this donation
+  });
+  renderMine();
+  if (location.hash === '#my-recurring') showTab('recurring');
+}
 
