@@ -18,7 +18,7 @@
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261012b">
+<link rel="stylesheet" href="assets/site.css?v=20261012c">
 </head>
 <body data-page="make-offering">
 
@@ -141,7 +141,7 @@
 
     <!-- 2 · Date -->
     <section class="mo-step" aria-labelledby="s2">
-      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">2</span><div><h2 id="s2">Choose a date</h2><p>Each day shows the offerings performed at the Mandir. Days that hold every offering you chose can be selected.</p></div></header>
+      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">2</span><div><h2 id="s2">Choose your dates</h2><p>Each day shows the offerings performed at the Mandir. Select one or more days that hold every offering you chose; select a day again to remove it.</p></div></header>
       <div class="mo-cal">
         <div class="mo-cal-head">
           <button class="mo-cal-nav" type="button" id="calPrev" aria-label="Previous month"><span class="ic" style="--i:url('icons/chevron-left.svg');--s:16px" aria-hidden="true"></span></button>
@@ -160,12 +160,13 @@
         <li><span class="mo-key mo-key-sel" aria-hidden="true"></span>Selected</li>
         <li><span class="mo-key mo-key-off" aria-hidden="true"></span>Unavailable</li>
       </ul>
+      <p class="mo-picked" id="calPicked" aria-live="polite" hidden></p>
       <p class="field-error" id="date-error" hidden></p>
     </section>
 
     <!-- 3 · Time -->
     <section class="mo-step" aria-labelledby="s3">
-      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">3</span><div><h2 id="s3">Choose a time</h2><p id="slotLede">The times each offering is performed on your chosen day.</p></div></header>
+      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">3</span><div><h2 id="s3">Choose a time</h2><p id="slotLede">The times each offering is performed. The times you tick apply to every date you chose.</p></div></header>
       <div class="mo-slots" id="slots"></div>
       <p class="field-error" id="slot-error" hidden></p>
     </section>
@@ -197,7 +198,7 @@
   <aside class="mo-summary" aria-labelledby="sumTitle">
     <div class="mo-sum-card">
       <h2 class="mo-sum-title" id="sumTitle">Your offering</h2>
-      <p class="mo-sum-date" id="sumDate">No date chosen yet</p>
+      <p class="mo-sum-date" id="sumDate">No dates chosen yet</p>
       <ul class="mo-sum-list" id="sumList"></ul>
       <p class="mo-sum-empty" id="sumEmpty">Choose an offering to begin.</p>
       <div class="mo-sum-total"><span>Total</span><strong id="sumTotal">₹0</strong></div>
@@ -237,7 +238,7 @@
 </footer>
 
 <script src="assets/site.js?v=20261012a"></script>
-<script src="assets/make-offering.js?v=20261012c"></script>
+<script src="assets/make-offering.js?v=20261012d"></script>
 <!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
 <canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
 <div class="season-picker" id="seasonPicker">

@@ -17,7 +17,11 @@ const today = new Date(); today.setHours(0, 0, 0, 0);
 const lastDay = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());   // bookable a year ahead
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const longDate = (d) => d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-const state = { date: null, view: new Date(today.getFullYear(), today.getMonth(), 1), slots: {} };
+const shortDate = (d) => d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+// chosen days, kept as timestamps so the same day is never added twice
+const state = { dates: new Set(), view: new Date(today.getFullYear(), today.getMonth(), 1), slots: {} };
+const datesOf = () => [...state.dates].sort((a, b) => a - b).map(t => new Date(t));
+const dayCount = () => Math.max(1, state.dates.size);
 const chosen = () => [...form.querySelectorAll('input[name="offering"]:checked')].map(i => i.value);
 
 // ----- Which offerings are performed on which day -----
@@ -48,7 +52,7 @@ const renderCal = () => {
     const date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
     const inMonth = date.getMonth() === m, held = heldOn(date);
     const list = held.map(k => `<li class="${picked.length && !picked.includes(k) ? 'dim' : ''}"><i class="mo-dot" style="--c: var(--c-${k})"></i><span>${OFFERINGS[k].name}</span></li>`).join('');
-    const cls = ['mo-cell', inMonth ? '' : 'other', +date === +today ? 'today' : '', state.date && +state.date === +date ? 'sel' : ''].filter(Boolean).join(' ');
+    const cls = ['mo-cell', inMonth ? '' : 'other', +date === +today ? 'today' : '', inMonth && state.dates.has(+date) ? 'sel' : ''].filter(Boolean).join(' ');
     const label = `${longDate(date)}: ${held.map(k => OFFERINGS[k].name).join(', ')}`;
     const inner = `<b>${date.getDate()}</b><ul>${list}</ul>`;
     cells.push(inMonth && pickable(date)
@@ -56,12 +60,26 @@ const renderCal = () => {
       : `<div class="${cls} off" aria-label="${label}, unavailable">${inner}</div>`);
   }
   $('calDays').innerHTML = cells.join('');
+  renderPicked();
 };
+// the chosen days under the calendar, each removable, plus a way to clear them all
+const renderPicked = () => {
+  const el = $('calPicked'), list = datesOf();
+  el.hidden = !list.length;
+  el.innerHTML = list.length ? `<span>${list.length} ${list.length === 1 ? 'date' : 'dates'} chosen:</span>${list.map(d => `<button type="button" class="mo-chip" data-t="${+d}" aria-label="Remove ${longDate(d)}">${shortDate(d)}<span aria-hidden="true">×</span></button>`).join('')}${list.length > 1 ? '<button type="button" class="mo-clear" data-t="all">Clear all</button>' : ''}` : '';
+};
+$('calPicked').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-t]'); if (!b) return;
+  if (b.dataset.t === 'all') state.dates.clear(); else state.dates.delete(Number(b.dataset.t));
+  renderCal(); renderAll();
+  ($('calPicked').querySelector('button') || $('calDays').querySelector('button[data-d]'))?.focus();
+});
 $('calPrev').addEventListener('click', () => { state.view.setMonth(state.view.getMonth() - 1); renderCal(); });
 $('calNext').addEventListener('click', () => { state.view.setMonth(state.view.getMonth() + 1); renderCal(); });
 $('calDays').addEventListener('click', (e) => {
   const b = e.target.closest('button[data-d]'); if (!b) return;   // greyed days are not buttons
-  state.date = new Date(state.view.getFullYear(), state.view.getMonth(), Number(b.dataset.d));
+  const t = +new Date(state.view.getFullYear(), state.view.getMonth(), Number(b.dataset.d));
+  state.dates[state.dates.has(t) ? 'delete' : 'add'](t);   // a second click removes the day
   renderCal();
   $(`calDays`).querySelector(`[data-d="${b.dataset.d}"]`)?.focus();
   if (!$('date-error').hidden) show('date');
@@ -73,7 +91,7 @@ const slotsOf = (k) => (state.slots[k] ||= new Set());
 const renderSlots = () => {
   const list = chosen();
   if (!list.length) { $('slots').innerHTML = '<p class="mo-empty">Choose an offering first.</p>'; return; }
-  if (!state.date) { $('slots').innerHTML = '<p class="mo-empty">Choose a date to see the times.</p>'; return; }
+  if (!state.dates.size) { $('slots').innerHTML = '<p class="mo-empty">Choose a date to see the times.</p>'; return; }
   $('slots').innerHTML = list.map(k => {
     const o = OFFERINGS[k], picked = slotsOf(k);
     if (o.slots.length === 1) picked.add(o.slots[0][0]);
@@ -93,21 +111,23 @@ $('slots').addEventListener('change', (e) => {
 // ----- Summary -----
 const renderSummary = () => {
   const list = chosen();
-  $('sumDate').textContent = state.date ? longDate(state.date) : 'No date chosen yet';
+  const days = datesOf();
+  $('sumDate').textContent = !days.length ? 'No dates chosen yet' : days.length === 1 ? longDate(days[0]) : `${days.length} dates: ${days.map(shortDate).join(' · ')}`;
+  const times = (n) => days.length > 1 ? ` × ${days.length} days` : '';
   $('sumEmpty').hidden = list.length > 0;
-  // one line (and one charge) per chosen time; an offering without a time yet is counted once
+  // one line per chosen time, charged once for every chosen day; an offering without a time yet is counted once
   $('sumList').innerHTML = list.map(k => {
-    const o = OFFERINGS[k], times = o.slots.filter(x => slotsOf(k).has(x[0]));
-    if (!times.length) return `<li><span><b>${o.name}</b><small>Time to be chosen</small></span><span>${rupees(o.fee)}</span></li>`;
-    return times.map(t => `<li><span><b>${o.name}</b><small>${t[1]} · ${t[2]}</small></span><span>${rupees(o.fee)}</span></li>`).join('');
+    const o = OFFERINGS[k], picked = o.slots.filter(x => slotsOf(k).has(x[0])), fee = rupees(o.fee * dayCount());
+    if (!picked.length) return `<li><span><b>${o.name}</b><small>Time to be chosen${times()}</small></span><span>${fee}</span></li>`;
+    return picked.map(t => `<li><span><b>${o.name}</b><small>${t[1]} · ${t[2]}${times()}</small></span><span>${fee}</span></li>`).join('');
   }).join('');
   $('sumTotal').textContent = rupees(total());
 };
-const total = () => chosen().reduce((t, k) => t + OFFERINGS[k].fee * Math.max(1, slotsOf(k).size), 0);
+const total = () => chosen().reduce((t, k) => t + OFFERINGS[k].fee * Math.max(1, slotsOf(k).size), 0) * dayCount();
 const renderAll = () => { renderSlots(); renderSummary(); };
 form.querySelectorAll('input[name="offering"]').forEach(i => i.addEventListener('change', () => {
   if (!$('offering-error').hidden) show('offering');
-  if (state.date && !pickable(state.date)) state.date = null;   // the chosen day no longer holds every offering
+  datesOf().forEach(d => { if (!pickable(d)) state.dates.delete(+d); });   // drop days that no longer hold every offering
   renderCal();
   renderAll();
 }));
@@ -121,8 +141,8 @@ const pan = $('pan');
 pan.addEventListener('input', () => { pan.value = pan.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
 const checks = {
   offering: () => chosen().length ? '' : 'Please choose at least one offering.',
-  date: () => state.date ? '' : 'Please choose a date that holds every offering you chose.',
-  slot: () => !state.date || chosen().every(k => slotsOf(k).size) ? '' : 'Please tick at least one time for each offering.',
+  date: () => state.dates.size ? '' : 'Please choose at least one date that holds every offering you chose.',
+  slot: () => !state.dates.size || chosen().every(k => slotsOf(k).size) ? '' : 'Please tick at least one time for each offering.',
   behalf: () => $('behalf').value.trim() ? '' : 'Please enter the name the offering is made in.',
   pan: () => !pan.value ? 'Please enter your PAN number.' : /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(pan.value) ? '' : 'PAN numbers look like ABCDE1234F.',
   terms: () => $('terms').checked ? '' : 'Please agree to the terms and conditions.',
@@ -148,7 +168,8 @@ form.addEventListener('submit', (e) => {
   const bad = results.find(([, ok]) => !ok);
   if (bad) { $('moStatus').hidden = true; target[bad[0]]()?.focus(); return; }
   const amount = rupees(total());
-  $('moStatus').textContent = `Thank you. Your offering for ${$('behalf').value.trim()} on ${longDate(state.date)} (${amount}) is ready, but online payments are not connected yet. Nothing has been charged and your details have not been stored.`;
+  const days = datesOf(), when = days.length === 1 ? longDate(days[0]) : `${days.length} dates (${days.map(shortDate).join('; ')})`;
+  $('moStatus').textContent = `Thank you. Your offering for ${$('behalf').value.trim()} on ${when} (${amount}) is ready, but online payments are not connected yet. Nothing has been charged and your details have not been stored.`;
   $('moStatus').hidden = false;
 });
 
