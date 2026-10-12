@@ -1176,7 +1176,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .booking p + p { margin-top: -12px; }   /* the two notes read as one block: 4px apart instead of 16px */
 .btn-book { min-width: 168px; justify-content: center; font-size: var(--fs-body); line-height: var(--lh-body); }
 .btn-full { border: 1px solid var(--rule); background: var(--paper); color: var(--ink-muted); cursor: default; }   /* event fully booked */
-.guide-warn { margin-top: 24px; border: 1px solid var(--rule); background: var(--paper); }
+.guide-warn { margin-top: 24px; padding: 18px; border: 1px solid var(--rule); background: var(--paper); }
 .meeting a { color: var(--brown); text-decoration: underline; text-underline-offset: 2px; }
 .apply-card { min-height: 0; }
 .apply-link { align-self: flex-start; }
@@ -1228,7 +1228,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .stay-card .body { font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-muted); }
 .stay-card hr { width: 100%; margin: 0; border: 0; border-top: 1px solid var(--rule); }
 .stay-card h3 { font-family: var(--font-heading); letter-spacing: -0.01em; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink); }
-.notice { display: flex; align-items: flex-start; gap: 12px; padding: 18px; border-radius: 10px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
+.notice { display: flex; align-items: flex-start; gap: 12px; padding: 18px 0; border-radius: 10px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
 .notice img, .note img, .summary-item img { flex-shrink: 0; }
 
 /* "On this page" — sticky in the right margin, highlights the section in view */
@@ -1287,6 +1287,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
   .stay-card .lead { font-size: var(--fs-body); line-height: var(--lh-body); }
   .stay-card .body { font-size: var(--fs-ui); line-height: var(--lh-ui); }
   .notice { padding: 14px 0; }
+  .guide-warn { padding: 14px; }
 }
 
 /* =========================================================
