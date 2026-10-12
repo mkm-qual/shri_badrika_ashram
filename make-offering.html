@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make an offering — Sri Badrika Ashram</title>
+<meta name="description" content="Make an offering at Sri Hari Mandir: Abhishekam, Aarti, Sahasranama or Sringar, on the date and time you choose.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261012a">
+</head>
+<body data-page="make-offering">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <hr class="panel-rule">
+        <div class="swami-note">
+          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way. <a class="swami-more" href="about-swami.html">Read more</a></p>
+        </div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+    </button>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <div class="swami-note">
+      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way. <a class="swami-more" href="about-swami.html">Read more</a></p>
+    </div>
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="mo">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="offerings.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Offerings</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Make an offering</span>
+</nav>
+
+<section class="mo-intro">
+  <div class="section-heading">
+    <p class="eyebrow">Sri Hari Mandir</p>
+    <h1 class="display-2xl">Make an offering</h1>
+  </div>
+  <p class="lede">Choose a sacred ritual and the day you would like it performed at the feet of Sri Hari. It is offered with mantra and devotion, in your name or for someone you love.</p>
+</section>
+
+<form class="mo-layout" id="offerForm" novalidate>
+  <div class="mo-main">
+
+    <!-- 1 · Offerings -->
+    <section class="mo-step" aria-labelledby="s1">
+      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">1</span><div><h2 id="s1">Choose your offerings</h2><p>Select one or more rituals.</p></div></header>
+      <fieldset class="mo-offerings" aria-describedby="offering-error">
+        <legend class="visually-hidden">Offerings</legend>
+          <label class="mo-off">
+            <input type="checkbox" name="offering" value="abhishekam">
+            <span class="mo-off-img"><img src="assets/offering-abhishekam.jpg" alt="Om Swami pouring sanctified water over the idol of Sri Hari" loading="lazy"></span>
+            <span class="mo-off-check" aria-hidden="true"></span>
+            <span class="mo-off-body"><b><i class="mo-dot" style="--c: var(--c-abhishekam)" aria-hidden="true"></i>Abhishekam</b><small>Sacred bathing of Sri Hari</small><em class="mo-off-fee" data-fee="abhishekam"></em></span>
+          </label>
+          <label class="mo-off">
+            <input type="checkbox" name="offering" value="aarti">
+            <span class="mo-off-img"><img src="assets/offering-aarti.jpg" alt="Om Swami offering the Aarti lamp to Sri Hari" loading="lazy"></span>
+            <span class="mo-off-check" aria-hidden="true"></span>
+            <span class="mo-off-body"><b><i class="mo-dot" style="--c: var(--c-aarti)" aria-hidden="true"></i>Aarti</b><small>The lamp offered with the Sri Hari Aarti</small><em class="mo-off-fee" data-fee="aarti"></em></span>
+          </label>
+          <label class="mo-off">
+            <input type="checkbox" name="offering" value="sahasranama">
+            <span class="mo-off-img"><img src="assets/offering-sahasranama.jpg" alt="The idol of Sri Hari adorned with a marigold garland" loading="lazy"></span>
+            <span class="mo-off-check" aria-hidden="true"></span>
+            <span class="mo-off-body"><b><i class="mo-dot" style="--c: var(--c-sahasranama)" aria-hidden="true"></i>Sahasranama</b><small>A thousand names chanted for you</small><em class="mo-off-fee" data-fee="sahasranama"></em></span>
+          </label>
+          <label class="mo-off">
+            <input type="checkbox" name="offering" value="sringar">
+            <span class="mo-off-img"><img src="assets/offering-sringar.jpg" alt="The idol of Sri Hari adorned in golden silk and garlands" loading="lazy"></span>
+            <span class="mo-off-check" aria-hidden="true"></span>
+            <span class="mo-off-body"><b><i class="mo-dot" style="--c: var(--c-sringar)" aria-hidden="true"></i>Sringar</b><small>Adorning the Lord in silk and flowers</small><em class="mo-off-fee" data-fee="sringar"></em></span>
+          </label>
+      </fieldset>
+      <p class="field-hint">Abhishekam and Sringar can be booked for any day of the year.</p>
+      <p class="field-error" id="offering-error" hidden></p>
+    </section>
+
+    <!-- 2 · Date -->
+    <section class="mo-step" aria-labelledby="s2">
+      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">2</span><div><h2 id="s2">Choose a date</h2><p>Each day shows the offerings performed at the Mandir. Days that hold every offering you chose can be selected.</p></div></header>
+      <div class="mo-cal">
+        <div class="mo-cal-head">
+          <button class="mo-cal-nav" type="button" id="calPrev" aria-label="Previous month"><span class="ic" style="--i:url('icons/chevron-left.svg');--s:16px" aria-hidden="true"></span></button>
+          <p class="mo-cal-month" id="calMonth" aria-live="polite"></p>
+          <button class="mo-cal-nav" type="button" id="calNext" aria-label="Next month"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px" aria-hidden="true"></span></button>
+        </div>
+        <div class="mo-dow" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+        <div class="mo-grid" id="calDays"></div>
+      </div>
+      <ul class="mo-legend" aria-label="Legend">
+        <li><span class="mo-dot" style="--c: var(--c-aarti)"></span>Aarti</li>
+        <li><span class="mo-dot" style="--c: var(--c-abhishekam)"></span>Abhishekam</li>
+        <li><span class="mo-dot" style="--c: var(--c-sahasranama)"></span>Sahasranama</li>
+        <li><span class="mo-dot" style="--c: var(--c-sringar)"></span>Sringar</li>
+        <li class="mo-legend-sep"><span class="mo-key mo-key-today" aria-hidden="true"></span>Today</li>
+        <li><span class="mo-key mo-key-sel" aria-hidden="true"></span>Selected</li>
+        <li><span class="mo-key mo-key-off" aria-hidden="true"></span>Unavailable</li>
+      </ul>
+      <p class="field-error" id="date-error" hidden></p>
+    </section>
+
+    <!-- 3 · Time -->
+    <section class="mo-step" aria-labelledby="s3">
+      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">3</span><div><h2 id="s3">Choose a time</h2><p id="slotLede">The times each offering is performed on your chosen day.</p></div></header>
+      <div class="mo-slots" id="slots"></div>
+      <p class="field-error" id="slot-error" hidden></p>
+    </section>
+
+    <!-- 4 · On behalf of -->
+    <section class="mo-step" aria-labelledby="s4">
+      <header class="mo-step-head"><span class="mo-num" aria-hidden="true">4</span><div><h2 id="s4">Who is it for?</h2><p>The offering is made in this name. You may add the occasion or a prayer.</p></div></header>
+      <div class="mo-fields">
+        <div class="field">
+          <label for="behalf">Offered on behalf of<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="behalf" name="behalf" placeholder="Full name of the person" autocomplete="name" required aria-describedby="behalf-error"></div>
+          <p class="field-error" id="behalf-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="pan">PAN Number<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="pan" name="pan" placeholder="ABCDE1234F" autocomplete="off" autocapitalize="characters" maxlength="10" required aria-describedby="pan-hint pan-error"></div>
+          <p class="field-hint" id="pan-hint">Needed for your receipt.</p>
+          <p class="field-error" id="pan-error" hidden></p>
+        </div>
+        <div class="field mo-wide">
+          <label for="note">Occasion or prayer</label>
+          <div class="input area"><textarea id="note" name="note" rows="3" placeholder="A birthday, an anniversary, in memory of someone, or a prayer (optional)"></textarea></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Summary: follows you down the page on wide screens -->
+  <aside class="mo-summary" aria-labelledby="sumTitle">
+    <div class="mo-sum-card">
+      <h2 class="mo-sum-title" id="sumTitle">Your offering</h2>
+      <p class="mo-sum-date" id="sumDate">No date chosen yet</p>
+      <ul class="mo-sum-list" id="sumList"></ul>
+      <p class="mo-sum-empty" id="sumEmpty">Choose an offering to begin.</p>
+      <div class="mo-sum-total"><span>Total</span><strong id="sumTotal">₹0</strong></div>
+      <div class="donate-consent mo-consent">
+        <label class="check">
+          <input type="checkbox" id="terms" aria-describedby="terms-error">
+          <span>I agree with the <a href="terms.html">terms and conditions</a></span>
+        </label>
+        <p class="field-error" id="terms-error" hidden></p>
+      </div>
+      <button class="btn btn-primary mo-pay" type="submit"><span>Proceed to pay</span><span class="ic" style="--i:url('icons/chevron-right.svg');--s:13px" aria-hidden="true"></span></button>
+      <p class="auth-status" id="moStatus" role="status" hidden></p>
+      <p class="mo-sum-note">The schedule and amounts shown are placeholders until the Ashram confirms them. Indian payments go through Razorpay, international ones through Stripe.</p>
+    </div>
+  </aside>
+</form>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="privacy-policy.html">Privacy policy</a>
+          <a href="terms.html">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261012a"></script>
+<script src="assets/make-offering.js?v=20261012c"></script>
+<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
+<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
+<div class="season-picker" id="seasonPicker">
+  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
+  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+</div>
+<script src="assets/seasons.js?v=20261004r"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>

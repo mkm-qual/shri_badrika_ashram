@@ -92,12 +92,10 @@ if (galleryRoot) {
   const sortBtn = document.getElementById('albumSort');
   countEl.textContent = GALLERY.length;
 
-  const columnsFor = () => (innerWidth <= 768 ? 1 : innerWidth <= 1100 ? 2 : 3);
-  // Cover proportions come from the design (cards are 426px wide at 1440)
   const cardHTML = (a) => `
     <article class="album-card">
       <a href="${albumURL(a)}">
-        <div class="album-cover" style="--ar: 426 / ${a.coverHeight}">
+        <div class="album-cover">
           <img src="${coverSrc(a)}" alt="" loading="lazy" draggable="false">
         </div>
         <div class="album-info">
@@ -120,11 +118,8 @@ if (galleryRoot) {
       galleryRoot.innerHTML = `<p class="gl-empty">No albums match${q ? ` “${escapeHTML(state.query.trim())}”` : ''}.</p>`;
       return;
     }
-    // Masonry: deal cards across the columns in order, row by row
-    const n = columnsFor();
-    const cols = Array.from({ length: n }, () => []);
-    list.forEach((a, i) => cols[i % n].push(cardHTML(a)));
-    galleryRoot.innerHTML = cols.map(c => `<div class="album-col">${c.join('')}</div>`).join('');
+    // Strict grid: every cover has the same shape, so rows and titles line up
+    galleryRoot.innerHTML = list.map(cardHTML).join('');
   };
 
   document.querySelectorAll('[data-filter]').forEach(btn => btn.addEventListener('click', () => {
@@ -143,7 +138,5 @@ if (galleryRoot) {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchEl.focus(); searchEl.select(); }
   });
   protectImages(galleryRoot);
-  let lastCols = columnsFor();
-  addEventListener('resize', () => { const n = columnsFor(); if (n !== lastCols) { lastCols = n; render(); } });
   render();
 }

@@ -18,7 +18,7 @@
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261007b">
+<link rel="stylesheet" href="assets/site.css?v=20261012a">
 </head>
 <body data-page="events">
 
@@ -104,140 +104,195 @@
     <button class="sort" id="sortBtn" type="button" aria-label="Sort events">Sort by <b>Soonest first&nbsp;&nbsp;↓</b></button>
   </div>
 
-  <div class="event-cards" id="eventCards">
-    <a class="event-card" href="event-divine-autumn.html">
-      <div class="event-title">
-        <p class="eyebrow">Autumn at the ashram</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">Divine Autumn</h3>
-          <p class="event-sub">A Journey into Grace and Stillness</p>
-        </div>
+  <nav class="month-nav" aria-label="Jump to a month">
+    <a href="#m-2026-10"><b>Oct</b><span>1 event</span></a>
+    <a href="#m-2026-11"><b>Nov</b><span>3 events</span></a>
+    <a href="#m-2026-12"><b>Dec</b><span>3 events</span></a>
+    <a href="#m-2027-03"><b>Mar</b><span>1 event</span></a>
+    <a href="#m-2027-04"><b>Apr</b><span>1 event</span></a>
+  </nav>
+
+  <!-- A series that runs across the season -->
+  <a class="event-card event-group series-banner" href="event-glorious-presence.html">
+    <div class="event-title">
+      <p class="eyebrow">Event series <span class="group-count">6 events</span></p>
+      <div class="event-title-inner">
+        <h3 class="display-lg">The Glorious Presence</h3>
+        <p class="event-sub">Discourses with Swamiji, November to April</p>
       </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 October — 25 October</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Available for booking</div>
+    </div>
+    <ul class="group-dates" aria-label="Event start dates">
+      <li>1 Nov</li><li>19 Nov</li><li>1 Dec</li><li>15 Dec</li><li>28 Dec</li><li>1 Apr</li>
+    </ul>
+    <div class="event-meta">
+      <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 November 2026 — 11 April 2027</div>
+      <div><img src="assets/clock.svg" width="16" height="16" alt="">Next: Event 1, 1 — 10 November</div>
+    </div>
+  </a>
+
+  <div class="months" id="eventCards">
+    <section class="month" id="m-2026-10" aria-labelledby="mh-2026-10">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Oct</span>
+        <h2 class="month-name" id="mh-2026-10">October <span>2026</span></h2>
+        <p class="month-meta">Autumn · 1 event</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-divine-autumn.html">
+          <div class="event-title">
+            <p class="eyebrow">Autumn at the ashram</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">Divine Autumn</h3>
+              <p class="event-sub">A Journey into Grace and Stillness</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 October — 25 October</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Available for booking</div>
+          </div>
+        </a>
       </div>
-    </a>
-    <a class="event-card" href="event-glorious-presence-1.html">
-      <div class="event-title">
-        <p class="eyebrow">Discourses with Swamiji</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence (Event 1)</h3>
-          <p class="event-sub">Discourses on 7, 8 and 9 November</p>
-        </div>
+    </section>
+    <section class="month" id="m-2026-11" aria-labelledby="mh-2026-11">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Nov</span>
+        <h2 class="month-name" id="mh-2026-11">November <span>2026</span></h2>
+        <p class="month-meta">Early winter · 3 events</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-glorious-presence-1.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 1)</h3>
+              <p class="event-sub">Discourses on 7, 8 and 9 November</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 November — 10 November</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 9 November</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-children-of-tomorrow.html">
+          <div class="event-title">
+            <p class="eyebrow">A retreat for young minds</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Children of Tomorrow</h3>
+              <p class="event-sub">A three-day journey to nurture young minds</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">13 November — 15 November</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">All bookings are currently full</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-glorious-presence-2.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 2)</h3>
+              <p class="event-sub">Discourses on 20, 21 and 22 November</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">19 November — 26 November</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 19 — 25 November</div>
+          </div>
+        </a>
       </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 November — 10 November</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 9 November</div>
+    </section>
+    <section class="month" id="m-2026-12" aria-labelledby="mh-2026-12">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Dec</span>
+        <h2 class="month-name" id="mh-2026-12">December <span>2026</span></h2>
+        <p class="month-meta">Winter · 3 events</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-glorious-presence-3.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 3)</h3>
+              <p class="event-sub">Discourses on 4, 5 and 6 December</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 December — 11 December</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 10 December</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-glorious-presence-4.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 4)</h3>
+              <p class="event-sub">Discourses on 18, 19 and 20 December</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">15 December — 23 December</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 15 — 22 December</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-glorious-presence-5.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 5)</h3>
+              <p class="event-sub">Discourses on 30, 31 December and 1 January</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">28 December — 5 January</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 28 December — 4 January</div>
+          </div>
+        </a>
       </div>
-    </a>
-    <a class="event-card" href="event-children-of-tomorrow.html">
-      <div class="event-title">
-        <p class="eyebrow">A retreat for young minds</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Children of Tomorrow</h3>
-          <p class="event-sub">A three-day journey to nurture young minds</p>
-        </div>
+    </section>
+    <section class="month" id="m-2027-03" aria-labelledby="mh-2027-03">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Mar</span>
+        <h2 class="month-name" id="mh-2027-03">March <span>2027</span></h2>
+        <p class="month-meta">Spring · 1 event</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-maha-rudra-sadhana.html">
+          <div class="event-title">
+            <p class="eyebrow">Maha Shivratri Sadhana</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">Maha Rudra Sadhana</h3>
+              <p class="event-sub">The Return of Rudra (English)</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">5 March — 17 March</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Full 11-day duration only</div>
+          </div>
+        </a>
       </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">13 November — 15 November</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">All bookings are currently full</div>
+    </section>
+    <section class="month" id="m-2027-04" aria-labelledby="mh-2027-04">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Apr</span>
+        <h2 class="month-name" id="mh-2027-04">April <span>2027</span></h2>
+        <p class="month-meta">Spring · 1 event</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-glorious-presence-6.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 6)</h3>
+              <p class="event-sub">Discourses on 2, 3 and 4 April</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 April — 11 April</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 10 April</div>
+          </div>
+        </a>
       </div>
-    </a>
-    <a class="event-card" href="event-glorious-presence-2.html">
-      <div class="event-title">
-        <p class="eyebrow">Discourses with Swamiji</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence (Event 2)</h3>
-          <p class="event-sub">Discourses on 20, 21 and 22 November</p>
-        </div>
-      </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">19 November — 26 November</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 19 — 25 November</div>
-      </div>
-    </a>
-    <a class="event-card" href="event-glorious-presence-3.html">
-      <div class="event-title">
-        <p class="eyebrow">Discourses with Swamiji</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence (Event 3)</h3>
-          <p class="event-sub">Discourses on 4, 5 and 6 December</p>
-        </div>
-      </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 December — 11 December</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 10 December</div>
-      </div>
-    </a>
-    <a class="event-card" href="event-glorious-presence-4.html">
-      <div class="event-title">
-        <p class="eyebrow">Discourses with Swamiji</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence (Event 4)</h3>
-          <p class="event-sub">Discourses on 18, 19 and 20 December</p>
-        </div>
-      </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">15 December — 23 December</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 15 — 22 December</div>
-      </div>
-    </a>
-    <a class="event-card" href="event-glorious-presence-5.html">
-      <div class="event-title">
-        <p class="eyebrow">Discourses with Swamiji</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence (Event 5)</h3>
-          <p class="event-sub">Discourses on 30, 31 December and 1 January</p>
-        </div>
-      </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">28 December — 5 January</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 28 December — 4 January</div>
-      </div>
-    </a>
-    <a class="event-card" href="event-maha-rudra-sadhana.html">
-      <div class="event-title">
-        <p class="eyebrow">Maha Shivratri Sadhana</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">Maha Rudra Sadhana</h3>
-          <p class="event-sub">The Return of Rudra (English)</p>
-        </div>
-      </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">5 March — 17 March</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Full 11-day duration only</div>
-      </div>
-    </a>
-    <a class="event-card" href="event-glorious-presence-6.html">
-      <div class="event-title">
-        <p class="eyebrow">Discourses with Swamiji</p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence (Event 6)</h3>
-          <p class="event-sub">Discourses on 2, 3 and 4 April</p>
-        </div>
-      </div>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 April — 11 April</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 10 April</div>
-      </div>
-    </a>
-    <a class="event-card event-group" href="event-glorious-presence.html">
-      <div class="event-title">
-        <p class="eyebrow">Event series <span class="group-count">6 events</span></p>
-        <div class="event-title-inner">
-          <h3 class="display-lg">The Glorious Presence</h3>
-          <p class="event-sub">Discourses with Swamiji, November to April</p>
-        </div>
-      </div>
-      <ul class="group-dates" aria-label="Event start dates">
-        <li>1 Nov</li><li>19 Nov</li><li>1 Dec</li><li>15 Dec</li><li>28 Dec</li><li>1 Apr</li>
-      </ul>
-      <div class="event-meta">
-        <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 November 2026 — 11 April 2027</div>
-        <div><img src="assets/clock.svg" width="16" height="16" alt="">Next: Event 1, 1 — 10 November</div>
-      </div>
-    </a>
+    </section>
   </div>
 </section>
 
@@ -262,14 +317,17 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261004r"></script>
+<script src="assets/site.js?v=20261012a"></script>
 <script>
-  // Sort: soonest first (as listed) or latest first
-  const sortBtn = document.getElementById('sortBtn'), cards = document.getElementById('eventCards');
+  // Sort: soonest first (as listed) or latest first; months and the events inside them flip together
+  const sortBtn = document.getElementById('sortBtn'), months = document.getElementById('eventCards');
+  const monthNav = document.querySelector('.month-nav');
   let soonest = true;
+  const flip = (el) => [...el.children].reverse().forEach(c => el.appendChild(c));
   sortBtn.addEventListener('click', () => {
     soonest = !soonest;
-    [...cards.children].reverse().forEach(c => cards.appendChild(c));
+    flip(months); flip(monthNav);
+    months.querySelectorAll('.month-cards').forEach(flip);
     sortBtn.querySelector('b').innerHTML = soonest ? 'Soonest first&nbsp;&nbsp;↓' : 'Latest first&nbsp;&nbsp;↑';
   });
 </script>

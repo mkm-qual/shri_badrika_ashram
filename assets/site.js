@@ -4,7 +4,8 @@ const SITE_MENU = {
     ['Upcoming Events', 'events.html'], ['Gallery', 'gallery.html'], ['Download Pics', 'downloads.html'] ] },
   offerings: { title: 'Offerings', href: 'offerings.html', links: [
     ['Sri Hari Abhishekam', 'offerings.html#abhishekam'], ['Sri Hari Aarti', 'offerings.html#aarti'],
-    ['Sri Hari Sahasranama', 'offerings.html#sahasranama'], ['Sri Hari Sringar', 'offerings.html#sringar'] ] },
+    ['Sri Hari Sahasranama', 'offerings.html#sahasranama'], ['Sri Hari Sringar', 'offerings.html#sringar'],
+    ['Make an offering', 'make-offering.html'] ] },
   ashram: { title: 'Ashram', href: 'ashram.html', links: [
     ['Virtual Tour', 'ashram.html#tour'], ['Temple', 'ashram.html#sri-hari-mandir'], ['Direction', 'ashram.html#directions'], ['Contact us', 'contact.html'], ['FAQs', 'faq.html'],
     ['Important Guidelines', 'guidelines.html'], ['Career', 'career.html'] ] },
