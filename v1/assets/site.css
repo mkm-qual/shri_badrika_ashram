@@ -523,8 +523,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .divine-body { font-size: var(--fs-body); font-weight: var(--fw-text); line-height: var(--lh-body); color: var(--ink-muted); }
 /* About Swamiji: the Swami note from the menu, as a home section above the Ashram */
 .about-swamiji { padding: 96px var(--gutter); display: flex; align-items: center; gap: 88px; }
-.swamiji-photo { flex-shrink: 0; width: 378px; height: 310px; border-radius: var(--r-media-lg); object-fit: cover; }
-:root:not([data-theme="dark"]) .swamiji-photo { mix-blend-mode: multiply; }   /* the watercolour's white paper melts into the page */
+/* the watercolour is cut out of its paper (light and dark versions), so it sits straight on the page */
+.swamiji-photo { flex-shrink: 0; width: 440px; max-width: 100%; }
+.swamiji-photo img { width: 100%; height: auto; }
+/* the text shows as much as fits beside the portrait, then fades out; "Read more" opens the full page */
+.swamiji-body { --lines: 9; max-height: calc(var(--lines) * 1lh); overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 2lh), transparent);
+          mask-image: linear-gradient(to bottom, #000 calc(100% - 2lh), transparent); }
+.swamiji-body p + p { margin-top: .8em; }
 .swamiji-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 .swamiji-body { max-width: 68ch; font-size: var(--fs-body); font-weight: var(--fw-text); line-height: var(--lh-body); color: var(--ink-muted); }
 .actions { display: flex; gap: 12px; }
@@ -846,7 +852,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
   .divine { padding: 72px 24px; gap: 38px; }   /* same page colour as the hero above it */
   .about-swamiji { padding: 72px 24px; gap: 38px; }
-  .swamiji-photo { width: 100%; height: auto; aspect-ratio: 378 / 310; }
+  .swamiji-photo { width: 100%; }
   .swamiji-copy .section-heading { align-items: center; text-align: center; }
   .swamiji-body { font-size: var(--fs-ui); line-height: var(--lh-ui); }   /* same as the Sri Hari text on phones */
   .deity { width: 100%; height: 390px; }
