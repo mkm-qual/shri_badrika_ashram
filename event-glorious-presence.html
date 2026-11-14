@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/site.css?v=20261114q">
 </head>
 <body data-page="detail">
 
@@ -89,36 +89,27 @@
 
     <!-- ============ Series introduction ============ -->
     <div class="detail-intro">
-      <div class="detail-hero">
         <div class="detail-copy">
-          <p class="eyebrow">Event series · 6 events</p>
-          <h1 class="display-2xl">The Glorious Presence</h1>
+          <h1 class="display-2xl" tabindex="-1">The Glorious Presence</h1>
           <div class="paras">
             <p>There are a total of six events under the name The Glorious Presence, held at the Ashram from November 2026 to April 2027.</p>
             <p>Each event includes three discourse dates with Swamiji, along with non-discourse dates you may stay for. Swamiji will be present only on the Discourse Date.</p>
             <p>If you are not attending Maha Rudra Sadhana 2027 (English), you may book a maximum of 3 of these events.</p>
           </div>
         </div>
-        <section class="card" id="summary" aria-labelledby="summary-title">
-          <h2 class="card-title" id="summary-title">Event summary</h2>
-          <div class="summary-list">
-            <div class="summary-item">
-              <img src="assets/icon-calendar-day.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Series dates</p><strong>1 November 2026 — 11 April 2027</strong></div>
-            </div>
-            <div class="summary-item">
-              <img src="assets/icon-clock.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Events</p><strong>6 events, each with 3 discourse days</strong></div>
-            </div>
-          </div>
+        <section class="card key-card" id="summary" aria-label="Event summary">
+          <dl class="key-facts">
+            <div><dt>Series dates</dt><dd>1 November 2026 — 11 April 2027</dd></div>
+            <div><dt>Events</dt><dd>6 events, each with 3 discourse days</dd></div>
+          </dl>
+          <div class="key-foot">
           <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">The guidelines and contribution are the same for every event.</p>
+          </div>
         </section>
-      </div>
     </div>
 
     <!-- ============ The six events ============ -->
     <section class="section-heading" id="events">
-      <p class="eyebrow">Choose an event</p>
       <h2 class="display-2xl">Events in this series</h2>
     </section>
     <ol class="series-list">
@@ -199,7 +190,6 @@
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
       <div class="guide-intro">
-        <p class="eyebrow">Before you book</p>
         <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
         <p>Review every guideline before proceeding with your booking.</p>
       </div>
@@ -223,7 +213,6 @@
 
     <!-- ============ Accommodation ============ -->
     <section class="section-heading wide" id="accommodation">
-      <p class="eyebrow">Your stay</p>
       <h2 class="display-2xl">Accommodation Details</h2>
     </section>
     <div class="card stay-card wide">
@@ -297,6 +286,13 @@
   };
   addEventListener('scroll', mark, { passive: true });
   mark();
+  // "Event summary" is the top of the page: it takes you all the way up, not just to the card
+  tocLinks[0].addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    history.replaceState(null, '', location.pathname + location.search);
+    document.querySelector('main h1')?.focus({ preventScroll: true });
+  });
 </script>
 
 <!-- Site options: switch versions and scroll clouds -->

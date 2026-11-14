@@ -431,12 +431,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 .view-all:hover { background: var(--brown-wash); }
 .event-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+/* Cards size to their content (no fixed height). Cards in one row still match, because the grid stretches
+   them, and the dates/status block is pushed to the bottom so the dividers line up even when a title wraps. */
 .event-card {
-  min-height: 250px;   /* grows when a title wraps; cards in a row stay equal height */
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 26px;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
   border-radius: 16px;
   background: linear-gradient(180deg, transparent 0%, var(--cream) 50%, transparent 100%);
 }
@@ -447,11 +448,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .event-meta {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 16px;
+  gap: var(--sp-2);
+  margin-top: auto;
+  padding-top: var(--sp-4);
   border-top: 1px solid var(--rule);
 }
-.event-meta div { display: flex; align-items: center; gap: 10px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); white-space: nowrap; }
+/* long lines wrap under their own text, with the icon kept on the first line */
+.event-meta div { display: flex; align-items: flex-start; gap: 10px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
+.event-meta img { flex-shrink: 0; margin-top: calc((1lh - 16px) / 2); }
 
 /* Grouped events: one card stands for a series. A count sits beside the label,
    and each event's start date is a small chip. */
@@ -1223,7 +1227,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .booking p + p { margin-top: -12px; }   /* the two notes read as one block: 4px apart instead of 16px */
 .btn-book { min-width: 168px; justify-content: center; font-size: var(--fs-body); line-height: var(--lh-body); }
 .btn-full { border: 1px solid var(--rule); background: var(--paper); color: var(--ink-muted); cursor: default; }   /* event fully booked */
-.guide-warn { margin-top: 24px; padding: 18px; border: 1px solid var(--rule); background: var(--paper); }
+.notice.guide-warn { margin-top: 24px; padding: 18px; border: 1px solid var(--rule); background: var(--paper); }
 .meeting a { color: var(--brown); text-decoration: underline; text-underline-offset: 2px; }
 .apply-card { min-height: 0; }
 .apply-link { align-self: flex-start; }
@@ -1275,7 +1279,7 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .stay-card .body { font-size: var(--fs-body); font-weight: var(--fw-text); line-height: var(--lh-body); color: var(--ink-muted); }
 .stay-card hr { width: 100%; margin: 0; border: 0; border-top: 1px solid var(--rule); }
 .stay-card h3 { font-family: var(--font-heading); letter-spacing: -0.01em; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink); }
-.notice { display: flex; align-items: flex-start; gap: 12px; padding: 18px 0; border-radius: 10px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
+.notice { display: flex; align-items: flex-start; gap: 12px; padding: 0; border-radius: 10px; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
 .notice img, .note img, .summary-item img { flex-shrink: 0; }
 
 /* "On this page" — sticky in the right margin, highlights the section in view */
@@ -1286,6 +1290,82 @@ img[src*="icon-"] { filter: var(--icon-ink); }
 .toc a { display: flex; align-items: baseline; gap: 12px; margin-left: -1px; padding: 9px 0 9px 18px; border-left: 2px solid transparent; font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-muted); text-decoration: none; transition: color var(--t-hover) ease, border-color var(--t-hover) ease; }
 .toc a:hover, .toc a[aria-current="true"] { color: var(--ink); border-left-color: var(--saffron); }
 .toc a:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; border-radius: 4px; }
+
+/* ----- Event detail + booking: one spacing system -----
+   A 4px-based scale, and five rhythm rules used everywhere on both pages:
+   breadcrumb → page heading 32 · eyebrow → title 12 · page heading → first content 32 ·
+   section heading → its content 24 · section → section 64 · cards in a stack 16 · card padding 32.
+   Cards share one surface: paper fill, hairline border, 20px corners (the booking page's cards). */
+:root {
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+  --gap-crumb: var(--sp-6);
+  --gap-title: var(--sp-3);
+  --gap-intro: var(--sp-6);
+  --gap-head: var(--sp-5);
+  --gap-section: var(--sp-8);
+  --gap-stack: var(--sp-4);
+  --card-pad: var(--sp-6);
+  --card-radius: 20px;
+}
+/* page top */
+.detail { padding-top: var(--sp-5); }
+.detail > .crumbs { margin-bottom: var(--gap-crumb); }
+.detail-copy { gap: var(--gap-title); }
+.detail-copy .paras { gap: var(--sp-3); margin-top: var(--sp-1); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink-muted); }   /* intro lines and short paragraphs: close, but still separate */
+.detail-hero { gap: var(--gap-intro); }
+.detail-intro { align-items: stretch; gap: var(--sp-5); }
+/* Book sits under the summary, left-aligned with everything else, its notes beside it */
+.booking { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); text-align: left; }
+.booking-notes { display: flex; flex-direction: column; gap: 2px; }
+.booking p { font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink-muted); }
+.booking p + p { margin-top: 0; }
+/* section rhythm */
+.detail > * + * { margin-top: var(--gap-head); }
+.detail > .detail-intro + *, .detail > section.section-heading, .detail > #guidelines { margin-top: var(--gap-section); }
+.detail .section-heading { gap: var(--gap-title); }
+.detail .section-heading h2, .guide-intro h2 { font-size: var(--fs-h2); line-height: var(--lh-h2); }   /* section titles one step below the page title */
+.guide-intro { gap: var(--gap-title); }
+.guide-intro p:last-child { font-size: var(--fs-body); line-height: var(--lh-body); }
+.guidelines { margin-top: var(--gap-head); }
+.guidelines li { padding: 6px 0; }
+.meeting { margin-top: var(--gap-head); }
+.schedule-cards > * + * { margin-top: var(--gap-stack); }
+.detail .wide { width: auto; max-width: none; margin-left: 0; }   /* every card shares the text column's edges */
+/* cards */
+.detail .card { gap: var(--sp-5); padding: var(--card-pad); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); }
+.stay-card, .detail .quote { min-height: 0; }
+/* nothing ends a card on a divider: the last block in a card drops its bottom rule (and the space under it),
+   so the card's own edge is the only line there */
+.detail .card > :last-child, .detail .card > :last-child > :last-child { border-bottom: 0; padding-bottom: 0; }   /* cards are as tall as their content */
+.summary-list { gap: var(--sp-4); padding: var(--sp-5) 0; }
+.stay-item { padding: var(--sp-4) 0; }
+.time-row { padding: var(--sp-4) 0; }
+.time-row > img { display: none; }
+.detail .card > p + .notice { margin-top: calc(-1 * var(--sp-2)); }   /* an info note belongs to the paragraph above it: 16px, not a full card gap */   /* a clock with no time beside it said nothing */
+/* booking page on the same rhythm */
+.bk-page .crumbs-bar { padding-top: var(--sp-5); }   /* header → breadcrumb, as on the event page */
+.bk-page .crumbs-bar + .give-intro { padding-top: var(--gap-crumb); }
+.bk-page .give-intro .section-heading { gap: var(--gap-title); }
+.bk-page .bk-layout { padding-top: var(--gap-intro); }
+/* Event panel: the tag line reads as a sub-title, and the facts sit in one card with hairlines between them;
+   labels are small sentence-case captions, values regular weight, so nothing in the panel shouts */
+.bk-page .bk-ritual { gap: var(--sp-4); }
+.bk-page .bk-badge { align-self: stretch; padding: 0; border-radius: 0; background: none; color: var(--ink-muted); font-family: var(--font-heading); font-weight: 400; font-size: var(--fs-h4); line-height: var(--lh-h4); letter-spacing: -0.01em; text-transform: none; }
+.bk-page .bk-facts { gap: 0; padding: var(--sp-1) var(--sp-5); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); }
+.bk-page .bk-facts > div { padding: var(--sp-3) 0; }
+.bk-page .bk-facts > div + div { border-top: 1px solid var(--rule); }
+.bk-page .bk-facts dt { font-size: var(--fs-sm); line-height: var(--lh-sm); letter-spacing: 0; text-transform: none; font-weight: 400; color: var(--ink-muted); }
+.bk-page .bk-facts dd { margin-top: 2px; font-size: var(--fs-body); line-height: var(--lh-body); font-weight: 400; color: var(--ink); }
+.bk-page .bk-back { margin-top: calc(-1 * var(--sp-1)); }
+.bk-page .bk-card, .bk-page .bk-summary, .bk-page .bk-notice { border-radius: var(--card-radius); }
+.bk-page .bk-summary { border: 1px solid var(--rule); background: var(--card-bg); }
+.bk-page .bk-people-sub { font-weight: 400; }
+.detail .icon-disc.paper { background: var(--sand); }   /* the rupee disc stays visible on the paper card */
+@media (max-width: 768px) {
+  :root { --gap-crumb: var(--sp-5); --gap-intro: var(--sp-5); --gap-head: 20px; --gap-section: var(--sp-7); --card-pad: 20px; }
+  .detail { padding-top: var(--sp-4); }
+  .booking { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+}
 
 @media (max-width: 1360px) {
   .toc { right: 32px; width: 168px; }
@@ -1309,20 +1389,16 @@ img[src*="icon-"] { filter: var(--icon-ink); }
   .listing .events-head { flex-direction: column; align-items: center; gap: 16px; }
   .listing .events-head .section-heading { width: 100%; }
 
-  .detail { max-width: none; width: auto; margin: 0 24px; padding: 24px 0 72px; }
-  .detail > * + * { margin-top: 40px; }
-  .detail > .detail-intro + * { margin-top: 56px; }
+  .detail { max-width: none; width: auto; margin: 0 24px; padding: var(--sp-4) 0 72px; }
   .detail .wide { width: auto; max-width: none; margin-left: 0; }
   .detail-copy .paras { font-size: var(--fs-body); font-weight: var(--fw-text); line-height: var(--lh-body); }
-  .detail-hero { gap: 32px; }
   .card { padding: 24px 20px; gap: 20px; }
   .card-title { font-size: var(--fs-h3); line-height: var(--lh-h3); }
   .summary-item strong, .stay-item strong { font-size: var(--fs-h4); line-height: var(--lh-h4); }
   .time-row { gap: 14px; }
   .time-copy strong { font-size: var(--fs-h4); line-height: var(--lh-h4); }
-  .guidelines { margin-top: 32px; }
   .guidelines li { font-size: var(--fs-ui); line-height: var(--lh-ui); }
-  .meeting { margin-top: 32px; align-items: flex-start; gap: 16px; }
+  .meeting { align-items: flex-start; gap: 16px; }
   .meeting h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }
   .meeting p { font-size: var(--fs-ui); line-height: var(--lh-ui); }
   .quote { min-height: 0; padding: 32px 20px; }
@@ -1330,11 +1406,10 @@ img[src*="icon-"] { filter: var(--icon-ink); }
   .quote blockquote { font-size: var(--fs-h3); line-height: var(--lh-h3); }
   .stay-card { min-height: 0; }
   .amount { font-size: var(--fs-h1); line-height: var(--lh-h1); }
-  .stay-card h3 { font-size: var(--fs-h2); line-height: var(--lh-h2); }
+  .stay-card h3 { font-size: var(--fs-h3); line-height: var(--lh-h3); }   /* same as every card title */
   .stay-card .lead { font-size: var(--fs-body); font-weight: var(--fw-text); line-height: var(--lh-body); }
   .stay-card .body { font-size: var(--fs-ui); line-height: var(--lh-ui); }
-  .notice { padding: 14px 0; }
-  .guide-warn { padding: 14px; }
+  .notice.guide-warn { padding: 14px; }
 }
 
 /* =========================================================
@@ -1771,13 +1846,13 @@ body.viewer-open { overflow: hidden; }
 .crumbs-bar + .ev-intro { padding-top: 40px; min-height: 0; align-items: flex-end; }
 .crumbs-bar + .listing { padding-top: 40px; }   /* All events: the listing follows the breadcrumb directly */
 .crumbs-bar + .off-intro { padding-top: 40px; }
-.detail > .crumbs { margin: 0 0 40px; }
+.detail > .crumbs { margin: 0 0 var(--gap-crumb); }
 .detail > .crumbs + * { margin-top: 0; }
 .crumbs a:focus-visible { outline: 2px solid var(--g-accent); outline-offset: 2px; border-radius: 2px; }
 @media (max-width: 768px) {
   .crumbs-bar { padding-top: 24px; }
   .crumbs-bar + .ev-intro, .crumbs-bar + .off-intro { padding-top: 28px; }
-  .detail > .crumbs { margin: 0 0 28px; }
+  .detail > .crumbs { margin: 0 0 var(--gap-crumb); }
   .gl.album > .crumbs { margin-bottom: 0; }
 }
 
@@ -3119,3 +3194,60 @@ button.mo-cell:focus-visible { outline: 2px solid var(--saffron); outline-offset
   .mo-time { flex: 1 1 100%; }
   .mo-fields { grid-template-columns: 1fr; }
 }
+
+/* ----- Title → its sub-text: one rule across the site -----
+   A heading and the line that explains it read as one unit: page and section titles sit 8px above
+   their intro line, card titles 2–4px above their subtitle (the line-heights add the rest). */
+:root { --gap-sub: 8px; --gap-sub-card: 2px; }
+.section-heading, .detail .section-heading, .give-intro .section-heading, .bk-page .give-intro .section-heading,
+.gl-heading, .off-hero-copy, .as-hero-copy, .auth-intro, .detail-copy, .guide-intro { gap: var(--gap-sub); }
+.detail-copy .paras { margin-top: 0; }
+.event-title-inner { gap: var(--gap-sub-card); }
+.meeting > div:last-child { gap: 4px; }
+.gi-feature-copy > h3 + p { margin-top: calc(4px - 11px); }   /* the paragraphs below keep their own spacing */
+.gi-card-body > h3 + * { margin-top: calc(4px - 16px); }      /* the button below keeps its 16px */
+
+/* ----- Page top: header → breadcrumb → title, the same on every page -----
+   16px from the header to the breadcrumb and 16px from the breadcrumb to the page title (12px on phones),
+   so the title starts close under the header instead of after two large gaps. */
+:root { --gap-crumb: 16px; --crumb-top: 16px; }
+.crumbs-bar, .bk-page .crumbs-bar { padding-top: var(--crumb-top); }
+.crumbs-bar + .ev-intro, .crumbs-bar + .listing, .crumbs-bar + .off-intro, .crumbs-bar + .give-intro,
+.bk-page .crumbs-bar + .give-intro, .crumbs-bar + .mo-intro { padding-top: var(--gap-crumb); }
+.detail { padding-top: var(--crumb-top); }
+.gl { padding-top: var(--crumb-top); }
+.gl > .crumbs { margin-bottom: calc(var(--gap-crumb) - 40px); }        /* .gl spaces its children 40px apart */
+.gl.album > .crumbs { margin-bottom: calc(var(--gap-crumb) - 28px); }  /* albums 28px */
+.as-hero { padding-top: var(--gap-crumb); }
+.crumbs-bar + .ab-intro { padding-top: var(--gap-crumb); }
+.ab-head { gap: var(--gap-sub); }
+@media (max-width: 768px) {
+  :root { --gap-crumb: 12px; --crumb-top: 12px; }
+  .crumbs-bar + .ev-intro, .crumbs-bar + .listing, .crumbs-bar + .off-intro, .crumbs-bar + .give-intro,
+  .bk-page .crumbs-bar + .give-intro, .crumbs-bar + .mo-intro { padding-top: var(--gap-crumb); }
+  .detail { padding-top: var(--crumb-top); }
+  .gl > .crumbs, .gl.album > .crumbs { margin-bottom: calc(var(--gap-crumb) - 28px); }   /* .gl spaces 28px on phones */
+}
+
+/* ----- Event key facts: everything needed to decide and book, in one compact card -----
+   Facts sit in a row (they wrap on narrow screens), each said once; the one note that matters and the
+   Book button share the card's foot. */
+.detail .key-card { gap: var(--sp-5); padding: var(--sp-5); }
+.key-facts { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--sp-4) var(--sp-5); }
+.key-facts dt { font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink-muted); }
+.key-facts:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }   /* four facts: a 2 × 2 block, never 3 + 1 */
+.key-facts dd { margin: 2px 0 0; font-size: var(--fs-body); line-height: var(--lh-body); color: var(--ink); }
+.key-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4) var(--sp-5); padding-top: var(--sp-5); border-top: 1px solid var(--rule); }
+.key-foot:not(:has(.note, .key-cta)) { display: none; }
+.key-foot .note { flex: 1; min-width: 0; }
+.key-cta { flex-shrink: 0; margin-left: auto; }   /* the action keeps to the right even without a note */
+.key-cta .btn-book { min-width: 148px; }
+@media (max-width: 768px) {
+  .key-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .key-foot { flex-direction: column; align-items: stretch; }
+  .key-cta { margin-left: 0; }
+  .key-cta .btn-book { width: 100%; }
+}
+
+/* the page title takes focus when "Event summary" jumps to the top (for screen readers); no ring for that */
+h1[tabindex="-1"]:focus { outline: none; }

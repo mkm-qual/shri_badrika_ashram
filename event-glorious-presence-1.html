@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/site.css?v=20261114q">
 </head>
 <body data-page="detail">
 
@@ -91,44 +91,30 @@
 
     <!-- ============ Event introduction ============ -->
     <div class="detail-intro">
-      <div class="detail-hero">
         <div class="detail-copy">
-          <p class="eyebrow"><a class="series-tag" href="event-glorious-presence.html">The Glorious Presence · Event 1 of 6</a></p>
-          <h1 class="display-2xl">The Glorious Presence (Event 1)</h1>
-          <div class="paras">
-            <p>Discourse date: 7 – 8 – 9 November</p>
-            <p>Bookings window: 1 – 9 November</p>
-            <p>(Swamiji will be present only on the Discourse Date)</p>
-          </div>
+          <h1 class="display-2xl" tabindex="-1">The Glorious Presence (Event 1)</h1>
         </div>
-        <section class="card" id="summary" aria-labelledby="summary-title">
-          <h2 class="card-title" id="summary-title">Event summary</h2>
-          <div class="summary-list">
-            <div class="summary-item">
-              <img src="assets/icon-calendar-day.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Start date</p><strong>1 November 2026 (Sunday)</strong></div>
-            </div>
-            <div class="summary-item">
-              <img src="assets/icon-clock.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">End date</p><strong>10 November 2026 (Tuesday)</strong></div>
-            </div>
-          </div>
+        <section class="card key-card" id="summary" aria-label="Event summary">
+          <dl class="key-facts">
+            <div><dt>Start date</dt><dd>1 November 2026 (Sunday)</dd></div>
+            <div><dt>End date</dt><dd>10 November 2026 (Tuesday)</dd></div>
+            <div><dt>Discourses</dt><dd>7 – 8 – 9 November</dd></div>
+            <div><dt>Bookings window</dt><dd>1 – 9 November</dd></div>
+          </dl>
+          <div class="key-foot">
           <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">Swamiji will be present only on the Discourse Date.</p>
-        </section>
-      </div>
-      <div class="booking">
-        <a class="btn btn-primary btn-book" href="booking.html?event=glorious-presence-1">
+          <div class="key-cta">
+            <a class="btn btn-primary btn-book" href="booking.html?event=glorious-presence-1">
           <span>Book</span>
           <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
         </a>
-        <p>Bookings window: 1 — 9 November</p>
-        <p>(Swamiji will be present only on the Discourse Date)</p>
-      </div>
+          </div>
+          </div>
+        </section>
     </div>
 
 
     <section class="section-heading" id="schedule">
-      <p class="eyebrow">Plan your visit</p>
       <h2 class="display-2xl">Schedule and Important Details</h2>
     </section>
     <div class="schedule-cards">
@@ -167,7 +153,6 @@
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
       <div class="guide-intro">
-        <p class="eyebrow">Before you book</p>
         <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
         <p>Review every guideline before proceeding with your booking.</p>
       </div>
@@ -191,7 +176,6 @@
 
     <!-- ============ Accommodation ============ -->
     <section class="section-heading wide" id="accommodation">
-      <p class="eyebrow">Your stay</p>
       <h2 class="display-2xl">Accommodation Details</h2>
     </section>
     <div class="card stay-card wide">
@@ -269,6 +253,13 @@
   };
   addEventListener('scroll', mark, { passive: true });
   mark();
+  // "Event summary" is the top of the page: it takes you all the way up, not just to the card
+  tocLinks[0].addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    history.replaceState(null, '', location.pathname + location.search);
+    document.querySelector('main h1')?.focus({ preventScroll: true });
+  });
 </script>
 
 <!-- Site options: switch versions and scroll clouds -->

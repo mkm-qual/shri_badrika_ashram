@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/site.css?v=20261114q">
 </head>
 <body data-page="detail">
 
@@ -89,37 +89,29 @@
 
     <!-- ============ Event introduction ============ -->
     <div class="detail-intro">
-      <div class="detail-hero">
         <div class="detail-copy">
-          <p class="eyebrow">The Return of Rudra · in English</p>
-          <h1 class="display-2xl">Maha Rudra Sadhana</h1>
+          <h1 class="display-2xl" tabindex="-1">Maha Rudra Sadhana</h1>
           <div class="paras">
             <p>Shiva is the eternal source from which all creation flows - the silence before sound, the witness beyond time.</p>
             <p>Last year, on this sacred land, Swamiji invoked Bhagwan Rudra, and now, once again, by His boundless grace, the Lord returns. This Maha Shivratri, following the sacred Abhishekam, the Maha Rudra Sadhana begins again. Join us as the grace of Rudra flows through every open heart.</p>
           </div>
         </div>
-        <section class="card" id="summary" aria-labelledby="summary-title">
-          <h2 class="card-title" id="summary-title">Event summary</h2>
-          <div class="summary-list">
-            <div class="summary-item">
-              <img src="assets/icon-calendar-day.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Check-in</p><strong>5 March 2027 (Friday)</strong></div>
-            </div>
-            <div class="summary-item">
-              <img src="assets/icon-clock.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Check-out</p><strong>17 March 2027 (Wednesday)</strong></div>
-            </div>
-          </div>
+        <section class="card key-card" id="summary" aria-label="Event summary">
+          <dl class="key-facts">
+            <div><dt>Check-in</dt><dd>5 March 2027 (Friday)</dd></div>
+            <div><dt>Check-out</dt><dd>17 March 2027 (Wednesday)</dd></div>
+            <div><dt>Contribution</dt><dd>₹21,600 per person</dd></div>
+          </dl>
+          <div class="key-foot">
           <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">Booking is available only for the full 11-day duration.</p>
-        </section>
-      </div>
-      <div class="booking">
-        <a class="btn btn-primary btn-book" href="booking.html?event=maha-rudra-sadhana">
+          <div class="key-cta">
+            <a class="btn btn-primary btn-book" href="booking.html?event=maha-rudra-sadhana">
           <span>Book</span>
           <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
         </a>
-        <p>Contribution: ₹21,600 per person</p>
-      </div>
+          </div>
+          </div>
+        </section>
     </div>
 
 
@@ -132,7 +124,6 @@
     </figure>
 
     <section class="section-heading" id="schedule">
-      <p class="eyebrow">Plan your visit</p>
       <h2 class="display-2xl">Maha Rudra Sadhana – Schedule and Important Details</h2>
     </section>
     <div class="schedule-cards">
@@ -177,7 +168,6 @@
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
       <div class="guide-intro">
-        <p class="eyebrow">Before you book</p>
         <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
         <p>Review every guideline before proceeding with your booking.</p>
       </div>
@@ -201,7 +191,6 @@
 
     <!-- ============ Yajamana ============ -->
     <section class="section-heading wide" id="yajamana">
-      <p class="eyebrow">Optional</p>
       <h2 class="display-2xl">Yajamana Registration</h2>
     </section>
     <div class="card stay-card wide apply-card">
@@ -217,7 +206,6 @@
 
     <!-- ============ Accommodation ============ -->
     <section class="section-heading wide" id="accommodation">
-      <p class="eyebrow">Your stay</p>
       <h2 class="display-2xl">Accommodation and Contribution</h2>
     </section>
     <div class="card stay-card wide">
@@ -295,6 +283,13 @@
   };
   addEventListener('scroll', mark, { passive: true });
   mark();
+  // "Event summary" is the top of the page: it takes you all the way up, not just to the card
+  tocLinks[0].addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    history.replaceState(null, '', location.pathname + location.search);
+    document.querySelector('main h1')?.focus({ preventScroll: true });
+  });
 </script>
 
 <!-- Site options: switch versions and scroll clouds -->
