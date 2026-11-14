@@ -3277,3 +3277,29 @@ h1[tabindex="-1"]:focus { outline: none; }
 .nav-menu.open .pill-menu { background: var(--light-green-hover); }
 .nav-pill .dropdown { top: calc(100% + 14px); right: -48px; }   /* the panel opens from the capsule's edge */
 @media (max-width: 768px) { .nav-pill { height: 42px; margin-left: 0; } }
+
+/* ----- Ashram page on the site's section rhythm -----
+   Sections sit 64px apart (48px on phones): each takes 32px above and below, the last one 96px before
+   the footer. Inside a section, blocks are 32px apart. */
+.as-hero { padding-bottom: 32px; }
+.as-section, .as-directions { padding-top: 32px; padding-bottom: 32px; }
+main > .as-section:last-of-type { padding-bottom: 96px; }
+.as-about, .as-pin-stage, .as-directions, .as-travel { gap: var(--sp-6); }
+.as-about-intro { gap: var(--sp-7); }
+.as-story { gap: var(--sp-5); }
+.as-route { gap: var(--sp-6); }
+/* Important Travel Information: one card under the map, a title row and three clear points */
+.as-travel-info { display: flex; flex-direction: column; align-items: stretch; gap: var(--sp-4); padding: var(--sp-6); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); }
+.as-travel-title { display: flex; align-items: center; gap: 10px; font-family: var(--font-heading); letter-spacing: -0.01em; font-weight: 400; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink); }
+.as-travel-title .ic { color: var(--saffron); }
+.as-travel-points { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-5); }
+.as-travel-points li { padding-top: var(--sp-4); border-top: 1px solid var(--rule); font-size: var(--fs-ui); line-height: var(--lh-body); color: var(--ink-muted); }
+.as-travel-points strong { font-weight: 500; color: var(--ink); }
+@media (max-width: 1100px) { .as-travel-points { grid-template-columns: 1fr; gap: 0; } .as-travel-points li { padding: var(--sp-3) 0; } }
+@media (max-width: 768px) {
+  .as-hero { padding-bottom: 24px; }
+  .as-section, .as-directions { padding-top: 24px; padding-bottom: 24px; }
+  main > .as-section:last-of-type { padding-bottom: 72px; }
+  .as-about, .as-pin-stage, .as-directions, .as-travel { gap: var(--sp-5); }
+  .as-travel-info { padding: 20px; }
+}
