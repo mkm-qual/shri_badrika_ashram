@@ -3303,3 +3303,7 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
   .as-about, .as-pin-stage, .as-directions, .as-travel { gap: var(--sp-5); }
   .as-travel-info { padding: 20px; }
 }
+/* signed in: the circle carries the visitor's initial */
+.pill-user.signed-in { background: var(--btn-primary); color: var(--btn-primary-ink); }
+.pill-initial { font-family: var(--font-heading); font-size: var(--fs-lg); line-height: 1; letter-spacing: 0; transform: translateY(1px); }
+@media (hover: hover) { .pill-user.signed-in:hover { background: var(--btn-primary-hover); } }

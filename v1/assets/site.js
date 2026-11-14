@@ -164,3 +164,24 @@ document.addEventListener('click', (e) => {
   e.preventDefault();
   openDoc(file, a);
 });
+
+// Signed in: the sign-in circle shows the first letter of the visitor's name. Accounts aren't live yet,
+// so this is a preview: ?signed-in (or ?signed-in=Name) turns it on for this visit, ?signed-out turns it off.
+(() => {
+  const q = new URLSearchParams(location.search);
+  try {
+    if (q.has('signed-out')) sessionStorage.removeItem('sba-user');
+    else if (q.has('signed-in')) sessionStorage.setItem('sba-user', q.get('signed-in') || 'Ravi Sharma');
+  } catch (e) {}
+  let name = null;
+  try { name = sessionStorage.getItem('sba-user'); } catch (e) {}
+  if (!name) return;
+  const initial = name.trim().charAt(0).toUpperCase();
+  document.querySelectorAll('.pill-user').forEach(a => {
+    a.classList.add('signed-in');
+    a.href = 'donate.html?signed-in#my-recurring';
+    a.setAttribute('aria-label', `Your account: ${name}`);
+    a.title = name;
+    a.innerHTML = `<span class="pill-initial" aria-hidden="true">${initial}</span>`;
+  });
+})();
