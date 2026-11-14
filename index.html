@@ -17,7 +17,8 @@
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261012c">
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261114a">
 </head>
 <body data-page="home">
 
@@ -31,6 +32,8 @@
   </div>
   <div class="nav-actions">
    <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
     <div class="nav-menu d-only" id="navMenu">
       <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
         <span>Menu</span>
@@ -38,11 +41,6 @@
       </button>
       <div class="dropdown details-panel">
         <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
-        <hr class="panel-rule">
-        <div class="swami-note">
-          <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
-          <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way. <a class="swami-more" href="about-swami.html">Read more</a></p>
-        </div>
         <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
           <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
           <button type="submit" aria-label="Subscribe">
@@ -51,10 +49,6 @@
         </form>
       </div>
     </div>
-    <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
-      <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
-      <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
-    </button>
     <a href="signin.html" class="sign-in d-only">Sign in</a>
     <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
       <img src="assets/m-menu.svg" width="24" height="24" alt="">
@@ -72,10 +66,6 @@
   <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
   <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
   <div class="drawer-extra">
-    <div class="swami-note">
-      <img src="assets/swami.webp" width="189" height="155" alt="Om Swami" loading="lazy">
-      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way. <a class="swami-more" href="about-swami.html">Read more</a></p>
-    </div>
     <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
       <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
       <button type="submit" aria-label="Subscribe">
@@ -206,6 +196,26 @@
   </a>
 </section>
 
+<!-- ============ About Swamiji ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="about-swamiji" id="swamiji" aria-labelledby="swamiji-title">
+  <img class="swamiji-photo" src="assets/swami.webp" width="378" height="310" alt="Om Swami" loading="lazy">
+  <div class="swamiji-copy">
+    <div class="section-heading">
+      <p class="eyebrow">Om Swami</p>
+      <h2 class="display-2xl" id="swamiji-title">About Swamiji</h2>
+    </div>
+    <p class="swamiji-body">I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way.</p>
+    <div class="actions">
+      <a class="btn btn-secondary" href="about-swami.html">
+        <span>Read more</span>
+        <img class="d-only" src="assets/arrow-right-ink.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/arrow-right-ink.svg" width="15" height="15" alt="">
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ Around the ashram ============ -->
 <div class="cloud-band" aria-hidden="true"></div>
 <section class="grounds" id="ashram">
@@ -293,6 +303,10 @@
           <a href="#">Cookie policy</a>
         </div>
       </details>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
     </div>
   </div>
 </footer>
@@ -330,13 +344,12 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCallouts(); });
 </script>
 
-<!-- Seasonal ambience: one lightweight canvas + a small preview picker -->
-<canvas class="season-layer" id="seasonLayer" aria-hidden="true"></canvas>
-<div class="season-picker" id="seasonPicker">
-  <div class="season-menu" role="menu" aria-label="Seasonal animation"></div>
-  <button class="season-btn" id="seasonBtn" type="button" aria-haspopup="true" aria-expanded="false"></button>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
 </div>
-<script src="assets/seasons.js?v=20261004r"></script>
+<script src="assets/versions.js?v=20261114b"></script>
 <script src="assets/clouds.js?v=20261004r"></script>
 </body>
 </html>
