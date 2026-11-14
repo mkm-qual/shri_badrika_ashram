@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/site.css?v=20261114q">
 </head>
 <body data-page="detail">
 
@@ -89,40 +89,29 @@
 
     <!-- ============ Event introduction ============ -->
     <div class="detail-intro">
-      <div class="detail-hero">
         <div class="detail-copy">
-          <p class="eyebrow">A retreat for young minds</p>
-          <h1 class="display-2xl">The Children of Tomorrow</h1>
+          <h1 class="display-2xl" tabindex="-1">The Children of Tomorrow</h1>
           <div class="paras">
             <p>After almost a decade, Swamiji has decided to conduct a retreat exclusively dedicated to young minds—the children who will shape the world of tomorrow.</p>
             <p>The Children of Tomorrow is a three-day journey to nurture young minds, awaken their potential, and plant the seeds of wisdom and purpose.</p>
             <p>Because the future is not something we wait for; it is something we nurture today. And every great future begins with a seed.</p>
           </div>
         </div>
-        <section class="card" id="summary" aria-labelledby="summary-title">
-          <h2 class="card-title" id="summary-title">Event summary</h2>
-          <div class="summary-list">
-            <div class="summary-item">
-              <img src="assets/icon-calendar-day.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Check-in</p><strong>12 November 2026 (Thursday)</strong></div>
-            </div>
-            <div class="summary-item">
-              <img src="assets/icon-clock.svg" width="22" height="22" alt="">
-              <div><p class="eyebrow">Check-out</p><strong>15 November 2026 (Sunday), after the discourse</strong></div>
-            </div>
+        <section class="card key-card" id="summary" aria-label="Event summary">
+          <dl class="key-facts">
+            <div><dt>Check-in</dt><dd>12 November 2026 (Thursday)</dd></div>
+            <div><dt>Check-out</dt><dd>15 November 2026 (Sunday), after the discourse</dd></div>
+          </dl>
+          <div class="key-foot">
+          <div class="key-cta">
+            <span class="btn btn-book btn-full" aria-disabled="true">Bookings full</span>
           </div>
-          <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">A three-day journey dedicated to young minds.</p>
+          </div>
         </section>
-      </div>
-      <div class="booking">
-        <span class="btn btn-book btn-full" aria-disabled="true">Bookings full</span>
-        <p>All bookings are currently full.</p>
-      </div>
     </div>
 
 
     <section class="section-heading" id="schedule">
-      <p class="eyebrow">Plan your visit</p>
       <h2 class="display-2xl">Schedule and Important Details</h2>
     </section>
     <div class="schedule-cards">
@@ -161,7 +150,6 @@
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
       <div class="guide-intro">
-        <p class="eyebrow">Before you book</p>
         <h2 class="display-2xl">Important Booking Guidelines (Please Read Carefully)</h2>
         <p>Review every guideline before proceeding with your booking.</p>
       </div>
@@ -192,7 +180,6 @@
 
     <!-- ============ Application ============ -->
     <section class="section-heading wide" id="application">
-      <p class="eyebrow">How to apply</p>
       <h2 class="display-2xl">Application Process</h2>
     </section>
     <div class="card stay-card wide apply-card">
@@ -261,6 +248,13 @@
   };
   addEventListener('scroll', mark, { passive: true });
   mark();
+  // "Event summary" is the top of the page: it takes you all the way up, not just to the card
+  tocLinks[0].addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    history.replaceState(null, '', location.pathname + location.search);
+    document.querySelector('main h1')?.focus({ preventScroll: true });
+  });
 </script>
 
 <!-- Site options: switch versions and scroll clouds -->
