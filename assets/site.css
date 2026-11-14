@@ -817,24 +817,13 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 /* ---------- Seasonal ambience ---------- */
-.season-layer {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 15;               /* above sections, below the sticky nav (20) and menus */
-  pointer-events: none;
-  /* keep the reading column calm: particles live mostly in the margins */
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.95) 16%, rgba(0,0,0,.42) 34%, rgba(0,0,0,.42) 66%, rgba(0,0,0,.95) 84%, #000 100%);
-          mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.95) 16%, rgba(0,0,0,.42) 34%, rgba(0,0,0,.42) 66%, rgba(0,0,0,.95) 84%, #000 100%);
-}
-.season-picker { position: fixed; right: 20px; bottom: 20px; z-index: 30; }
-.season-btn {
+.site-picker { position: fixed; right: 20px; bottom: 20px; z-index: 30; }
+.site-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 32px;
-  padding: 0 12px;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border: 1px solid var(--callout-border);
   border-radius: 999px;
   background: var(--callout-bg);
@@ -844,8 +833,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   color: var(--callout-ink);
   box-shadow: 0 2px 8px var(--shadow);
 }
-.season-btn:hover { background: var(--card-bg); }
-.season-menu {
+.site-btn:hover { background: var(--card-bg); }
+.site-menu {
   position: absolute;
   right: 0;
   bottom: calc(100% + 8px);
@@ -856,7 +845,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   background: var(--paper);
   box-shadow: 0 12px 32px var(--shadow);
 }
-.season-menu button {
+.site-menu button {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -866,24 +855,23 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   color: var(--ink);
   text-align: left;
 }
-.season-menu button:hover { background: var(--light-green-hover); }
-.season-menu button[aria-checked="true"] { color: var(--brown); }
-.season-menu button[aria-checked="true"]::after { content: "✓"; }
-.season-menu small { color: var(--dark-tertiary); font-size: var(--fs-xs); line-height: var(--lh-xs); }
-.season-sep { height: 1px; margin: 6px 4px; background: var(--rule); }
-.season-menu .clouds-toggle { align-items: center; gap: 12px; white-space: nowrap; }
-.season-menu .clouds-toggle::after { content: none !important; }
+.site-menu button:hover { background: var(--light-green-hover); }
+.site-menu button[aria-checked="true"] { color: var(--brown); }
+.site-menu button[aria-checked="true"]::after { content: "✓"; }
+.site-menu small { color: var(--dark-tertiary); font-size: var(--fs-xs); line-height: var(--lh-xs); }
+.site-sep { height: 1px; margin: 6px 4px; background: var(--rule); }
+.site-menu .clouds-toggle { align-items: center; gap: 12px; white-space: nowrap; }
+.site-menu .clouds-toggle::after { content: none !important; }
 .switch { position: relative; flex-shrink: 0; width: 28px; height: 16px; border-radius: 999px; background: var(--light-green-active); transition: background-color var(--t-hover) ease; }
 .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform var(--t-rotate) var(--ease-in-out); }
 .clouds-toggle[aria-checked="true"] .switch { background: var(--olive); }
 .clouds-toggle[aria-checked="true"] .switch::after { transform: translateX(12px); }
-.season-menu .clouds-toggle[aria-checked="true"] { color: var(--ink); }   /* a switch, not a selected season */
+.site-menu .clouds-toggle[aria-checked="true"] { color: var(--ink); }   /* a switch, not a selected version */
 .no-clouds .cloud-band { display: none; }
-@media (max-width: 768px) { .season-picker { right: 12px; bottom: 12px; } }
-@media (prefers-reduced-motion: reduce) { .season-layer { display: none; } }
+@media (max-width: 768px) { .site-picker { right: 12px; bottom: 12px; } }
 
 /* ---------- Scroll clouds + section reveal ---------- */
-.cloud-band { position: relative; height: 0; z-index: 12; pointer-events: none; }  /* over content, under season layer + nav */
+.cloud-band { position: relative; height: 0; z-index: 12; pointer-events: none; }  /* over content, under the nav */
 .cloud-band img {
   position: absolute;
   left: 0;
@@ -970,10 +958,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   --ease-soft: cubic-bezier(.22, .61, .36, 1);
 }
 
-/* Popovers: menu dropdown, More details, season menu, place cards */
-.dropdown, .season-menu { display: block; }
+/* Popovers: menu dropdown, More details, site options menu, place cards */
+.dropdown, .site-menu { display: block; }
 .place-card { display: flex; }
-.dropdown, .season-menu, .place-card {
+.dropdown, .site-menu, .place-card {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
@@ -982,11 +970,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
               visibility 0s linear var(--t-pop-out);
 }
 .nav-menu .dropdown { --pop-y: -4px; transform-origin: top right; }
-.season-menu { transform-origin: bottom right; }
+.site-menu { transform-origin: bottom right; }
 .place-card { transform-origin: bottom left; }
 .callout[data-align="end"] .place-card { transform-origin: bottom right; }
 .nav-menu.open .dropdown,
-.season-picker.open .season-menu,
+.site-picker.open .site-menu,
 .callout.is-open .place-card {
   visibility: visible;
   opacity: 1;
@@ -1029,16 +1017,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .nav-tab img, .disclosure summary img, .acc summary img { transition: transform var(--t-rotate) var(--ease-in-out); }
 
 /* Press feedback + calm colour hovers */
-.btn, .sign-in, .callout-pill, .season-btn, .theme-toggle, .nav-tab,
+.btn, .sign-in, .callout-pill, .site-btn, .theme-toggle, .nav-tab,
 .disclosure summary, .view-all, .subscribe button, .drawer-close, .icon-btn {
   transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease,
               border-color var(--t-hover) ease, color var(--t-hover) ease;
 }
-.btn:active, .sign-in:active, .callout-pill:active, .season-btn:active, .theme-toggle:active, .nav-tab:active,
+.btn:active, .sign-in:active, .callout-pill:active, .site-btn:active, .theme-toggle:active, .nav-tab:active,
 .disclosure summary:active, .view-all:active, .subscribe button:active,
 .drawer-close:active, .icon-btn:active { transform: scale(.97); }
 .event-card { transition: background-color var(--t-hover) ease; cursor: pointer; }   /* cards are clickable */
-.season-menu button, .dropdown a { transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
+.site-menu button, .dropdown a { transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
 .switch, .switch::after { transition-duration: var(--t-hover); }
 .text-link img { transition: transform var(--t-hover) var(--ease-out); }
 @media (hover: none) { .text-link:hover img { transform: none; } }
@@ -1046,8 +1034,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* 44px minimum hit areas on touch screens, without changing layout */
 @media (pointer: coarse) {
   /* (the drawer's Sign in row is already a full-height row, and its ::after is the arrow) */
-  .theme-toggle, .sign-in:not(.drawer-sign-in), .season-btn, .callout-pill, .icon-btn, .drawer-close, .subscribe button { position: relative; }
-  .theme-toggle::after, .sign-in:not(.drawer-sign-in)::after, .season-btn::after, .callout-pill::after, .icon-btn::after,
+  .theme-toggle, .sign-in:not(.drawer-sign-in), .site-btn, .callout-pill, .icon-btn, .drawer-close, .subscribe button { position: relative; }
+  .theme-toggle::after, .sign-in:not(.drawer-sign-in)::after, .site-btn::after, .callout-pill::after, .icon-btn::after,
   .drawer-close::after, .subscribe button::after {
     content: ""; position: absolute; top: 50%; left: 50%;
     width: 100%; height: 100%; min-width: 44px; min-height: 44px;
@@ -1081,7 +1069,7 @@ html { scroll-behavior: smooth; }
           --t-press: 0ms; --t-hover: 0ms; --t-rotate: 0ms;
           --t-theme: 0ms; --t-zoom: 0ms; --t-expand: 0ms; }
   body, .nav, .dropdown, .drawer, .event-card, .subscribe, .btn { transition: none; }
-  .btn:active, .sign-in:active, .callout-pill:active, .season-btn:active, .theme-toggle:active, .nav-tab:active,
+  .btn:active, .sign-in:active, .callout-pill:active, .site-btn:active, .theme-toggle:active, .nav-tab:active,
   .disclosure summary:active, .view-all:active, .subscribe button:active,
   .drawer-close:active, .icon-btn:active { transform: none; }
 }
@@ -2683,7 +2671,7 @@ html.doc-open { overflow: hidden; }
 }
 
 /* Paper texture on menus and pop-ups too (light theme; none in dark) — the colour underneath stays as it was */
-.dropdown, .season-menu, .place-card, .disclosure .panel, .drawer, .doc-dialog, .img-notice {
+.dropdown, .site-menu, .place-card, .disclosure .panel, .drawer, .doc-dialog, .img-notice {
   background-image: var(--paper-texture);
   background-repeat: repeat;
 }
