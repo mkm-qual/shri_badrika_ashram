@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261115a">
+<link rel="stylesheet" href="assets/site.css?v=20261115f">
 </head>
 <body data-page="donate">
 
@@ -85,6 +85,7 @@
 <section class="give-intro">
   <div class="section-heading">
     <h1 class="display-2xl">Donate</h1>
+    <p class="lede">Get involved by donating to any of our programs. You may use this form to choose a program at the Ashram you would wish to contribute to.</p>
   </div>
   <div class="give-banner top">
     <img src="assets/give/banner-lotus-garden.jpg" alt="" fetchpriority="high">
@@ -115,25 +116,19 @@
 </section>
 
 <form class="donate-form" id="donateForm" novalidate>
-  <div class="donate-section">
-    <h2 class="display-lg">Contribute</h2>
-    <p class="donate-lede">Get involved by donating to any of our programs. You may use this form to choose a program at the Ashram you would wish to contribute to.</p>
-  </div>
-
   <fieldset class="donate-section">
     <legend class="display-lg">About You</legend>
     <div class="donate-grid">
       <div class="donate-col">
-        <div class="field">
-          <label for="first">First Name<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><input id="first" name="first" placeholder="Enter first name" autocomplete="given-name" required aria-describedby="first-error"></div>
-          <p class="field-error" id="first-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="last">Last Name<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><input id="last" name="last" placeholder="Enter last name" autocomplete="family-name" required aria-describedby="last-error"></div>
-          <p class="field-error" id="last-error" hidden></p>
-        </div>
+        <fieldset class="field d-name">
+          <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
+          <div class="input name">
+            <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
+            <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+            <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
+          </div>
+          <p class="field-error" id="name-error" hidden></p>
+        </fieldset>
         <div class="field">
           <label for="mobile">Mobile Number<span class="req" aria-hidden="true"> *</span></label>
           <div class="input phone">
@@ -347,10 +342,10 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261114d"></script>
+<script src="assets/site.js?v=20261115a"></script>
 <script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
 <script src="assets/phone.js?v=20261004r"></script>
-<script src="assets/donate.js?v=20261007a"></script>
+<script src="assets/donate.js?v=20261115b"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>

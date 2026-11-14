@@ -3438,3 +3438,95 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
   .offering { padding: 24px 0; }
   .offering:last-child { padding-bottom: 0; }
 }
+
+/* ----- Get Involved on the site's rhythm -----
+   Sections 64px apart; the verse is one card with Donate Now inside it; the ways heading and its line read
+   as one unit; Sri Hari Vatika becomes a split card (photo beside readable text) like the cards below it. */
+.give-intro { gap: var(--sp-6); }
+.give-banner { height: 320px; }
+.give-verse { padding: 64px var(--gutter) 32px; gap: var(--sp-5); }
+.give-verse-panel { min-height: 0; padding: var(--sp-7) var(--sp-6); gap: var(--sp-5); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); }
+.give-donate { margin-top: var(--sp-2); }
+.give-ways { padding: 32px var(--gutter) 96px; gap: var(--sp-6); }
+.give-ways-head { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: var(--gap-sub); }
+.give-ways-head .lede { width: 640px; max-width: 100%; }
+.give-ways-head + .gi-feature { margin-top: calc(-1 * var(--sp-2)); }
+.gi-feature { height: auto; min-height: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch;
+  border: 1px solid var(--rule); border-radius: var(--r-media); background: var(--card-bg); }
+.gi-feature::before { content: none; }
+.gi-feature > img { position: static; z-index: auto; height: 100%; min-height: 380px; }
+.gi-feature-content { flex-direction: column; align-items: flex-start; justify-content: center; gap: var(--sp-5); padding: var(--sp-7) var(--sp-7); }
+.gi-feature-copy { width: auto; gap: 12px; }
+.gi-feature-copy h3 { color: var(--ink); font-size: var(--fs-h2); line-height: var(--lh-h2); }
+.gi-feature-copy p { width: auto; color: var(--ink-muted); }
+.gi-feature + .gi-cards { margin-top: calc(-1 * var(--sp-2)); }   /* the four ways sit 24px apart */
+@media (max-width: 1100px) {
+  .gi-feature { grid-template-columns: 1fr; }
+  .gi-feature > img { min-height: 0; height: 300px; }
+  .gi-feature-content { padding: var(--sp-6); }
+}
+@media (max-width: 768px) {
+  .give-intro { gap: var(--sp-5); }
+  .give-banner { height: 220px; }
+  .give-verse { padding: 48px var(--gutter) 24px; gap: 20px; }
+  .give-verse-panel { padding: 32px 20px; gap: 20px; }
+  .give-ways { padding: 24px var(--gutter) 72px; gap: var(--sp-5); }
+  .gi-feature { min-height: 0; padding: 0; }
+  .gi-feature > img { height: 220px; }
+  .gi-feature-content { padding: 20px; }
+  .gi-feature + .gi-cards, .give-ways-head + .gi-feature { margin-top: 0; }
+}
+
+/* ----- Donate: the form on the page column, as cards -----
+   The form shares the banner's edges; About you and Your donation are cards with a two-column grid that
+   fills row by row (first | last, mobile | email, …) so the columns line up; consent and Donate close it. */
+.give-intro .section-heading .lede { max-width: 68ch; }
+.donate-form { width: auto; max-width: none; margin: 0 var(--gutter); padding-top: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-4); }
+.donate-section { padding: var(--sp-6); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); gap: 0; }
+.donate-section > legend { float: left; width: 100%; padding: 0; margin: 0 0 var(--sp-5); font-size: var(--fs-h3); line-height: var(--lh-h3); }
+.donate-section > legend + * { clear: both; }
+.donate-grid { margin-top: 0; gap: var(--sp-5) var(--sp-5); }
+.donate-col { display: contents; }
+.donate-rows { gap: var(--sp-5) var(--sp-5); }
+.donate-consent { padding: var(--sp-2) 0 0; gap: var(--sp-3); }
+.donate-note { margin-top: 0; color: var(--ink-muted); }
+.donate-action { margin: 0 0 96px; padding-top: var(--sp-5); }
+.acct-bar, .my-recurring { width: auto; max-width: none; margin: 0 var(--gutter); }
+@media (max-width: 768px) {
+  .donate-form { margin: 0 var(--gutter); padding-top: var(--sp-5); }
+  .donate-section { padding: 20px; }
+  .donate-grid, .donate-rows { gap: 20px; }
+  .donate-action { margin-bottom: 72px; }
+}
+.donate-grid .d-name { grid-column: 1 / -1; }   /* full name spans both columns */
+
+/* ----- One dropdown style for every select: country codes, country, state, programs -----
+   Borderless inside the field, the field's own 16px text, and the same chevron; the phone's code picker
+   is part of the field (a divider separates it from the number) rather than a small boxed pill. */
+.input.phone { padding-left: 0; }
+.input.phone > select, .input.phone .cc {
+  height: 100%; padding: 0 34px 0 16px; border: 0; border-radius: 8px 0 0 8px; background: none;
+  font: 16px/1.4 var(--font-body); font-weight: 400; color: var(--ink);
+}
+.input.phone .cc::after {
+  content: ""; position: absolute; width: 14px; height: 14px; top: 50%; transform: translateY(-50%); pointer-events: none;
+  background: var(--ink-muted); -webkit-mask: url("icons/chevron-down.svg") center / contain no-repeat; mask: url("icons/chevron-down.svg") center / contain no-repeat;
+}
+.input.phone .cc::after { right: 14px; }
+:root[data-theme="dark"] .input.phone > select, :root[data-theme="dark"] .input.phone .cc { padding-right: 34px; }
+.input.phone .cc-label { font-variant-numeric: tabular-nums; }
+.input.phone .divider { margin-right: 14px; }
+.input.phone > select:focus-visible, .input.phone .cc:focus-within { outline: 0; }   /* the field shows focus as a whole */
+
+/* the prefilled note and story links */
+.donate-prefill { margin: calc(-1 * var(--sp-3)) 0 var(--sp-5); font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink-muted); clear: both; }
+.as-story-cta { margin-top: -4px; }
+/* a plain code picker (profile page) wrapped like the phone one */
+.input.phone .cc:not(:has(.cc-label)) { padding: 0; }
+.input.phone .cc:not(:has(.cc-label)) select { position: static; width: auto; height: 100%; padding: 0 34px 0 16px; opacity: 1; background: none; border: 0; outline: 0; appearance: none; -webkit-appearance: none; font: 16px/1.4 var(--font-body); color: var(--ink); cursor: pointer; }
+/* Donate: banner → form 64px like every section; cards 16px apart (older 80px margins removed) */
+.donate-form { padding-top: 64px; }
+.donate-form > .donate-section { margin: 0; }
+.acct-bar:not([hidden]) + .my-recurring + .donate-form, .acct-bar:not([hidden]) ~ .donate-form { padding-top: var(--sp-6); }
+.acct-bar { padding-top: 64px; }
+@media (max-width: 768px) { .donate-form { padding-top: 48px; } .acct-bar { padding-top: 48px; } .acct-bar:not([hidden]) ~ .donate-form { padding-top: var(--sp-5); } }

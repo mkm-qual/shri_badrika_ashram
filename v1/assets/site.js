@@ -165,6 +165,27 @@ document.addEventListener('click', (e) => {
   openDoc(file, a);
 });
 
+// The signed-in visitor's account (preview): sample details for their name, merged with edits saved in this
+// browser. Shared by the account pages and by forms that prefill the visitor's details (donate).
+window.sbaAccount = (() => {
+  const KEY = 'sba-account-v1';
+  let user = null;
+  try { user = sessionStorage.getItem('sba-user'); } catch (e) {}
+  const [first0, ...rest0] = (user || 'Ravi Sharma').trim().split(/\s+/);
+  const SAMPLE = {
+    profile: { first: first0, middle: '', last: rest0.join(' ') || 'Sharma', email: `${first0.toLowerCase()}.sharma@example.com`,
+      cc: '+91', mobile: '98765 43210', dob: '1984-06-12', gender: 'Male',
+      city: 'Bengaluru', state: 'Karnataka', country: 'India', news: true, whatsapp: true },
+    dependants: [
+      { id: 'd1', name: 'Sunita Sharma', relation: 'Spouse', dob: '1987-03-02', gender: 'Female' },
+      { id: 'd2', name: 'Aarav Sharma', relation: 'Son', dob: '2013-08-21', gender: 'Male' },
+    ],
+  };
+  const load = () => { try { return { ...SAMPLE, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch (e) { return SAMPLE; } };
+  const save = (data) => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {} };
+  return { user, SAMPLE, load, save };
+})();
+
 // Signed in: the sign-in circle shows the first letter of the visitor's name and opens the account menu
 // (bookings, dependants, profile, donations, sign out). Accounts aren't live yet, so this is a preview:
 // signing in on signin.html, or ?signed-in (or ?signed-in=Name), turns it on for this visit; ?signed-out ends it.
