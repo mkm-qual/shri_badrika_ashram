@@ -4,24 +4,12 @@ const form = document.getElementById('donateForm');
 const $ = (id) => document.getElementById(id);
 const status = $('donateStatus');
 
-// ----- Country list (names come from the browser, so they read naturally in any locale) -----
-const REGIONS = 'AF AX AL DZ AS AD AO AI AG AR AM AW AU AT AZ BS BH BD BB BY BE BZ BJ BM BT BO BA BW BR BN BG BF BI KH CM CA CV KY CF TD CL CN CO KM CG CD CK CR CI HR CU CY CZ DK DJ DM DO EC EG SV GQ ER EE SZ ET FJ FI FR GF PF GA GM GE DE GH GI GR GL GD GP GU GT GG GN GW GY HT HN HK HU IS IN ID IR IQ IE IM IL IT JM JP JE JO KZ KE KI KW KG LA LV LB LS LR LY LI LT LU MO MG MW MY MV ML MT MH MQ MR MU YT MX FM MD MC MN ME MS MA MZ MM NA NR NP NL NC NZ NI NE NG MK NO OM PK PW PS PA PG PY PE PH PL PT PR QA RE RO RU RW KN LC VC WS SM ST SA SN RS SC SL SG SK SI SB SO ZA KR SS ES LK SD SR SE CH SY TW TJ TZ TH TL TG TO TT TN TR TM TC TV UG UA AE GB US UY UZ VU VA VE VN VG VI YE ZM ZW'.split(' ');
-const regionName = (() => {
-  try { const dn = new Intl.DisplayNames(['en'], { type: 'region' }); return (c) => dn.of(c); }
-  catch (e) { return (c) => c; }
-})();
+// ----- Country and state lists (assets/places.js) -----
+const { IN_STATES } = Places;
 const country = $('country');
-country.innerHTML = '<option value="">Select country</option>' + REGIONS
-  .map(c => [c, regionName(c)]).sort((a, b) => a[1].localeCompare(b[1]))
-  .map(([c, n]) => `<option value="${c}">${n}</option>`).join('');
-country.value = 'IN';
-
+Places.fillCountries(country, 'IN');
 // ----- State: a list for India, free text elsewhere -----
-const IN_STATES = ['Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chandigarh', 'Chhattisgarh',
-  'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand',
-  'Karnataka', 'Kerala', 'Ladakh', 'Lakshadweep', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha',
-  'Puducherry', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'];
-$('state').innerHTML += IN_STATES.map(s => `<option>${s}</option>`).join('');
+Places.fillStates($('state'));
 const india = () => country.value === 'IN';
 const syncCountry = () => {
   $('stateSelectWrap').hidden = !india();
@@ -56,11 +44,12 @@ if (acct && acct.user) {
   const { profile: p, kyc } = acct.load();
   const set = (id, v) => { if (v && $(id) && !$(id).value) { $(id).value = v; $(id).dispatchEvent(new Event('input', { bubbles: true })); } };
   set('first', p.first); set('middle', p.middle); set('last', p.last); set('email', p.email); set('city', p.city);
-  const iso = Object.entries({ '+91': 'IN', '+1': 'US', '+44': 'GB', '+61': 'AU', '+65': 'SG', '+971': 'AE' }).find(([d]) => d === p.cc)?.[1];
+  const iso = /^[A-Z]{2}$/.test(p.cc || '') ? p.cc : Object.entries({ '+91': 'IN', '+1': 'US', '+44': 'GB', '+61': 'AU', '+65': 'SG', '+971': 'AE' }).find(([d]) => d === p.cc)?.[1];
   if (iso && code.querySelector(`option[value="${iso}"]`)) { code.value = iso; code.dispatchEvent(new Event('change', { bubbles: true })); }
   set('mobile', (p.mobile || '').replace(/\D/g, ''));
-  const c = [...country.options].find(o => o.textContent === p.country);
-  if (c) { country.value = c.value; syncCountry(); }
+  const cc = Places.toCode(p.country);
+  if (cc) { country.value = cc; syncCountry(); }
+  set('address', p.address); set('pincode', p.pincode);
   if (india() && IN_STATES.includes(p.state)) $('state').value = p.state; else set('state-text', p.state);
   // a verified PAN comes from KYC and is locked, as on the account
   if (india() && kyc && kyc.verifiedAt && kyc.type === 'pan') {

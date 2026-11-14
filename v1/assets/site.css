@@ -3521,12 +3521,13 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
 /* the prefilled note and story links */
 .donate-prefill { margin: calc(-1 * var(--sp-3)) 0 var(--sp-5); font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink-muted); clear: both; }
 .as-story-cta { margin-top: -4px; }
-/* a plain code picker (profile page) wrapped like the phone one */
-.input.phone .cc:not(:has(.cc-label)) { padding: 0; }
-.input.phone .cc:not(:has(.cc-label)) select { position: static; width: auto; height: 100%; padding: 0 34px 0 16px; opacity: 1; background: none; border: 0; outline: 0; appearance: none; -webkit-appearance: none; font: 16px/1.4 var(--font-body); color: var(--ink); cursor: pointer; }
 /* Donate: banner → form 64px like every section; cards 16px apart (older 80px margins removed) */
 .donate-form { padding-top: 64px; }
 .donate-form > .donate-section { margin: 0; }
 .acct-bar:not([hidden]) + .my-recurring + .donate-form, .acct-bar:not([hidden]) ~ .donate-form { padding-top: var(--sp-6); }
 .acct-bar { padding-top: 64px; }
 @media (max-width: 768px) { .donate-form { padding-top: 48px; } .acct-bar { padding-top: 48px; } .acct-bar:not([hidden]) ~ .donate-form { padding-top: var(--sp-5); } }
+/* breadcrumb: the back arrow is a separate button (one step back); the crumbs go where they say */
+.crumb-back { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: -6px 2px -6px -6px; border-radius: 50%; color: var(--ink-muted); }
+.crumb-back:hover { background: var(--light-green-hover); color: var(--ink); }
+.crumb-back:focus-visible { outline: 2px solid var(--saffron); outline-offset: 1px; }

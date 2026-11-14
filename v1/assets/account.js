@@ -65,11 +65,31 @@ const flash = (el, msg) => { el.textContent = msg; el.hidden = false; clearTimeo
 // ===================== Profile settings =====================
 if (page === 'profile' && userName) {
   const f = $('profileForm'), p = data.profile;
-  Object.entries(p).forEach(([k, v]) => { const el = f.elements[k]; if (!el) return; if (el.type === 'checkbox') el.checked = !!v; else el.value = v; });
+  // Mobile, country and state behave exactly as on Donate and Sign up: every country's dial code and number
+  // format (assets/phone.js), the full country list, and a state list for India / free text elsewhere
+  const code = $('country-code');
+  const phone = window.Phone && Phone.setup(code, f.elements.mobile, 'IN');
+  const country = $('country');
+  Places.fillCountries(country, 'IN'); Places.fillStates($('state'));
+  const india = () => country.value === 'IN';
+  const syncCountry = () => {
+    $('stateSelectWrap').hidden = !india(); $('stateTextWrap').hidden = india();
+    f.elements.pincode.placeholder = india() ? 'Enter 6-digit pincode' : 'Enter postal code';
+  };
+  country.addEventListener('change', syncCountry);
+  f.elements.pincode.addEventListener('input', (e) => { if (india()) e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6); });
+  const SPECIAL = ['cc', 'mobile', 'country', 'state'];
+  Object.entries(p).forEach(([k, v]) => { const el = f.elements[k]; if (!el || SPECIAL.includes(k)) return; if (el.type === 'checkbox') el.checked = !!v; else el.value = v ?? ''; });
+  const ccIso = /^[A-Z]{2}$/.test(p.cc || '') ? p.cc : ({ '+91': 'IN', '+1': 'US', '+44': 'GB', '+61': 'AU', '+65': 'SG', '+971': 'AE' }[p.cc] || 'IN');
+  code.value = ccIso; code.dispatchEvent(new Event('change', { bubbles: true }));
+  f.elements.mobile.value = (p.mobile || '').replace(/\D/g, ''); f.elements.mobile.dispatchEvent(new Event('input', { bubbles: true }));
+  country.value = Places.toCode(p.country) || 'IN'; syncCountry();
+  if (india() && Places.IN_STATES.includes(p.state)) $('state').value = p.state; else $('state-text').value = p.state || '';
   const checks = {
     name: () => f.elements.first.value.trim() && f.elements.last.value.trim() ? '' : 'Please enter your first and last name.',
     email: () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.elements.email.value.trim()) ? '' : 'Please enter a valid email address.',
-    mobile: () => f.elements.mobile.value.replace(/\D/g, '').length >= 8 ? '' : 'Please enter your mobile number.',
+    mobile: () => phone ? phone.error() : (f.elements.mobile.value.replace(/\D/g, '').length >= 8 ? '' : 'Please enter your mobile number.'),
+    pincode: () => !f.elements.pincode.value || !india() || /^[1-9]\d{5}$/.test(f.elements.pincode.value) ? '' : 'Indian pincodes have 6 digits.',
   };
   const inputs = (k) => k === 'name' ? [f.elements.first, f.elements.last] : [f.elements[k]];
   const show = (k) => {
@@ -79,7 +99,7 @@ if (page === 'profile' && userName) {
     el.closest('.field').classList.toggle('invalid', !!msg);
     return !msg;
   };
-  ['email', 'mobile'].forEach(k => f.elements[k].addEventListener('blur', () => { if (f.elements[k].value) show(k); }));
+  ['email', 'mobile', 'pincode'].forEach(k => f.elements[k].addEventListener('blur', () => { if (f.elements[k].value) show(k); }));
   // the name check waits until you leave the name box altogether
   [f.elements.first, f.elements.middle, f.elements.last].forEach(i => i.addEventListener('blur', (e) => {
     if (!e.relatedTarget?.closest('.input.name')) show('name');
@@ -90,7 +110,9 @@ if (page === 'profile' && userName) {
     const bad = Object.keys(checks).filter(k => !show(k));
     if (bad.length) { (inputs(bad[0]).find(i => !i.value.trim()) || inputs(bad[0])[0]).focus(); return; }
     const next = {};
-    Object.keys(SAMPLE.profile).forEach(k => { const el = f.elements[k]; if (el) next[k] = el.type === 'checkbox' ? el.checked : el.value.trim(); });
+    Object.keys({ ...SAMPLE.profile, address: '', pincode: '' }).forEach(k => { const el = f.elements[k]; if (el && !SPECIAL.includes(k)) next[k] = el.type === 'checkbox' ? el.checked : el.value.trim(); });
+    next.cc = code.value; next.mobile = f.elements.mobile.value.trim(); next.country = country.value;
+    next.state = india() ? $('state').value : $('state-text').value.trim();
     data.profile = next; save(data);
     try { sessionStorage.setItem('sba-user', fullName(next)); } catch (err) {}
     $('acctName').textContent = fullName(next);
