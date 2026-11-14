@@ -289,3 +289,40 @@ window.sbaAccount = (() => {
   // after every page script has run (booking and album pages fill in their own breadcrumb first)
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
+
+// Event pages: once the key-facts card scrolls out of view, a slim bar stays under the header with the
+// event name, its dates and Book, so the action is always one click away without hiding the page.
+(() => {
+  const card = document.querySelector('.key-card');
+  const title = document.querySelector('.detail-copy h1');
+  if (!card || !title) return;
+  const facts = [...card.querySelectorAll('.key-facts dd')].map(d => d.textContent.replace(/\s*\([^)]*\)/g, '').trim());
+  const dates = facts.length >= 2 ? `${facts[0]} – ${facts[1]}` : (facts[0] || '');
+  const cta = card.querySelector('.key-cta .btn');
+  const bar = document.createElement('div');
+  bar.className = 'key-sticky';
+  bar.setAttribute('aria-hidden', 'true');
+  bar.innerHTML = `<div class="key-sticky-inner"><div class="key-sticky-copy"><strong></strong><span></span></div></div>`;
+  bar.querySelector('strong').textContent = title.textContent.trim();
+  bar.querySelector('span').textContent = dates;
+  if (cta) { const c = cta.cloneNode(true); c.classList.add('key-sticky-btn'); c.setAttribute('tabindex', '-1'); bar.querySelector('.key-sticky-inner').append(c); }
+  document.body.append(bar);
+  const nav = document.querySelector('.nav');
+  // the bar's content lines up exactly with the page's content column
+  const col = document.querySelector('.detail') || card;
+  const place = () => {
+    bar.style.top = (nav ? nav.offsetHeight : 0) + 'px';
+    const r = col.getBoundingClientRect(), inner = bar.querySelector('.key-sticky-inner');
+    inner.style.marginLeft = r.left + 'px'; inner.style.width = r.width + 'px';
+  };
+  place(); addEventListener('resize', place);
+  // shown while the card is above the top of the screen (scrolled past), hidden when it is back in view
+  new IntersectionObserver(([e]) => {
+    const past = !e.isIntersecting && e.boundingClientRect.top < 0;
+    bar.classList.toggle('show', past);
+    // the header grows to hold the bar: one frosted surface, fading out below the bar
+    if (nav) { nav.classList.toggle('has-sticky', past); nav.style.setProperty('--sticky-h', bar.offsetHeight + 'px'); }
+    bar.setAttribute('aria-hidden', !past);
+    bar.querySelectorAll('a, button').forEach(el => el.setAttribute('tabindex', past ? '0' : '-1'));
+  }, { rootMargin: `-${(nav ? nav.offsetHeight : 64)}px 0px 0px 0px` }).observe(card);
+})();
