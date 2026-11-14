@@ -1,0 +1,166 @@
+// Single source for the site's navigation links (header Menu panel and the mobile drawer accordion)
+const SITE_MENU = {
+  events: { title: 'Events', href: 'events.html', links: [
+    ['Upcoming Events', 'events.html'], ['Gallery', 'gallery.html'], ['Download Pics', 'downloads.html'] ] },
+  offerings: { title: 'Offerings', href: 'offerings.html', links: [
+    ['Sri Hari Abhishekam', 'offerings.html#abhishekam'], ['Sri Hari Aarti', 'offerings.html#aarti'],
+    ['Sri Hari Sahasranama', 'offerings.html#sahasranama'], ['Sri Hari Sringar', 'offerings.html#sringar'],
+    ['Make an offering', 'make-offering.html'] ] },
+  ashram: { title: 'Ashram', href: 'ashram.html', links: [
+    ['Virtual Tour', 'ashram.html#tour'], ['Temple', 'ashram.html#sri-hari-mandir'], ['Direction', 'ashram.html#directions'], ['Contact us', 'contact.html'], ['FAQs', 'faq.html'],
+    ['Important Guidelines', 'guidelines.html'], ['Career', 'career.html'] ] },
+  involved: { title: 'Get Involved', href: 'get-involved.html', links: [
+    ['Ways to support', 'get-involved.html'], ['Donate', 'donate.html'], ['Form 10BE', 'form-10be.html'] ] },
+};
+// Section links (#events…) point at the home page when used on another page
+const onHome = document.body.dataset.page === 'home';
+const link = (href) => (!onHome && href.length > 1 && href[0] === '#' ? './' + href : href);
+const groupHTML = (key, extraClass = '') => {
+  const g = SITE_MENU[key];
+  // the group title is itself a link to that section's main page
+  return `<div class="menu-group ${extraClass}"><a class="menu-heading" href="${link(g.href)}">${g.title}</a>` +
+    g.links.map(([label, href]) => `<a href="${link(href)}">${label}</a>`).join('') + `</div>`;
+};
+document.querySelectorAll('[data-menu]').forEach(el => {
+  // Drawer (phones): one accordion per group
+  if (el.dataset.mode === 'accordion') {
+    el.innerHTML = el.dataset.order.split(',').map(k => {
+      const g = SITE_MENU[k];
+      return `<details class="acc"><summary>${g.title}<img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>` +
+        // the summary opens the list, so the section's main page is the first link inside it
+        `<div class="acc-links"><a class="acc-overview" href="${link(g.href)}">Overview</a>${g.links.map(([label, href]) => `<a href="${link(href)}">${label}</a>`).join('')}</div></details>`;
+    }).join('');
+    // keep one group open at a time
+    el.querySelectorAll('.acc').forEach(d => d.addEventListener('toggle', () => {
+      if (d.open) el.querySelectorAll('.acc[open]').forEach(o => o !== d && (o.open = false));
+    }));
+    return;
+  }
+  // Menu panel: every group with its links; "a+b" stacks groups in one column
+  el.innerHTML = el.dataset.order.split(',').map(col => {
+    const keys = col.split('+');
+    const html = keys.map((k, i) => groupHTML(k, i ? 'stacked' : '')).join('');
+    return keys.length > 1 ? `<div class="col">${html}</div>` : html;
+  }).join('');
+});
+
+// Desktop menu dropdown
+const navMenu = document.getElementById('navMenu');
+const navMenuBtn = document.getElementById('navMenuBtn');
+navMenuBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const open = navMenu.classList.toggle('open');
+  navMenuBtn.setAttribute('aria-expanded', open);
+});
+document.addEventListener('click', (e) => {
+  if (!navMenu.contains(e.target)) { navMenu.classList.remove('open'); navMenuBtn.setAttribute('aria-expanded', false); }
+  document.querySelectorAll('.disclosure[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; });
+});
+navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+// Mobile drawer
+const drawer = document.getElementById('drawer');
+const setDrawer = (open) => {
+  drawer.classList.toggle('open', open);
+  drawer.setAttribute('aria-hidden', !open);
+  document.body.style.overflow = open ? 'hidden' : '';
+};
+document.getElementById('drawerOpen').addEventListener('click', () => setDrawer(true));
+document.getElementById('drawerClose').addEventListener('click', () => setDrawer(false));
+drawer.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => setDrawer(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setDrawer(false); navMenu.classList.remove('open'); } });
+
+// Light / dark theme
+const themeToggle = document.getElementById('themeToggle');
+const syncThemeLabel = () => {
+  const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+  themeToggle.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+  themeToggle.setAttribute('aria-pressed', dark);
+};
+syncThemeLabel();
+// The computer's setting leads. The toggle overrides it for this visit only; choosing the same as the
+// computer drops the override, and changing the computer's setting is always followed straight away.
+const systemDark = matchMedia('(prefers-color-scheme: dark)');
+// Every colour swaps in the same instant (no element lags behind and shows its corners), and where the
+// browser can, the whole page crossfades from the old look to the new one.
+const setTheme = (t) => {
+  const root = document.documentElement;
+  const apply = () => {
+    root.classList.add('theme-switching');
+    root.setAttribute('data-theme', t);
+    syncThemeLabel();
+    root.offsetWidth;   // commit the new colours with transitions off
+    root.classList.remove('theme-switching');
+  };
+  if (document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
+  else apply();
+};
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  setTheme(next);
+  try {
+    if (next === (systemDark.matches ? 'dark' : 'light')) sessionStorage.removeItem('sba-theme');
+    else sessionStorage.setItem('sba-theme', next);
+  } catch (e) {}
+});
+systemDark.addEventListener('change', (e) => {
+  try { sessionStorage.removeItem('sba-theme'); } catch (err) {}
+  setTheme(e.matches ? 'dark' : 'light');
+});
+
+// Terms of Service and the Ashram guidelines open in a pop-up when linked from a page's content
+// (header menu and footer links still go to the full pages)
+const DOCS = {
+  'terms.html': { title: 'Terms of Service', body: '.lg-body' },
+  'guidelines.html': { title: 'Important Guidelines', body: '.gd-list' },
+};
+let docDialog;
+const docCache = {};
+const openDoc = async (file, opener) => {
+  if (!docDialog) {
+    docDialog = document.createElement('dialog');
+    docDialog.className = 'doc-dialog';
+    docDialog.setAttribute('aria-labelledby', 'docTitle');
+    docDialog.innerHTML = `
+      <div class="doc-head">
+        <h2 id="docTitle"></h2>
+        <button class="doc-close" type="button" aria-label="Close"><span class="ic" style="--i:url('icons/x.svg');--s:18px" aria-hidden="true"></span></button>
+      </div>
+      <div class="doc-body" tabindex="0"></div>
+      <div class="doc-foot"><a class="text-link" target="_blank" rel="noopener">Open full page<span class="ic" style="--i:url('icons/external.svg');--s:14px" aria-hidden="true"></span></a></div>`;
+    document.body.append(docDialog);
+    docDialog.querySelector('.doc-close').addEventListener('click', () => docDialog.close());
+    // a click on the backdrop (outside the panel) closes it
+    docDialog.addEventListener('click', (e) => { if (e.target === docDialog) docDialog.close(); });
+    docDialog.addEventListener('close', () => { document.documentElement.classList.remove('doc-open'); docDialog.opener?.focus(); });
+  }
+  const doc = DOCS[file];
+  const body = docDialog.querySelector('.doc-body');
+  docDialog.querySelector('#docTitle').textContent = doc.title;
+  docDialog.querySelector('.doc-foot a').href = file;
+  docDialog.opener = opener;
+  body.innerHTML = '<p class="doc-loading">Loading…</p>';
+  document.documentElement.classList.add('doc-open');
+  docDialog.showModal();
+  try {
+    if (!docCache[file]) {
+      const html = await (await fetch(file)).text();
+      const part = new DOMParser().parseFromString(html, 'text/html').querySelector(doc.body);
+      if (!part) throw new Error('missing');
+      part.querySelectorAll('[id]').forEach(el => el.id = 'doc-' + el.id);   // keep ids unique on this page
+      docCache[file] = part.outerHTML;
+    }
+    body.innerHTML = docCache[file];
+  } catch (e) {
+    body.innerHTML = `<p class="doc-loading">This couldn’t load here. <a href="${file}" target="_blank" rel="noopener">Open ${doc.title}</a> in a new tab.</p>`;
+  }
+  body.scrollTop = 0;
+};
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('main a[href]');
+  if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;   // let cmd/ctrl-click open a tab
+  const file = a.getAttribute('href').split('#')[0];
+  if (!DOCS[file] || location.pathname.endsWith('/' + file)) return;
+  e.preventDefault();
+  openDoc(file, a);
+});

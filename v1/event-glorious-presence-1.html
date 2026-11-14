@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Glorious Presence (Event 1) — Sri Badrika Ashram</title>
+<meta name="description" content="The Glorious Presence (Event 1) at Sri Badrika Ashram, 1 November – 10 November 2026, with discourses by Swamiji on 7, 8, 9 November.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261114a">
+</head>
+<body data-page="detail">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+<div class="detail-wrap">
+  <article class="detail">
+
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="events.html"><span class="ic" style="--i:url('icons/arrow-left.svg')" aria-hidden="true"></span>All events</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="event-glorious-presence.html">The Glorious Presence</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <span aria-current="page">Event 1</span>
+    </nav>
+
+    <!-- ============ Event introduction ============ -->
+    <div class="detail-intro">
+      <div class="detail-hero">
+        <div class="detail-copy">
+          <p class="eyebrow"><a class="series-tag" href="event-glorious-presence.html">The Glorious Presence · Event 1 of 6</a></p>
+          <h1 class="display-2xl">The Glorious Presence (Event 1)</h1>
+          <div class="paras">
+            <p>Discourse date: 7 – 8 – 9 November</p>
+            <p>Bookings window: 1 – 9 November</p>
+            <p>(Swamiji will be present only on the Discourse Date)</p>
+          </div>
+        </div>
+        <section class="card" id="summary" aria-labelledby="summary-title">
+          <h2 class="card-title" id="summary-title">Event summary</h2>
+          <div class="summary-list">
+            <div class="summary-item">
+              <img src="assets/icon-calendar-day.svg" width="22" height="22" alt="">
+              <div><p class="eyebrow">Start date</p><strong>1 November 2026 (Sunday)</strong></div>
+            </div>
+            <div class="summary-item">
+              <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+              <div><p class="eyebrow">End date</p><strong>10 November 2026 (Tuesday)</strong></div>
+            </div>
+          </div>
+          <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">Swamiji will be present only on the Discourse Date.</p>
+        </section>
+      </div>
+      <div class="booking">
+        <a class="btn btn-primary btn-book" href="booking.html?event=glorious-presence-1">
+          <span>Book</span>
+          <img src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+        </a>
+        <p>Bookings window: 1 — 9 November</p>
+        <p>(Swamiji will be present only on the Discourse Date)</p>
+      </div>
+    </div>
+
+
+    <section class="section-heading" id="schedule">
+      <p class="eyebrow">Plan your visit</p>
+      <h2 class="display-2xl">Schedule and Important Details</h2>
+    </section>
+    <div class="schedule-cards">
+      <section class="card" id="discourse" aria-labelledby="discourse-title">
+        <h3 class="card-title" id="discourse-title">Discourse Schedule</h3>
+        <ol class="times">
+          <li class="time-row">
+            <div class="date-chip"><b>7</b><span>Nov</span></div>
+            <div class="time-copy"><span>Saturday</span><strong>Discourse with Swamiji</strong></div>
+            <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+          </li>
+          <li class="time-row">
+            <div class="date-chip"><b>8</b><span>Nov</span></div>
+            <div class="time-copy"><span>Sunday</span><strong>Discourse with Swamiji</strong></div>
+            <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+          </li>
+          <li class="time-row">
+            <div class="date-chip"><b>9</b><span>Nov</span></div>
+            <div class="time-copy"><span>Monday</span><strong>Discourse with Swamiji</strong></div>
+            <img src="assets/icon-clock.svg" width="22" height="22" alt="">
+          </li>
+        </ol>
+      </section>
+      <section class="card" aria-labelledby="stay-title">
+        <div class="card-head">
+          <h3 class="card-title" id="stay-title">Stay schedule</h3>
+          <span class="icon-disc sm"><img src="assets/icon-calendar.svg" width="24" height="24" alt=""></span>
+        </div>
+        <div class="stay-list">
+          <div class="stay-item"><p class="eyebrow">Bookings window</p><strong>1 – 9 November</strong></div>
+          <div class="stay-item"><p class="eyebrow">Minimum stay</p><strong>2 nights, plus any available dates within the event</strong></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ Booking guidelines ============ -->
+    <section id="guidelines">
+      <div class="guide-intro">
+        <p class="eyebrow">Before you book</p>
+        <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
+        <p>Review every guideline before proceeding with your booking.</p>
+      </div>
+      <ol class="guidelines">
+        <li>There are a total of six events under the name The Glorious Presence. If you are not attending Maha Rudra Sadhana 2027 (English), you may book a maximum of 3 of these events.</li>
+        <li>Participants attending “The Children of Tomorrow” may attend a maximum of 2 of these events.</li>
+        <li>Participants attending Maha Rudra Sadhana 2027 (English) are not eligible to attend these events. Participants who attended Maha Rudra Sadhana 2026 (Hindi) will not be eligible to participate in Maha Rudra Sadhana 2027 (English).</li>
+        <li>Children below 10 years of age are not permitted to stay at the Ashram during these events.</li>
+        <li>This event includes both discourse and non-discourse dates. A booking may be made for a minimum of 2 nights and for any additional dates available within that event. Please carefully check the schedule, particularly the dates on which Swamiji will be giving discourse, before making your booking.</li>
+        <li>Participants with any physical limitations or health-related conditions are kindly requested not to register for this event.</li>
+        <li>Day visits are not permitted at any time during the entire duration of the event.</li>
+      </ol>
+      <div class="card meeting">
+        <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
+        <div>
+          <h3>Personal Meetings with Swamiji</h3>
+          <p>Personal meetings with Swamiji will be held on discourse days only and will be selected through a draw system.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Accommodation ============ -->
+    <section class="section-heading wide" id="accommodation">
+      <p class="eyebrow">Your stay</p>
+      <h2 class="display-2xl">Accommodation Details</h2>
+    </section>
+    <div class="card stay-card wide">
+      <div class="card-head">
+        <div><p class="eyebrow">Daily contribution</p><p class="amount">₹1,800</p></div>
+        <span class="icon-disc paper"><img src="assets/icon-rupee.svg" width="25" height="25" alt=""></span>
+      </div>
+      <p class="lead">A contribution of ₹1,800 per person per day is required for your stay. This contribution covers two meals (Lunch &amp; Dinner) and dormitory accommodation.</p>
+      <hr>
+      <div class="card-head">
+        <h3>Room Upgrade</h3>
+        <span class="icon-disc cream"><img src="assets/icon-ac.svg" width="25" height="25" alt=""></span>
+      </div>
+      <p class="body">Room upgrades to sharing basis may be available on a first-come, first-served basis, subject to availability upon arrival. Additional contribution will apply, depending on the accommodation category selected.</p>
+      <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">We humbly request you to kindly note that prior requests for room upgrades cannot be accommodated.</p>
+      <hr>
+      <div class="card-head" id="payment">
+        <h3>Important Payment Policy</h3>
+      </div>
+      <p class="body">All payments made are non-refundable and non-transferable.</p>
+      <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">We therefore request you to carefully review all event details, eligibility requirements, schedule, accommodation arrangements, and other guidelines before proceeding with your booking.</p>
+    </div>
+  </article>
+
+  <!-- On this page -->
+  <nav class="toc" aria-label="On this page">
+    <div class="toc-inner">
+      <p class="eyebrow">On this page</p>
+      <ol>
+        <li><a href="#summary"><span class="gd-num">01</span>Event summary</a></li>
+        <li><a href="#schedule"><span class="gd-num">02</span>Schedule &amp; important details</a></li>
+        <li><a href="#discourse"><span class="gd-num">03</span>Discourse schedule</a></li>
+        <li><a href="#guidelines"><span class="gd-num">04</span>Booking guidelines</a></li>
+        <li><a href="#accommodation"><span class="gd-num">05</span>Accommodation details</a></li>
+      </ol>
+    </div>
+  </nav>
+</div>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="privacy-policy.html">Privacy policy</a>
+          <a href="terms.html">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261012a"></script>
+<script>
+  // "On this page": highlight the section currently in view
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const secs = tocLinks.map(a => document.querySelector(a.getAttribute('href')));
+  const mark = () => {
+    const y = innerHeight * .35;
+    let cur = 0;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top <= y) cur = i; });
+    tocLinks.forEach((a, i) => a.setAttribute('aria-current', i === cur));
+  };
+  addEventListener('scroll', mark, { passive: true });
+  mark();
+</script>
+
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261114b"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>

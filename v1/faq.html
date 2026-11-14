@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAQs — Sri Badrika Ashram</title>
+<meta name="description" content="Answers to common questions about Sri Badrika Ashram: where it is, when it is open, booking, accommodation, what to bring, rules, weather and donations.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261114a">
+</head>
+<body data-page="donate">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="gd-page">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="ashram.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Ashram</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">FAQs</span>
+</nav>
+
+<section class="give-intro gd-intro">
+  <div class="section-heading">
+    <p class="eyebrow">Before you visit</p>
+    <h1 class="display-2xl">Frequently Asked Questions</h1>
+    <p class="lede">Find answers to common questions about Badrika Ashram, including details on visiting, events, accommodations, spiritual practices, and community guidelines. Whether you’re planning your first visit or returning for a retreat, our FAQs will help you prepare and make the most of your time here.</p>
+  </div>
+</section>
+
+<section class="gd-layout">
+  <aside class="gd-index" aria-label="Questions">
+    <p class="eyebrow">On this page</p>
+    <ol>
+      <li><a href="#where"><span class="gd-num">01</span>Where is the Ashram?</a></li>
+      <li><a href="#open"><span class="gd-num">02</span>Are you open throughout the year?</a></li>
+      <li><a href="#booking"><span class="gd-num">03</span>How do I book my visit?</a></li>
+      <li><a href="#accommodation"><span class="gd-num">04</span>What accommodation is available?</a></li>
+      <li><a href="#bring"><span class="gd-num">05</span>What should I bring?</a></li>
+      <li><a href="#rules"><span class="gd-num">06</span>Are there any rules at the Ashram?</a></li>
+      <li><a href="#weather"><span class="gd-num">07</span>How is the weather?</a></li>
+      <li><a href="#lockers"><span class="gd-num">08</span>Are lockers available?</a></li>
+      <li><a href="#donation"><span class="gd-num">09</span>How can I make a donation?</a></li>
+      <li><a href="#contact"><span class="gd-num">10</span>Who do I contact for more information?</a></li>
+    </ol>
+    <button class="btn gd-toggle" type="button" id="gdToggle" aria-pressed="false">Expand all</button>
+  </aside>
+
+  <div class="as-methods gd-list">
+    <details class="as-method gd-item" id="where" open>
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">01</span>
+        <h2>Where is the Ashram?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>The Ashram is located in Himachal Pradesh, India. You can find detailed directions <a href="ashram.html#directions">here</a>.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="open">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">02</span>
+        <h2>Are you open throughout the year?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>The Ashram is open during both Events and Non-Events. Om Swami ji is not at the Ashram all the time — he meets devotees only on the dates specified under <a href="events.html">Events</a>. For Non-Events, please check the section on “Short-term Stay at the Ashram on Non-Events.”</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="booking">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">03</span>
+        <h2>How do I book my visit?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>Please check the dates when the Ashram is open. Select your preferred time and follow the registration process under <a href="events.html">Events</a> or Short-term Stay at the Ashram on Non-Events.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="accommodation">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">04</span>
+        <h2>What accommodation is available?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>The Ashram offers:</p>
+<ul>
+<li>Separate male and female dormitories with attached washrooms.</li>
+<li>Rooms that can accommodate a family of three or four, or three individuals of the same gender (subject to availability and allocated upon arrival).</li>
+</ul>
+<p>Meals are served in one large dining hall.</p>
+<p>The Ashram has simple, basic infrastructure, so individual accommodation is not possible. All rooms are shared.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="bring">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">05</span>
+        <h2>What should I bring?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>The Ashram provides bedding, three vegetarian meals daily, and evening tea. We suggest bringing:</p>
+<ul class="fq-list">
+<li>Towel and toiletries</li>
+<li>Small flashlight</li>
+<li>Earplugs (if needed)</li>
+<li>Umbrella (monsoon season)</li>
+<li>Hat (summer or if using the river route)</li>
+<li>Warm clothing (Nov–Feb)</li>
+<li>Comfortable anti-skid slippers or shoes for walking</li>
+<li>Personal medicine kit (the dispensary is well-stocked, but the nearest pharmacy is 20 km away)</li>
+</ul>
+<p>You may bring your own sheet or pillow if you prefer. Please avoid washing clothes at the Ashram due to limited facilities and the large number of residents. Carry enough clothes for your stay.</p>
+<p class="fq-note"><strong>Note:</strong> Couples are advised to pack separately as joint accommodation may not always be possible.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="rules">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">06</span>
+        <h2>Are there any rules at the Ashram?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>Yes. We request everyone to:</p>
+<ul>
+<li>Maintain cleanliness in all Ashram facilities. Dormitories and rooms must be cleaned by the occupants themselves.</li>
+<li>Be respectful towards fellow visitors and the environment.</li>
+</ul>
+<p>The Ashram is meant to be a peaceful place where you can connect with nature and experience its bliss. Please read the <a href="guidelines.html">Important Guidelines</a> for details.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="weather">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">07</span>
+        <h2>How is the weather?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<dl class="gd-times">
+<div><dt>April – September</dt><dd>Very hot during the day, pleasant in the evenings</dd></div>
+<div><dt>November – February</dt><dd>Quite cold, especially in the mornings and nights</dd></div>
+</dl>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="lockers">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">08</span>
+        <h2>Are lockers available?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>No, lockers are not provided. While we’ve never had issues with theft, we encourage you to bring only what is necessary. If carrying laptops or valuables, please keep them with you at all times. The Ashram is not responsible for lost items.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="donation">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">09</span>
+        <h2>How can I make a donation?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>Donations towards Ashram causes can be made online <a href="donate.html">here</a>.</p>
+      </div>
+    </details>
+    <details class="as-method gd-item" id="contact">
+      <summary>
+        <span class="as-method-icon gd-num-badge" aria-hidden="true">10</span>
+        <h2>Who do I contact for more information?</h2>
+        <span class="ic" style="--i:url('icons/chevron-up.svg');--s:16px" aria-hidden="true"></span>
+      </summary>
+      <div class="as-method-body">
+<p>For any queries, please email <a href="mailto:contact.omswami@gmail.com">contact.omswami@gmail.com</a> or use the <a href="contact.html">contact form</a>.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<section class="gd-help">
+  <p>Still have a question? <a href="contact.html">Contact us</a> or write to <a href="mailto:contact.omswami@gmail.com">contact.omswami@gmail.com</a>.</p>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="privacy-policy.html">Privacy policy</a>
+          <a href="terms.html">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261012a"></script>
+<script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
+<script src="assets/phone.js?v=20261004r"></script>
+<script src="assets/guidelines.js?v=20261004r"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261114b"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>

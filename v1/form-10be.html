@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form 10BE — Sri Badrika Ashram</title>
+<meta name="description" content="Download Form 10BE, the certificate of your donation to Sri Badrika Ashram, by financial year and PAN.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261114a">
+</head>
+<body data-page="donate">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="give">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="get-involved.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Get Involved</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Form 10BE</span>
+</nav>
+
+<section class="give-intro">
+  <div class="section-heading">
+    <p class="eyebrow">Donation certificate</p>
+    <h1 class="display-2xl">Download Form 10BE</h1>
+    <p class="lede">Form 10BE is required for submitting audited financial details in accordance with regulatory requirements.</p>
+  </div>
+</section>
+
+<form class="donate-form tbe-form" id="tbeForm" novalidate>
+  <div class="donate-section">
+    <h2 class="display-lg">Find your form</h2>
+    <p class="donate-lede">Choose the financial year of your donation and enter the PAN you gave when donating.</p>
+  </div>
+
+  <div class="donate-grid tbe-grid">
+    <div class="field">
+      <label for="year">Financial Year<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input select"><select id="year" name="year" required aria-describedby="year-error">
+            <option value="">Select financial year</option>
+            <option value="2026-2027">2026 – 2027</option>
+            <option value="2025-2026">2025 – 2026</option>
+            <option value="2024-2025">2024 – 2025</option>
+            <option value="2023-2024">2023 – 2024</option>
+            <option value="2022-2023">2022 – 2023</option>
+            <option value="2021-2022">2021 – 2022</option>
+      </select></div>
+      <p class="field-error" id="year-error" hidden></p>
+    </div>
+    <div class="field">
+      <label for="pan">PAN Number<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input"><input id="pan" name="pan" placeholder="ABCDE1234F" autocomplete="off" autocapitalize="characters" maxlength="10" required aria-describedby="pan-hint pan-error"></div>
+      <p class="field-hint" id="pan-hint">The same PAN you used for your donation receipt.</p>
+      <p class="field-error" id="pan-error" hidden></p>
+    </div>
+  </div>
+
+  <div class="donate-action">
+    <p class="auth-status" id="tbeStatus" role="status" hidden></p>
+    <button class="btn btn-primary" type="submit"><span class="ic" style="--i:url('icons/download.svg');--s:16px" aria-hidden="true"></span><span>Get Form 10BE</span></button>
+  </div>
+  <p class="tbe-help">Can’t find your form? Write to us at <a href="mailto:Contact.omswami@gmail.com">Contact.omswami@gmail.com</a> with your name, PAN and donation date.</p>
+</form>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="privacy-policy.html">Privacy policy</a>
+          <a href="terms.html">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261012a"></script>
+<script src="assets/form10be.js?v=20261004r"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261114b"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>

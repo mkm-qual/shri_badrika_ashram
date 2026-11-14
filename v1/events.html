@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events — Sri Badrika Ashram</title>
+<meta name="description" content="Sacred rituals, contemplative retreats and teachings at Sri Badrika Ashram.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261114a">
+</head>
+<body data-page="events">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html" aria-current="page"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
+        <span>Menu</span>
+        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
+      </button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+    <a href="signin.html" class="sign-in d-only">Sign in</a>
+    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
+      <img src="assets/m-menu.svg" width="24" height="24" alt="">
+    </button>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg')" aria-hidden="true"></span>Home</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Events</span>
+</nav>
+
+<!-- ============ Upcoming gatherings ============ -->
+<section class="listing events" id="upcoming">
+  <div class="events-head">
+    <div class="section-heading">
+      <p class="eyebrow">At ashram</p>
+      <h1 class="display-2xl">Upcoming events</h1>
+    </div>
+    <button class="sort" id="sortBtn" type="button" aria-label="Sort events">Sort by <b>Soonest first&nbsp;&nbsp;↓</b></button>
+  </div>
+
+  <nav class="month-nav" aria-label="Jump to a month">
+    <a href="#m-2026-10"><b>Oct</b><span>1 event</span></a>
+    <a href="#m-2026-11"><b>Nov</b><span>3 events</span></a>
+    <a href="#m-2026-12"><b>Dec</b><span>3 events</span></a>
+    <a href="#m-2027-03"><b>Mar</b><span>1 event</span></a>
+    <a href="#m-2027-04"><b>Apr</b><span>1 event</span></a>
+  </nav>
+
+  <!-- A series that runs across the season -->
+  <a class="event-card event-group series-banner" href="event-glorious-presence.html">
+    <div class="event-title">
+      <p class="eyebrow">Event series <span class="group-count">6 events</span></p>
+      <div class="event-title-inner">
+        <h3 class="display-lg">The Glorious Presence</h3>
+        <p class="event-sub">Discourses with Swamiji, November to April</p>
+      </div>
+    </div>
+    <ul class="group-dates" aria-label="Event start dates">
+      <li>1 Nov</li><li>19 Nov</li><li>1 Dec</li><li>15 Dec</li><li>28 Dec</li><li>1 Apr</li>
+    </ul>
+    <div class="event-meta">
+      <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 November 2026 — 11 April 2027</div>
+      <div><img src="assets/clock.svg" width="16" height="16" alt="">Next: Event 1, 1 — 10 November</div>
+    </div>
+  </a>
+
+  <div class="months" id="eventCards">
+    <section class="month" id="m-2026-10" aria-labelledby="mh-2026-10">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Oct</span>
+        <h2 class="month-name" id="mh-2026-10">October <span>2026</span></h2>
+        <p class="month-meta">Autumn · 1 event</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-divine-autumn.html">
+          <div class="event-title">
+            <p class="eyebrow">Autumn at the ashram</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">Divine Autumn</h3>
+              <p class="event-sub">A Journey into Grace and Stillness</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">7 October — 25 October</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Available for booking</div>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="month" id="m-2026-11" aria-labelledby="mh-2026-11">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Nov</span>
+        <h2 class="month-name" id="mh-2026-11">November <span>2026</span></h2>
+        <p class="month-meta">Early winter · 3 events</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-glorious-presence-1.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 1)</h3>
+              <p class="event-sub">Discourses on 7, 8 and 9 November</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 November — 10 November</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 9 November</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-children-of-tomorrow.html">
+          <div class="event-title">
+            <p class="eyebrow">A retreat for young minds</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Children of Tomorrow</h3>
+              <p class="event-sub">A three-day journey to nurture young minds</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">13 November — 15 November</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">All bookings are currently full</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-glorious-presence-2.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 2)</h3>
+              <p class="event-sub">Discourses on 20, 21 and 22 November</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">19 November — 26 November</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 19 — 25 November</div>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="month" id="m-2026-12" aria-labelledby="mh-2026-12">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Dec</span>
+        <h2 class="month-name" id="mh-2026-12">December <span>2026</span></h2>
+        <p class="month-meta">Winter · 3 events</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-glorious-presence-3.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 3)</h3>
+              <p class="event-sub">Discourses on 4, 5 and 6 December</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 December — 11 December</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 10 December</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-glorious-presence-4.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 4)</h3>
+              <p class="event-sub">Discourses on 18, 19 and 20 December</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">15 December — 23 December</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 15 — 22 December</div>
+          </div>
+        </a>
+        <a class="event-card" href="event-glorious-presence-5.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 5)</h3>
+              <p class="event-sub">Discourses on 30, 31 December and 1 January</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">28 December — 5 January</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 28 December — 4 January</div>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="month" id="m-2027-03" aria-labelledby="mh-2027-03">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Mar</span>
+        <h2 class="month-name" id="mh-2027-03">March <span>2027</span></h2>
+        <p class="month-meta">Spring · 1 event</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-maha-rudra-sadhana.html">
+          <div class="event-title">
+            <p class="eyebrow">Maha Shivratri Sadhana</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">Maha Rudra Sadhana</h3>
+              <p class="event-sub">The Return of Rudra (English)</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">5 March — 17 March</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Full 11-day duration only</div>
+          </div>
+        </a>
+      </div>
+    </section>
+    <section class="month" id="m-2027-04" aria-labelledby="mh-2027-04">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Apr</span>
+        <h2 class="month-name" id="mh-2027-04">April <span>2027</span></h2>
+        <p class="month-meta">Spring · 1 event</p>
+      </header>
+      <div class="event-cards month-cards">
+        <a class="event-card" href="event-glorious-presence-6.html">
+          <div class="event-title">
+            <p class="eyebrow">Discourses with Swamiji</p>
+            <div class="event-title-inner">
+              <h3 class="display-lg">The Glorious Presence (Event 6)</h3>
+              <p class="event-sub">Discourses on 2, 3 and 4 April</p>
+            </div>
+          </div>
+          <div class="event-meta">
+            <div><img src="assets/calendar.svg" width="16" height="16" alt="">1 April — 11 April</div>
+            <div><img src="assets/clock.svg" width="16" height="16" alt="">Bookings window: 1 — 10 April</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="privacy-policy.html">Privacy policy</a>
+          <a href="terms.html">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261012a"></script>
+<script>
+  // Sort: soonest first (as listed) or latest first; months and the events inside them flip together
+  const sortBtn = document.getElementById('sortBtn'), months = document.getElementById('eventCards');
+  const monthNav = document.querySelector('.month-nav');
+  let soonest = true;
+  const flip = (el) => [...el.children].reverse().forEach(c => el.appendChild(c));
+  sortBtn.addEventListener('click', () => {
+    soonest = !soonest;
+    flip(months); flip(monthNav);
+    months.querySelectorAll('.month-cards').forEach(flip);
+    sortBtn.querySelector('b').innerHTML = soonest ? 'Soonest first&nbsp;&nbsp;↓' : 'Latest first&nbsp;&nbsp;↑';
+  });
+</script>
+
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261114b"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>
