@@ -45,9 +45,33 @@ $('amount').addEventListener('input', (e) => {
 });
 $('pincode').addEventListener('input', (e) => { if (india()) e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6); });
 
-// Arriving from a "Support" button preselects that program
+// "Get Involved" (the program) is preselected from where the visitor came: every Support / Donate link
+// on the site names its program (?cause=…)
 const cause = new URLSearchParams(location.search).get('cause');
 if (cause && $('cause').querySelector(`option[value="${CSS.escape(cause)}"]`)) $('cause').value = cause;
+
+// Signed in: fill in the visitor's details from their account (they can still change them for this donation)
+const acct = window.sbaAccount;
+if (acct && acct.user) {
+  const { profile: p, kyc } = acct.load();
+  const set = (id, v) => { if (v && $(id) && !$(id).value) { $(id).value = v; $(id).dispatchEvent(new Event('input', { bubbles: true })); } };
+  set('first', p.first); set('middle', p.middle); set('last', p.last); set('email', p.email); set('city', p.city);
+  const iso = Object.entries({ '+91': 'IN', '+1': 'US', '+44': 'GB', '+61': 'AU', '+65': 'SG', '+971': 'AE' }).find(([d]) => d === p.cc)?.[1];
+  if (iso && code.querySelector(`option[value="${iso}"]`)) { code.value = iso; code.dispatchEvent(new Event('change', { bubbles: true })); }
+  set('mobile', (p.mobile || '').replace(/\D/g, ''));
+  const c = [...country.options].find(o => o.textContent === p.country);
+  if (c) { country.value = c.value; syncCountry(); }
+  if (india() && IN_STATES.includes(p.state)) $('state').value = p.state; else set('state-text', p.state);
+  // a verified PAN comes from KYC and is locked, as on the account
+  if (india() && kyc && kyc.verifiedAt && kyc.type === 'pan') {
+    $('pan').value = kyc.number; $('pan').readOnly = true;
+    $('pan-hint').textContent = 'Verified PAN from your account.';
+  }
+  const note = document.createElement('p');
+  note.className = 'donate-prefill';
+  note.textContent = `Filled in from your account, ${p.first}. Changes here apply to this donation only.`;
+  form.querySelector('.donate-section > legend').after(note);
+}
 
 // ----- Recurring donation (optional): the Recurring switch in the amount field shows its options just below -----
 const recurBox = $('recur'), recurSwitch = $('recurSwitch');
@@ -147,8 +171,7 @@ renderRecur();
 // ----- Checks: each returns an error message, or '' when the value is fine -----
 const val = (id) => $(id).value.trim();
 const checks = {
-  first: () => val('first') ? '' : 'Please enter your first name.',
-  last: () => val('last') ? '' : 'Please enter your last name.',
+  name: () => val('first') && val('last') ? '' : 'Please enter your first and last name.',
   mobile: () => phone ? phone.error() : (mobile.value.trim() ? '' : 'Please enter your mobile number.'),
   email: () => !val('email') ? 'Please enter your email address.'
     : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email')) ? '' : 'Please enter a valid email address.',
@@ -172,28 +195,52 @@ const checks = {
   recurConsent: () => !recurOn() || $('recurConsent').checked ? '' : 'Please authorise the automatic payments to set up a recurring donation.',
 };
 // the input that carries aria-invalid for each check
-const inputFor = (k) => k === 'state' ? (india() ? $('state') : $('state-text')) : $(k);
+const inputFor = (k) => k === 'state' ? (india() ? $('state') : $('state-text')) : k === 'name' ? (val('first') ? $('last') : $('first')) : $(k);
 const show = (k) => {
   const msg = checks[k]();
   const el = $(`${k}-error`);
   el.textContent = msg;
   el.hidden = !msg;
-  inputFor(k).setAttribute('aria-invalid', !!msg);
+  if (k === 'name') ['first', 'last'].forEach(id => $(id).setAttribute('aria-invalid', !!msg && !val(id)));
+  else inputFor(k).setAttribute('aria-invalid', !!msg);
   el.closest('.field, .donate-consent')?.classList.toggle('invalid', !!msg);
   return !msg;
 };
-const clear = (k) => { const el = $(`${k}-error`); el.hidden = true; inputFor(k).removeAttribute('aria-invalid'); el.closest('.field')?.classList.remove('invalid'); };
+const clear = (k) => { const el = $(`${k}-error`); el.hidden = true; (k === 'name' ? [$('first'), $('last')] : [inputFor(k)]).forEach(i => i.removeAttribute('aria-invalid')); el.closest('.field')?.classList.remove('invalid'); };
 
 // Re-check a field once the person leaves it, and live after it has shown an error
 Object.keys(checks).forEach(k => {
-  const ids = k === 'state' ? ['state', 'state-text'] : [k];
+  const ids = k === 'state' ? ['state', 'state-text'] : k === 'name' ? ['first', 'middle', 'last'] : [k];
   ids.forEach(id => {
-    $(id).addEventListener('blur', () => { if ($(id).value) show(k); });
+    $(id).addEventListener('blur', (e) => {
+      if (k === 'name') { if (!e.relatedTarget?.closest('.input.name') && (val('first') || val('last'))) show(k); return; }   // wait until you leave the name box
+      if ($(id).value) show(k);
+    });
     $(id).addEventListener($(id).type === 'checkbox' || $(id).tagName === 'SELECT' ? 'change' : 'input', () => {
-      if (inputFor(k).getAttribute('aria-invalid') === 'true' || $(id).type === 'checkbox') show(k);
+      if ((k === 'name' ? $('name-error').hidden === false : inputFor(k).getAttribute('aria-invalid') === 'true') || $(id).type === 'checkbox') show(k);
     });
   });
 });
+// Full name as one box (as on sign up): a space at the end of First or Middle moves on, a pasted full
+// name is split across the three, and Backspace in an empty part goes back
+{
+  const boxes = ['first', 'middle', 'last'].map($);
+  const moveTo = (el) => { el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
+  boxes.slice(0, 2).forEach((el, i) => el.addEventListener('input', () => {
+    if (!el.value.endsWith(' ') || el.selectionStart !== el.value.length) return;
+    el.value = el.value.trimEnd(); if (el.value) moveTo(boxes[i + 1]);
+  }));
+  boxes[0].addEventListener('paste', (e) => {
+    const words = (e.clipboardData?.getData('text') || '').trim().split(/\s+/).filter(Boolean);
+    if (words.length < 2 || boxes.some(b => b.value)) return;
+    e.preventDefault();
+    const [a, ...rest] = words, z = rest.pop();
+    boxes[0].value = a; boxes[1].value = rest.join(' '); boxes[2].value = z; moveTo(boxes[2]);
+  });
+  boxes.slice(1).forEach((el, i) => el.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !el.value) { e.preventDefault(); moveTo(boxes[i]); }
+  }));
+}
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();

@@ -3,7 +3,6 @@
 // and dependants are kept in this browser only (localStorage), starting from sample details.
 const $ = (id) => document.getElementById(id);
 const page = document.body.dataset.account;            // profile | dependants | bookings
-const KEY = 'sba-account-v1';
 
 let userName = null;
 try { userName = sessionStorage.getItem('sba-user'); } catch (e) {}
@@ -15,19 +14,8 @@ if (!userName) {
   $('acctSignin').href = `signin.html?next=${encodeURIComponent(location.pathname.split('/').pop())}`;
 }
 
-// ----- Sample account, merged with anything saved in this browser -----
-const [first0, ...rest0] = (userName || 'Ravi Sharma').trim().split(/\s+/);
-const SAMPLE = {
-  profile: { first: first0, middle: '', last: rest0.join(' ') || 'Sharma', email: `${first0.toLowerCase()}.sharma@example.com`,
-    cc: '+91', mobile: '98765 43210', dob: '1984-06-12', gender: 'Male',
-    city: 'Bengaluru', state: 'Karnataka', country: 'India', news: true, whatsapp: true },
-  dependants: [
-    { id: 'd1', name: 'Sunita Sharma', relation: 'Spouse', dob: '1987-03-02', gender: 'Female' },
-    { id: 'd2', name: 'Aarav Sharma', relation: 'Son', dob: '2013-08-21', gender: 'Male' },
-  ],
-};
-const load = () => { try { return { ...SAMPLE, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch (e) { return SAMPLE; } };
-const save = (data) => { try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {} };
+// ----- The account: sample details merged with anything saved in this browser (site.js) -----
+const { SAMPLE, load, save } = window.sbaAccount;
 let data = load();
 const fullName = (p) => [p.first, p.middle, p.last].filter(Boolean).join(' ');
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
