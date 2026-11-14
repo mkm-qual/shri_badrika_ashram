@@ -3423,3 +3423,18 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
   .kyc-actions .btn { flex: 1; justify-content: center; }
 }
 .acct-fields .acct-full { grid-column: 1 / -1; }   /* the full name spans both columns, as on sign up */
+
+/* ----- Offerings page on the same rhythm as the Ashram page -----
+   64px between blocks: the index → first offering, and offering → offering (32px either side of the
+   divider). The hero sits 32px above the index; the last offering ends 96px above the footer. */
+.off-intro { gap: var(--sp-6); }
+.off-hero { min-height: 0; }
+.offerings { padding: 32px var(--gutter) 96px; }
+.offering { padding: 32px 0; }
+.offering:last-child { padding-bottom: 0; }
+@media (max-width: 768px) {
+  .off-intro { gap: var(--sp-5); }
+  .offerings { padding: 24px var(--gutter) 72px; }
+  .offering { padding: 24px 0; }
+  .offering:last-child { padding-bottom: 0; }
+}
