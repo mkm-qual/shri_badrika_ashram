@@ -174,8 +174,8 @@ window.sbaAccount = (() => {
   const [first0, ...rest0] = (user || 'Ravi Sharma').trim().split(/\s+/);
   const SAMPLE = {
     profile: { first: first0, middle: '', last: rest0.join(' ') || 'Sharma', email: `${first0.toLowerCase()}.sharma@example.com`,
-      cc: '+91', mobile: '98765 43210', dob: '1984-06-12', gender: 'Male',
-      city: 'Bengaluru', state: 'Karnataka', country: 'India', news: true, whatsapp: true },
+      cc: 'IN', mobile: '98765 43210', dob: '1984-06-12', gender: 'Male',
+      address: '', pincode: '', city: 'Bengaluru', state: 'Karnataka', country: 'IN', news: true, whatsapp: true },
     dependants: [
       { id: 'd1', name: 'Sunita Sharma', relation: 'Spouse', dob: '1987-03-02', gender: 'Female' },
       { id: 'd2', name: 'Aarav Sharma', relation: 'Son', dob: '2013-08-21', gender: 'Male' },
@@ -271,12 +271,20 @@ window.sbaAccount = (() => {
       }
     } else trail = store[here] || def;                                                 // refresh or back: the trail you had
     store[here] = trail; keep();
-    if (!nav || trail === def) return;
+    if (!nav) return;
+    // The back arrow is its own button: one step back (the page you came from, or the crumb above this page);
+    // the crumbs themselves go where they say, so "Home" always goes home
     const esc = (s) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-    const arrow = '<span class="ic" style="--i:url(\'icons/arrow-left.svg\');--s:15px" aria-hidden="true"></span>';
-    nav.innerHTML = trail.map((c, i) => i === trail.length - 1
-      ? `<span aria-current="page">${esc(c.label)}</span>`
-      : `<a href="${esc(c.href)}">${i === 0 ? arrow : ''}${esc(c.label)}</a>`).join('<span class="sep" aria-hidden="true">/</span>');
+    const parent = trail.length > 1 ? trail[trail.length - 2] : HOME;
+    nav.innerHTML = `<a class="crumb-back" href="${esc(parent.href)}" aria-label="Back"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span></a>`
+      + trail.map((c, i) => i === trail.length - 1
+        ? `<span aria-current="page">${esc(c.label)}</span>`
+        : `<a href="${esc(c.href)}">${esc(c.label)}</a>`).join('<span class="sep" aria-hidden="true">/</span>');
+    nav.querySelector('.crumb-back').addEventListener('click', (e) => {
+      let ref = null;
+      try { ref = document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) {}
+      if (ref && history.length > 1) { e.preventDefault(); history.back(); }    // otherwise the link goes to the crumb above
+    });
   };
   // after every page script has run (booking and album pages fill in their own breadcrumb first)
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();

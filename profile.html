@@ -20,7 +20,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261115f">
+<link rel="stylesheet" href="assets/site.css?v=20261115h">
 </head>
 <body data-page="account" data-account="profile">
 
@@ -144,30 +144,42 @@
           <h2 class="acct-card-title" id="ct-title">Contact and address</h2>
           <div class="acct-fields">
         <div class="field">
-          <label for="email">Email</label>
-          <div class="input"><input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error"></div>
-          <p class="field-error" id="email-error" hidden></p>
-        </div>
-        <div class="field">
           <label for="mobile">Mobile number</label>
           <div class="input phone">
-            <span class="cc"><select id="cc" name="cc" aria-label="Country code"><option value="+91">+91 IN</option><option value="+1">+1 US</option><option value="+44">+44 UK</option><option value="+61">+61 AU</option><option value="+65">+65 SG</option><option value="+971">+971 AE</option></select></span>
+            <select id="country-code" name="cc" aria-label="Country code">
+              <option value="IN" selected>+91 IN</option>
+            </select>
             <span class="divider" aria-hidden="true"></span>
             <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="mobile-error">
           </div>
           <p class="field-error" id="mobile-error" hidden></p>
         </div>
         <div class="field">
-          <label for="city">City</label>
-          <div class="input"><input id="city" name="city" type="text" autocomplete="address-level2" aria-describedby="city-error"></div>
+          <label for="email">Email</label>
+          <div class="input"><input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error"></div>
+          <p class="field-error" id="email-error" hidden></p>
         </div>
         <div class="field">
-          <label for="state">State</label>
-          <div class="input"><input id="state" name="state" type="text" autocomplete="address-level1" aria-describedby="state-error"></div>
+          <label for="address">Address <span class="opt">(optional)</span></label>
+          <div class="input area"><textarea id="address" name="address" rows="3" placeholder="House, street and locality" autocomplete="street-address"></textarea></div>
+        </div>
+        <div class="field">
+          <label for="pincode">Pincode <span class="opt">(optional)</span></label>
+          <div class="input"><input id="pincode" name="pincode" placeholder="Enter 6-digit pincode" inputmode="numeric" autocomplete="postal-code" aria-describedby="pincode-error"></div>
+          <p class="field-error" id="pincode-error" hidden></p>
         </div>
         <div class="field">
           <label for="country">Country</label>
-          <div class="input"><input id="country" name="country" type="text" autocomplete="country-name" aria-describedby="country-error"></div>
+          <div class="input select"><select id="country" name="country" autocomplete="country"></select></div>
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <div class="input select" id="stateSelectWrap"><select id="state" name="state" autocomplete="address-level1"><option value="">Select state</option></select></div>
+          <div class="input" id="stateTextWrap" hidden><input id="state-text" name="stateText" placeholder="Enter state or region" autocomplete="address-level1"></div>
+        </div>
+        <div class="field">
+          <label for="city">City</label>
+          <div class="input"><input id="city" name="city" type="text" autocomplete="address-level2"></div>
         </div>
           </div>
         </section>
@@ -212,8 +224,11 @@
   </div>
 </footer>
 
-<script src="assets/account.js?v=20261115a" defer></script>
-<script src="assets/site.js?v=20261115a"></script>
+<script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
+<script src="assets/phone.js?v=20261004r"></script>
+<script src="assets/places.js?v=20261115a"></script>
+<script src="assets/account.js?v=20261115b" defer></script>
+<script src="assets/site.js?v=20261115c"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>
