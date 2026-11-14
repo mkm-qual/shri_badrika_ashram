@@ -3257,3 +3257,23 @@ button.mo-cell:focus-visible { outline: 2px solid var(--saffron); outline-offset
 
 /* the page title takes focus when "Event summary" jumps to the top (for screen readers); no ring for that */
 h1[tabindex="-1"]:focus { outline: none; }
+
+/* ----- Header: Events · Offerings · Get Involved, then one capsule holding the menu and sign-in -----
+   The capsule reads as a single control: a menu icon on the left, the sign-in icon in a circle on the right. */
+.nav-pill { display: inline-flex; align-items: center; gap: 4px; height: 44px; padding: 4px 4px 4px 6px; margin-left: 6px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--card-bg); box-shadow: 0 1px 2px var(--shadow);
+  transition: box-shadow var(--t-hover) ease; }
+.nav-pill:hover { box-shadow: 0 2px 10px var(--shadow); }
+.nav-pill .nav-menu { display: flex; }
+.pill-menu { width: 36px; height: 34px; padding: 0; border-radius: 999px; color: var(--ink); }
+.pill-menu .ic { display: block; margin: 0 auto; }
+.pill-user { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%;
+  background: var(--sand); color: var(--ink); transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
+@media (hover: hover) {
+  .pill-menu:hover { background: var(--light-green-hover); }
+  .pill-user:hover { background: var(--btn-primary); color: var(--btn-primary-ink); }
+}
+.pill-menu:focus-visible, .pill-user:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+.nav-menu.open .pill-menu { background: var(--light-green-hover); }
+.nav-pill .dropdown { top: calc(100% + 14px); right: -48px; }   /* the panel opens from the capsule's edge */
+@media (max-width: 768px) { .nav-pill { height: 42px; margin-left: 0; } }

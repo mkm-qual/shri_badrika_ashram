@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261114s">
+<link rel="stylesheet" href="assets/site.css?v=20261114t">
 </head>
 <body data-page="gallery">
 
@@ -35,11 +35,10 @@
    <div class="nav-tabs">
     <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
     <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
     <div class="nav-menu d-only" id="navMenu">
-      <button class="nav-tab" aria-haspopup="true" aria-expanded="false" id="navMenuBtn">
-        <span>Menu</span>
-        <img src="assets/arrow-down.svg" width="20" height="20" alt="">
-      </button>
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg');--s:20px" aria-hidden="true"></span></button>
       <div class="dropdown details-panel">
         <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
         <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
@@ -50,10 +49,9 @@
         </form>
       </div>
     </div>
-    <a href="signin.html" class="sign-in d-only">Sign in</a>
-    <button class="icon-btn m-only" id="drawerOpen" aria-label="Open menu">
-      <img src="assets/m-menu.svg" width="24" height="24" alt="">
-    </button>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
    </div>
   </div>
 </header>
