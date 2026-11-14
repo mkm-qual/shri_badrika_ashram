@@ -1,5 +1,5 @@
 // Sign up / sign in: field checks and mobile formatting. Online accounts aren't live yet,
-// so a valid form ends with an honest "coming soon" message instead of a fake sign-in.
+// so a valid form opens a preview of the account area for this visit.
 const form = document.getElementById('authForm');
 const signup = form.dataset.mode === 'signup';
 const country = document.getElementById('country');
@@ -81,8 +81,9 @@ form.addEventListener('submit', (e) => {
     form.querySelector('[aria-invalid="true"]')?.focus();
     return;
   }
-  status.textContent = signup
-    ? `Thank you, ${form.first.value.trim()}. Online accounts are coming soon. Your details have not been stored yet.`
-    : 'Online sign-in is coming soon. Please check back shortly.';
-  status.hidden = false;
+  // Preview: accounts aren't connected yet, so signing in opens the account area for this visit only.
+  const name = signup ? [form.first.value, form.middle?.value, form.last.value].map(v => (v || '').trim()).filter(Boolean).join(' ') : 'Ravi Sharma';
+  try { sessionStorage.setItem('sba-user', name); } catch (err) {}
+  const next = new URLSearchParams(location.search).get('next');
+  location.href = next && /^[a-z-]+\.html$/.test(next) ? next : (signup ? 'profile.html' : 'my-bookings.html');
 });

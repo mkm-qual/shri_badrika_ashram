@@ -165,8 +165,9 @@ document.addEventListener('click', (e) => {
   openDoc(file, a);
 });
 
-// Signed in: the sign-in circle shows the first letter of the visitor's name. Accounts aren't live yet,
-// so this is a preview: ?signed-in (or ?signed-in=Name) turns it on for this visit, ?signed-out turns it off.
+// Signed in: the sign-in circle shows the first letter of the visitor's name and opens the account menu
+// (bookings, dependants, profile, donations, sign out). Accounts aren't live yet, so this is a preview:
+// signing in on signin.html, or ?signed-in (or ?signed-in=Name), turns it on for this visit; ?signed-out ends it.
 (() => {
   const q = new URLSearchParams(location.search);
   try {
@@ -177,11 +178,85 @@ document.addEventListener('click', (e) => {
   try { name = sessionStorage.getItem('sba-user'); } catch (e) {}
   if (!name) return;
   const initial = name.trim().charAt(0).toUpperCase();
+  const here = location.pathname.split('/').pop();
+  const item = (href, label) => `<a href="${href}"${here === href ? ' aria-current="page"' : ''}>${label}</a>`;
   document.querySelectorAll('.pill-user').forEach(a => {
-    a.classList.add('signed-in');
-    a.href = 'donate.html?signed-in#my-recurring';
-    a.setAttribute('aria-label', `Your account: ${name}`);
-    a.title = name;
-    a.innerHTML = `<span class="pill-initial" aria-hidden="true">${initial}</span>`;
+    const wrap = document.createElement('div');
+    wrap.className = 'acct-menu';
+    wrap.innerHTML = `<button type="button" class="pill-user signed-in" aria-haspopup="true" aria-expanded="false" aria-label="Your account: ${name.replace(/"/g, '')}" title="${name.replace(/"/g, '')}"><span class="pill-initial" aria-hidden="true">${initial}</span></button>
+      <div class="dropdown acct-drop">
+        <p class="acct-drop-who"><strong></strong><span>Signed in</span></p>
+        ${item('my-bookings.html', 'My bookings')}${item('dependants.html', 'Dependants')}${item('profile.html', 'Profile settings')}
+        <a href="donate.html?signed-in#my-recurring" data-crumb-label="My donations">My donations</a>
+        <button type="button" class="acct-drop-out" data-signout>Sign out</button>
+      </div>`;
+    wrap.querySelector('.acct-drop-who strong').textContent = name;
+    a.replaceWith(wrap);
+    const btn = wrap.querySelector('.pill-user');
+    const setOpen = (open) => { wrap.classList.toggle('open', open); btn.setAttribute('aria-expanded', open); };
+    btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(!wrap.classList.contains('open')); });
+    document.addEventListener('click', (e) => { if (!wrap.contains(e.target)) setOpen(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && wrap.classList.contains('open')) { setOpen(false); btn.focus(); } });
+    wrap.querySelector('[data-signout]').addEventListener('click', () => {
+      try { sessionStorage.removeItem('sba-user'); } catch (e) {}
+      location.href = 'index.html';
+    });
   });
+})();
+
+// Breadcrumbs follow the visitor's journey. Each page's breadcrumb in the HTML is its default place in the
+// site. When you arrive by following a link, the trail you were on is carried over instead:
+// Get Involved → Donate shows "Home / Get Involved / Donate", while the account menu's My donations shows
+// "Home / Your account / My donations". The main navigation (header, menu, footer) starts a fresh trail at
+// the page's default; account links always sit under "Your account"; going back up a trail trims it.
+(() => {
+  const nav = document.querySelector('nav.crumbs');
+  const keyOf = (url) => { const u = new URL(url, location.href); return (u.pathname.split('/').pop() || 'index.html') + u.search; };
+  const here = keyOf(location.href);
+  const HOME = { label: 'Home', href: './' };
+  const ACCOUNT = [HOME, { label: 'Your account', href: 'my-bookings.html' }];
+  const same = (a, b) => keyOf(a.href) === keyOf(b.href);
+  let store = {};
+  try { store = JSON.parse(sessionStorage.getItem('sba-trails') || '{}'); } catch (e) {}
+  const keep = () => { try { sessionStorage.setItem('sba-trails', JSON.stringify(store)); } catch (e) {} };
+
+  // remember where each link click leads, so the next page can continue the trail
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download') || e.defaultPrevented) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || (keyOf(u) === here && u.hash)) return;
+    const mode = a.closest('.acct-drop, .acct-side') ? 'account' : a.closest('.nav, .drawer, .footer, .site-picker') ? 'reset' : 'follow';
+    try { sessionStorage.setItem('sba-crumb-next', JSON.stringify({ to: keyOf(u), mode, label: a.dataset.crumbLabel || null, from: store[here] || null })); } catch (err) {}
+  }, true);
+
+  const page = () => nav ? [...nav.children].filter(el => !el.classList.contains('sep')).map(el => ({ label: el.textContent.trim(), href: el.getAttribute('href') || keyOf(location.href) })) : [HOME];
+  const build = () => {
+    const def = here.split('?')[0] === 'index.html' ? [HOME] : page();
+    const cur = def[def.length - 1];
+    let next = null;
+    try { next = JSON.parse(sessionStorage.getItem('sba-crumb-next') || 'null'); sessionStorage.removeItem('sba-crumb-next'); } catch (e) {}
+    let trail;
+    if (next && next.to === here) {
+      const me = { label: next.label || cur.label, href: here };
+      if (next.mode === 'reset' || !next.from) trail = def;
+      else if (next.mode === 'account') trail = [...ACCOUNT, me];
+      else {
+        const from = next.from, at = from.findIndex(c => same(c, me));
+        if (at >= 0) trail = from.slice(0, at + 1);                                    // back up the trail
+        else if (from.length > 1 && def.length > 1 && same(from[from.length - 2], def[def.length - 2])) trail = [...from.slice(0, -1), me];   // a sibling page
+        else trail = [...from, me];
+        if (trail.length > 5) trail = [trail[0], ...trail.slice(-4)];                  // keep it short
+      }
+    } else trail = store[here] || def;                                                 // refresh or back: the trail you had
+    store[here] = trail; keep();
+    if (!nav || trail === def) return;
+    const esc = (s) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const arrow = '<span class="ic" style="--i:url(\'icons/arrow-left.svg\');--s:15px" aria-hidden="true"></span>';
+    nav.innerHTML = trail.map((c, i) => i === trail.length - 1
+      ? `<span aria-current="page">${esc(c.label)}</span>`
+      : `<a href="${esc(c.href)}">${i === 0 ? arrow : ''}${esc(c.label)}</a>`).join('<span class="sep" aria-hidden="true">/</span>');
+  };
+  // after every page script has run (booking and album pages fill in their own breadcrumb first)
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();

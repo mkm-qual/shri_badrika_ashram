@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile settings — Sri Badrika Ashram</title>
+<meta name="description" content="Your details and preferences at Sri Badrika Ashram.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261114z">
+</head>
+<body data-page="account" data-account="profile">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="acct-page">
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Home</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <a href="my-bookings.html">Your account</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Profile settings</span>
+</nav>
+
+<!-- Signed out -->
+<section class="acct-gate" id="acctGate" hidden>
+  <h1 class="display-2xl">Your account</h1>
+  <p class="lede">Sign in to see your bookings, dependants and profile.</p>
+  <a class="btn btn-primary" id="acctSignin" href="signin.html"><span>Sign in</span><img src="assets/arrow-right-white.svg" width="16" height="16" alt=""></a>
+</section>
+
+<div class="acct-layout" id="acctMain">
+  <header class="acct-head">
+    <span class="acct-badge" id="acctInitial" aria-hidden="true">R</span>
+    <div>
+      <h1 class="display-2xl">Profile settings</h1>
+      <p class="acct-signed">Signed in as <strong id="acctName">Ravi Sharma</strong></p>
+    </div>
+  </header>
+  <div class="acct-grid">
+    <nav class="acct-side" aria-label="Your account">
+      <ul>
+        <li><a href="profile.html" aria-current="page">Profile settings</a></li>
+        <li><a href="dependants.html">Dependants</a></li>
+        <li><a href="my-bookings.html">My bookings</a></li>
+        <li><a href="donate.html?signed-in#my-recurring" data-crumb-label="My donations">My donations</a></li>
+      </ul>
+      <button type="button" class="acct-signout" data-signout><span class="ic" style="--i:url('icons/sign-out.svg');--s:16px" aria-hidden="true"></span>Sign out</button>
+    </nav>
+    <div class="acct-body">
+      <form class="acct-form" id="profileForm" novalidate>
+        <section class="acct-card" aria-labelledby="pd-title">
+          <h2 class="acct-card-title" id="pd-title">Personal details</h2>
+          <div class="acct-fields">
+        <fieldset class="field acct-full">
+          <legend>Full name</legend>
+          <div class="input name">
+            <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" aria-describedby="name-error">
+            <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+            <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" aria-describedby="name-error">
+          </div>
+          <p class="field-error" id="name-error" hidden></p>
+        </fieldset>
+        <div class="field">
+          <label for="dob">Date of birth</label>
+          <div class="input"><input id="dob" name="dob" type="date" autocomplete="bday"></div>
+        </div>
+        <div class="field">
+          <label for="gender">Gender</label>
+          <div class="input select"><select id="gender" name="gender"><option value="">Choose</option><option>Female</option><option>Male</option><option>Prefer not to say</option></select></div>
+        </div>
+          </div>
+        </section>
+        <section class="acct-card kyc" id="kyc" aria-labelledby="kyc-title">
+          <div class="acct-card-head">
+            <h2 class="acct-card-title" id="kyc-title">Identity verification (KYC)</h2>
+            <span class="kyc-badge" id="kycBadge"></span>
+          </div>
+          <div id="kycBody"></div>
+        </section>
+        <section class="acct-card" aria-labelledby="ct-title">
+          <h2 class="acct-card-title" id="ct-title">Contact and address</h2>
+          <div class="acct-fields">
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="input"><input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error"></div>
+          <p class="field-error" id="email-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="mobile">Mobile number</label>
+          <div class="input phone">
+            <select id="cc" name="cc" aria-label="Country code"><option value="+91">+91 IN</option><option value="+1">+1 US</option><option value="+44">+44 UK</option><option value="+61">+61 AU</option><option value="+65">+65 SG</option><option value="+971">+971 AE</option></select>
+            <span class="divider" aria-hidden="true"></span>
+            <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" aria-describedby="mobile-error">
+          </div>
+          <p class="field-error" id="mobile-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="city">City</label>
+          <div class="input"><input id="city" name="city" type="text" autocomplete="address-level2" aria-describedby="city-error"></div>
+        </div>
+        <div class="field">
+          <label for="state">State</label>
+          <div class="input"><input id="state" name="state" type="text" autocomplete="address-level1" aria-describedby="state-error"></div>
+        </div>
+        <div class="field">
+          <label for="country">Country</label>
+          <div class="input"><input id="country" name="country" type="text" autocomplete="country-name" aria-describedby="country-error"></div>
+        </div>
+          </div>
+        </section>
+        <section class="acct-card" aria-labelledby="pf-title">
+          <h2 class="acct-card-title" id="pf-title">Updates from the Ashram</h2>
+          <div class="acct-checks">
+            <label class="check"><input type="checkbox" name="news"><span>Email me about new events and offerings</span></label>
+            <label class="check"><input type="checkbox" name="whatsapp"><span>Send booking reminders on WhatsApp</span></label>
+          </div>
+        </section>
+        <div class="acct-save">
+          <button class="btn btn-primary" type="submit"><span>Save changes</span></button>
+          <p class="acct-status" id="profileStatus" role="status" hidden></p>
+        </div>
+      </form>
+      <p class="acct-preview">Preview: online accounts aren’t connected yet. Changes you make here stay in this browser only.</p>
+    </div>
+  </div>
+</div>
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer">
+
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <details class="disclosure">
+        <summary>Legal Fine print <img src="assets/arrow-down.svg" width="20" height="20" alt=""></summary>
+        <div class="panel">
+          <a href="privacy-policy.html">Privacy policy</a>
+          <a href="terms.html">Terms of use</a>
+          <a href="#">Cookie policy</a>
+        </div>
+      </details>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/account.js?v=20261114f" defer></script>
+<script src="assets/site.js?v=20261114d"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261114b"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>
