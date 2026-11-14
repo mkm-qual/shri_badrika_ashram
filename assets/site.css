@@ -3576,7 +3576,6 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
   .bk-page .bk-card { padding: 20px; }
   .bk-sum { padding: 20px; }
 }
-.bk-day[aria-pressed="true"] small { color: inherit; opacity: .8; }   /* the seat count stays readable on a picked night */
 .bk-page .bk-billing { padding: var(--sp-6); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); gap: var(--sp-5); }
 .bk-page #step2 { gap: var(--sp-4); }
 @media (max-width: 768px) { .bk-page .bk-billing { padding: 20px; } }
@@ -3608,3 +3607,127 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
   .bk-sub-line { font-size: var(--fs-ui); line-height: var(--lh-ui); }
   .bk-page .bk-layout { padding-top: 20px; padding-bottom: 72px; }
 }
+
+/* =====================================================================
+   Page rhythm, every page except home: one set of vertical spacings
+   breadcrumb → title 16 · title → its line 8 · intro → first content 32 ·
+   section → section 64 · last content → footer 96   (phones: 12 · 8 · 24 · 48 · 72)
+   ===================================================================== */
+:root { --intro-gap: 32px; --section-gap: 64px; --page-end: 96px; }
+@media (max-width: 768px) { :root { --intro-gap: 24px; --section-gap: 48px; --page-end: 72px; } }
+
+/* intro → first content */
+.listing { gap: var(--intro-gap); padding-bottom: var(--page-end); }
+.listing .events-head .section-heading { gap: var(--gap-sub); }
+.months { gap: var(--section-gap); }
+.gd-layout, .ct-layout, .cr-openings, .mo-layout { padding-top: var(--intro-gap); }
+.mo-intro { gap: var(--gap-sub); }
+.gl, .gl.album { gap: var(--intro-gap); padding-bottom: var(--page-end); }
+.gl > .crumbs, .gl.album > .crumbs { margin-bottom: calc(var(--gap-crumb) - var(--intro-gap)); }
+.give-intro, .off-intro { gap: var(--intro-gap); }
+
+/* section → section */
+.ab-close { padding-top: var(--section-gap); }
+
+/* last content → footer */
+.detail, .ct-layout, .cr-openings, .mo-layout, .lg-layout, .ab-close { padding-bottom: var(--page-end); }
+.tbe-help { margin-bottom: var(--page-end); }
+.offerings, .give-ways, .acct-page { padding-bottom: var(--page-end); }
+.donate-action { margin-bottom: var(--page-end); }
+.bk-page .bk-layout { padding-bottom: var(--page-end); }
+main > .as-section:last-of-type { padding-bottom: var(--page-end); }
+
+@media (max-width: 768px) {
+  .listing { gap: var(--intro-gap); padding-bottom: var(--page-end); }
+  .gl, .gl.album { gap: var(--intro-gap); padding-bottom: var(--page-end); }
+  .gd-layout, .ct-layout, .cr-openings, .mo-layout { padding-top: var(--intro-gap); }
+  .detail, .ct-layout, .cr-openings, .mo-layout, .lg-layout, .ab-close { padding-bottom: var(--page-end); }
+  .ab-close { padding-top: var(--section-gap); }
+  .tbe-help { margin-bottom: var(--page-end); }
+  .months { gap: var(--section-gap); }
+}
+.gd-help { padding-bottom: var(--page-end); }
+@media (max-width: 768px) { .gd-help { padding-bottom: var(--page-end); } }
+
+/* =====================================================================
+   Atoms, one of each: colours from the palette tokens, three corner sizes,
+   one button size, no stray letter-spacing
+   ===================================================================== */
+:root {
+  --r-sm: 8px;      /* fields, small controls, calendar days */
+  --r-md: 12px;     /* menus, pop-overs, boxes inside a card */
+  /* --card-radius: 20px — every card */
+  --ok: #2e7d32; --ok-strong: #3d6b2a;   /* places left, active / paid */
+  --ls-num: .06em;  /* small numerals: 01 · 02 … */
+  --highlight: color-mix(in srgb, var(--btn-primary) 14%, var(--card-bg));   /* today on a calendar */
+}
+:root[data-theme="dark"] { --ok: #8fc78f; --ok-strong: #a9d08e; }
+
+/* colours left over from the old brown/saffron palette now use the tokens */
+.marker-saffron, :root[data-theme="dark"] .marker-saffron { --pulse: var(--saffron); }
+.viewer .pill-btn.primary, .v-thumb[aria-current="true"] { background: var(--btn-primary); border-color: var(--btn-primary); color: var(--btn-primary-ink); }
+.viewer .pill-btn.primary:hover { background: var(--btn-primary-hover); border-color: var(--btn-primary-hover); }
+.viewer button:focus-visible, .viewer a:focus-visible, .as-video-play:focus-visible { outline-color: var(--saffron); }
+.as-map-layers button[aria-pressed="true"] { background: var(--btn-primary); color: var(--btn-primary-ink); }
+.mo-cell.today, .mo-cell.off.today, .mo-key-today { background: var(--highlight); }
+.bk-day.open small, .bk-key.open { color: var(--ok); }
+.recur-status.is-active, .mr-history .mr-paid { color: var(--ok-strong); }
+
+/* corners: cards 20, boxes inside cards and pop-overs 12 */
+.event-card, .card, .cr-empty, .recur, .recur-card, .mr-empty, .mr-item, .mo-off, .ab-poem, .as-methods,
+.lg-card, .lg-table, .lg-notice, .ct-note, .bk-notice, .bk-summary, .kyc-nudge, .series-banner, .mo-sum-card { border-radius: var(--card-radius); }
+.dropdown, .disclosure .panel, .site-menu, .details-panel, .as-facts div, .as-route-note, .gd-times div, .mo-slot-row, .mo-empty,
+.fq-note, .recur-summary, .recur-confirm, .mr-history, .date-chip, .v-info { border-radius: var(--r-md); }
+.bk-day, .mo-time, .input { border-radius: var(--r-sm); }
+.album-card > a { border-radius: var(--r-media); }
+
+/* one button size: 50px tall, UI-size text (cards and the booking step included) */
+.btn-book, .ev-ctas .btn, .auth-submit { padding: 13px 22px; font-size: var(--fs-ui); line-height: var(--lh-ui); }
+.gi-support, .pill-btn { min-height: 50px; padding: 13px 22px; font-size: var(--fs-ui); line-height: var(--lh-ui); }
+.auth-submit { padding-top: 13px; padding-bottom: 13px; }
+
+/* letter-spacing: headings -0.01em, uppercase labels the label token, numerals their own, everything else none */
+.off-index span, .gd-num, .gd-num-badge { letter-spacing: var(--ls-num); }
+.bk-day.wl small, .bk-day.out-day small, .lg-notice, .acct-avatar, .kyc-done dd { letter-spacing: 0; }
+
+/* a picked night: one text colour (the olive button's dark ink) for the date, the divider and the seat count,
+   whatever the count's colour was (places left, filling fast, waitlist) */
+.bk-days .bk-day[aria-pressed="true"], .bk-days .bk-day[aria-pressed="true"] b, .bk-days .bk-day[aria-pressed="true"] small { color: var(--btn-primary-ink); }
+.bk-days .bk-day[aria-pressed="true"] small { opacity: .75; }
+.bk-days .bk-day[aria-pressed="true"] b { border-color: color-mix(in srgb, var(--btn-primary-ink) 30%, transparent); }
+
+/* Event pages: the compact bar that follows the key-facts card under the header */
+.key-sticky { position: fixed; left: 0; right: 0; z-index: 19; transform: translateY(-110%); opacity: 0; pointer-events: none;
+  transition: transform var(--t-pop-out, .2s) var(--ease-out, ease), opacity var(--t-pop-out, .2s) ease;
+  background: var(--paper-texture) repeat, var(--bg); border-bottom: 1px solid var(--rule); box-shadow: 0 6px 16px var(--shadow); }
+.key-sticky.show { transform: none; opacity: 1; pointer-events: auto; transition-duration: var(--t-pop-in, .26s); }
+.key-sticky-inner { max-width: none; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding: 8px 0; }
+.key-sticky-copy { min-width: 0; display: flex; align-items: baseline; gap: var(--sp-3); }
+.key-sticky-copy strong { font-family: var(--font-heading); letter-spacing: -0.01em; font-weight: 400; font-size: var(--fs-lg); line-height: var(--lh-lg); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.key-sticky-copy span { font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink-muted); white-space: nowrap; }
+.key-sticky-btn { flex-shrink: 0; padding: 8px 18px; min-height: 40px; }
+@media (max-width: 768px) {
+  .key-sticky-copy { flex-direction: column; gap: 0; }
+  .key-sticky-copy strong { font-size: var(--fs-ui); line-height: var(--lh-ui); }
+}
+@media (prefers-reduced-motion: reduce) { .key-sticky { transition: none; } }
+.key-sticky .key-sticky-btn { width: auto; min-width: 0; }   /* never the full-width Book from the card */
+.key-sticky-copy { flex: 1; }
+.key-sticky-copy span { overflow: hidden; text-overflow: ellipsis; }
+
+/* the event bar is part of the header: the header's frosted fill extends under it and fades after it,
+   so no page content shows between them */
+.key-sticky { background: none; border-bottom: 0; box-shadow: none; z-index: 21; }
+.nav::before { transition: bottom var(--t-pop-in, .26s) var(--ease-out, ease); }
+.nav.has-sticky::before {
+  bottom: calc(-1 * (var(--sticky-h, 56px) + 28px));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 28px), transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 28px), transparent 100%);
+}
+@media (prefers-reduced-motion: reduce) { .nav::before { transition: none; } }
+.nav.has-sticky { --nav-fill: color-mix(in srgb, var(--bg) 94%, transparent); }   /* nearly solid while it carries the event bar */
+/* event bar: name on the first line, dates on the second */
+.key-sticky-copy { flex-direction: column; align-items: flex-start; gap: 0; }
+.key-sticky-copy strong { font-size: var(--fs-lg); line-height: 1.3; }
+.key-sticky-copy span { line-height: 1.4; }
+@media (max-width: 768px) { .key-sticky-copy strong { font-size: var(--fs-ui); } }
