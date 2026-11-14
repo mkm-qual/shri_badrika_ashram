@@ -3531,3 +3531,80 @@ main > .as-section:last-of-type { padding-bottom: 96px; }
 .crumb-back { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; margin: -6px 2px -6px -6px; border-radius: 50%; color: var(--ink-muted); }
 .crumb-back:hover { background: var(--light-green-hover); color: var(--ink); }
 .crumb-back:focus-visible { outline: 2px solid var(--saffron); outline-offset: 1px; }
+
+/* ----- Booking: one main column and one summary card -----
+   Left: the steps, then "Choose your nights" and "Who's coming" as titled cards, stacked. Right: a sticky
+   summary with the event's facts, your selection, the total and Continue, with the rules below it. */
+.bk-page .bk-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: var(--sp-6); }
+.bk-page .bk-main { order: 1; gap: var(--sp-5); }
+.bk-page .bk-ritual { order: 2; top: 88px; gap: var(--sp-4); }
+.bk-page .bk-split { grid-template-columns: 1fr; gap: var(--sp-4); }
+.bk-page .bk-card { padding: var(--sp-6); }
+.bk-card-title { font-family: var(--font-heading); letter-spacing: -0.01em; font-weight: 400; font-size: var(--fs-h4); line-height: var(--lh-h4); color: var(--ink); margin-bottom: var(--sp-4); }
+.bk-page .bk-month { margin-bottom: var(--sp-3); }
+.bk-page .bk-people { gap: var(--sp-4); }
+.bk-page .bk-people .bk-card-title { margin-bottom: 0; }
+.bk-page .bk-people-head { margin-top: calc(-1 * var(--sp-3)); }
+.bk-page .bk-people-title { font-family: var(--font-body); font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
+.bk-person-name small { margin-left: 6px; font-size: var(--fs-sm); color: var(--ink-muted); }
+.bk-quick { display: flex; flex-direction: column; gap: var(--sp-2); }
+.bk-quick[hidden] { display: none; }
+.bk-quick-title { font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink-muted); }
+.bk-quick-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.bk-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 6px 14px 6px 12px; border: 1px solid var(--rule); border-radius: 999px; background: var(--card-bg); font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
+.bk-chip small { font-size: var(--fs-sm); color: var(--ink-muted); }
+.bk-chip:hover { border-color: var(--btn-primary); background: var(--light-green-hover); }
+/* summary card */
+.bk-sum { display: flex; flex-direction: column; gap: var(--sp-4); padding: var(--sp-5); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); }
+.bk-page .bk-sum .bk-facts { padding: 0; border: 0; border-radius: 0; background: none; }
+.bk-page .bk-sum .bk-facts > div { padding: var(--sp-2) 0; }
+.bk-page .bk-sum .bk-facts > div:first-child { padding-top: 0; }
+.bk-page .bk-sum .bk-back { margin-top: calc(-1 * var(--sp-2)); }
+.bk-page .bk-sum .bk-summary { padding: var(--sp-4) 0 0; border: 0; border-top: 1px solid var(--rule); border-radius: 0; background: none; }
+.bk-page .bk-sum .bk-summary-title { font-family: var(--font-body); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink-muted); margin-bottom: 6px; }
+.bk-page .bk-sum .bk-count { display: flex; justify-content: space-between; align-items: baseline; padding-top: var(--sp-4); border-top: 1px solid var(--rule); font-weight: 500; }
+.bk-page .bk-sum .bk-total { font-family: var(--font-heading); font-size: var(--fs-h4); font-weight: 400; color: var(--ink); }
+.bk-continue { width: 100%; justify-content: center; }
+.bk-continue[hidden] { display: none; }
+.bk-page .bk-notice { margin-top: 0; }
+.bk-page .bk-fullname { grid-column: 1 / -1; }
+@media (max-width: 1100px) {
+  .bk-page .bk-layout { grid-template-columns: 1fr; }
+  .bk-page .bk-ritual { position: static; }
+}
+@media (max-width: 768px) {
+  .bk-page .bk-card { padding: 20px; }
+  .bk-sum { padding: 20px; }
+}
+.bk-day[aria-pressed="true"] small { color: inherit; opacity: .8; }   /* the seat count stays readable on a picked night */
+.bk-page .bk-billing { padding: var(--sp-6); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); gap: var(--sp-5); }
+.bk-page #step2 { gap: var(--sp-4); }
+@media (max-width: 768px) { .bk-page .bk-billing { padding: 20px; } }
+
+/* Booking, one column: the step bar carries the total and Continue on the right; nights and attendees
+   sit side by side; the rules follow; contribution and what's included sit under the title */
+.bk-page .bk-layout { grid-template-columns: minmax(0, 1fr); }
+.bk-sub-line { margin-top: 0; }
+.bk-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4) var(--sp-5); flex-wrap: wrap; }
+.bk-cta { display: flex; align-items: center; gap: var(--sp-4); margin-left: auto; }
+.bk-page .bk-cta .bk-count { font-size: var(--fs-ui); line-height: var(--lh-ui); font-weight: 500; color: var(--ink); white-space: nowrap; }
+.bk-page .bk-cta .bk-total { color: var(--ink); }
+.bk-continue { width: auto; }
+.bk-page .bk-split { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: stretch; }
+.bk-page #step1 .bk-notice { margin-top: 0; border-radius: var(--card-radius); }
+.bk-page .bk-notice ul { flex-direction: row; flex-wrap: wrap; gap: 4px 28px; }
+@media (max-width: 1100px) { .bk-page .bk-split { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .bk-cta { width: 100%; margin-left: 0; justify-content: space-between; }
+  .bk-page .bk-notice ul { flex-direction: column; }
+}
+
+/* Booking: a smaller subtext, and one tight rhythm — title → subtext 8, subtext → steps 24,
+   steps → cards 16, card → card 16, last card → footer 96 (72 on phones) */
+.bk-sub-line { font-size: var(--fs-body); line-height: var(--lh-body); }
+.bk-page .bk-layout { padding-top: var(--sp-5); padding-bottom: 96px; }
+.bk-page .bk-main, .bk-page .bk-panel { gap: var(--sp-4); }
+@media (max-width: 768px) {
+  .bk-sub-line { font-size: var(--fs-ui); line-height: var(--lh-ui); }
+  .bk-page .bk-layout { padding-top: 20px; padding-bottom: 72px; }
+}

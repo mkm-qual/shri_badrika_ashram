@@ -60,16 +60,18 @@ const datesText = (ds, wl) => EVENT.fullStay ? `${shortLabel(0)} – ${shortLabe
 // ----- The chosen event's details on the page -----
 document.title = `Book — ${EVENT.name} — Sri Badrika Ashram`;
 $('bkTitle').textContent = EVENT.name;
-$('bkBadge').textContent = EVENT.badge;
-$('bkCrumb').href = $('bkBack').href = EVENT.page;
+$('bkCrumb').href = EVENT.page;
 $('bkCrumb').querySelector('[data-name]').textContent = EVENT.name;
-$('bkFacts').innerHTML = EVENT.facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('');
+// under the title: what it costs and what's included, as one line (dates are on the calendar)
+$('bkSub').textContent = EVENT.facts.filter(([k]) => /contribution|includes/i.test(k))
+  .map(([k, v]) => /includes/i.test(k) ? `Inclusive of ${v.charAt(0).toLowerCase()}${v.slice(1)}` : v).join(' · ');
 $('bkRules').innerHTML = EVENT.rules.map(r => `<li>${r}</li>`).join('');
 $('bkLegendTalk').hidden = !DISCOURSE.length;
 
 // ----- State -----
 const picked = new Set();                            // nights chosen on the calendar
 let uid = 0;
+const acct = window.sbaAccount && window.sbaAccount.user ? window.sbaAccount.load() : null;
 const people = [{ id: ++uid, name: 'You', self: true, days: new Set() }];
 // a full-duration event books every night for everyone, and they can't be unticked
 if (EVENT.fullStay) for (let k = 0; k < NIGHTS; k++) { picked.add(k); people[0].days.add(k); }
@@ -97,7 +99,12 @@ const renderCalendar = () => {
     const note = (isWaitlist(k) ? 'full, join the waitlist' : `${s} places left`) + (talk ? ', discourse day' : '') + (EVENT.fullStay ? ', included in the full stay' : '');
     cells.push(`<button type="button" class="bk-day ${kind}${talk}" data-day="${k}" aria-pressed="${picked.has(k)}" ${EVENT.fullStay ? 'aria-disabled="true"' : ''} aria-label="Night of ${label}, ${note}"><b>${d}</b><small>${s}</small></button>`);
   }
-  daysEl.innerHTML = cells.join('');
+  // show only the weeks the event touches, not the whole month of greyed-out days
+  const weeks = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  const inEvent = (w) => w.some(c => /data-day=|check-out/.test(c));
+  const first = weeks.findIndex(inEvent), last = weeks.length - 1 - [...weeks].reverse().findIndex(inEvent);
+  daysEl.innerHTML = (first < 0 ? weeks : weeks.slice(first, last + 1)).flat().join('');
 };
 $('calPrev').addEventListener('click', () => { view.setMonth(view.getMonth() - 1); renderCalendar(); });
 $('calNext').addEventListener('click', () => { view.setMonth(view.getMonth() + 1); renderCalendar(); });
@@ -136,13 +143,28 @@ const renderPeople = () => {
     const isOpen = open.has(p.id) || (!open.size && i === 0);
     return `
       <details class="bk-person" data-id="${p.id}" ${isOpen ? 'open' : ''}>
-        <summary><span class="bk-person-name">${p.self ? 'You' : escape(p.name)}</span><span class="bk-person-n">${nightsText(p.days.size)}</span><span class="ic" style="--i:url('icons/chevron-up.svg');--s:14px" aria-hidden="true"></span></summary>
+        <summary><span class="bk-person-name">${p.self ? (acct ? `You <small>${escape([acct.profile.first, acct.profile.last].join(' '))}</small>` : 'You') : escape(p.name)}</span><span class="bk-person-n">${nightsText(p.days.size)}</span><span class="ic" style="--i:url('icons/chevron-up.svg');--s:14px" aria-hidden="true"></span></summary>
         <div class="bk-person-days">${boxes}
           ${p.self ? '' : `<button type="button" class="bk-remove" data-remove="${p.id}">Remove ${escape(p.name)}</button>`}
         </div>
       </details>`;
   }).join('');
 };
+// Signed in: your dependants are one tap away (their age is checked against the event's rules)
+const renderQuick = () => {
+  if (!acct) return;
+  const added = new Set(people.map(p => p.name));
+  const left = acct.dependants.filter(d => !added.has(d.name));
+  $('quickAdd').hidden = !left.length;
+  $('quickList').innerHTML = left.map(d => `<button type="button" class="bk-chip" data-dep="${escape(d.id)}"><span class="ic" style="--i:url('icons/plus.svg');--s:12px" aria-hidden="true"></span>${escape(d.name)} <small>${escape(d.relation)}</small></button>`).join('');
+};
+$('quickList').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-dep]'); if (!b) return;
+  const d = acct.dependants.find(x => x.id === b.dataset.dep);
+  people.push({ id: ++uid, name: d.name, days: new Set(picked) });
+  render(); renderQuick();
+  peopleEl.querySelector(`details[data-id="${uid}"]`)?.setAttribute('open', '');
+});
 const nightsText = (n) => `${n} ${n === 1 ? 'night' : 'nights'}`;
 const escape = (s) => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
@@ -203,14 +225,11 @@ const render = ({ keepPeople = false } = {}) => {
     : open.length ? `${Math.min(...open.map(d => SEATS[d]))} places left for these nights`
     : 'These nights are full. You can join the waitlist.';
   $('seatsLabel').classList.toggle('warn', over.length > 0 || short.length > 0);
-  if (!keepPeople) renderPeople();
+  if (!keepPeople) { renderPeople(); renderQuick(); }
 
-  const lines = people.filter(p => p.days.size).map(p =>
-    `<li><strong>${escape(nameOf(p))}:</strong> ${datesText([...p.days].sort((a, b) => a - b), ' (waitlist)')}</li>`);
-  $('selections').innerHTML = lines.join('') || '<li class="bk-empty">No dates selected yet.</li>';
 
   const n = slots();
-  $('slotCount').textContent = `${nightsText(n)} allocated`;
+  $('slotCount').textContent = nightsText(n);
   $('slotTotal').textContent = n ? ` · ${rupees(total())}` : '';
   $('toBilling').disabled = !n || over.length > 0 || short.length > 0;
 };
@@ -219,6 +238,7 @@ const render = ({ keepPeople = false } = {}) => {
 const setStep = (n) => {
   $('step1').hidden = n !== 1;
   $('step2').hidden = n !== 2;
+  $('toBilling').hidden = n !== 1;
   const shown = $('step' + n);
   shown.classList.remove('entering'); shown.offsetWidth; shown.classList.add('entering');   // restart the ease-in
   const states = n === 1 ? ['current', 'pending'] : ['done', 'current'];
@@ -242,9 +262,21 @@ $('toBilling').addEventListener('click', () => {
   $('wlNote').hidden = !people.some(p => [...p.days].some(isWaitlist));
   $('billStatus').hidden = true;
   setStep(2);
+  history.pushState({ bkStep: 2 }, '');                 // so Back (browser or breadcrumb) returns to the dates
   $('step2-title').focus({ preventScroll: true });
 });
-$('backBtn').addEventListener('click', () => { setStep(1); $('toBilling').focus({ preventScroll: true }); });
+// Back from billing goes back to the dates, not off the page: the browser's back button and the
+// breadcrumb's back arrow both step the wizard back first
+addEventListener('popstate', () => { if (!$('step2').hidden) { setStep(1); $('toBilling').focus({ preventScroll: true }); } });
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.crumb-back') || $('step2').hidden) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  if (history.state && history.state.bkStep === 2) history.back(); else { setStep(1); $('toBilling').focus({ preventScroll: true }); }
+}, true);
+$('backBtn').addEventListener('click', () => {
+  if (history.state && history.state.bkStep === 2) history.back();
+  else { setStep(1); $('toBilling').focus({ preventScroll: true }); }
+});
 
 // ----- Billing details -----
 const form = $('billForm');
@@ -257,7 +289,7 @@ $('pan').addEventListener('input', (e) => { e.target.value = e.target.value.toUp
 const val = (id) => $(id).value.trim();
 // Each check returns an error message, or '' when the value is fine
 const checks = {
-  bname: () => val('bname') ? '' : 'Please enter your full name.',
+  name: () => val('first') && val('last') ? '' : 'Please enter your first and last name.',
   email: () => !val('email') ? 'Please enter your email address.'
     : /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('email')) ? '' : 'Please enter a valid email address.',
   mobile: () => phone ? phone.error() : (mobile.value.trim() ? '' : 'Please enter your mobile number.'),
@@ -269,16 +301,43 @@ const show = (k) => {
   const el = $(`${k}-error`);
   el.textContent = msg;
   el.hidden = !msg;
-  $(k).setAttribute('aria-invalid', !!msg);
+  if (k === 'name') ['first', 'last'].forEach(id => $(id).setAttribute('aria-invalid', !!msg && !val(id)));
+  else $(k).setAttribute('aria-invalid', !!msg);
   el.closest('.field, .donate-consent').classList.toggle('invalid', !!msg);
   return !msg;
 };
 Object.keys(checks).forEach(k => {
-  $(k).addEventListener('blur', () => { if ($(k).value && k !== 'terms') show(k); });
-  $(k).addEventListener(k === 'terms' ? 'change' : 'input', () => {
-    if (k === 'terms' || $(k).getAttribute('aria-invalid') === 'true') show(k);
+  (k === 'name' ? ['first', 'middle', 'last'] : [k]).forEach(id => {
+    $(id).addEventListener('blur', (e) => {
+      if (k === 'name') { if (!e.relatedTarget?.closest('.input.name') && (val('first') || val('last'))) show(k); return; }
+      if ($(id).value && k !== 'terms') show(k);
+    });
+    $(id).addEventListener(k === 'terms' ? 'change' : 'input', () => {
+      if (k === 'terms' || (k === 'name' ? !$('name-error').hidden : $(k).getAttribute('aria-invalid') === 'true')) show(k);
+    });
   });
 });
+// Full name as one box (as on sign up): a space at the end of First or Middle moves on, Backspace goes back
+{
+  const boxes = ['first', 'middle', 'last'].map($);
+  const moveTo = (el) => { el.focus(); el.setSelectionRange(el.value.length, el.value.length); };
+  boxes.slice(0, 2).forEach((el, i) => el.addEventListener('input', () => {
+    if (!el.value.endsWith(' ') || el.selectionStart !== el.value.length) return;
+    el.value = el.value.trimEnd(); if (el.value) moveTo(boxes[i + 1]);
+  }));
+  boxes.slice(1).forEach((el, i) => el.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !el.value) { e.preventDefault(); moveTo(boxes[i]); }
+  }));
+}
+// Signed in: billing details come from the account (a verified PAN comes from KYC and is locked)
+if (acct) {
+  const p = acct.profile;
+  [['first', p.first], ['middle', p.middle], ['last', p.last], ['email', p.email]].forEach(([id, v]) => { if (v) $(id).value = v; });
+  const iso = /^[A-Z]{2}$/.test(p.cc || '') ? p.cc : ({ '+91': 'IN', '+1': 'US', '+44': 'GB' }[p.cc] || 'IN');
+  if (code.querySelector(`option[value="${iso}"]`)) { code.value = iso; code.dispatchEvent(new Event('change', { bubbles: true })); }
+  mobile.value = (p.mobile || '').replace(/\D/g, ''); mobile.dispatchEvent(new Event('input', { bubbles: true }));
+  if (acct.kyc && acct.kyc.verifiedAt && acct.kyc.type === 'pan') { $('pan').value = acct.kyc.number; $('pan').readOnly = true; $('pan-hint').textContent = 'Verified PAN from your account.'; }
+}
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -287,7 +346,7 @@ form.addEventListener('submit', (e) => {
   if (!ok) { status.hidden = true; form.querySelector('[aria-invalid="true"]')?.focus(); return; }
   const gateway = (phone ? phone.country() === 'IN' : code.value === '+91') ? 'Razorpay' : 'Stripe';
   const n = slots();
-  status.textContent = `Thank you, ${val('bname').split(' ')[0]}. Your booking for ${nightsText(n)} (${rupees(total())}) is ready, but online payments through ${gateway} are not connected yet. Nothing has been charged and no places have been held.`;
+  status.textContent = `Thank you, ${val('first')}. Your booking for ${nightsText(n)} (${rupees(total())}) is ready, but online payments through ${gateway} are not connected yet. Nothing has been charged and no places have been held.`;
   status.hidden = false;
   status.scrollIntoView({ block: 'nearest' });
 });

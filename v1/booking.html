@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261115h">
+<link rel="stylesheet" href="assets/site.css?v=20261115m">
 </head>
 <body data-page="donate">
 
@@ -85,50 +85,39 @@
 <section class="give-intro bk-intro">
   <div class="section-heading">
     <h1 class="display-2xl" id="bkTitle">The Glorious Presence (Event 1)</h1>
+    <p class="lede bk-sub-line" id="bkSub"></p>
   </div>
 </section>
 
 <div class="bk-layout">
-  <!-- ============ Event details ============ -->
-  <aside class="bk-ritual" aria-label="Event details">
-    <p class="bk-badge" id="bkBadge">Discourses with Swamiji</p>
-    <dl class="bk-facts" id="bkFacts">
-      <div><dt>Event dates</dt><dd>1 – 10 November 2026</dd></div>
-      <div><dt>Bookings window</dt><dd>1 – 9 November</dd></div>
-      <div><dt>Discourses</dt><dd>7, 8 &amp; 9 November</dd></div>
-      <div><dt>Daily contribution</dt><dd>₹1,800 per person, per day</dd></div>
-    </dl>
-    <p class="bk-back"><a href="event-glorious-presence-1.html" id="bkBack">View event details</a></p>
-    <div class="bk-notice">
-      <p class="bk-notice-title"><span class="ic" style="--i:url('icons/info.svg');--s:16px" aria-hidden="true"></span>Before you book</p>
-      <ul id="bkRules">
-        <li>Book a minimum of 2 nights per person.</li>
-        <li>Children below 10 years of age are not permitted to stay.</li>
-        <li>Day visits are not permitted during the event.</li>
-      </ul>
-    </div>
-  </aside>
 
   <div class="bk-main">
     <!-- ============ Steps ============ -->
-    <ol class="bk-steps" aria-label="Booking progress">
-      <li class="bk-step" id="step1Tab" data-state="current" aria-current="step">
-        <span class="bk-step-dot" aria-hidden="true">1</span>
-        <span class="bk-step-name">Dates &amp; attendees</span>
-        <span class="visually-hidden" data-chip>In progress</span>
-      </li>
-      <li class="bk-step" id="step2Tab" data-state="pending">
-        <span class="bk-step-dot" aria-hidden="true">2</span>
-        <span class="bk-step-name">Billing summary</span>
-        <span class="visually-hidden" data-chip>Pending</span>
-      </li>
-    </ol>
+    <div class="bk-head">
+      <ol class="bk-steps" aria-label="Booking progress">
+        <li class="bk-step" id="step1Tab" data-state="current" aria-current="step">
+          <span class="bk-step-dot" aria-hidden="true">1</span>
+          <span class="bk-step-name">Dates &amp; attendees</span>
+          <span class="visually-hidden" data-chip>In progress</span>
+        </li>
+        <li class="bk-step" id="step2Tab" data-state="pending">
+          <span class="bk-step-dot" aria-hidden="true">2</span>
+          <span class="bk-step-name">Billing summary</span>
+          <span class="visually-hidden" data-chip>Pending</span>
+        </li>
+      </ol>
+      <div class="bk-cta">
+        <p class="bk-count" aria-live="polite"><span id="slotCount">0 nights</span><span class="bk-total" id="slotTotal"></span></p>
+        <button class="btn btn-primary bk-continue" type="button" id="toBilling" disabled><span>Continue to billing</span><span class="ic" style="--i:url('icons/chevron-right.svg');--s:13px" aria-hidden="true"></span></button>
+      </div>
+    </div>
 
     <!-- ============ Step 1: dates and attendees ============ -->
     <section class="bk-panel" id="step1" aria-labelledby="step1-title">
       <h2 class="visually-hidden" id="step1-title">Pick dates and attendees</h2>
       <div class="bk-split">
         <div class="bk-card bk-cal">
+          <h3 class="bk-card-title">Choose your nights</h3>
           <div class="bk-month">
             <button class="bk-nav" type="button" id="calPrev" aria-label="Previous month"><span class="ic" style="--i:url('icons/chevron-left.svg');--s:16px" aria-hidden="true"></span></button>
             <p class="bk-month-name" id="calMonth" aria-live="polite"></p>
@@ -146,11 +135,13 @@
         </div>
 
         <div class="bk-card bk-people">
+          <h3 class="bk-card-title">Who’s attending</h3>
           <div class="bk-people-head">
             <p class="bk-people-title" id="rangeLabel">Select dates on the calendar</p>
             <p class="bk-people-sub" id="seatsLabel">Tap the nights you would like to stay</p>
           </div>
           <div class="bk-attendees" id="attendees"></div>
+          <div class="bk-quick" id="quickAdd" hidden><p class="bk-quick-title">Add from your dependants</p><div class="bk-quick-list" id="quickList"></div></div>
           <form class="bk-add" id="addForm" novalidate>
             <label class="visually-hidden" for="newName">Attendee name</label>
             <div class="input"><input id="newName" placeholder="Attendee name" autocomplete="off" maxlength="60" aria-describedby="newName-error"></div>
@@ -159,21 +150,15 @@
           </form>
         </div>
       </div>
-
-      <div class="bk-summary" aria-live="polite">
-        <p class="bk-summary-title">Current selections</p>
-        <ul id="selections"><li class="bk-empty">No dates selected yet.</li></ul>
-      </div>
-
-      <div class="bk-bar">
-        <p class="bk-count"><span id="slotCount">0 nights allocated</span><span class="bk-total" id="slotTotal"></span></p>
-        <button class="btn btn-primary" type="button" id="toBilling" disabled><span>Continue to Billing</span><span class="ic" style="--i:url('icons/chevron-right.svg');--s:13px" aria-hidden="true"></span></button>
+      <div class="bk-notice">
+        <p class="bk-notice-title"><span class="ic" style="--i:url('icons/info.svg');--s:16px" aria-hidden="true"></span>Before you book</p>
+        <ul id="bkRules"></ul>
       </div>
     </section>
 
     <!-- ============ Step 2: billing ============ -->
     <section class="bk-panel" id="step2" aria-labelledby="step2-title" hidden>
-      <h2 class="display-lg" id="step2-title" tabindex="-1">Billing summary</h2>
+      <h2 class="visually-hidden" id="step2-title" tabindex="-1">Billing summary</h2>
       <div class="bk-card bk-bill">
         <table class="bk-table">
           <caption class="visually-hidden">Nights and contribution by attendee</caption>
@@ -187,11 +172,15 @@
       <form class="bk-billing" id="billForm" novalidate>
         <h3 class="bk-sub">Billing details</h3>
         <div class="ct-row">
-          <div class="field">
-            <label for="bname">Full Name<span class="req" aria-hidden="true"> *</span></label>
-            <div class="input"><input id="bname" name="bname" autocomplete="name" placeholder="As on your PAN or ID" aria-describedby="bname-error"></div>
-            <p class="field-error" id="bname-error" hidden></p>
-          </div>
+          <fieldset class="field bk-fullname">
+            <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
+            <div class="input name">
+              <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" aria-describedby="name-error">
+              <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+              <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" aria-describedby="name-error">
+            </div>
+            <p class="field-error" id="name-error" hidden></p>
+          </fieldset>
           <div class="field">
             <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
             <div class="input"><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" aria-describedby="email-error"></div>
@@ -267,7 +256,7 @@
 <script src="assets/site.js?v=20261115c"></script>
 <script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
 <script src="assets/phone.js?v=20261004r"></script>
-<script src="assets/booking.js?v=20261004r"></script>
+<script src="assets/booking.js?v=20261115d"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>
