@@ -3755,3 +3755,45 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 .gi-feature > img { height: 0; min-height: 100%; object-fit: cover; object-position: 50% 80%; }
 @media (max-width: 1100px) { .gi-feature > img { height: 300px; min-height: 0; } }
 @media (max-width: 768px) { .gi-feature > img { height: 220px; } }
+
+/* The series banner reads as a link: a "View series →" pill on the right, and a hover that lifts the card */
+.series-banner { cursor: pointer; transition: border-color var(--t-hover) ease, box-shadow var(--t-hover) ease, transform var(--t-hover) var(--ease-out); }
+.series-cta { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 16px; border-radius: 999px;
+  background: var(--btn-noise), var(--btn-primary); color: var(--btn-primary-ink); font-size: var(--fs-ui); line-height: var(--lh-ui); white-space: nowrap; }
+.series-cta .ic { transition: transform var(--t-hover) var(--ease-out); }
+@media (hover: hover) {
+  .series-banner:hover { border-color: var(--btn-primary); box-shadow: 0 6px 18px var(--shadow); transform: translateY(-1px); }
+  .series-banner:hover .series-cta { background: var(--btn-noise), var(--btn-primary-hover); }
+  .series-banner:hover .series-cta .ic { transform: translateX(3px); }
+}
+.series-banner:focus-visible { outline: 2px solid var(--saffron); outline-offset: 3px; }
+@media (max-width: 768px) { .series-cta { width: 100%; justify-content: center; } }
+@media (prefers-reduced-motion: reduce) { .series-banner, .series-cta .ic { transition: none; } .series-banner:hover { transform: none; } }
+/* two rows: title with "View series" beside it, then the event dates and the key facts */
+.series-banner { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "title cta" "dates meta"; align-items: center; gap: var(--sp-4) var(--sp-6); }
+.series-banner .event-title { grid-area: title; }
+.series-banner .group-dates { grid-area: dates; }
+.series-banner .event-meta { grid-area: meta; flex-direction: row; gap: var(--sp-5); padding-left: 0; border-left: 0; }
+.series-cta { grid-area: cta; justify-self: end; }
+@media (max-width: 768px) {
+  .series-banner { grid-template-columns: 1fr; grid-template-areas: "title" "dates" "meta" "cta"; }
+  .series-banner .event-meta { flex-direction: column; gap: var(--sp-2); }
+}
+
+/* Series banner: the olive border and soft shadow are its resting look; hovering warms it further —
+   a faint olive wash, a deeper shadow, a small lift, a darker pill and the arrow moving on */
+.series-banner { border-color: var(--btn-primary); box-shadow: 0 6px 18px var(--shadow); }
+@media (hover: hover) {
+  .series-banner:hover { border-color: var(--btn-primary-hover); background-color: color-mix(in srgb, var(--btn-primary) 9%, var(--cream));
+    box-shadow: 0 12px 28px var(--shadow); transform: translateY(-2px); }
+  .series-banner:hover .series-cta { background: var(--btn-noise), var(--btn-primary-hover); }
+  .series-banner:hover .series-cta .ic { transform: translateX(4px); }
+}
+.series-banner:active { transform: translateY(0); box-shadow: 0 6px 18px var(--shadow); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .js-reveal .series-banner.reveal.in:hover { transform: translateY(-2px); } }   /* the scroll-in rule would otherwise pin it in place */
+/* months are set apart by their big name and the 64px rhythm — no divider lines */
+.month { border-top: 0; padding-top: 0; }
+@media (max-width: 768px) { .month { padding-top: 0; } }
+/* Contact cards share the series banner's look: olive border, soft shadow */
+.ct-form, .ct-card { border-color: var(--btn-primary); box-shadow: 0 6px 18px var(--shadow); }
+.ct-form, .ct-card { background: var(--paper-texture) repeat, var(--cream); }
