@@ -87,10 +87,8 @@ async function withProgress(btn, label, task) {
 const galleryRoot = document.getElementById('albumGrid');
 if (galleryRoot) {
   const state = { category: 'all', newestFirst: true, query: '' };
-  const countEl = document.getElementById('albumCount');
   const searchEl = document.getElementById('albumSearch');
   const sortBtn = document.getElementById('albumSort');
-  countEl.textContent = GALLERY.length;
 
   const cardHTML = (a) => `
     <article class="album-card">
@@ -101,7 +99,7 @@ if (galleryRoot) {
         <div class="album-info">
           <div>
             <h2>${escapeHTML(a.title)}</h2>
-            <p>Sri Badrika Ashram · Event album</p>
+            <p>${escapeHTML(a.date)} · ${a.total || a.photos.length} photos</p>
           </div>
           ${icon('arrow-up-right', 18)}
         </div>
@@ -114,6 +112,12 @@ if (galleryRoot) {
       .filter(a => state.category === 'all' || a.category === state.category)
       .filter(a => !q || a.title.toLowerCase().includes(q))
       .sort((a, b) => state.newestFirst ? b.sort - a.sort : a.sort - b.sort);
+    // each filter chip carries its own count (narrowed by the search, when there is one)
+    const found = GALLERY.filter(a => !q || a.title.toLowerCase().includes(q));
+    document.querySelectorAll('[data-count]').forEach(el => {
+      const k = el.dataset.count;
+      el.textContent = k === 'all' ? found.length : found.filter(a => a.category === k).length;
+    });
     if (!list.length) {
       galleryRoot.innerHTML = `<p class="gl-empty">No albums match${q ? ` “${escapeHTML(state.query.trim())}”` : ''}.</p>`;
       return;
@@ -129,7 +133,7 @@ if (galleryRoot) {
   }));
   sortBtn.addEventListener('click', () => {
     state.newestFirst = !state.newestFirst;
-    sortBtn.querySelector('span:not(.ic)').textContent = state.newestFirst ? 'Latest first' : 'Oldest first';
+    sortBtn.querySelector('b').innerHTML = (state.newestFirst ? 'Latest first&nbsp;&nbsp;↓' : 'Oldest first&nbsp;&nbsp;↑');
     render();
   });
   searchEl.addEventListener('input', () => { state.query = searchEl.value; render(); });

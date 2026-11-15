@@ -3797,3 +3797,19 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 /* Contact cards share the series banner's look: olive border, soft shadow */
 .ct-form, .ct-card { border-color: var(--btn-primary); box-shadow: 0 6px 18px var(--shadow); }
 .ct-form, .ct-card { background: var(--paper-texture) repeat, var(--cream); }
+
+/* Gallery: title + live count on the left, Sort by on the right (as on Events); card titles kept to two lines */
+.gl-intro { align-items: flex-end; }
+.gl-sub { margin-top: 0; font-size: var(--fs-body); line-height: var(--lh-body); }
+.album-info h2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: var(--fs-h4); line-height: var(--lh-h4); }
+.album-info p { margin-top: 4px; }
+.album-grid { gap: var(--sp-6) var(--sp-5); }
+@media (max-width: 768px) { .gl-intro { flex-direction: row; align-items: flex-end; } .gl-sub { font-size: var(--fs-ui); line-height: var(--lh-ui); } }
+/* the count sits inside each filter chip */
+.chip-n { margin-left: 4px; font-size: var(--fs-sm); color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+.chip[aria-pressed="true"] .chip-n { color: inherit; opacity: .75; }
+/* event bar: name, dates, and the event's note on a third short line */
+.key-sticky-note { display: flex; align-items: center; gap: 6px; max-width: 100%; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink-muted); }
+.key-sticky-note[hidden] { display: none; }
+.key-sticky-note .ic { flex-shrink: 0; color: var(--saffron); }
+.key-sticky-note em { font-style: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
