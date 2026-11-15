@@ -3817,3 +3817,7 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 .place-zoom.place-photo img { object-fit: cover; transform: none; transform-origin: 50% 50%; transition: transform 900ms cubic-bezier(.22, .7, .18, 1); }
 .callout.is-open .place-zoom.place-photo img,
 .callout:hover .place-zoom.place-photo img { transform: scale(1.04); }
+/* home place cards: a Read more link into the page about that place */
+.place-card .place-more { align-self: flex-start; margin-top: 4px; font-size: var(--fs-ui); line-height: var(--lh-ui); }
+.place-card .place-more .ic { transition: transform var(--t-hover) var(--ease-out); }
+.place-card .place-more:hover .ic { transform: translateX(2px); }
