@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261116h">
+<link rel="stylesheet" href="assets/site.css?v=20261116k">
 </head>
 <body data-page="gallery">
 
@@ -83,18 +83,17 @@
   </nav>
   <div class="gl-intro">
     <div class="gl-heading">
-      <h1 class="display-2xl">Events, devotion, and community.</h1>
+      <h1 class="display-2xl">Gallery</h1>
     </div>
-    <p class="gl-count"><strong id="albumCount">11</strong><span>Albums</span></p>
+    <button class="sort" id="albumSort" type="button" aria-label="Change sort order">Sort by <b>Latest first&nbsp;&nbsp;↓</b></button>
   </div>
 
   <div class="gl-controls">
     <div class="gl-filters" role="group" aria-label="Filter albums">
-      <button class="chip" type="button" data-filter="all" aria-pressed="true">All events</button>
-      <button class="chip" type="button" data-filter="sadhana" aria-pressed="false">Sadhana</button>
-      <button class="chip" type="button" data-filter="discourses" aria-pressed="false">Discourses</button>
-      <button class="chip" type="button" data-filter="celebrations" aria-pressed="false">Celebrations</button>
-      <button class="chip" type="button" id="albumSort" aria-label="Change sort order"><span class="ic" style="--i:url('icons/chevron-down.svg')" aria-hidden="true"></span><span>Latest first</span></button>
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">All events <span class="chip-n" data-count="all"></span></button>
+      <button class="chip" type="button" data-filter="sadhana" aria-pressed="false">Sadhana <span class="chip-n" data-count="sadhana"></span></button>
+      <button class="chip" type="button" data-filter="discourses" aria-pressed="false">Discourses <span class="chip-n" data-count="discourses"></span></button>
+      <button class="chip" type="button" data-filter="celebrations" aria-pressed="false">Celebrations <span class="chip-n" data-count="celebrations"></span></button>
     </div>
     <label class="gl-search">
       <span class="ic" style="--i:url('icons/search.svg');--s:17px" aria-hidden="true"></span>
@@ -106,7 +105,6 @@
   <div class="album-grid" id="albumGrid" aria-live="polite"></div>
 </main>
 
-<div class="cloud-band" aria-hidden="true"></div>
 <!-- ============ Footer ============ -->
 <footer class="footer">
 
@@ -129,15 +127,14 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261115g"></script>
+<script src="assets/site.js?v=20261116a"></script>
 <script src="assets/gallery-data.js?v=20261004r"></script>
-<script src="assets/gallery.js?v=20261012a"></script>
+<script src="assets/gallery.js?v=20261116b"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>
-  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site options: version and clouds"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
 </div>
-<script src="assets/versions.js?v=20261114b"></script>
-<script src="assets/clouds.js?v=20261004r"></script>
+<script src="assets/versions.js?v=20261116a"></script>
 </body>
 </html>

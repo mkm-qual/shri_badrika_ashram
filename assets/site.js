@@ -308,9 +308,12 @@ window.sbaAccount = (() => {
   const bar = document.createElement('div');
   bar.className = 'key-sticky';
   bar.setAttribute('aria-hidden', 'true');
-  bar.innerHTML = `<div class="key-sticky-inner"><div class="key-sticky-copy"><strong></strong><span></span></div></div>`;
+  bar.innerHTML = `<div class="key-sticky-inner"><div class="key-sticky-copy"><strong></strong><span></span><small class="key-sticky-note" hidden><span class="ic" style="--i:url('icons/info.svg');--s:13px" aria-hidden="true"></span><em></em></small></div></div>`;
   bar.querySelector('strong').textContent = title.textContent.trim();
-  bar.querySelector('span').textContent = dates;
+  bar.querySelector('.key-sticky-copy > span').textContent = dates;
+  // the one note that matters (e.g. Swamiji's presence) travels with the bar too
+  const note = card.querySelector('.key-foot .note');
+  if (note && note.textContent.trim()) { bar.querySelector('.key-sticky-note em').textContent = note.textContent.trim(); bar.querySelector('.key-sticky-note').hidden = false; }
   if (cta) { const c = cta.cloneNode(true); c.classList.add('key-sticky-btn'); c.setAttribute('tabindex', '-1'); bar.querySelector('.key-sticky-inner').append(c); }
   document.body.append(bar);
   const nav = document.querySelector('.nav');
