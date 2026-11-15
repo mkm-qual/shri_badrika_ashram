@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261116r">
+<link rel="stylesheet" href="assets/site.css?v=20261116u">
 </head>
 <body data-page="detail">
 
@@ -97,7 +97,7 @@
         </div>
         <section class="card key-card" id="summary" aria-label="Event summary">
           <dl class="key-facts">
-            <div><dt>Series dates</dt><dd>1 November 2026 — 11 April 2027</dd></div>
+            <div><dt>Event dates (all six)</dt><dd>1 November 2026 — 11 April 2027</dd></div>
             <div><dt>Events</dt><dd>6 events, each with 3 discourse days</dd></div>
           </dl>
           <div class="key-foot">
@@ -117,7 +117,7 @@
             <span class="series-copy">
               <span class="series-n">Event 01</span>
               <strong>1 November — 10 November</strong>
-              <span class="series-facts"><span>Discourses: 7, 8 &amp; 9 November</span><span>Bookings window: 1 – 9 November</span></span>
+              <span class="series-facts"><span>Discourse days: 7, 8 &amp; 9 November</span><span>Stay nights: 1 – 9 November</span></span>
             </span>
             <span class="series-go" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px"></span></span>
           </a>
@@ -129,7 +129,7 @@
             <span class="series-copy">
               <span class="series-n">Event 02</span>
               <strong>19 November — 26 November</strong>
-              <span class="series-facts"><span>Discourses: 20, 21 &amp; 22 November</span><span>Bookings window: 19 – 25 November</span></span>
+              <span class="series-facts"><span>Discourse days: 20, 21 &amp; 22 November</span><span>Stay nights: 19 – 25 November</span></span>
             </span>
             <span class="series-go" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px"></span></span>
           </a>
@@ -141,7 +141,7 @@
             <span class="series-copy">
               <span class="series-n">Event 03</span>
               <strong>1 December — 11 December</strong>
-              <span class="series-facts"><span>Discourses: 4, 5 &amp; 6 December</span><span>Bookings window: 1 – 10 December</span></span>
+              <span class="series-facts"><span>Discourse days: 4, 5 &amp; 6 December</span><span>Stay nights: 1 – 10 December</span></span>
             </span>
             <span class="series-go" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px"></span></span>
           </a>
@@ -153,7 +153,7 @@
             <span class="series-copy">
               <span class="series-n">Event 04</span>
               <strong>15 December — 23 December</strong>
-              <span class="series-facts"><span>Discourses: 18, 19 &amp; 20 December</span><span>Bookings window: 15 – 22 December</span></span>
+              <span class="series-facts"><span>Discourse days: 18, 19 &amp; 20 December</span><span>Stay nights: 15 – 22 December</span></span>
             </span>
             <span class="series-go" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px"></span></span>
           </a>
@@ -165,7 +165,7 @@
             <span class="series-copy">
               <span class="series-n">Event 05</span>
               <strong>28 December — 5 January 2027</strong>
-              <span class="series-facts"><span>Discourses: 30, 31 December &amp; 1 January</span><span>Bookings window: 28 December – 4 January</span></span>
+              <span class="series-facts"><span>Discourse days: 30, 31 December &amp; 1 January</span><span>Stay nights: 28 December – 4 January</span></span>
             </span>
             <span class="series-go" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px"></span></span>
           </a>
@@ -177,7 +177,7 @@
             <span class="series-copy">
               <span class="series-n">Event 06</span>
               <strong>1 April — 11 April 2027</strong>
-              <span class="series-facts"><span>Discourses: 2, 3 &amp; 4 April</span><span>Bookings window: 1 – 10 April</span></span>
+              <span class="series-facts"><span>Discourse days: 2, 3 &amp; 4 April</span><span>Stay nights: 1 – 10 April</span></span>
             </span>
             <span class="series-go" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-right.svg');--s:16px"></span></span>
           </a>
@@ -187,10 +187,12 @@
 
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
-      <div class="guide-intro">
-        <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
-        <p>Review every guideline before proceeding with your booking.</p>
-      </div>
+      <details class="guide-fold" id="guideFold">
+        <summary class="guide-intro">
+          <h2 class="display-2xl">Important Booking Guidelines</h2>
+          <p>Please read carefully before you book · 7 guidelines</p>
+          <span class="fold-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
+        </summary>
       <ol class="guidelines">
         <li>There are a total of six events under the name The Glorious Presence. If you are not attending Maha Rudra Sadhana 2027 (English), you may book a maximum of 3 of these events.</li>
         <li>Participants attending “The Children of Tomorrow” may attend a maximum of 2 of these events.</li>
@@ -200,6 +202,7 @@
         <li>Participants with any physical limitations or health-related conditions are kindly requested not to register for this event.</li>
         <li>Day visits are not permitted at any time during the entire duration of the event.</li>
       </ol>
+      </details>
       <div class="card meeting">
         <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
         <div>
@@ -270,7 +273,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261116a"></script>
+<script src="assets/site.js?v=20261116e"></script>
 <script>
   // "On this page": highlight the section currently in view
   const tocLinks = [...document.querySelectorAll('.toc a')];

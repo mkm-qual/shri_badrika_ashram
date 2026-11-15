@@ -302,8 +302,9 @@ window.sbaAccount = (() => {
   const card = document.querySelector('.key-card');
   const title = document.querySelector('.detail-copy h1');
   if (!card || !title) return;
-  const facts = [...card.querySelectorAll('.key-facts dd')].map(d => d.textContent.replace(/\s*\([^)]*\)/g, '').trim());
-  const dates = facts.length >= 2 ? `${facts[0]} – ${facts[1]}` : (facts[0] || '');
+  // the bar carries the event dates, always labelled so they're never read as stay dates
+  const ev = card.querySelector('.kf-event, .key-facts > div');
+  const dates = ev ? `${ev.querySelector('dt').textContent.trim()}: ${ev.querySelector('dd').textContent.replace(/\s*\([^)]*\)/g, '').trim()}` : '';
   const cta = card.querySelector('.key-cta .btn');
   const bar = document.createElement('div');
   bar.className = 'key-sticky';
@@ -325,6 +326,9 @@ window.sbaAccount = (() => {
     inner.style.marginLeft = r.left + 'px'; inner.style.width = r.width + 'px';
   };
   place(); addEventListener('resize', place);
+  // sections jumped to below the card land clear of the bar as well as the header
+  const barH = () => document.documentElement.style.setProperty('--event-bar-h', bar.offsetHeight + 'px');
+  barH(); addEventListener('resize', barH);
   // shown while the card is above the top of the screen (scrolled past), hidden when it is back in view
   new IntersectionObserver(([e]) => {
     const past = !e.isIntersecting && e.boundingClientRect.top < 0;
@@ -334,4 +338,13 @@ window.sbaAccount = (() => {
     bar.setAttribute('aria-hidden', !past);
     bar.querySelectorAll('a, button').forEach(el => el.setAttribute('tabindex', past ? '0' : '-1'));
   }, { rootMargin: `-${(nav ? nav.offsetHeight : 64)}px 0px 0px 0px` }).observe(card);
+})();
+
+// event: open a folded section (Daily Schedule, Booking Guidelines) when someone jumps to it
+(() => {
+  const folds = { '#daily': document.getElementById('dailyFold'), '#guidelines': document.getElementById('guideFold') };
+  const open = (hash) => { if (folds[hash]) folds[hash].open = true; };
+  open(location.hash);
+  addEventListener('hashchange', () => open(location.hash));
+  document.addEventListener('click', (e) => { const a = e.target.closest('a[href^="#"]'); if (a) open(a.getAttribute('href')); });
 })();

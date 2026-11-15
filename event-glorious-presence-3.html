@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261116r">
+<link rel="stylesheet" href="assets/site.css?v=20261116u">
 </head>
 <body data-page="detail">
 
@@ -94,10 +94,9 @@
         </div>
         <section class="card key-card" id="summary" aria-label="Event summary">
           <dl class="key-facts">
-            <div><dt>Start date</dt><dd>1 December 2026 (Tuesday)</dd></div>
-            <div><dt>End date</dt><dd>11 December 2026 (Friday)</dd></div>
-            <div><dt>Discourses</dt><dd>4 – 5 – 6 December</dd></div>
-            <div><dt>Bookings window</dt><dd>1 – 10 December</dd></div>
+            <div class="kf-event"><dt>Event dates</dt><dd>1 – 11 December 2026</dd></div>
+            <div class="kf-talks"><dt>Discourse days</dt><dd>4 – 5 – 6 December</dd></div>
+            <div class="kf-stay"><dt>Stay dates</dt><dd>Nights of 1 – 10 December<br>Check-out by 11 December</dd></div>
           </dl>
           <div class="key-foot">
           <p class="note"><img src="assets/icon-info-sm.svg" width="18" height="18" alt="">Swamiji will be present only on the Discourse Date.</p>
@@ -142,7 +141,7 @@
           <span class="icon-disc sm"><img src="assets/icon-calendar.svg" width="24" height="24" alt=""></span>
         </div>
         <div class="stay-list">
-          <div class="stay-item"><p class="eyebrow">Bookings window</p><strong>1 – 10 December</strong></div>
+          <div class="stay-item"><p class="eyebrow">Stay nights you can book</p><strong>1 – 10 December</strong></div>
           <div class="stay-item"><p class="eyebrow">Minimum stay</p><strong>2 nights, plus any available dates within the event</strong></div>
         </div>
       </section>
@@ -150,10 +149,12 @@
 
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
-      <div class="guide-intro">
-        <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
-        <p>Review every guideline before proceeding with your booking.</p>
-      </div>
+      <details class="guide-fold" id="guideFold">
+        <summary class="guide-intro">
+          <h2 class="display-2xl">Important Booking Guidelines</h2>
+          <p>Please read carefully before you book · 7 guidelines</p>
+          <span class="fold-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
+        </summary>
       <ol class="guidelines">
         <li>There are a total of six events under the name The Glorious Presence. If you are not attending Maha Rudra Sadhana 2027 (English), you may book a maximum of 3 of these events.</li>
         <li>Participants attending “The Children of Tomorrow” may attend a maximum of 2 of these events.</li>
@@ -163,6 +164,7 @@
         <li>Participants with any physical limitations or health-related conditions are kindly requested not to register for this event.</li>
         <li>Day visits are not permitted at any time during the entire duration of the event.</li>
       </ol>
+      </details>
       <div class="card meeting">
         <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
         <div>
@@ -237,7 +239,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261116a"></script>
+<script src="assets/site.js?v=20261116e"></script>
 <script>
   // "On this page": highlight the section currently in view
   const tocLinks = [...document.querySelectorAll('.toc a')];

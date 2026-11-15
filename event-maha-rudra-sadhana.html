@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261116r">
+<link rel="stylesheet" href="assets/site.css?v=20261116u">
 </head>
 <body data-page="detail">
 
@@ -96,8 +96,8 @@
         </div>
         <section class="card key-card" id="summary" aria-label="Event summary">
           <dl class="key-facts">
-            <div><dt>Check-in</dt><dd>5 March 2027 (Friday)</dd></div>
-            <div><dt>Check-out</dt><dd>17 March 2027 (Wednesday)</dd></div>
+            <div class="kf-event"><dt>Event dates</dt><dd>7 – 17 March 2027</dd></div>
+            <div class="kf-stay"><dt>Stay dates</dt><dd>Check-in 5 March (Friday)<br>Check-out 17 March (Wednesday)</dd></div>
             <div><dt>Contribution</dt><dd>₹21,600 per person</dd></div>
           </dl>
           <div class="key-foot">
@@ -165,10 +165,12 @@
 
     <!-- ============ Booking guidelines ============ -->
     <section id="guidelines">
-      <div class="guide-intro">
-        <h2 class="display-2xl">Important Booking Guidelines – Please Read Carefully</h2>
-        <p>Review every guideline before proceeding with your booking.</p>
-      </div>
+      <details class="guide-fold" id="guideFold">
+        <summary class="guide-intro">
+          <h2 class="display-2xl">Important Booking Guidelines</h2>
+          <p>Please read carefully before you book · 7 guidelines</p>
+          <span class="fold-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
+        </summary>
       <ol class="guidelines">
         <li>Devotees who participated in Maha Rudra Sadhana 2026 (Hindi) will not be eligible to participate in Maha Rudra Sadhana 2027 (English).</li>
         <li>If you participate in Maha Rudra Sadhana 2027 (English), you will not be permitted to attend any other Swamiji events or discourses from November 2026 to April 2027.</li>
@@ -178,6 +180,7 @@
         <li>Children below 10 years of age will not be permitted in the Ashram for this Sadhana.</li>
         <li>Devotees with physical limitations or conditions that may prevent them from participating fully in the Sadhana are requested not to register for this event.</li>
       </ol>
+      </details>
       <div class="card meeting">
         <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
         <div>
@@ -267,7 +270,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261116a"></script>
+<script src="assets/site.js?v=20261116e"></script>
 <script>
   // "On this page": highlight the section currently in view
   const tocLinks = [...document.querySelectorAll('.toc a')];
