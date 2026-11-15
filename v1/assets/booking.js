@@ -75,6 +75,29 @@ const acct = window.sbaAccount && window.sbaAccount.user ? window.sbaAccount.loa
 const people = [{ id: ++uid, name: 'You', self: true, days: new Set() }];
 // a full-duration event books every night for everyone, and they can't be unticked
 if (EVENT.fullStay) for (let k = 0; k < NIGHTS; k++) { picked.add(k); people[0].days.add(k); }
+// arriving from an event page's stay planner: ?in=YYYY-MM-DD&out=YYYY-MM-DD preselects those nights for you
+(() => {
+  const q = new URLSearchParams(location.search), inS = q.get('in'), outS = q.get('out');
+  if (EVENT.fullStay || !inS || !outS) return;
+  const toK = (s) => { const [y, m, d] = s.split('-').map(Number); return keyOf(new Date(y, m - 1, d)); };
+  for (let k = Math.max(0, toK(inS)); k < Math.min(NIGHTS, toK(outS)); k++) { picked.add(k); people[0].days.add(k); }
+})();
+
+// unbroken runs of nights: [[first, last], …]
+const stays = (days) => days.reduce((r, d) => { const cur = r.at(-1); if (cur && d === cur[1] + 1) cur[1] = d; else r.push([d, d]); return r; }, []);
+const longLabel = (k) => dateOf(k).toLocaleString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+const icon = (name, s = 14) => `<span class="ic" style="--i:url('icons/${name}.svg?v=3');--s:${s}px" aria-hidden="true"></span>`;
+// the discourse mark on a day, with its details on hover or focus (edge columns open inwards)
+const talkTip = (k, dow) => {
+  const n = DISCOURSE.indexOf(k) + 1;
+  return `<span class="bk-talk" aria-hidden="true">${icon('discourse', 16)}</span>
+    <span class="bk-tip${dow === 0 ? ' tip-l' : dow === 6 ? ' tip-r' : ''}" role="tooltip">
+      <strong>Discourse ${n} of ${DISCOURSE.length} with Swamiji</strong>
+      <span>${longLabel(k)}</span>
+      <span>Swamiji is at the Ashram on discourse days only. Personal meetings are held on these days, chosen by draw.</span>
+      ${k === NIGHTS ? '<span>This is the check-out morning: attend, then leave.</span>' : isWaitlist(k) ? '<span>This night is full; you can join the waitlist.</span>' : `<span>${SEATS[k]} places left to stay this night.</span>`}
+    </span>`;
+};
 
 // ----- Calendar: one month at a time, with arrows when the event runs into the next month -----
 const daysEl = $('calDays');
@@ -87,17 +110,32 @@ const renderCalendar = () => {
   $('calNext').disabled = view >= lastMonth;
   const y = view.getFullYear(), m = view.getMonth();
   const cells = [];
+  // each unbroken run of nights reads as a stay: its first night is "Arrive", the morning after its last is "Leave"
+  const runs = stays(sorted());
+  const ins = new Set(runs.map(r => r[0])), outs = new Set(runs.map(r => r[1] + 1));
+  const tag = (k) => (ins.has(k) ? ' is-in' : '') + (outs.has(k) ? ' is-out' : '')
+    + wash(k);
+  // a soft wash behind each stay, from Arrive to Leave; it closes at the ends of the stay and where a week wraps
+  const wash = (k) => {
+    const r = runs.find(r => k >= r[0] && k <= r[1] + 1);
+    if (!r) return '';
+    const dow = dateOf(k).getDay();
+    return ' wash' + (k === r[0] || dow === 0 ? ' wash-s' : '') + (k === r[1] + 1 || dow === 6 ? ' wash-e' : '');
+  };
   for (let i = 0; i < new Date(y, m, 1).getDay(); i++) cells.push('<span class="bk-day out" aria-hidden="true"></span>');
   for (let d = 1, inMonth = new Date(y, m + 1, 0).getDate(); d <= inMonth; d++) {
     const k = keyOf(new Date(y, m, d));
     const talk = DISCOURSE.includes(k) ? ' talk' : '';
     const label = `${String(d).padStart(2, '0')} ${monthName(view)}`;
-    if (k === NIGHTS) { cells.push(`<span class="bk-day off out-day${talk}" aria-label="${label}, check-out"><b>${d}</b><small>Out</small></span>`); continue; }
+    const dow = new Date(y, m, d).getDay();
+    const tip = talk ? talkTip(k, dow) : '';
+    const role = (ins.has(k) ? ', you arrive' : '') + (outs.has(k) ? ', you leave' : '');
+    if (k === NIGHTS) { cells.push(`<span class="bk-day off out-day${talk}${tag(k)}" ${talk ? 'tabindex="0"' : ''} aria-label="${label}, check-out${talk ? ', discourse day' : ''}${role}"><b>${d}</b><small>${outs.has(k) ? 'Leave' : 'Out'}</small>${tip}</span>`); continue; }
     if (k < 0 || k > NIGHTS) { cells.push(`<span class="bk-day off" aria-label="${label}, outside the event"><b>${d}</b></span>`); continue; }
     const s = SEATS[k];
     const kind = isWaitlist(k) ? 'wl' : s <= LOW ? 'low' : 'open';
     const note = (isWaitlist(k) ? 'full, join the waitlist' : `${s} places left`) + (talk ? ', discourse day' : '') + (EVENT.fullStay ? ', included in the full stay' : '');
-    cells.push(`<button type="button" class="bk-day ${kind}${talk}" data-day="${k}" aria-pressed="${picked.has(k)}" ${EVENT.fullStay ? 'aria-disabled="true"' : ''} aria-label="Night of ${label}, ${note}"><b>${d}</b><small>${s}</small></button>`);
+    cells.push(`<button type="button" class="bk-day ${kind}${talk}${tag(k)}" data-day="${k}" aria-pressed="${picked.has(k)}" ${EVENT.fullStay ? 'aria-disabled="true"' : ''} aria-label="Night of ${label}, ${note}${role}"><b>${d}</b><small>${ins.has(k) ? 'Arrive' : outs.has(k) ? 'Leave' : s}</small>${tip}</button>`);
   }
   // show only the weeks the event touches, not the whole month of greyed-out days
   const weeks = [];
@@ -115,8 +153,9 @@ daysEl.addEventListener('click', (e) => {
   // a newly picked night is ticked for everyone; dropping it clears it for everyone
   if (picked.has(k)) { picked.delete(k); people.forEach(p => p.days.delete(k)); }
   else { picked.add(k); people.forEach(p => p.days.add(k)); }
-  btn.setAttribute('aria-pressed', picked.has(k));
   render();
+  renderCalendar();                                   // redraw so the Arrive / Leave tags follow the stay
+  daysEl.querySelector(`[data-day="${k}"]`)?.focus();
 });
 
 // ----- Attendees -----
@@ -257,6 +296,7 @@ $('toBilling').addEventListener('click', () => {
     return `<tr><td>${escape(nameOf(p))}</td><td>${datesText(ds, ' <em class="bk-wl">Waitlist</em>')}<span class="bk-calc">${EVENT.fullStay ? `Full Sadhana · ${rupees(EVENT.perPerson)}` : `${paidNights(p)} × ${rupees(PER_NIGHT)}`}</span></td><td class="num">${rupees(costOf(p))}</td></tr>`;
   });
   $('billRows').innerHTML = rows.join('');
+  renderStay();
   $('billTotalLabel').textContent = `Total · ${nightsText(slots())}`;
   $('billTotal').textContent = rupees(total());
   $('wlNote').hidden = !people.some(p => [...p.days].some(isWaitlist));
@@ -265,6 +305,32 @@ $('toBilling').addEventListener('click', () => {
   history.pushState({ bkStep: 2 }, '');                 // so Back (browser or breadcrumb) returns to the dates
   $('step2-title').focus({ preventScroll: true });
 });
+// "Your stay" above the bill: when you arrive and leave, nights, the contribution and which discourses you'll be here for
+const renderStay = () => {
+  const days = sorted(), runs = stays(days), going = people.filter(p => p.days.size);
+  const range = (r) => `${shortLabel(r[0])} – ${shortLabel(r[1] + 1)}`;
+  const day = (k) => dateOf(k).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  const calc = EVENT.fullStay ? `${rupees(EVENT.perPerson)} × ${going.length} ${going.length === 1 ? 'person' : 'people'}`
+    : going.length === 1 ? `${rupees(PER_NIGHT)} × ${nightsText(paidNights(going[0]))}`
+    : `${rupees(PER_NIGHT)} × ${nightsText(going.reduce((n, p) => n + paidNights(p), 0))} across ${going.length} people`;
+  const facts = (runs.length === 1
+    ? [['Arrive', day(runs[0][0])], ['Leave', day(runs[0][1] + 1)]]
+    : [['Stays', runs.map(range).join(', ')], ['People', String(going.length)]])
+    .concat([['Nights', String(days.length)], ['Contribution', `${rupees(total())}<small>${calc}</small>`]]);
+  const wl = going.reduce((n, p) => n + p.days.size - paidNights(p), 0);
+  if (wl && !EVENT.fullStay) facts[facts.length - 1][1] = facts.at(-1)[1].replace('</small>', ` · ${nightsText(wl)} on the waitlist, not charged</small>`);
+  let attend = '';
+  if (DISCOURSE.length) {
+    const here = (k) => runs.find(r => k >= r[0] && k <= r[1] + 1);
+    attend = `<p class="sp-sub">Discourses with Swamiji</p><ul class="sp-attend">${DISCOURSE.map(k => {
+      const r = here(k);
+      return `<li class="${r ? 'yes' : 'no'}">${icon(r ? 'check' : 'x')}<span>${day(k)}</span><em>${r ? (k === r[1] + 1 ? 'Attend, then check out' : 'You’re here') : 'Not at the Ashram'}</em></li>`;
+    }).join('')}</ul>`;
+    if (!DISCOURSE.some(here)) attend += '<p class="sp-warn">Swamiji is present only on discourse days. This stay has none.</p>';
+  }
+  $('billStay').innerHTML = `<h3 class="sp-sum-title">Your stay</h3>
+    <dl class="sp-facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>${attend}`;
+};
 // Back from billing goes back to the dates, not off the page: the browser's back button and the
 // breadcrumb's back arrow both step the wizard back first
 addEventListener('popstate', () => { if (!$('step2').hidden) { setStep(1); $('toBilling').focus({ preventScroll: true }); } });

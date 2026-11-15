@@ -3881,3 +3881,70 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
   .guide-fold > .guidelines { padding: var(--sp-3) 20px var(--sp-4); }
 }
 @media (prefers-reduced-motion: reduce) { .fold-chev { transition: none; } }
+/* ============ Booking: "Your stay" summary on the billing step ============ */
+.bk-stay { container-type: inline-size; margin-bottom: var(--sp-5); }
+.sp-sum { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-5) var(--sp-6); border: 1px solid var(--rule); border-radius: var(--r-md); background: var(--light-green); }
+:root[data-theme="dark"] .sp-sum { background-image: var(--paper-texture); }
+.sp-sum-title { margin: 0; font-family: var(--font-heading); font-weight: 400; letter-spacing: -0.01em; font-size: var(--fs-h4); line-height: var(--lh-h4); color: var(--ink); }
+.sp-sub { margin: var(--sp-2) 0 0; font-size: var(--fs-xs); line-height: var(--lh-xs); letter-spacing: var(--ls-label); font-weight: var(--fw-label); text-transform: uppercase; color: var(--saffron); }
+.sp-facts { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3); }
+.sp-facts dt { font-size: var(--fs-xs); line-height: var(--lh-xs); letter-spacing: .08em; font-weight: var(--fw-label); text-transform: uppercase; color: var(--ink-muted); }
+.sp-facts dd { margin: 2px 0 0; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); font-weight: 500; }
+.sp-facts dd small { display: block; font-weight: 400; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--ink-muted); }
+.sp-facts > div:last-child dd { font-family: var(--font-heading); font-weight: 400; font-size: var(--fs-h4); line-height: var(--lh-h4); }
+.sp-attend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 32px; }
+.sp-attend li { display: grid; grid-template-columns: 16px 1fr; column-gap: 8px; align-items: center; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink); }
+.sp-attend li em { grid-column: 2; font-style: normal; font-size: var(--fs-xs); line-height: var(--lh-xs); color: var(--ink-muted); }
+.sp-attend li.yes .ic { color: var(--ok-strong, var(--saffron)); }
+.sp-attend li.no { color: var(--ink-muted); }
+.sp-attend li.no span { text-decoration: line-through; text-decoration-color: var(--rule); }
+.sp-warn { margin: 0; padding: 8px 10px; border-radius: var(--r-sm); background: color-mix(in srgb, var(--error, #a2452f) 9%, transparent); font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink); }
+@container (max-width: 560px) {
+  .sp-sum { padding: var(--sp-4); }
+  .sp-facts { grid-template-columns: 1fr 1fr; }
+  .sp-facts > div:last-child { grid-column: 1 / -1; }
+}
+
+/* ============ Booking calendar: Arrive / Leave tags, discourse mark + details, "Your stay" on billing ============ */
+.bk-days { row-gap: 14px; }
+.bk-days .bk-day { height: 56px; }
+.bk-days .bk-day.talk::after { content: none; }
+/* the night after a run (not booked) still reads as your check-out morning */
+.bk-days .bk-day.is-out:not([aria-pressed="true"]) { border: 1px solid var(--btn-primary); background: color-mix(in srgb, var(--btn-primary) 14%, var(--paper)); }
+/* Arrive / Leave read in the day itself, in place of the places-left number */
+.bk-days .bk-day.is-in small, .bk-days .bk-day.is-out small { font-weight: 600; letter-spacing: 0; }
+.bk-days .bk-day.is-out:not([aria-pressed="true"]) small { color: var(--btn-primary); }
+:root[data-theme="dark"] .bk-days .bk-day.is-out:not([aria-pressed="true"]) small { color: var(--ink); }
+/* discourse mark: a small speech icon in the corner */
+.bk-talk { display: inline-grid; place-items: center; color: var(--saffron); line-height: 0; }
+.bk-day .bk-talk { position: absolute; top: 7px; right: 8px; }
+@media (max-width: 768px) { .bk-day .bk-talk { top: 5px; right: 5px; } .bk-day .bk-talk .ic { --s: 13px !important; } }
+.bk-days .bk-day[aria-pressed="true"] .bk-talk { color: var(--btn-primary-ink); }
+/* details on hover / keyboard focus */
+.bk-tip {
+  position: absolute; z-index: 5; bottom: calc(100% + 10px); left: 50%; transform: translate(-50%, 4px);
+  width: 230px; padding: 10px 12px; border-radius: var(--r-sm); border: 1px solid var(--rule);
+  background: var(--card-bg); box-shadow: 0 8px 24px rgba(0,0,0,.14);
+  display: flex; flex-direction: column; gap: 4px; text-align: left;
+  font-size: var(--fs-sm); line-height: var(--lh-sm); font-weight: 400; color: var(--ink-muted);
+  opacity: 0; visibility: hidden; pointer-events: none; transition: opacity var(--t-hover) ease, transform var(--t-hover) ease, visibility 0s linear var(--t-hover);
+}
+:root[data-theme="dark"] .bk-tip { background-image: var(--paper-texture); }
+.bk-tip strong { font-size: var(--fs-ui); line-height: var(--lh-ui); font-weight: 600; color: var(--ink); }
+.bk-tip > span:nth-of-type(1) { color: var(--ink); }
+.bk-tip.tip-l { left: 0; transform: translate(0, 4px); }
+.bk-tip.tip-r { left: auto; right: 0; transform: translate(0, 4px); }
+.bk-day.talk:hover .bk-tip, .bk-day.talk:focus-visible .bk-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
+.bk-day.talk:hover .bk-tip.tip-l, .bk-day.talk:focus-visible .bk-tip.tip-l, .bk-day.talk:hover .bk-tip.tip-r, .bk-day.talk:focus-visible .bk-tip.tip-r { transform: none; }
+.bk-days .bk-day[aria-pressed="true"] .bk-tip, .bk-days .bk-day[aria-pressed="true"] .bk-tip strong { color: var(--ink); }
+.bk-days .bk-day[aria-pressed="true"] .bk-tip span { color: var(--ink-muted); }
+.bk-days .bk-day[aria-pressed="true"] .bk-tip > span:nth-of-type(1) { color: var(--ink); }
+.bk-day.out-day.talk:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .bk-tip { transition: none; } }
+@media (max-width: 768px) { .bk-days { row-gap: 12px; } .bk-days .bk-day { height: 50px; } .bk-tip { width: 200px; } }
+/* the stay as a soft wash behind its days, Arrive to Leave, with the same breathing room on every side */
+.bk-days { --bk-col-gap: 8px; --bk-wash: 6px; column-gap: var(--bk-col-gap); isolation: isolate; }
+.bk-days .bk-day.wash::before { content: ""; position: absolute; z-index: -1; top: calc(-1 * var(--bk-wash)); bottom: calc(-1 * var(--bk-wash)); left: -1px; right: calc(-1 * var(--bk-col-gap) - 1px); background: color-mix(in srgb, var(--btn-primary) 16%, transparent); }
+.bk-days .bk-day.wash-s::before { left: calc(-1 * var(--bk-wash) - 1px); border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
+.bk-days .bk-day.wash-e::before { right: calc(-1 * var(--bk-wash) - 1px); border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
+@media (max-width: 768px) { .bk-days { --bk-col-gap: 4px; --bk-wash: 4px; } }
