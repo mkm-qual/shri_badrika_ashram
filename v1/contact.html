@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261115w">
+<link rel="stylesheet" href="assets/site.css?v=20261115y">
 </head>
 <body data-page="donate">
 
@@ -85,36 +85,39 @@
 <section class="give-intro">
   <div class="section-heading">
     <h1 class="display-2xl">Contact Us</h1>
-    <p class="lede">Whether you have questions about visiting, wish to participate in an event, or simply want to connect with our spiritual community, this is the place to do it. Our team is here to guide you and provide the information you need for a meaningful experience at Badrika Ashram.</p>
   </div>
 </section>
 
 <section class="ct-layout">
   <form class="ct-form" id="contactForm" novalidate aria-labelledby="ct-form-title">
-    <h2 class="display-lg" id="ct-form-title">Write to us</h2>
-    <div class="ct-row">
-      <div class="field">
-        <label for="name">Name<span class="req" aria-hidden="true"> *</span></label>
-        <div class="input"><input id="name" name="name" placeholder="Your full name" autocomplete="name" required aria-describedby="name-error"></div>
-        <p class="field-error" id="name-error" hidden></p>
+    <h2 class="ct-card-title" id="ct-form-title">Write to us</h2>
+    <fieldset class="field">
+      <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
+      <div class="input name">
+        <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
+        <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+        <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
       </div>
+      <p class="field-error" id="name-error" hidden></p>
+    </fieldset>
+    <div class="ct-row">
       <div class="field">
         <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
         <div class="input"><input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required aria-describedby="email-error"></div>
         <p class="field-error" id="email-error" hidden></p>
       </div>
-    </div>
-    <div class="field">
-      <label for="type">Message Type<span class="req" aria-hidden="true"> *</span></label>
-      <div class="input select"><select id="type" name="type" required aria-describedby="type-error">
-            <option value="">Select message type</option>
-            <option>Ashram Event Booking</option>
-            <option>General Feedback</option>
-            <option>Travel and Stay at Ashram</option>
-            <option>Donations</option>
-            <option>Publishing and Speaking Invitation</option>
-      </select></div>
-      <p class="field-error" id="type-error" hidden></p>
+      <div class="field">
+        <label for="type">Message Type<span class="req" aria-hidden="true"> *</span></label>
+        <div class="input select"><select id="type" name="type" required aria-describedby="type-error">
+              <option value="">Select message type</option>
+              <option>Ashram Event Booking</option>
+              <option>General Feedback</option>
+              <option>Travel and Stay at Ashram</option>
+              <option>Donations</option>
+              <option>Publishing and Speaking Invitation</option>
+        </select></div>
+        <p class="field-error" id="type-error" hidden></p>
+      </div>
     </div>
     <div class="field">
       <label for="subject">Subject<span class="req" aria-hidden="true"> *</span></label>
@@ -133,7 +136,9 @@
     </div>
   </form>
 
-  <aside class="ct-details" aria-label="Contact details">
+  <aside class="ct-details" aria-labelledby="ct-details-title">
+    <div class="ct-card">
+    <h2 class="ct-card-title" id="ct-details-title">Visit or call</h2>
     <div class="as-map ct-map">
       <iframe title="Map showing Sri Badrika Ashram" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
         src="https://maps.google.com/maps?q=Sri+Badrika+Ashram,+Himachal+Pradesh&t=m&z=10&output=embed"></iframe>
@@ -154,6 +159,7 @@
         <dd class="ct-muted">Between 10 AM and 5 PM</dd>
       </div>
     </dl>
+    </div>
     <p class="ct-note">Planning a visit? Please read the <a href="faq.html">FAQs</a> and the <a href="guidelines.html">Important Guidelines</a> first.</p>
   </aside>
 </section>
@@ -183,8 +189,8 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261115f"></script>
-<script src="assets/contact.js?v=20261004r"></script>
+<script src="assets/site.js?v=20261115g"></script>
+<script src="assets/contact.js?v=20261115a"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>

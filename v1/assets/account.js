@@ -318,7 +318,7 @@ if (page === 'bookings' && userName) {
         <div><dt>Booking reference</dt><dd>${b.ref}</dd></div>
       </dl>
       ${b.note ? `<p class="bkg-note">${esc(b.note)}</p>` : ''}
-      <div class="bkg-actions"><a class="text-link" href="${b.href}"><span>View event</span></a><a class="text-link" href="contact.html"><span>Ask about this booking</span></a></div>
+      <div class="bkg-actions"><a class="text-link" href="${b.href}"><span>View event</span></a><a class="text-link" href="contact.html?type=booking"><span>Ask about this booking</span></a></div>
     </article>`;
   const show = (which) => {
     const items = which === 'past' ? past : upcoming;

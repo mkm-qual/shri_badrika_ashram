@@ -3731,3 +3731,27 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 .key-sticky-copy strong { font-size: var(--fs-lg); line-height: 1.3; }
 .key-sticky-copy span { line-height: 1.4; }
 @media (max-width: 768px) { .key-sticky-copy strong { font-size: var(--fs-ui); } }
+
+/* ----- Contact: the form and the details as two matching cards, tops aligned ----- */
+.ct-layout { grid-template-columns: minmax(0, 1fr) 400px; gap: var(--sp-5); }
+.ct-form, .ct-card { padding: var(--sp-6); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); }
+.ct-form { gap: var(--sp-5); }
+.ct-card { display: flex; flex-direction: column; gap: var(--sp-5); }
+.ct-card-title { font-family: var(--font-heading); letter-spacing: -0.01em; font-weight: 400; font-size: var(--fs-h3); line-height: var(--lh-h3); color: var(--ink); }
+.ct-details { top: 96px; gap: var(--sp-4); }
+.ct-map.as-map { height: 220px; padding: 0; border: 0; border-radius: var(--r-md); overflow: hidden; }
+.ct-map.as-map iframe { border-radius: var(--r-md); }
+.ct-list > div { padding: var(--sp-4) 0; }
+.ct-list dt { font-size: var(--fs-sm); line-height: var(--lh-sm); letter-spacing: 0; font-weight: 400; text-transform: none; }   /* small captions, as on the key facts */
+.ct-list dd { font-size: var(--fs-ui); line-height: var(--lh-body); }
+.ct-note { border-radius: var(--card-radius); background: var(--card-bg); }
+.ct-count { margin-top: -4px; }
+.ct-action { padding-top: 0; }
+@media (max-width: 1100px) { .ct-layout { grid-template-columns: 1fr; gap: var(--sp-4); } }
+@media (max-width: 768px) { .ct-form, .ct-card { padding: 20px; } }
+
+/* Sri Hari Vatika card: the text sets the card's height; the photo fills its half, cropped to the greenhouse
+   (the sky above is trimmed) instead of stretching the card to the photo's own height */
+.gi-feature > img { height: 0; min-height: 100%; object-fit: cover; object-position: 50% 80%; }
+@media (max-width: 1100px) { .gi-feature > img { height: 300px; min-height: 0; } }
+@media (max-width: 768px) { .gi-feature > img { height: 220px; } }
