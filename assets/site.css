@@ -3821,3 +3821,11 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 .place-card .place-more { align-self: flex-start; margin-top: 4px; font-size: var(--fs-ui); line-height: var(--lh-ui); }
 .place-card .place-more .ic { transition: transform var(--t-hover) var(--ease-out); }
 .place-card .place-more:hover .ic { transform: translateX(2px); }
+/* dark mode: the paper grain carries onto every card and panel, not just the page behind them
+   (the dark tile is see-through, so it sits over each surface's own colour) */
+:root[data-theme="dark"] :is(
+  .card, .mo-off, .mo-cal, .as-travel-info, .as-note, .as-route-note, .as-facts > div,
+  .give-verse-panel, .gi-feature, .gi-card, .donate-section, .ct-note, .fq-note, .gd-times > div,
+  .lg-card, .lg-notice, .bk-card, .bk-notice, .acct-card, .kyc-nudge, .bkg,
+  .recur, .recur-card, .mr-item, .mo-sum-card, .series-banner, .ct-form, .ct-card, .place-card, .key-sticky
+) { background-image: var(--paper-texture); background-repeat: repeat; }
