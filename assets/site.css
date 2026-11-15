@@ -3813,3 +3813,7 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 .key-sticky-note[hidden] { display: none; }
 .key-sticky-note .ic { flex-shrink: 0; color: var(--saffron); }
 .key-sticky-note em { font-style: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* home place cards: real photographs of each place instead of a zoom into the painting */
+.place-zoom.place-photo img { object-fit: cover; transform: none; transform-origin: 50% 50%; transition: transform 900ms cubic-bezier(.22, .7, .18, 1); }
+.callout.is-open .place-zoom.place-photo img,
+.callout:hover .place-zoom.place-photo img { transform: scale(1.04); }
