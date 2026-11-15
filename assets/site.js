@@ -169,6 +169,12 @@ document.addEventListener('click', (e) => {
 // browser. Shared by the account pages and by forms that prefill the visitor's details (donate).
 window.sbaAccount = (() => {
   const KEY = 'sba-account-v1';
+  // the preview sign-in links (?signed-in, ?signed-in=Name, ?signed-out) take effect before anything reads the account
+  const q = new URLSearchParams(location.search);
+  try {
+    if (q.has('signed-out')) sessionStorage.removeItem('sba-user');
+    else if (q.has('signed-in')) sessionStorage.setItem('sba-user', q.get('signed-in') || 'Ravi Sharma');
+  } catch (e) {}
   let user = null;
   try { user = sessionStorage.getItem('sba-user'); } catch (e) {}
   const [first0, ...rest0] = (user || 'Ravi Sharma').trim().split(/\s+/);
