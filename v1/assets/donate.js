@@ -59,7 +59,7 @@ if (acct && acct.user) {
   const note = document.createElement('p');
   note.className = 'donate-prefill';
   note.textContent = `Filled in from your account, ${p.first}. Changes here apply to this donation only.`;
-  form.querySelector('.donate-section > legend').after(note);
+  form.querySelector('.donate-you > legend').after(note);
 }
 
 // ----- Recurring donation (optional): the Recurring switch in the amount field shows its options just below -----

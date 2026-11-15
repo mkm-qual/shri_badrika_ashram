@@ -19,7 +19,7 @@
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css?v=20261116n">
+<link rel="stylesheet" href="assets/site.css?v=20261116r">
 </head>
 <body data-page="donate">
 
@@ -115,72 +115,7 @@
 </section>
 
 <form class="donate-form" id="donateForm" novalidate>
-  <fieldset class="donate-section">
-    <legend class="display-lg">About You</legend>
-    <div class="donate-grid">
-      <div class="donate-col">
-        <fieldset class="field d-name">
-          <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
-          <div class="input name">
-            <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
-            <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
-            <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
-          </div>
-          <p class="field-error" id="name-error" hidden></p>
-        </fieldset>
-        <div class="field">
-          <label for="mobile">Mobile Number<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input phone">
-            <select id="country-code" aria-label="Country code">
-              <option value="+91" data-len="10" selected>+91 IN</option>
-              <option value="+1" data-len="10">+1 US</option>
-              <option value="+44" data-len="10">+44 UK</option>
-              <option value="+61" data-len="9">+61 AU</option>
-              <option value="+65" data-len="8">+65 SG</option>
-              <option value="+971" data-len="9">+971 AE</option>
-            </select>
-            <span class="divider" aria-hidden="true"></span>
-            <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="00000-00000" required aria-describedby="mobile-error">
-          </div>
-          <p class="field-error" id="mobile-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><input id="email" name="email" placeholder="you@example.com" type="email" autocomplete="email" required aria-describedby="email-error"></div>
-          <p class="field-error" id="email-error" hidden></p>
-        </div>
-      </div>
-      <div class="donate-col">
-        <div class="field">
-          <label for="address">Address<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input area"><textarea id="address" name="address" rows="3" placeholder="House, street and locality" autocomplete="street-address" required aria-describedby="address-error"></textarea></div>
-          <p class="field-error" id="address-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="pincode">Pincode<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><input id="pincode" name="pincode" placeholder="Enter pincode" inputmode="numeric" autocomplete="postal-code" required aria-describedby="pincode-error"></div>
-          <p class="field-error" id="pincode-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="country">Country<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input select"><select id="country" name="country" autocomplete="country" required aria-describedby="country-error"></select></div>
-          <p class="field-error" id="country-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="state">State<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input select" id="stateSelectWrap"><select id="state" name="state" required aria-describedby="state-error"><option value="">Select state</option></select></div><div class="input" id="stateTextWrap" hidden><input id="state-text" name="state-text" placeholder="Enter state or region" autocomplete="address-level1" aria-label="State or region" aria-describedby="state-error"></div>
-          <p class="field-error" id="state-error" hidden></p>
-        </div>
-        <div class="field">
-          <label for="city">City<span class="req" aria-hidden="true"> *</span></label>
-          <div class="input"><input id="city" name="city" placeholder="Enter city" autocomplete="address-level2" required aria-describedby="city-error"></div>
-          <p class="field-error" id="city-error" hidden></p>
-        </div>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset class="donate-section">
+  <fieldset class="donate-section donate-gift">
     <legend class="display-lg">Your Donation</legend>
     <div class="donate-grid donate-rows">
         <div class="field d-amount">
@@ -276,6 +211,71 @@
     </div>
   </fieldset>
 
+  <fieldset class="donate-section donate-you">
+    <legend class="display-lg">About You</legend>
+    <div class="donate-grid">
+      <div class="donate-col">
+        <fieldset class="field d-name">
+          <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
+          <div class="input name">
+            <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
+            <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+            <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
+          </div>
+          <p class="field-error" id="name-error" hidden></p>
+        </fieldset>
+        <div class="field">
+          <label for="mobile">Mobile Number<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input phone">
+            <select id="country-code" aria-label="Country code">
+              <option value="+91" data-len="10" selected>+91 IN</option>
+              <option value="+1" data-len="10">+1 US</option>
+              <option value="+44" data-len="10">+44 UK</option>
+              <option value="+61" data-len="9">+61 AU</option>
+              <option value="+65" data-len="8">+65 SG</option>
+              <option value="+971" data-len="9">+971 AE</option>
+            </select>
+            <span class="divider" aria-hidden="true"></span>
+            <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="00000-00000" required aria-describedby="mobile-error">
+          </div>
+          <p class="field-error" id="mobile-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="email" name="email" placeholder="you@example.com" type="email" autocomplete="email" required aria-describedby="email-error"></div>
+          <p class="field-error" id="email-error" hidden></p>
+        </div>
+      </div>
+      <div class="donate-col">
+        <div class="field">
+          <label for="address">Address<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input area"><textarea id="address" name="address" rows="3" placeholder="House, street and locality" autocomplete="street-address" required aria-describedby="address-error"></textarea></div>
+          <p class="field-error" id="address-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="pincode">Pincode<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="pincode" name="pincode" placeholder="Enter pincode" inputmode="numeric" autocomplete="postal-code" required aria-describedby="pincode-error"></div>
+          <p class="field-error" id="pincode-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="country">Country<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input select"><select id="country" name="country" autocomplete="country" required aria-describedby="country-error"></select></div>
+          <p class="field-error" id="country-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="state">State<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input select" id="stateSelectWrap"><select id="state" name="state" required aria-describedby="state-error"><option value="">Select state</option></select></div><div class="input" id="stateTextWrap" hidden><input id="state-text" name="state-text" placeholder="Enter state or region" autocomplete="address-level1" aria-label="State or region" aria-describedby="state-error"></div>
+          <p class="field-error" id="state-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="city">City<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="city" name="city" placeholder="Enter city" autocomplete="address-level2" required aria-describedby="city-error"></div>
+          <p class="field-error" id="city-error" hidden></p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
   <div class="donate-consent">
     <label class="check">
       <input type="checkbox" id="terms" name="terms" required aria-describedby="terms-error">
@@ -344,7 +344,7 @@
 <script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
 <script src="assets/phone.js?v=20261004r"></script>
 <script src="assets/places.js?v=20261115a"></script>
-<script src="assets/donate.js?v=20261115c"></script>
+<script src="assets/donate.js?v=20261116a"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>

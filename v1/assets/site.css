@@ -3829,3 +3829,23 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
   .lg-card, .lg-notice, .bk-card, .bk-notice, .acct-card, .kyc-nudge, .bkg,
   .recur, .recur-card, .mr-item, .mo-sum-card, .series-banner, .ct-form, .ct-card, .place-card, .key-sticky
 ) { background-image: var(--paper-texture); background-repeat: repeat; }
+/* donate: split layout, the donation on the left (60%) and the donor's details on the right */
+@media (min-width: 1024px) {
+  .donate-form { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--sp-4); align-items: start; }
+  /* the donor's details fill the right column; consent and the Donate button stay under the donation */
+  .donate-you { grid-column: 2; grid-row: 1 / span 3; }
+  .donate-form { grid-template-rows: auto auto 1fr; }   /* spare height goes below the Donate button, not between the rows */
+  .donate-gift, .donate-form > .donate-consent, .donate-form > .donate-action { grid-column: 1; }
+  .donate-form > .donate-action { margin-bottom: 0; }
+  .donate-form { margin-bottom: var(--page-end); }
+  /* name, mobile, email and address full width; pincode/country and state/city in pairs */
+  .donate-you .donate-grid > .donate-col > * { grid-column: 1 / -1; }
+  .donate-you .donate-grid > .donate-col > :is(:has(#pincode), :has(#country), :has(#state), :has(#city)) { grid-column: auto; }
+}
+/* event bar: more room under its last line, and the header's fill runs a little further before it fades */
+.key-sticky-inner { padding: 10px 0 18px; }
+.nav.has-sticky::before {
+  bottom: calc(-1 * (var(--sticky-h, 56px) + 40px));
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 32px), transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 32px), transparent 100%);
+}
