@@ -3849,3 +3849,35 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
   -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 32px), transparent 100%);
           mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 32px), transparent 100%);
 }
+/* event: Daily Schedule folds away; the header shows a one-line gist while closed */
+.daily-fold > summary { list-style: none; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px var(--sp-3); cursor: pointer; border-radius: var(--r-sm); }
+.daily-fold > summary::-webkit-details-marker { display: none; }
+.daily-fold > summary .card-title { grid-column: 1; margin: 0; }
+.daily-fold > summary .daily-meta { grid-column: 1; font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink-muted); }
+.daily-fold > summary .daily-chev { grid-column: 2; grid-row: 1 / span 2; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--rule); border-radius: 50%; color: var(--ink); transition: transform var(--t-hover, .15s) var(--ease-out, ease), background-color var(--t-hover, .15s); }
+.daily-fold > summary:hover .daily-chev { background: var(--light-green-hover); }
+.daily-fold > summary:focus-visible { outline: 2px solid var(--saffron); outline-offset: 4px; }
+.daily-fold[open] > summary .daily-chev { transform: rotate(180deg); }
+.daily-fold[open] > summary .daily-meta { display: none; }
+.daily-fold > .times { margin-top: var(--sp-5); }
+@media (prefers-reduced-motion: reduce) { .daily-fold > summary .daily-chev { transition: none; } }
+/* event pages: "On this page" jumps land below the header and the event bar */
+.detail section:not(.key-card) { scroll-margin-top: calc(96px + var(--event-bar-h, 0px)); }
+/* event: Important Booking Guidelines as an accordion; the header keeps the "read carefully" prompt and the count */
+.guide-fold > summary { list-style: none; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--gap-sub) var(--sp-4); padding: var(--sp-5) var(--sp-6); border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); cursor: pointer; transition: background-color var(--t-hover, .15s); }
+.guide-fold > summary::-webkit-details-marker { display: none; }
+.guide-fold > summary h2 { grid-column: 1; margin: 0; }
+.guide-fold > summary p { grid-column: 1; margin: 0; font-size: var(--fs-ui); line-height: var(--lh-ui); color: var(--ink-muted); }
+.guide-fold > summary:hover { background-color: var(--light-green-hover); }
+.guide-fold > summary:focus-visible { outline: 2px solid var(--saffron); outline-offset: 3px; }
+.guide-fold[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.guide-fold > .guidelines { margin: 0; padding: var(--sp-4) var(--sp-6) var(--sp-5); border: 1px solid var(--rule); border-top: 0; border-radius: 0 0 var(--card-radius) var(--card-radius); background: var(--card-bg); }
+/* the round chevron, shared by the event folds */
+.fold-chev, .daily-chev { grid-column: 2; grid-row: 1 / span 2; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--rule); border-radius: 50%; color: var(--ink); transition: transform var(--t-hover, .15s) var(--ease-out, ease); }
+.guide-fold[open] > summary .fold-chev { transform: rotate(180deg); }
+:root[data-theme="dark"] :is(.guide-fold > summary, .guide-fold > .guidelines) { background-image: var(--paper-texture); }
+@media (max-width: 768px) {
+  .guide-fold > summary { padding: var(--sp-4) 20px; }
+  .guide-fold > .guidelines { padding: var(--sp-3) 20px var(--sp-4); }
+}
+@media (prefers-reduced-motion: reduce) { .fold-chev { transition: none; } }

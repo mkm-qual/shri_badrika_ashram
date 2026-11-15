@@ -11,7 +11,7 @@ const GP_RULES = ['Book a minimum of 2 nights per person.', 'Children below 10 y
 const gp = (n, first, nights, discourse, dates, windowText, talkText, seed) => ({
   name: `The Glorious Presence (Event ${n})`, page: `event-glorious-presence-${n}.html`, badge: 'Discourses with Swamiji',
   first, nights, discourse, seats: sample(nights, seed), perNight: 1800, minNights: 2,
-  facts: [['Event dates', dates], ['Bookings window', windowText], ['Discourses', talkText], ['Daily contribution', '₹1,800 per person, per day']],
+  facts: [['Event dates', dates], ['Stay nights you can book', windowText], ['Discourse days', talkText], ['Daily contribution', '₹1,800 per person, per day']],
   rules: GP_RULES,
 });
 const EVENTS = {
@@ -19,7 +19,7 @@ const EVENTS = {
     name: 'Divine Autumn', page: 'event-divine-autumn.html', badge: 'A Journey into Grace and Stillness',
     first: '2026-10-07', nights: 18, discourse: [], seats: sample(18, 3).map(v => v === 'WLT' ? 12 : Math.min(v, 39)),
     perNight: 2000, minNights: 1,
-    facts: [['Start date', '7 October 2026 (Wednesday)'], ['End date', '25 October 2026 (Sunday)'], ['Contribution', '₹2,000 per person, per night'], ['Includes', 'Accommodation, lunch and dinner']],
+    facts: [['Event dates', '7 – 25 October 2026'], ['Stay dates', 'Check-in 7 October (Wednesday), check-out 25 October (Sunday)'], ['Contribution', '₹2,000 per person, per night'], ['Includes', 'Accommodation, lunch and dinner']],
     rules: ['Swamiji will not be at the Ashram during this period.', 'Dormitory accommodation will not be available.', 'Stay upgrades may be requested at the Front Office on arrival, subject to availability.', 'Contributions are non-refundable.'],
   },
   'glorious-presence-1': gp(1, '2026-11-01', 9, ['2026-11-07', '2026-11-08', '2026-11-09'], '1 – 10 November 2026', '1 – 9 November', '7, 8 &amp; 9 November', 1),
@@ -32,7 +32,7 @@ const EVENTS = {
     name: 'Maha Rudra Sadhana: The Return of Rudra (English)', page: 'event-maha-rudra-sadhana.html', badge: 'Full-duration Sadhana',
     first: '2027-03-05', nights: 12, discourse: [], seats: Array(12).fill(41),
     perPerson: 21600, fullStay: true,
-    facts: [['Check-in', '5 March 2027 (Friday)'], ['Check-out', '17 March 2027 (Wednesday)'], ['Maha Shivratri Abhishekam', '6 March 2027 (Saturday)'], ['Contribution', '₹21,600 per person, for the full Sadhana']],
+    facts: [['Event dates', '7 – 17 March 2027'], ['Stay dates', 'Check-in 5 March (Friday), check-out 17 March (Wednesday)'], ['Maha Shivratri Abhishekam', '6 March 2027 (Saturday)'], ['Contribution', '₹21,600 per person, for the full Sadhana']],
     rules: ['Booking is only for the full duration; partial stays are not permitted.', 'The language of this Sadhana will be English.', 'Children below 10 years of age are not permitted.', 'Maha Rudra Sadhana 2026 (Hindi) participants are not eligible.'],
   },
 };
