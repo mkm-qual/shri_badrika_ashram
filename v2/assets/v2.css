@@ -130,13 +130,9 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
   position: relative; flex: none; width: min(1240px, calc(100% - 32px)); aspect-ratio: 3168 / 1344;   /* the script fits it to the room left under the words */
   transform-origin: 49.97% 67.15%;   /* no will-change: it would keep Sri Hari at low resolution while zoomed */
 }
-/* the painting's edges break up like a watercolour wash drying out on paper (an irregular painted mask) */
-.tz-painting {
-  display: block; width: 100%; height: 100%;
-  -webkit-mask: url("v2/wc-edge.webp?v=5") center / 100% 100% no-repeat;
-  mask: url("v2/wc-edge.webp?v=5") center / 100% 100% no-repeat;
-  mix-blend-mode: multiply;
-}
+/* the painting carries its own watercolour edge and see-through paper (baked into the image), so zooming
+   never depends on a mask the browser must keep redrawing */
+.tz-painting { display: block; width: 100%; height: 100%; }
 /* dark page: a version of the painting with the cream paper lifted out, so the temple stands under a dark sky */
 .tz-painting.night { display: none; }
 :root[data-theme="dark"] .tz-painting.day { display: none; }
