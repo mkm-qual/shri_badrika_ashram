@@ -146,13 +146,27 @@ const renderCalendar = () => {
 };
 $('calPrev').addEventListener('click', () => { view.setMonth(view.getMonth() - 1); renderCalendar(); });
 $('calNext').addEventListener('click', () => { view.setMonth(view.getMonth() + 1); renderCalendar(); });
+// Click a night to add or drop it. Shift-click another night and every night between the two follows
+// the first click (all added, or all dropped), for a continuous stay in two clicks. Shift+Enter works too.
+let anchor = null;                                     // { k, add }: the last plain click and what it did
+const setNight = (k, add) => {
+  if (add) { picked.add(k); people.forEach(p => p.days.add(k)); }
+  else { picked.delete(k); people.forEach(p => p.days.delete(k)); }
+};
+daysEl.addEventListener('mousedown', (e) => { if (e.shiftKey && e.target.closest('button[data-day]')) e.preventDefault(); });   // no text selection
 daysEl.addEventListener('click', (e) => {
   const btn = e.target.closest('button[data-day]');
   if (!btn || EVENT.fullStay) return;
   const k = +btn.dataset.day;
-  // a newly picked night is ticked for everyone; dropping it clears it for everyone
-  if (picked.has(k)) { picked.delete(k); people.forEach(p => p.days.delete(k)); }
-  else { picked.add(k); people.forEach(p => p.days.add(k)); }
+  if (e.shiftKey && anchor) {
+    const [a, b] = anchor.k < k ? [anchor.k, k] : [k, anchor.k];
+    for (let d = a; d <= b; d++) setNight(d, anchor.add);
+  } else {
+    // a newly picked night is ticked for everyone; dropping it clears it for everyone
+    const add = !picked.has(k);
+    setNight(k, add);
+    anchor = { k, add };
+  }
   render();
   renderCalendar();                                   // redraw so the Arrive / Leave tags follow the stay
   daysEl.querySelector(`[data-day="${k}"]`)?.focus();
@@ -258,7 +272,7 @@ const render = ({ keepPeople = false } = {}) => {
   const over = overBooked();
   const short = tooShort();
   $('seatsLabel').textContent = EVENT.fullStay ? 'Every night is included: this Sadhana is booked for its full duration only.'
-    : !days.length ? 'Tap the nights you would like to stay'
+    : !days.length ? 'Tap the nights you would like to stay, or tap the first and Shift-click the last'
     : over.length ? `Only ${SEATS[over[0]]} ${SEATS[over[0]] === 1 ? 'place' : 'places'} left on ${shortLabel(over[0])}. Untick someone for that night.`
     : short.length ? `Each person needs at least ${MIN_NIGHTS} nights. ${short.length > 1 ? short.length + ' people have' : short[0].self ? 'You have' : short[0].name + ' has'} fewer.`
     : open.length ? `${Math.min(...open.map(d => SEATS[d]))} places left for these nights`
