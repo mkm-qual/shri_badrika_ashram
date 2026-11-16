@@ -61,7 +61,7 @@
     // positions relative to the pinned frame, with nothing transformed
     scene.style.transform = 'none';
     const st = sticky.getBoundingClientRect(), sc = scene.getBoundingClientRect(), db = deityBox.getBoundingClientRect();
-    const vh = innerHeight, vw = innerWidth;
+    const vh = sticky.clientHeight, vw = innerWidth;   // the frame's steady height, not the window's (a phone's bar comes and goes)
     const atDoor = Math.max(1, (vh * 0.62) / (h * DOOR.h));
     const atNiche = Math.max(atDoor, (vh * 0.98) / (h * DOOR.h));
     // Sri Hari's final place, and the size he is drawn at: his largest on screen, so he is only ever scaled down (sharp)
@@ -98,11 +98,12 @@
   }
   document.documentElement.classList.add('tz-motion');
 
-  // ----- Temple chant: off until the visitor turns it on (browsers allow sound only after a tap). Once on, it
-  //       rises as the doors open and fades away through the Sri Hari section; it pauses when silent. -----
+  // ----- Temple chant: on by default (it starts with the visitor's first touch, as browsers require); it
+  //       rises as the doors open and fades away through the Sri Hari section, and pauses when silent. -----
   const chant = document.getElementById('tzChant');
   const soundBtn = document.getElementById('tzSound');
-  let audioCtx = null, gain = null, soundOn = false, wanted = 0, pauseT;
+  let audioCtx = null, gain = null, wanted = 0, pauseT;
+  let soundOn = (() => { try { return sessionStorage.getItem('sba-chant') !== 'off'; } catch (e) { return true; } })();   // on, unless turned off this visit
   const MAX = 0.55;                                    // the chant sits under the page, never loud
   const setLevel = (v) => {
     wanted = v;
@@ -111,10 +112,8 @@
     if (v > 0.002) { clearTimeout(pauseT); if (chant.paused) chant.play().catch(() => {}); }
     else if (!chant.paused) { clearTimeout(pauseT); pauseT = setTimeout(() => { if (wanted <= 0.002) chant.pause(); }, 1500); }
   };
-  soundBtn && soundBtn.addEventListener('click', () => {
-    soundOn = !soundOn;
-    soundBtn.setAttribute('aria-pressed', soundOn);
-    if (soundOn && !audioCtx) {
+  const startAudio = () => {
+    if (!audioCtx) {
       const AC = window.AudioContext || window.webkitAudioContext;
       audioCtx = new AC();
       gain = audioCtx.createGain();
@@ -122,7 +121,22 @@
       audioCtx.createMediaElementSource(chant).connect(gain).connect(audioCtx.destination);
       chant.preload = 'auto';
     }
-    if (soundOn) { audioCtx.resume(); setLevel(wanted); }
+    audioCtx.resume();
+    setLevel(wanted);
+  };
+  const showState = () => soundBtn && soundBtn.setAttribute('aria-pressed', soundOn);
+  showState();
+  // browsers let sound start only after the visitor touches, clicks or types; the first one switches it on
+  const firstTouch = (e) => {
+    ['pointerdown', 'keydown', 'touchend'].forEach(t => removeEventListener(t, firstTouch, true));
+    if (soundOn && !(soundBtn && soundBtn.contains(e.target))) startAudio();
+  };
+  ['pointerdown', 'keydown', 'touchend'].forEach(t => addEventListener(t, firstTouch, true));
+  soundBtn && soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    showState();
+    try { sessionStorage.setItem('sba-chant', soundOn ? 'on' : 'off'); } catch (e) {}
+    if (soundOn) startAudio();
     else if (gain) { gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2); clearTimeout(pauseT); pauseT = setTimeout(() => chant.pause(), 800); }
   });
   // how loud, for where the visitor is: rises with the doors, fades through the Sri Hari section and a little beyond
@@ -203,9 +217,16 @@
     settle = setTimeout(() => scene.classList.remove('is-moving'), 160);
     if (!ticking) { ticking = true; requestAnimationFrame(draw); }
   };
-  const refit = () => { fit(); last = -1; draw(); };
+  const refit = () => { fit(); last = -1; draw(); seen = [innerWidth, innerHeight]; };
+  // A phone's address bar sliding in and out (when the scroll changes direction) is reported as a resize;
+  // re-fitting then would shrink the painting mid-scroll, so only a real change of size re-fits.
+  let seen = [innerWidth, innerHeight];
+  const onResize = () => {
+    if (innerWidth === seen[0] && Math.abs(innerHeight - seen[1]) < 160) { last = -1; onScroll(); return; }
+    refit();
+  };
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', refit);
+  addEventListener('resize', onResize);
   addEventListener('load', refit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);   // the words above settle the painting's room
   refit();

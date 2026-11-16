@@ -120,7 +120,8 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
 /* ---------- Home: the temple; scrolling walks up to its doors, they open, and Sri Hari is inside ---------- */
 /* the first fold: the welcome above, the temple filling the rest of the window; the header floats over it */
 .temple-zoom { position: relative; height: 400vh; margin-top: calc(-1 * var(--nav-h, 72px)); }
-.tz-sticky { position: sticky; top: 0; height: 100vh; padding-top: var(--nav-h, 72px); display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+/* 100svh: the height that stays visible when a phone shows its address bar, so nothing at the bottom hides under it */
+.tz-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; padding-top: var(--nav-h, 72px); display: flex; flex-direction: column; align-items: center; overflow: hidden; }
 .tz-hero { flex: none; padding: 28px var(--gutter) 0; position: relative; z-index: 2; }
 .tz-stage { flex: 1; min-height: 0; width: 100%; display: flex; align-items: flex-start; justify-content: center; }
 .tz-scene {
