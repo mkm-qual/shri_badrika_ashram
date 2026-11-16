@@ -98,47 +98,84 @@
   }
   document.documentElement.classList.add('tz-motion');
 
-  // ----- Temple chant: on by default (it starts with the visitor's first touch, as browsers require); it
-  //       rises as the doors open and fades away through the Sri Hari section, and pauses when silent. -----
-  const chant = document.getElementById('tzChant');
+  // ----- Temple chant, played with Web Audio so it is dependable on phones too -----
+  // The chant is fetched and decoded as the page loads and then loops quietly under a volume control that
+  // follows the scroll. Browsers allow sound only after the visitor taps, clicks or presses a key, so the
+  // first such touch unlocks it (inside that same touch, which iPhones require); a scroll alone cannot.
+  // It is on by default; the switch turns it off (remembered for the visit) and on again.
   const soundBtn = document.getElementById('tzSound');
-  let audioCtx = null, gain = null, wanted = 0, pauseT;
-  let soundOn = (() => { try { return sessionStorage.getItem('sba-chant') !== 'off'; } catch (e) { return true; } })();   // on, unless turned off this visit
+  const soundLabel = soundBtn && soundBtn.querySelector('.tz-sound-label');
+  const CHANT_SRC = 'assets/v2/vishnu-chant.m4a';
   const MAX = 0.55;                                    // the chant sits under the page, never loud
-  const setLevel = (v) => {
-    wanted = v;
-    if (!soundOn || !gain) return;
-    gain.gain.setTargetAtTime(v * MAX, audioCtx.currentTime, 0.35);   // eased, so scrolling never jolts the volume
-    if (v > 0.002) { clearTimeout(pauseT); if (chant.paused) chant.play().catch(() => {}); }
-    else if (!chant.paused) { clearTimeout(pauseT); pauseT = setTimeout(() => { if (wanted <= 0.002) chant.pause(); }, 1500); }
-  };
-  const startAudio = () => {
-    if (!audioCtx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      audioCtx = new AC();
-      gain = audioCtx.createGain();
+  const AC = window.AudioContext || window.webkitAudioContext;
+  let actx = null, gain = null, buffer = null, voice = null, wanted = 0, unlocked = false, idleT;
+  let soundOn = (() => { try { return sessionStorage.getItem('sba-chant') !== 'off'; } catch (e) { return true; } })();
+  const context = () => {
+    if (!actx && AC) {
+      actx = new AC();
+      gain = actx.createGain();
       gain.gain.value = 0;
-      audioCtx.createMediaElementSource(chant).connect(gain).connect(audioCtx.destination);
-      chant.preload = 'auto';
+      gain.connect(actx.destination);
     }
-    audioCtx.resume();
+    return actx;
+  };
+  // fetch and decode up front, so nothing waits once the doors open
+  const loading = AC ? fetch(CHANT_SRC).then(r => r.arrayBuffer())
+    .then(data => new Promise((ok, fail) => context().decodeAudioData(data, ok, fail)))
+    .then(b => { buffer = b; begin(); }).catch(() => {}) : null;
+  const begin = () => {                                 // one looping voice, started once and never stopped
+    if (voice || !buffer || !unlocked) return;
+    voice = actx.createBufferSource();
+    voice.buffer = buffer;
+    voice.loop = true;
+    voice.connect(gain);
+    voice.start(0);
     setLevel(wanted);
   };
-  const showState = () => soundBtn && soundBtn.setAttribute('aria-pressed', soundOn);
-  showState();
-  // browsers let sound start only after the visitor touches, clicks or types; the first one switches it on
-  const firstTouch = (e) => {
-    ['pointerdown', 'keydown', 'touchend'].forEach(t => removeEventListener(t, firstTouch, true));
-    if (soundOn && !(soundBtn && soundBtn.contains(e.target))) startAudio();
+  const showState = () => {
+    if (!soundBtn) return;
+    soundBtn.setAttribute('aria-pressed', soundOn);
+    const waiting = soundOn && !unlocked;               // on, but the browser still needs that first tap
+    soundBtn.classList.toggle('is-waiting', waiting);
+    if (soundLabel) soundLabel.textContent = waiting ? 'Tap for chant' : 'Chant';
   };
-  ['pointerdown', 'keydown', 'touchend'].forEach(t => addEventListener(t, firstTouch, true));
-  soundBtn && soundBtn.addEventListener('click', () => {
-    soundOn = !soundOn;
+  const setLevel = (v) => {
+    wanted = v;
+    if (!gain || !unlocked) return;
+    const target = soundOn ? v * MAX : 0;
+    gain.gain.setTargetAtTime(target, actx.currentTime, 0.35);   // eased, so scrolling never jolts the volume
+    if (soundBtn) { soundBtn.dataset.level = target.toFixed(2); soundBtn.dataset.audio = actx.state; }   // readable state, for checks
+    clearTimeout(idleT);
+    if (target > 0.001) { if (actx.state !== 'running') actx.resume(); }
+    else idleT = setTimeout(() => { if (wanted * (soundOn ? 1 : 0) <= 0.001 && actx.state === 'running') actx.suspend(); }, 2500);   // rest the audio when silent
+  };
+  const unlock = () => {
+    if (!context()) return;
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}   // newer iPhones: play even in silent mode
+    actx.resume();
+    const tick = actx.createBufferSource();             // a silent sound inside the touch: what iPhones need to allow audio
+    tick.buffer = actx.createBuffer(1, 1, 22050);
+    tick.connect(actx.destination);
+    tick.start(0);
+    unlocked = true;
+    begin();
+    setLevel(wanted);
     showState();
+  };
+  const onTouch = (e) => {
+    if (soundBtn && soundBtn.contains(e.target)) return;   // the switch handles its own taps
+    if (soundOn) unlock();
+    if (unlocked) ['touchend', 'click', 'keydown'].forEach(t => removeEventListener(t, onTouch, true));
+  };
+  ['touchend', 'click', 'keydown'].forEach(t => addEventListener(t, onTouch, true));
+  soundBtn && soundBtn.addEventListener('click', () => {
+    if (soundOn && !unlocked) { unlock(); return; }    // "Tap for chant": the tap turns it on, not off
+    soundOn = !soundOn;
     try { sessionStorage.setItem('sba-chant', soundOn ? 'on' : 'off'); } catch (e) {}
-    if (soundOn) startAudio();
-    else if (gain) { gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2); clearTimeout(pauseT); pauseT = setTimeout(() => chant.pause(), 800); }
+    if (soundOn) unlock(); else setLevel(wanted);
+    showState();
   });
+  showState();
   // how loud, for where the visitor is: rises with the doors, fades through the Sri Hari section and a little beyond
   const chantLevel = () => {
     const p = (scrollY - M.top) / M.run;
@@ -170,7 +207,8 @@
     const away = span(p, 0, 0.12);
     heroBox.style.opacity = 1 - away;
     heroBox.style.transform = `translate3d(0, ${-24 * away}px, 0)`;
-    heroBox.style.visibility = away >= 1 ? 'hidden' : 'visible';
+    const heroVis = away >= 1 ? 'hidden' : 'visible';
+    if (heroBox.style.visibility !== heroVis) heroBox.style.visibility = heroVis;
     const open = span(p, 0.2, 0.44);
     const deg = setDoors(open);
 
@@ -180,7 +218,8 @@
     const handing = p >= 0.2;
     const hand = span(p, 0.58, 0.82);
     scene.style.opacity = 1 - span(p, 0.58, 0.72);
-    sceneDeity.style.visibility = handing ? 'hidden' : 'visible';
+    const deityVis = handing ? 'hidden' : 'visible';
+    if (sceneDeity.style.visibility !== deityVis) sceneDeity.style.visibility = deityVis;
     idol.style.opacity = handing ? 1 : 0;
     if (handing) {
       const dh = 0.8 * DOOR.h * h, dw = dh * IDOL;                                    // Sri Hari in the doorway
@@ -204,19 +243,12 @@
     const words = span(p, 0.8, 0.94);
     copy.style.opacity = words;
     copy.style.transform = `translate3d(0, ${(1 - words) * 16}px, 0)`;
-    divine.classList.toggle('is-on', words > 0.5);
+    if (divine.classList.contains('is-on') !== words > 0.5) divine.classList.toggle('is-on', words > 0.5);
     hint.style.opacity = p > 0.03 ? 0 : 1;
   };
 
-  // While scrolling, the scene is held as a ready-made layer so the zoom costs nothing to redraw;
-  // a moment after the scroll stops it is redrawn sharp at its current size.
-  let ticking = false, settle;
-  const onScroll = () => {
-    scene.classList.add('is-moving');
-    clearTimeout(settle);
-    settle = setTimeout(() => scene.classList.remove('is-moving'), 160);
-    if (!ticking) { ticking = true; requestAnimationFrame(draw); }
-  };
+  let ticking = false;
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
   const refit = () => { fit(); last = -1; draw(); seen = [innerWidth, innerHeight]; };
   // A phone's address bar sliding in and out (when the scroll changes direction) is reported as a resize;
   // re-fitting then would shrink the painting mid-scroll, so only a real change of size re-fits.
