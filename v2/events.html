@@ -20,7 +20,7 @@
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261117m">
-<link rel="stylesheet" href="assets/v2.css?v=20261116x">
+<link rel="stylesheet" href="assets/v2.css?v=20261117c">
 </head>
 <body data-page="events">
 
@@ -90,89 +90,153 @@
     <div class="section-heading">
       <h1 class="display-2xl">Upcoming events</h1>
     </div>
+    <button class="sort" id="sortBtn" type="button" aria-label="Sort events">Sort by <b>Soonest first&nbsp;&nbsp;↓</b></button>
   </div>
 
-  <div class="v2-cards" id="eventCards">
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <span class="v2-tag">Series · 6 events</span><h3>The Glorious Presence</h3>
-        <p class="v2-card-sub">Discourses with Swamiji, November to April</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Series: 1 November 2026 — 11 April 2027</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Next: Event 1, 1 — 10 November</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence.html">View series<span class="visually-hidden"> for The Glorious Presence</span></a>
+  <nav class="month-nav" aria-label="Jump to a month">
+    <a href="#m-2026-10"><b>Oct</b><span>1 event</span></a>
+    <a href="#m-2026-11"><b>Nov</b><span>3 events</span></a>
+    <a href="#m-2026-12"><b>Dec</b><span>3 events</span></a>
+    <a href="#m-2027-03"><b>Mar</b><span>1 event</span></a>
+    <a href="#m-2027-04"><b>Apr</b><span>1 event</span></a>
+  </nav>
+
+  <!-- A series that runs across the season -->
+  <a class="event-card event-group series-banner v2-series" href="event-glorious-presence.html">
+    <div class="event-title">
+      <div class="event-title-inner">
+        <h3 class="display-lg">The Glorious Presence</h3>
+        <p class="event-sub">Discourses with Swamiji, November to April</p>
       </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>Divine Autumn</h3>
-        <p class="v2-card-sub">A Journey into Grace and Stillness</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 7 October — 25 October</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Available for booking</li></ul>
-        <a class="v2-btn-outline" href="event-divine-autumn.html">Event details<span class="visually-hidden"> for Divine Autumn</span></a>
+    </div>
+    <ul class="group-dates" aria-label="Event start dates">
+      <li>1 Nov</li><li>19 Nov</li><li>1 Dec</li><li>15 Dec</li><li>28 Dec</li><li>1 Apr</li>
+    </ul>
+    <div class="event-meta">
+      <div><img src="assets/calendar.svg" width="16" height="16" alt="">Series: 1 November 2026 — 11 April 2027</div>
+      <div><img src="assets/clock.svg" width="16" height="16" alt="">Next: Event 1, 1 — 10 November</div>
+    </div>
+    <span class="series-cta" aria-hidden="true">View series<span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:15px"></span></span>
+  </a>
+
+  <div class="months" id="eventCards">
+    <section class="month" id="m-2026-10" aria-labelledby="mh-2026-10">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Oct</span>
+        <h2 class="month-name" id="mh-2026-10">October <span>2026</span></h2>
+        <p class="month-meta">Autumn · 1 event</p>
+      </header>
+      <div class="v2-cards month-cards">
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>Divine Autumn</h3>
+            <p class="v2-card-sub">A Journey into Grace and Stillness</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 7 October — 25 October</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Available for booking</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-divine-autumn.html">Event details<span class="visually-hidden"> for Divine Autumn</span></a>
+          </div>
+        </article>
       </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Glorious Presence (Event 1)</h3>
-        <p class="v2-card-sub">Discourses on 7, 8 and 9 November</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 1 November — 10 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 1 — 9 November</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence-1.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 1)</span></a>
+    </section>
+    <section class="month" id="m-2026-11" aria-labelledby="mh-2026-11">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Nov</span>
+        <h2 class="month-name" id="mh-2026-11">November <span>2026</span></h2>
+        <p class="month-meta">Early winter · 3 events</p>
+      </header>
+      <div class="v2-cards month-cards">
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Glorious Presence (Event 1)</h3>
+            <p class="v2-card-sub">Discourses on 7, 8 and 9 November</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 1 November — 10 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 1 — 9 November</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-glorious-presence-1.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 1)</span></a>
+          </div>
+        </article>
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Children of Tomorrow</h3>
+            <p class="v2-card-sub">A three-day journey to nurture young minds</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 13 November — 15 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>All bookings are currently full</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-children-of-tomorrow.html">Event details<span class="visually-hidden"> for The Children of Tomorrow</span></a>
+          </div>
+        </article>
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Glorious Presence (Event 2)</h3>
+            <p class="v2-card-sub">Discourses on 20, 21 and 22 November</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 19 November — 26 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 19 — 25 November</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-glorious-presence-2.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 2)</span></a>
+          </div>
+        </article>
       </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Children of Tomorrow</h3>
-        <p class="v2-card-sub">A three-day journey to nurture young minds</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 13 November — 15 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>All bookings are currently full</li></ul>
-        <a class="v2-btn-outline" href="event-children-of-tomorrow.html">Event details<span class="visually-hidden"> for The Children of Tomorrow</span></a>
+    </section>
+    <section class="month" id="m-2026-12" aria-labelledby="mh-2026-12">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Dec</span>
+        <h2 class="month-name" id="mh-2026-12">December <span>2026</span></h2>
+        <p class="month-meta">Winter · 3 events</p>
+      </header>
+      <div class="v2-cards month-cards">
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Glorious Presence (Event 3)</h3>
+            <p class="v2-card-sub">Discourses on 4, 5 and 6 December</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 1 December — 11 December</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 1 — 10 December</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-glorious-presence-3.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 3)</span></a>
+          </div>
+        </article>
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Glorious Presence (Event 4)</h3>
+            <p class="v2-card-sub">Discourses on 18, 19 and 20 December</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 15 December — 23 December</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 15 — 22 December</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-glorious-presence-4.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 4)</span></a>
+          </div>
+        </article>
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Glorious Presence (Event 5)</h3>
+            <p class="v2-card-sub">Discourses on 30, 31 December and 1 January</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 28 December — 5 January</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 28 December — 4 January</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-glorious-presence-5.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 5)</span></a>
+          </div>
+        </article>
       </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Glorious Presence (Event 2)</h3>
-        <p class="v2-card-sub">Discourses on 20, 21 and 22 November</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 19 November — 26 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 19 — 25 November</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence-2.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 2)</span></a>
+    </section>
+    <section class="month" id="m-2027-03" aria-labelledby="mh-2027-03">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Mar</span>
+        <h2 class="month-name" id="mh-2027-03">March <span>2027</span></h2>
+        <p class="month-meta">Spring · 1 event</p>
+      </header>
+      <div class="v2-cards month-cards">
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>Maha Rudra Sadhana</h3>
+            <p class="v2-card-sub">The Return of Rudra (English)</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 7 March — 17 March</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Full 11-day duration only</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-maha-rudra-sadhana.html">Event details<span class="visually-hidden"> for Maha Rudra Sadhana</span></a>
+          </div>
+        </article>
       </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Glorious Presence (Event 3)</h3>
-        <p class="v2-card-sub">Discourses on 4, 5 and 6 December</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 1 December — 11 December</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 1 — 10 December</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence-3.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 3)</span></a>
+    </section>
+    <section class="month" id="m-2027-04" aria-labelledby="mh-2027-04">
+      <header class="month-rail">
+        <span class="month-big" aria-hidden="true">Apr</span>
+        <h2 class="month-name" id="mh-2027-04">April <span>2027</span></h2>
+        <p class="month-meta">Spring · 1 event</p>
+      </header>
+      <div class="v2-cards month-cards">
+        <article class="v2-card">
+          <div class="v2-card-body">
+            <h3>The Glorious Presence (Event 6)</h3>
+            <p class="v2-card-sub">Discourses on 2, 3 and 4 April</p>
+            <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 1 April — 11 April</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 1 — 10 April</li></ul>
+            <a class="v2-btn-outline v2-card-link" href="event-glorious-presence-6.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 6)</span></a>
+          </div>
+        </article>
       </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Glorious Presence (Event 4)</h3>
-        <p class="v2-card-sub">Discourses on 18, 19 and 20 December</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 15 December — 23 December</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 15 — 22 December</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence-4.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 4)</span></a>
-      </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Glorious Presence (Event 5)</h3>
-        <p class="v2-card-sub">Discourses on 30, 31 December and 1 January</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 28 December — 5 January</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 28 December — 4 January</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence-5.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 5)</span></a>
-      </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>Maha Rudra Sadhana</h3>
-        <p class="v2-card-sub">The Return of Rudra (English)</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 7 March — 17 March</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Full 11-day duration only</li></ul>
-        <a class="v2-btn-outline" href="event-maha-rudra-sadhana.html">Event details<span class="visually-hidden"> for Maha Rudra Sadhana</span></a>
-      </div>
-    </article>
-    <article class="v2-card">
-      <div class="v2-card-body">
-        <h3>The Glorious Presence (Event 6)</h3>
-        <p class="v2-card-sub">Discourses on 2, 3 and 4 April</p>
-        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 1 April — 11 April</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Stay nights: 1 — 10 April</li></ul>
-        <a class="v2-btn-outline" href="event-glorious-presence-6.html">Event details<span class="visually-hidden"> for The Glorious Presence (Event 6)</span></a>
-      </div>
-    </article>
+    </section>
   </div>
 </section>
 
@@ -200,6 +264,20 @@
 </footer>
 
 <script src="assets/site.js?v=20261116e"></script>
+
+<script>
+  // Sort: soonest first (as listed) or latest first; months and the events inside them flip together
+  const sortBtn = document.getElementById('sortBtn'), months = document.getElementById('eventCards');
+  const monthNav = document.querySelector('.month-nav');
+  let soonest = true;
+  const flip = (el) => [...el.children].reverse().forEach(c => el.appendChild(c));
+  sortBtn.addEventListener('click', () => {
+    soonest = !soonest;
+    flip(months); flip(monthNav);
+    months.querySelectorAll('.month-cards').forEach(flip);
+    sortBtn.querySelector('b').innerHTML = soonest ? 'Soonest first&nbsp;&nbsp;↓' : 'Latest first&nbsp;&nbsp;↑';
+  });
+</script>
 
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">

@@ -75,36 +75,6 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
   .v2-hero { padding: 40px 20px 0; }
 }
 
-/* ---------- Offerings: one card per ritual, photo on the left ---------- */
-.off-intro .off-portrait, .off-intro .off-glow { display: none; }
-.off-hero { min-height: 0; }
-.off-index { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px; border: 0; padding: 0; }
-.off-index a { flex: none; width: auto; }
-.off-index a { padding: 6px 14px; border: 1px solid var(--v2-card-line); border-radius: 999px; font-family: var(--font-body); font-size: var(--fs-ui); line-height: var(--lh-ui); background: var(--card-bg); }
-.off-index a span { display: none; }
-.off-index a:hover { background: var(--light-green-hover); }
-.offerings { display: flex; flex-direction: column; gap: 24px; padding-top: 48px; }
-.offering, .offering.flip {
-  display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 0; align-items: stretch;
-  padding: 0; overflow: hidden; border-radius: 12px; background: var(--v2-card); box-shadow: var(--v2-card-shadow);
-}
-.offering + .offering { border-top: 0; }
-.offering.flip .off-media { order: 0; }
-.off-media { width: auto; gap: 0; }
-.off-frame { height: 100%; padding: 0; border-radius: 0; background: none; }
-.off-photo { height: 100%; aspect-ratio: auto; border-radius: 0; }
-.off-photo img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.off-media figcaption { display: none; }
-.off-copy { gap: 14px; padding: 28px 32px; }
-.off-name { font-size: var(--fs-h3); line-height: var(--lh-h3); }
-.off-divider { display: none; }
-.off-text { font-size: var(--fs-ui); line-height: var(--lh-body); }
-@media (max-width: 900px) {
-  .offering, .offering.flip { grid-template-columns: 1fr; }
-  .off-photo { aspect-ratio: 4 / 3; height: auto; }
-  .off-copy { padding: 22px 20px; }
-}
-
 /* ---------- Gallery: photo with the title in a card below ---------- */
 .album-card a { display: flex; flex-direction: column; height: 100%; overflow: hidden; border-radius: 12px; background: var(--v2-card); box-shadow: var(--v2-card-shadow); }
 .album-cover { border-radius: 0; }
@@ -167,7 +137,7 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
 :root[data-theme="dark"] .tz-painting.night { display: block; position: absolute; inset: 0; -webkit-mask: none; mask: none; mix-blend-mode: normal; filter: brightness(.88); }
 .tz-door { position: absolute; left: var(--door-l); top: var(--door-t); width: var(--door-w); height: var(--door-h); perspective: 260px; }
 /* inside the door: a painted niche lit by a lamp, so Sri Hari stands in the watercolour, not on top of it */
-.tz-shrine { position: absolute; inset: 0; overflow: hidden; background: #5c3a22 url("v2/shrine.webp") center / cover no-repeat; }
+.tz-shrine { position: absolute; inset: 0; overflow: hidden; background: #5c3a22 url("v2/shrine.webp?v=2") center / cover no-repeat; }
 .tz-deity {
   position: absolute; left: 50%; bottom: 9%; height: 80%; width: auto; transform: translateX(-50%);
   filter: saturate(.86) contrast(.94) sepia(.1) drop-shadow(0 0 2px rgba(255, 214, 140, .45));
@@ -244,3 +214,51 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
   body[data-page="home"] .tz-divine, body[data-page="home"] .tz-static { --deity-h: min(36vh, 300px); gap: 14px; }
   body[data-page="home"] .tz-divine { padding: calc(var(--nav-h, 64px) + 4px) 20px 20px; }
 }
+
+/* ---------- Event cards: paper-white on the page, and a hover you can see ---------- */
+:root { --v2-event-bg: #fefdfa; --v2-event-line: #e4e2d2; --v2-event-hover-line: #8f9858; }
+:root[data-theme="dark"] { --v2-event-bg: #1d1f18; --v2-event-line: #33362a; --v2-event-hover-line: #8f9858; }
+.v2-card, .v2-series {
+  position: relative; background: var(--v2-event-bg); border: 1px solid var(--v2-event-line); border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(27, 31, 20, .05);
+  transition: transform var(--t-hover) var(--ease-out-quart, ease-out), box-shadow var(--t-hover) ease, border-color var(--t-hover) ease;
+}
+/* the whole card is the link (the button carries it), so the hover belongs to the whole card */
+.v2-card-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+@media (hover: hover) {
+  .v2-card:hover, .v2-series:hover {
+    transform: translateY(-3px); border-color: var(--v2-event-hover-line);
+    box-shadow: 0 2px 4px rgba(27, 31, 20, .05), 0 14px 28px rgba(27, 31, 20, .12);
+  }
+  .v2-card:hover .v2-btn-outline { background: var(--btn-primary); border-color: var(--btn-primary); color: var(--btn-primary-ink); }
+  .v2-series:hover { background: var(--v2-event-bg); }
+}
+.v2-card:has(.v2-card-link:focus-visible) { border-color: var(--v2-event-hover-line); box-shadow: 0 0 0 2px var(--saffron); }
+.v2-card-link:focus-visible { outline: none; }
+@media (prefers-reduced-motion: reduce) { .v2-card:hover, .v2-series:hover { transform: none; } }
+
+/* Events page, grouped by month: two cards per row beside each month's rail */
+.months .v2-cards { margin-top: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 768px) { .months .v2-cards { grid-template-columns: 1fr; } }
+.v2-series { padding: 24px 28px; background: var(--v2-event-bg); background-image: none; }
+
+/* ---------- Hovers you can see: one olive language for links and buttons ---------- */
+:root { --v2-wash: rgba(143, 152, 88, .14); --v2-wash-strong: rgba(143, 152, 88, .24); --v2-hover-ink: #3f4230; }
+:root[data-theme="dark"] { --v2-wash: rgba(186, 193, 127, .14); --v2-wash-strong: rgba(186, 193, 127, .24); --v2-hover-ink: #e4e7c9; }
+@media (hover: hover) {
+  /* header links */
+  .nav-tab { transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
+  .nav-tab:hover { background: var(--v2-wash); color: var(--v2-hover-ink); }
+  /* outline buttons: About Abhishekam, Read more, Learn more … */
+  .btn-secondary { transition: background-color var(--t-hover) ease, border-color var(--t-hover) ease, color var(--t-hover) ease; }
+  .btn-secondary:hover { background: var(--v2-wash); border-color: var(--v2-event-hover-line, #8f9858); color: var(--v2-hover-ink); }
+  .btn-secondary:hover img, .btn-secondary:hover .ic, .btn-primary:hover img { transform: translateX(3px); }
+  .btn img, .btn .ic { transition: transform var(--t-hover) var(--ease-out, ease-out); }
+  /* text links: Explore the Ashram, View all events, Read more … */
+  .text-link, .view-all, .read-toggle { transition: color var(--t-hover) ease, background-color var(--t-hover) ease; }
+  .text-link:hover, .read-toggle:hover { color: var(--v2-hover-ink); }
+  .text-link:hover span, .read-toggle:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+  .text-link:hover img, .text-link:hover .ic { transform: translateX(3px); }
+  .view-all:hover { background: var(--v2-wash); }
+}
+.nav-link[aria-current="page"] { background: var(--v2-wash-strong); }
