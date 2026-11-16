@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sri Badrika Ashram</title>
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261117m">
+<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+</head>
+<body data-page="home">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="#" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="ashram.html"><span>Ashram</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main>
+
+<!-- ============ Vaikuntha introduction ============ -->
+<section class="v2-hero">
+  <h1 class="display-2xl">Your Gateway to Vaikuntha</h1>
+  <div class="v2-hero-intro">
+    <p>Tucked into the quiet folds of the Shivalik hills, Sri Badrika Ashram is a sacred space to pause, turn inward and experience the living traditions of Sanatana Dharma. Here, devotion is woven into the everyday rhythm of prayer, silence, study and seva.</p>
+  </div>
+  <a class="text-link" href="ashram.html"><span>Explore the Ashram</span><img src="assets/arrow-right-olive.svg" width="16" height="16" alt=""></a>
+</section>
+
+<!-- ============ Temple: scrolling walks you in through the doorway to Sri Hari ============ -->
+<section class="temple-zoom" id="templeZoom" aria-labelledby="tzTitle">
+  <div class="tz-sticky">
+    <div class="tz-scene" id="tzScene">
+      <img class="tz-painting day" src="assets/v2/temple.webp?v=2" width="2000" height="1343" alt="A watercolour of the Sri Hari temple: a white spire with a saffron flag above a long brown roof, trees in front and green hills behind">
+      <img class="tz-painting night" src="assets/v2/temple-dark.webp?v=1" width="2000" height="1343" alt="" loading="lazy">
+      <div class="tz-door" aria-hidden="true">
+        <div class="tz-shrine"><img class="tz-deity" src="assets/deity.png" width="886" height="1136" alt=""><span class="tz-wash"></span></div>
+        <span class="tz-leaf tz-leaf-l"></span><span class="tz-leaf tz-leaf-r"></span>
+        <span class="tz-frame"></span>
+      </div>
+    </div>
+    <!-- once through the doors, the painting dissolves and Sri Hari settles beside the words -->
+    <div class="divine tz-divine" id="tzDivine">
+  <div class="deity">
+    <img class="halo d-only" src="assets/halo.svg" width="360" height="360" alt="">
+    <img class="halo m-only" src="assets/m-halo.svg" width="274" height="274" alt="">
+    <img class="idol" id="tzIdol" src="assets/deity.png" width="886" height="1136" alt="The consecrated idol of Sri Hari, adorned with garlands and saffron silk">
+  </div>
+  <div class="divine-copy" id="tzCopy">
+    <div class="section-heading">
+      <h2 class="display-2xl" id="tzTitle">Sri Hari Bhagwan</h2>
+    </div>
+    <p class="divine-body">The consecrated idol of Śrī Hari is ceremoniously worshipped with Abhishekam — a holy bathing ritual accompanied by the transcendent chanting of the Vishnu Sahasranama or Lalita Sahasranama. On auspicious days, seekers gather to invoke and revere the awakened Divine Energies within.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="offerings.html">
+        <span>Explore offerings</span>
+        <img class="d-only" src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/m-arrow-right-white.svg" width="15" height="15" alt="">
+      </a>
+      <a class="btn btn-secondary" href="offerings.html#abhishekam">
+        <span>About Abhishekam</span>
+        <img class="d-only" src="assets/arrow-right-ink.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/arrow-right-ink.svg" width="15" height="15" alt="">
+      </a>
+    </div>
+  </div>
+    </div>
+    <p class="tz-hint" id="tzHint" aria-hidden="true">Scroll to enter</p>
+  </div>
+</section>
+
+<!-- ============ Sri Hari Bhagwan (shown on its own only when motion is reduced) ============ -->
+<section class="divine tz-static" id="divine">
+  <div class="deity">
+    <img class="halo d-only" src="assets/halo.svg" width="360" height="360" alt="">
+    <img class="halo m-only" src="assets/m-halo.svg" width="274" height="274" alt="">
+    <img class="idol" src="assets/deity.png" alt="The consecrated idol of Sri Hari, adorned with garlands and saffron silk">
+  </div>
+  <div class="divine-copy">
+    <div class="section-heading">
+      <h2 class="display-2xl">Sri Hari Bhagwan</h2>
+    </div>
+    <p class="divine-body">The consecrated idol of Śrī Hari is ceremoniously worshipped with Abhishekam — a holy bathing ritual accompanied by the transcendent chanting of the Vishnu Sahasranama or Lalita Sahasranama. On auspicious days, seekers gather to invoke and revere the awakened Divine Energies within.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="offerings.html">
+        <span>Explore offerings</span>
+        <img class="d-only" src="assets/arrow-right-white.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/m-arrow-right-white.svg" width="15" height="15" alt="">
+      </a>
+      <a class="btn btn-secondary" href="offerings.html#abhishekam">
+        <span>About Abhishekam</span>
+        <img class="d-only" src="assets/arrow-right-ink.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/arrow-right-ink.svg" width="15" height="15" alt="">
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Upcoming events ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="events" id="events">
+  <div class="events-head">
+    <div class="section-heading">
+      <h2 class="display-2xl">Upcoming events</h2>
+    </div>
+    <a class="view-all d-only" href="events.html">
+      <span>View all events</span>
+      <img src="assets/arrow-up-right.svg" width="15" height="15" alt="">
+    </a>
+  </div>
+
+  <div class="v2-cards">
+    <article class="v2-card">
+      <div class="v2-card-body">
+        <h3>Divine Autumn</h3>
+        <p class="v2-card-sub">A Journey into Grace and Stillness</p>
+        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 7 October — 25 October</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Available for booking</li></ul>
+        <a class="v2-btn-outline" href="event-divine-autumn.html">Event details<span class="visually-hidden"> for Divine Autumn</span></a>
+      </div>
+    </article>
+    <article class="v2-card">
+      <div class="v2-card-body">
+        <h3>The Children of Tomorrow</h3>
+        <p class="v2-card-sub">A three-day journey to nurture young minds</p>
+        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 13 November — 15 November</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>All bookings are currently full</li></ul>
+        <a class="v2-btn-outline" href="event-children-of-tomorrow.html">Event details<span class="visually-hidden"> for The Children of Tomorrow</span></a>
+      </div>
+    </article>
+    <article class="v2-card">
+      <div class="v2-card-body">
+        <h3>Maha Rudra Sadhana</h3>
+        <p class="v2-card-sub">The Return of Rudra (English)</p>
+        <ul class="v2-card-meta"><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/calendar.svg" width="16" height="16" alt=""></span>Event: 7 March — 17 March</li><li><span class="v2-chip-ic" aria-hidden="true"><img src="assets/clock.svg" width="16" height="16" alt=""></span>Full 11-day duration only</li></ul>
+        <a class="v2-btn-outline" href="event-maha-rudra-sadhana.html">Event details<span class="visually-hidden"> for Maha Rudra Sadhana</span></a>
+      </div>
+    </article>
+  </div>
+
+  <a class="text-link view-all-m m-only" href="events.html">
+    <span>View all events</span>
+    <img src="assets/arrow-up-right.svg" width="15" height="15" alt="">
+  </a>
+</section>
+
+<!-- ============ About Swamiji ============ -->
+<div class="cloud-band" aria-hidden="true"></div>
+<section class="about-swamiji" id="swamiji" aria-labelledby="swamiji-title">
+  <div class="swamiji-photo">
+    <img class="art-light" src="assets/swami-watercolour.webp" width="900" height="833" alt="Om Swami, a watercolour portrait in saffron robes, seated" loading="lazy">
+    <img class="art-dark" src="assets/swami-watercolour-dark.webp?v=3" width="900" height="833" alt="Om Swami, a watercolour portrait in saffron robes, seated" loading="lazy">
+  </div>
+  <div class="swamiji-copy">
+    <div class="section-heading">
+      <h2 class="display-2xl" id="swamiji-title">About Swamiji</h2>
+    </div>
+    <div class="swamiji-body">
+      <p>Whenever I visit the website of any spiritual organization, I get to read enchanting biographies of their founder or guru. The man or the guru is portrayed as nothing short of a superman. Well, I’m not one of them. I have no desire to glorify myself in a third-person narrative.</p>
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way. Just like some devote their life to music or painting, I devoted it to meditation and tantra.</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn-secondary" href="about-swami.html">
+        <span>Read more</span>
+        <img class="d-only" src="assets/arrow-right-ink.svg" width="16" height="16" alt="">
+        <img class="m-only" src="assets/arrow-right-ink.svg" width="15" height="15" alt="">
+      </a>
+      <a class="btn btn-secondary btn-ext" href="https://omswami.com/" target="_blank" rel="noopener"><span>Learn more</span><span class="ic" style="--i:url('icons/external.svg');--s:16px" aria-hidden="true"></span><span class="visually-hidden"> (opens omswami.com in a new tab)</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="cloud-band" aria-hidden="true"></div>
+<!-- ============ Footer ============ -->
+<footer class="footer v2-footer">
+  <div class="v2-footer-top">
+    <a class="v2-footer-brand" href="index.html">
+      <img src="assets/v2/logo-light.svg" width="222" height="28" alt="Sri Badrika Ashram — home">
+    </a>
+    <nav class="v2-footer-links" aria-label="Site map" data-menu="panel" data-order="offerings,ashram,events+involved"></nav>
+  </div>
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <a class="v2-footer-legal" href="terms.html">Terms of Service</a>
+      <a class="v2-footer-legal" href="privacy-policy.html">Privacy Policy</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261116e"></script>
+
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/v2/temple-zoom.js?v=20261116c"></script>
+<script src="assets/versions.js?v=20261116a"></script>
+<script src="assets/clouds.js?v=20261004r"></script>
+</body>
+</html>
