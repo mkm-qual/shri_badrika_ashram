@@ -286,3 +286,21 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
   .v2-footer-acc .acc-links a { color: var(--v2-footer-muted); font-size: var(--fs-ui); line-height: var(--lh-ui); }
   .v2-footer-acc .acc-links a:hover, .v2-footer-acc .acc-links a.acc-overview { color: var(--v2-footer-ink); }
 }
+
+/* ---------- Temple chant: a quiet switch; the chant rises as the doors open and fades through Sri Hari ---------- */
+.tz-sound {
+  position: absolute; left: 24px; bottom: 22px; z-index: 4;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 14px 8px 12px;
+  border: 1px solid var(--rule); border-radius: 999px; background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  font-size: var(--fs-sm); line-height: var(--lh-sm); color: var(--ink);
+  transition: background-color var(--t-hover) ease, border-color var(--t-hover) ease;
+}
+.tz-sound .tz-sound-on { display: none; }
+.tz-sound[aria-pressed="true"] .tz-sound-on { display: block; }
+.tz-sound[aria-pressed="true"] .tz-sound-off { display: none; }
+.tz-sound[aria-pressed="true"] { border-color: var(--v2-event-hover-line, #8f9858); }
+@media (hover: hover) { .tz-sound:hover { background: var(--v2-wash, rgba(143,152,88,.14)); } }
+.tz-sound:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+html:not(.tz-motion) .tz-sound { display: none; }
+@media (max-width: 768px) { .tz-sound { left: 16px; bottom: 16px; } }
