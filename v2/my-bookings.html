@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My bookings — Sri Badrika Ashram</title>
+<meta name="description" content="Your upcoming and past stays at Sri Badrika Ashram.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261117m">
+<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+</head>
+<body data-page="account" data-account="bookings">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="ashram.html"><span>Ashram</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="acct-page">
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Home</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <a href="my-bookings.html">Your account</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">My bookings</span>
+</nav>
+
+<!-- Signed out -->
+<section class="acct-gate" id="acctGate" hidden>
+  <h1 class="display-2xl">Your account</h1>
+  <p class="lede">Sign in to see your bookings, dependants and profile.</p>
+  <a class="btn btn-primary" id="acctSignin" href="signin.html"><span>Sign in</span><img src="assets/arrow-right-white.svg" width="16" height="16" alt=""></a>
+</section>
+
+<div class="acct-layout" id="acctMain">
+  <header class="acct-head">
+    <span class="acct-badge" id="acctInitial" aria-hidden="true">R</span>
+    <div>
+      <h1 class="display-2xl">My bookings</h1>
+      <p class="acct-signed">Signed in as <strong id="acctName">Ravi Sharma</strong></p>
+    </div>
+  </header>
+  <div class="acct-grid">
+    <nav class="acct-side" aria-label="Your account">
+      <ul>
+        <li><a href="profile.html">Profile settings</a></li>
+        <li><a href="dependants.html">Dependants</a></li>
+        <li><a href="my-bookings.html" aria-current="page">My bookings</a></li>
+        <li><a href="donate.html?signed-in#my-recurring" data-crumb-label="My donations">My donations</a></li>
+      </ul>
+      <button type="button" class="acct-signout" data-signout><span class="ic" style="--i:url('icons/sign-out.svg');--s:16px" aria-hidden="true"></span>Sign out</button>
+    </nav>
+    <div class="acct-body">
+      <div class="acct-tabs" role="tablist" aria-label="Bookings">
+        <button class="acct-tab" role="tab" type="button" data-bkg-tab="upcoming" aria-selected="true">Upcoming <span class="acct-count" id="bkgUpcomingCount">0</span></button>
+        <button class="acct-tab" role="tab" type="button" data-bkg-tab="past" aria-selected="false">Past <span class="acct-count" id="bkgPastCount">0</span></button>
+      </div>
+      <div class="bkg-list" id="bkgList" role="tabpanel"></div>
+      <p class="acct-intro">All payments are non-refundable and non-transferable. For any change to a booking, please <a href="contact.html">contact the Ashram</a>.</p>
+      <p class="acct-preview">Preview: online accounts aren’t connected yet. Changes you make here stay in this browser only.</p>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer v2-footer">
+  <div class="v2-footer-top">
+    <a class="v2-footer-brand" href="index.html">
+      <img src="assets/v2/logo-light.svg" width="222" height="28" alt="Sri Badrika Ashram — home">
+    </a>
+    <nav class="v2-footer-links" aria-label="Site map" data-menu="panel" data-order="offerings,ashram,events+involved"></nav>
+  </div>
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <a class="v2-footer-legal" href="terms.html">Terms of Service</a>
+      <a class="v2-footer-legal" href="privacy-policy.html">Privacy Policy</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/account.js?v=20261115c" defer></script>
+<script src="assets/site.js?v=20261116e"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261116a"></script>
+</body>
+</html>

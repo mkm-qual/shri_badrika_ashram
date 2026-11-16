@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Donate — Sri Badrika Ashram</title>
+<meta name="description" content="Donate to Sri Badrika Ashram: Sri Hari Vatika, Ann Bhandar, Chikitsa Kendra or the General Corpus.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261117m">
+<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+</head>
+<body data-page="donate">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="ashram.html"><span>Ashram</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="give">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="get-involved.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Get Involved</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Donate</span>
+</nav>
+
+<section class="give-intro">
+  <div class="section-heading">
+    <h1 class="display-2xl">Donate</h1>
+  </div>
+  <div class="give-banner top">
+    <img src="assets/give/banner-lotus-garden.jpg" alt="" fetchpriority="high">
+    <p class="give-banner-text">Give today, inspire tomorrow.</p>
+  </div>
+</section>
+
+<!-- Signed in only: switch between giving and the donor's recurring donations -->
+<div class="acct-bar" id="acctBar" hidden>
+  <div class="acct-tabs" role="tablist" aria-label="Donations">
+    <button class="acct-tab" type="button" role="tab" id="tabDonate" aria-selected="true" aria-controls="donateForm">Make a donation</button>
+    <button class="acct-tab" type="button" role="tab" id="tabRecurring" aria-selected="false" aria-controls="myRecurring" tabindex="-1">My recurring donations <span class="acct-count" id="recurCount"></span></button>
+  </div>
+  <p class="acct-who"><span class="acct-avatar" aria-hidden="true">RS</span>Signed in as <strong>Ravi Sharma</strong></p>
+</div>
+
+<section class="my-recurring" id="myRecurring" role="tabpanel" aria-labelledby="tabRecurring" hidden>
+  <div class="mr-head">
+    <div class="mr-head-copy">
+      <h2 class="display-lg">My recurring donations</h2>
+      <p class="mr-summary" id="mrSummary"></p>
+    </div>
+    <button class="btn" type="button" id="mrNew"><span class="ic" style="--i:url('icons/plus.svg');--s:14px" aria-hidden="true"></span><span>Set up a new one</span></button>
+  </div>
+  <p class="mr-empty" id="mrEmpty" hidden>You have no recurring donations yet.</p>
+  <ul class="mr-list" id="mrList"></ul>
+  <p class="recur-preview-note">Preview with sample donations: online accounts and payments are not connected yet.</p>
+</section>
+
+<form class="donate-form" id="donateForm" novalidate>
+  <fieldset class="donate-section donate-gift">
+    <legend class="display-lg">Your Donation</legend>
+    <div class="donate-grid donate-rows">
+        <div class="field d-amount">
+          <label for="amount">Donation Amount<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><span class="currency" aria-hidden="true">₹</span><input id="amount" name="amount" inputmode="numeric" placeholder="Enter donation amount" required aria-describedby="amount-error amount-hint"><span class="divider" aria-hidden="true"></span><button class="recur-switch" type="button" id="recurSwitch" role="switch" aria-checked="false" aria-controls="recur"><span>Recurring</span><i class="switch" aria-hidden="true"></i></button></div><p class="field-hint" id="amount-hint">Minimum ₹100</p>
+          <p class="field-error" id="amount-error" hidden></p>
+        </div>
+        <div class="field d-pan" id="panField">
+          <label for="pan">PAN Number<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="pan" name="pan" placeholder="ABCDE1234F" autocomplete="off" autocapitalize="characters" maxlength="10" aria-describedby="pan-error"></div><p class="field-hint" id="pan-hint">Needed for donation receipts in India.</p>
+          <p class="field-error" id="pan-error" hidden></p>
+        </div>
+      <!-- Recurring donation: shown while the Recurring switch in the amount field is on -->
+      <div class="recur d-recur" id="recur" role="region" aria-labelledby="recurTitle" hidden>
+        <div class="recur-header">
+          <span class="recur-ic"><span class="ic" style="--i:url('icons/repeat.svg');--s:18px" aria-hidden="true"></span></span>
+          <span class="recur-head">
+            <span class="recur-title" id="recurTitle">Recurring donation</span>
+            <span class="recur-sub">Choose how often and when to start. Pause or cancel any time.</span>
+          </span>
+        </div>
+        <div class="recur-body" id="recurBody">
+          <fieldset class="field">
+            <legend>How often<span class="req" aria-hidden="true"> *</span></legend>
+            <div class="seg" role="radiogroup" aria-label="How often">
+              <label><input type="radio" name="freq" value="daily"><span>Daily</span></label>
+              <label><input type="radio" name="freq" value="weekly"><span>Weekly</span></label>
+              <label><input type="radio" name="freq" value="monthly" checked><span>Monthly</span></label>
+              <label><input type="radio" name="freq" value="yearly"><span>Yearly</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field" id="weekdayField" hidden>
+            <legend>Day of the week</legend>
+            <div class="seg seg-days" role="radiogroup" aria-label="Day of the week">
+              <label><input type="radio" name="weekday" value="1" checked><span>Mon</span></label>
+              <label><input type="radio" name="weekday" value="2"><span>Tue</span></label>
+              <label><input type="radio" name="weekday" value="3"><span>Wed</span></label>
+              <label><input type="radio" name="weekday" value="4"><span>Thu</span></label>
+              <label><input type="radio" name="weekday" value="5"><span>Fri</span></label>
+              <label><input type="radio" name="weekday" value="6"><span>Sat</span></label>
+              <label><input type="radio" name="weekday" value="0"><span>Sun</span></label>
+            </div>
+          </fieldset>
+
+          <div class="recur-row">
+            <div class="field" id="monthField" hidden>
+              <label for="recurMonth">Month</label>
+              <div class="input select"><select id="recurMonth"></select></div>
+            </div>
+            <div class="field" id="dayField">
+              <label for="recurDay" id="recurDayLabel">Date each month</label>
+              <div class="input select"><select id="recurDay"></select></div>
+            </div>
+            <div class="field">
+              <label for="recurStart">Start from</label>
+              <div class="input"><input id="recurStart" type="date" aria-describedby="recurStart-error"></div>
+              <p class="field-error" id="recurStart-error" hidden></p>
+            </div>
+          </div>
+          <p class="field-hint" id="shortMonthHint" hidden>In shorter months, the payment is taken on the last day of the month.</p>
+
+          <div class="recur-summary" aria-live="polite">
+            <p class="recur-summary-main" id="recurSummary"></p>
+            <p class="recur-summary-next" id="recurNext"></p>
+          </div>
+
+          <div class="donate-consent recur-consent">
+            <label class="check">
+              <input type="checkbox" id="recurConsent" aria-describedby="recurConsent-error">
+              <span id="recurConsentText">I authorise Sri Badrika Ashram to collect this donation automatically until I pause or cancel it.</span>
+            </label>
+            <p class="field-error" id="recurConsent-error" hidden></p>
+          </div>
+        </div>
+      </div>
+        <div class="field d-cause">
+          <label for="cause">Get Involved<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input select"><select id="cause" name="cause" required aria-describedby="cause-error">
+            <option value="">Select a program</option>
+            <option value="sri-hari-vatika">Sri Hari Vatika</option>
+            <option value="ann-bhandar">Sri Hari Ann Bhandar</option>
+            <option value="chikitsa-kendra">Sri Hari Chikitsa Kendra</option>
+            <option value="general-corpus">General Corpus</option>
+          </select></div>
+          <p class="field-error" id="cause-error" hidden></p>
+        </div>
+        <div class="field d-remarks">
+          <label for="remarks">Remarks</label>
+          <div class="input area"><textarea id="remarks" name="remarks" rows="3" placeholder="Anything you would like us to know (optional)" aria-describedby="remarks-error"></textarea></div>
+          <p class="field-error" id="remarks-error" hidden></p>
+        </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="donate-section donate-you">
+    <legend class="display-lg">About You</legend>
+    <div class="donate-grid">
+      <div class="donate-col">
+        <fieldset class="field d-name">
+          <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
+          <div class="input name">
+            <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
+            <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+            <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
+          </div>
+          <p class="field-error" id="name-error" hidden></p>
+        </fieldset>
+        <div class="field">
+          <label for="mobile">Mobile Number<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input phone">
+            <select id="country-code" aria-label="Country code">
+              <option value="+91" data-len="10" selected>+91 IN</option>
+              <option value="+1" data-len="10">+1 US</option>
+              <option value="+44" data-len="10">+44 UK</option>
+              <option value="+61" data-len="9">+61 AU</option>
+              <option value="+65" data-len="8">+65 SG</option>
+              <option value="+971" data-len="9">+971 AE</option>
+            </select>
+            <span class="divider" aria-hidden="true"></span>
+            <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="00000-00000" required aria-describedby="mobile-error">
+          </div>
+          <p class="field-error" id="mobile-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="email" name="email" placeholder="you@example.com" type="email" autocomplete="email" required aria-describedby="email-error"></div>
+          <p class="field-error" id="email-error" hidden></p>
+        </div>
+      </div>
+      <div class="donate-col">
+        <div class="field">
+          <label for="address">Address<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input area"><textarea id="address" name="address" rows="3" placeholder="House, street and locality" autocomplete="street-address" required aria-describedby="address-error"></textarea></div>
+          <p class="field-error" id="address-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="pincode">Pincode<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="pincode" name="pincode" placeholder="Enter pincode" inputmode="numeric" autocomplete="postal-code" required aria-describedby="pincode-error"></div>
+          <p class="field-error" id="pincode-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="country">Country<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input select"><select id="country" name="country" autocomplete="country" required aria-describedby="country-error"></select></div>
+          <p class="field-error" id="country-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="state">State<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input select" id="stateSelectWrap"><select id="state" name="state" required aria-describedby="state-error"><option value="">Select state</option></select></div><div class="input" id="stateTextWrap" hidden><input id="state-text" name="state-text" placeholder="Enter state or region" autocomplete="address-level1" aria-label="State or region" aria-describedby="state-error"></div>
+          <p class="field-error" id="state-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="city">City<span class="req" aria-hidden="true"> *</span></label>
+          <div class="input"><input id="city" name="city" placeholder="Enter city" autocomplete="address-level2" required aria-describedby="city-error"></div>
+          <p class="field-error" id="city-error" hidden></p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="donate-consent">
+    <label class="check">
+      <input type="checkbox" id="terms" name="terms" required aria-describedby="terms-error">
+      <span>I agree with the <a href="terms.html">terms and conditions</a></span>
+    </label>
+    <p class="field-error" id="terms-error" hidden></p>
+    <p class="donate-note">Note: For international donations, you will be redirected to our partner Stripe, and for Indian donations, you will be taken to Razorpay for payments.</p>
+  </div>
+
+  <div class="donate-action">
+    <p class="auth-status" id="donateStatus" role="status" hidden></p>
+    <section class="recur-card" id="recurCard" aria-labelledby="recurCardTitle" hidden>
+      <div class="recur-card-head">
+        <div>
+          <h3 class="recur-card-title" id="recurCardTitle"></h3>
+        </div>
+        <span class="recur-status" id="recurStatus">Active</span>
+      </div>
+      <dl class="recur-facts">
+        <div><dt>Program</dt><dd id="rcProgram"></dd></div>
+        <div><dt>Next payment</dt><dd id="rcNext"></dd></div>
+        <div><dt>Paid through</dt><dd id="rcGateway"></dd></div>
+      </dl>
+      <div class="recur-actions" id="recurActions">
+        <button class="btn btn-secondary" type="button" id="rcPause"><span class="ic" style="--i:url('icons/pause.svg');--s:14px" aria-hidden="true"></span><span>Pause</span></button>
+        <button class="recur-cancel" type="button" id="rcCancel">Cancel recurring donation</button>
+      </div>
+      <div class="recur-confirm" id="recurConfirm" hidden>
+        <p>Cancel this recurring donation? No further payments will be taken. Donations already made are not affected.</p>
+        <div class="recur-actions">
+          <button class="btn btn-secondary" type="button" id="rcKeep">Keep it</button>
+          <button class="btn btn-danger" type="button" id="rcCancelYes">Yes, cancel</button>
+        </div>
+      </div>
+      <p class="recur-preview-note">Preview: online payments are not connected yet, so nothing has been scheduled or charged.</p>
+    </section>
+    <button class="btn btn-primary" type="submit" id="donateBtn"><span class="ic" style="--i:url('icons/sprout.svg');--s:14px" aria-hidden="true"></span><span id="donateLabel">Donate Now</span><span class="ic" style="--i:url('icons/chevron-right.svg');--s:13px" aria-hidden="true"></span></button>
+  </div>
+</form>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer v2-footer">
+  <div class="v2-footer-top">
+    <a class="v2-footer-brand" href="index.html">
+      <img src="assets/v2/logo-light.svg" width="222" height="28" alt="Sri Badrika Ashram — home">
+    </a>
+    <nav class="v2-footer-links" aria-label="Site map" data-menu="panel" data-order="offerings,ashram,events+involved"></nav>
+  </div>
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <a class="v2-footer-legal" href="terms.html">Terms of Service</a>
+      <a class="v2-footer-legal" href="privacy-policy.html">Privacy Policy</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261116e"></script>
+<script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
+<script src="assets/phone.js?v=20261004r"></script>
+<script src="assets/places.js?v=20261115a"></script>
+<script src="assets/donate.js?v=20261116a"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261116a"></script>
+</body>
+</html>

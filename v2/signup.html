@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create your account — Sri Badrika Ashram</title>
+<meta name="description" content="Create your Sri Badrika Ashram account.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261117m">
+<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+</head>
+<body data-page="signup">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="ashram.html"><span>Ashram</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="auth">
+  <img class="auth-glow saffron" src="assets/glow-saffron-soft.svg" width="460" height="460" alt="" aria-hidden="true">
+  <img class="auth-glow sage" src="assets/glow-sage.svg" width="520" height="520" alt="" aria-hidden="true">
+  <form class="auth-card" id="authForm" data-mode="signup" novalidate>
+    <div class="auth-intro">
+      <h1 class="display-2xl">Create your account</h1>
+      <p class="lede">Welcome to a quieter space for practice, reflection and community.</p>
+    </div>
+    <div class="auth-fields">
+      <fieldset class="field">
+        <legend>Full name</legend>
+        <div class="input name">
+          <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
+          <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+          <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
+        </div>
+        <p class="field-error" id="name-error" hidden></p>
+      </fieldset>
+        <div class="field">
+          <label for="mobile">Mobile number</label>
+          <div class="input phone">
+            <select id="country" aria-label="Country code">
+              <option value="+91" data-len="10" selected>+91 IN</option>
+              <option value="+1" data-len="10">+1 US</option>
+              <option value="+44" data-len="10">+44 UK</option>
+              <option value="+61" data-len="9">+61 AU</option>
+              <option value="+65" data-len="8">+65 SG</option>
+              <option value="+971" data-len="9">+971 AE</option>
+            </select>
+            <span class="divider" aria-hidden="true"></span>
+            <input id="mobile" name="mobile" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="00000-00000" required aria-describedby="mobile-error">
+          </div>
+          <p class="field-error" id="mobile-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="pan">PAN Number</label>
+          <div class="input"><input id="pan" name="pan" autocomplete="off" autocapitalize="characters" maxlength="10" placeholder="ABCDE1234F" required aria-describedby="pan-error"></div>
+          <p class="field-error" id="pan-error" hidden></p>
+        </div>
+        <div class="field">
+          <label for="email">Email address</label>
+          <div class="input"><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="email-error"></div>
+          <p class="field-error" id="email-error" hidden></p>
+        </div>
+    </div>
+    <div class="auth-actions">
+      <button class="btn btn-primary auth-submit" type="submit"><span>Create account</span><img src="assets/arrow-right-white.svg" width="16" height="16" alt=""></button>
+      <p class="auth-status" id="authStatus" role="status" hidden></p>
+      <p class="auth-switch">Already have an account? <a href="signin.html">Sign in</a></p>
+    </div>
+  </form>
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer v2-footer">
+  <div class="v2-footer-top">
+    <a class="v2-footer-brand" href="index.html">
+      <img src="assets/v2/logo-light.svg" width="222" height="28" alt="Sri Badrika Ashram — home">
+    </a>
+    <nav class="v2-footer-links" aria-label="Site map" data-menu="panel" data-order="offerings,ashram,events+involved"></nav>
+  </div>
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <a class="v2-footer-legal" href="terms.html">Terms of Service</a>
+      <a class="v2-footer-legal" href="privacy-policy.html">Privacy Policy</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261116e"></script>
+<script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
+<script src="assets/phone.js?v=20261004r"></script>
+<script src="assets/auth.js?v=20261114a"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261116a"></script>
+</body>
+</html>

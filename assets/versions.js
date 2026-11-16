@@ -4,7 +4,7 @@
 (() => {
   const SITE_VERSION = 'original';   // this copy of the site: 'original' on main, 'v1' on the redesign branch
   const LIVE = 'https://mkm-qual.github.io/shri_badrika_ashram/';
-  const VERSIONS = [['original', 'Original', 'current site'], ['v1', 'Version 1', 'redesign']];
+  const VERSIONS = [['original', 'Original', 'current site'], ['v1', 'Version 1', 'redesign'], ['v2', 'Version 2', 'omswami.org look']];
 
   const picker = document.getElementById('sitePicker');
   const btn = document.getElementById('siteBtn');
@@ -23,10 +23,10 @@
 
   // The same page in the other version. On the published site both live side by side (root and /v1/);
   // in the local previews Original runs on port 4179 and Version 1 on port 4177.
-  const LOCAL = { original: 'http://localhost:4179/', v1: 'http://localhost:4177/' };
+  const LOCAL = { original: 'http://localhost:4179/', v1: 'http://localhost:4177/', v2: 'http://localhost:4180/v2/' };
   const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   const page = location.pathname.split('/').pop() || 'index.html';
-  const urlFor = (v) => v === SITE_VERSION ? null : (local ? LOCAL[v] : LIVE + (v === 'v1' ? 'v1/' : '')) + page + location.hash;
+  const urlFor = (v) => v === SITE_VERSION ? null : (local ? LOCAL[v] : LIVE + (v === 'original' ? '' : v + '/')) + page + location.hash;
 
   const render = () => {
     menu.innerHTML = VERSIONS.map(([k, l, h]) =>

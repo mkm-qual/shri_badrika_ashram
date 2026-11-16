@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Om Swami — Sri Badrika Ashram</title>
+<meta name="description" content="Om Swami in his own words: a simple sadhu in a complex world, devoted to meditation and tantra. Compassion is his religion and love, his only philosophy.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261117m">
+<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+</head>
+<body data-page="donate">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="ashram.html"><span>Ashram</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="ab-page">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="./"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Home</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">About Swami</span>
+</nav>
+
+<!-- ============ In his own words ============ -->
+<section class="ab-intro">
+  <div class="section-heading ab-head">
+    <h1 class="display-2xl">About Om Swami</h1>
+  </div>
+  <div class="ab-text">
+      <p>Whenever I visit the website of any spiritual organization, I get to read enchanting biographies of their founder or guru. The man or the guru is portrayed as nothing short of a superman. Well, I’m not one of them. I have no desire to glorify myself in a third-person narrative.</p>
+      <p>I’m a simple sadhu in a complex world. I don’t conform to the traditional code of being a sadhu or monk though. I remain non-traditional, independent and unchained. So, don’t be taken in by my robes or set your expectations based on what I wear. I dress in them because I like it that way. Just like some devote their life to music or painting, I devoted it to meditation and tantra.</p>
+      <p>My only introduction are my writings. I write books and I write on my blog sometimes. You are welcome to pick and choose what you like and leave aside what you don’t.</p>
+      <p>Don’t follow me or anyone else. Like a honeybee takes the nectar from a flower and goes back to its hive, take knowledge or wisdom from any source but go back to your inner voice. Discover your own truth, walk your own path. That alone will set you free.</p>
+  </div>
+  <figure class="ab-portrait">
+    <img src="assets/about/om-swami.webp" width="1080" height="720" alt="Om Swami smiling, in saffron robes, hands gently joined" fetchpriority="high">
+  </figure>
+</section>
+
+<!-- ============ Poem ============ -->
+<section class="ab-poem" aria-label="A poem by Om Swami">
+  <blockquote>
+    <p class="ab-verse">
+      <span>My achievement is not what I have,</span>
+      <span>My introduction is not what I do,</span>
+      <span>It is but who I am.</span>
+      <span>A nobody.</span>
+      <span>I sing I laugh I dance I clap,</span>
+      <span>A speck of dust in the infinite creation,</span>
+      <span>A vast ocean in the tiny dew drop,</span>
+      <span>A Himalayan stream,</span>
+      <span>The still mountain,</span>
+      <span>I am That.</span>
+      <span>So are you.</span>
+    </p>
+  </blockquote>
+</section>
+
+<!-- ============ Closing ============ -->
+<section class="ab-close">
+  <p class="ab-creed">Compassion is my religion and love, my only philosophy.</p>
+  <p class="ab-sign">— Om Swami</p>
+  <a class="btn btn-secondary btn-ext" href="https://omswami.com/" target="_blank" rel="noopener"><span>Learn more</span><span class="ic" style="--i:url('icons/external.svg');--s:16px" aria-hidden="true"></span><span class="visually-hidden"> (opens omswami.com in a new tab)</span></a>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer v2-footer">
+  <div class="v2-footer-top">
+    <a class="v2-footer-brand" href="index.html">
+      <img src="assets/v2/logo-light.svg" width="222" height="28" alt="Sri Badrika Ashram — home">
+    </a>
+    <nav class="v2-footer-links" aria-label="Site map" data-menu="panel" data-order="offerings,ashram,events+involved"></nav>
+  </div>
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <a class="v2-footer-legal" href="terms.html">Terms of Service</a>
+      <a class="v2-footer-legal" href="privacy-policy.html">Privacy Policy</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261116e"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261116a"></script>
+</body>
+</html>

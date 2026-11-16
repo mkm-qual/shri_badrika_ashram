@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us — Sri Badrika Ashram</title>
+<meta name="description" content="Contact Sri Badrika Ashram: write to us about visiting, events, travel and stay or donations, or find our address, email and phone.">
+<script>
+  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // applied before first paint to avoid a flash
+  (function () {
+    var t = null;
+    try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css?v=20261117m">
+<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+</head>
+<body data-page="donate">
+
+<!-- ============ Navigation ============ -->
+<header class="nav">
+  <div class="nav-brand">
+    <a href="./" aria-label="Sri Badrika Ashram — home">
+      <img class="d-only" src="assets/logo.svg" width="222" height="28" alt="Sri Badrika Ashram">
+      <img class="m-only" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    </a>
+  </div>
+  <div class="nav-actions">
+   <div class="nav-tabs">
+    <a class="nav-tab nav-link d-only" href="events.html"><span>Events</span></a>
+    <a class="nav-tab nav-link d-only" href="offerings.html"><span>Offerings</span></a>
+    <a class="nav-tab nav-link d-only" href="ashram.html"><span>Ashram</span></a>
+    <a class="nav-tab nav-link d-only" href="get-involved.html"><span>Get Involved</span></a>
+    <div class="nav-pill">
+    <div class="nav-menu d-only" id="navMenu">
+      <button class="pill-menu" aria-haspopup="true" aria-expanded="false" aria-label="Menu" id="navMenuBtn"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <div class="dropdown details-panel">
+        <div class="panel-links" data-menu="panel" data-order="events,offerings,ashram,involved"></div>
+        <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+          <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">
+            <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+          </button>
+        </form>
+      </div>
+    </div>
+      <button class="pill-menu m-only" id="drawerOpen" aria-label="Open menu"><span class="ic" style="--i:url('icons/menu.svg?v=2');--s:20px" aria-hidden="true"></span></button>
+      <a href="signin.html" class="pill-user" aria-label="Sign in" title="Sign in"><span class="ic" style="--i:url('icons/user.svg');--s:18px" aria-hidden="true"></span></a>
+    </div>
+   </div>
+  </div>
+</header>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <img class="drawer-logo" src="assets/m-logo.svg" width="254" height="32" alt="Sri Badrika Ashram">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&times;</button>
+  </div>
+  <nav data-menu="drawer" data-mode="accordion" data-order="events,offerings,ashram,involved"></nav>
+  <a href="signin.html" class="sign-in drawer-sign-in">Sign in</a>
+  <div class="drawer-extra">
+    <form class="subscribe" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('input').placeholder='Thank you for subscribing';">
+      <input type="email" required placeholder="Subscribe to e-mail" aria-label="Email address">
+      <button type="submit" aria-label="Subscribe">
+        <img src="assets/submit-arrow.svg" width="20" height="20" alt="">
+      </button>
+    </form>
+  </div>
+</div>
+
+<main class="give">
+
+<nav class="crumbs crumbs-bar" aria-label="Breadcrumb">
+  <a href="ashram.html"><span class="ic" style="--i:url('icons/arrow-left.svg');--s:15px" aria-hidden="true"></span>Ashram</a>
+  <span class="sep" aria-hidden="true">/</span>
+  <span aria-current="page">Contact Us</span>
+</nav>
+
+<section class="give-intro">
+  <div class="section-heading">
+    <h1 class="display-2xl">Contact Us</h1>
+  </div>
+</section>
+
+<section class="ct-layout">
+  <form class="ct-form" id="contactForm" novalidate aria-labelledby="ct-form-title">
+    <h2 class="ct-card-title" id="ct-form-title">Write to us</h2>
+    <fieldset class="field">
+      <legend>Full Name<span class="req" aria-hidden="true"> *</span></legend>
+      <div class="input name">
+        <input id="first" name="first" autocomplete="given-name" placeholder="First" aria-label="First name" required aria-describedby="name-error">
+        <input id="middle" name="middle" autocomplete="additional-name" placeholder="Middle" aria-label="Middle name (optional)">
+        <input id="last" name="last" autocomplete="family-name" placeholder="Last" aria-label="Last name" required aria-describedby="name-error">
+      </div>
+      <p class="field-error" id="name-error" hidden></p>
+    </fieldset>
+    <div class="ct-row">
+      <div class="field">
+        <label for="email">Email Address<span class="req" aria-hidden="true"> *</span></label>
+        <div class="input"><input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required aria-describedby="email-error"></div>
+        <p class="field-error" id="email-error" hidden></p>
+      </div>
+      <div class="field">
+        <label for="type">Message Type<span class="req" aria-hidden="true"> *</span></label>
+        <div class="input select"><select id="type" name="type" required aria-describedby="type-error">
+              <option value="">Select message type</option>
+              <option>Ashram Event Booking</option>
+              <option>General Feedback</option>
+              <option>Travel and Stay at Ashram</option>
+              <option>Donations</option>
+              <option>Publishing and Speaking Invitation</option>
+        </select></div>
+        <p class="field-error" id="type-error" hidden></p>
+      </div>
+    </div>
+    <div class="field">
+      <label for="subject">Subject<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input"><input id="subject" name="subject" placeholder="What is this about?" maxlength="70" required aria-describedby="subject-count subject-error"></div>
+      <p class="field-hint ct-count" id="subject-count">0 / 70</p>
+      <p class="field-error" id="subject-error" hidden></p>
+    </div>
+    <div class="field">
+      <label for="message">Message<span class="req" aria-hidden="true"> *</span></label>
+      <div class="input area"><textarea id="message" name="message" rows="6" placeholder="Write your message" required aria-describedby="message-error"></textarea></div>
+      <p class="field-error" id="message-error" hidden></p>
+    </div>
+    <div class="ct-action">
+      <p class="auth-status" id="contactStatus" role="status" hidden></p>
+      <button class="btn btn-primary" type="submit"><span>Send</span><span class="ic" style="--i:url('icons/arrow-right-thin.svg');--s:16px" aria-hidden="true"></span></button>
+    </div>
+  </form>
+
+  <aside class="ct-details" aria-labelledby="ct-details-title">
+    <div class="ct-card">
+    <h2 class="ct-card-title" id="ct-details-title">Visit or call</h2>
+    <div class="as-map ct-map">
+      <iframe title="Map showing Sri Badrika Ashram" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+        src="https://maps.google.com/maps?q=Sri+Badrika+Ashram,+Himachal+Pradesh&t=m&z=10&output=embed"></iframe>
+    </div>
+    <dl class="ct-list">
+      <div>
+        <dt><span class="ic" style="--i:url('icons/map-pin.svg');--s:16px" aria-hidden="true"></span>Address</dt>
+        <dd>Sri Badrika Ashram Cum Charitable &amp; Social Welfare Society<br>Village Shalamu, Post Kargaanu<br>Distt. Sirmour – 173223, H.P., India</dd>
+        <dd><a href="https://www.google.com/maps/dir/?api=1&destination=Sri+Badrika+Ashram,+Himachal+Pradesh" target="_blank" rel="noopener">Get directions</a></dd>
+      </div>
+      <div>
+        <dt><span class="ic" style="--i:url('icons/mail.svg');--s:16px" aria-hidden="true"></span>Email</dt>
+        <dd><a href="mailto:contact.omswami@gmail.com">contact.omswami@gmail.com</a></dd>
+      </div>
+      <div>
+        <dt><span class="ic" style="--i:url('icons/phone.svg');--s:16px" aria-hidden="true"></span>Phone</dt>
+        <dd><a href="tel:+918628838088">+91 8628 838 088</a></dd>
+        <dd class="ct-muted">Between 10 AM and 5 PM</dd>
+      </div>
+    </dl>
+    </div>
+    <p class="ct-note">Planning a visit? Please read the <a href="faq.html">FAQs</a> and the <a href="guidelines.html">Important Guidelines</a> first.</p>
+  </aside>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer v2-footer">
+  <div class="v2-footer-top">
+    <a class="v2-footer-brand" href="index.html">
+      <img src="assets/v2/logo-light.svg" width="222" height="28" alt="Sri Badrika Ashram — home">
+    </a>
+    <nav class="v2-footer-links" aria-label="Site map" data-menu="panel" data-order="offerings,ashram,events+involved"></nav>
+  </div>
+  <div class="footer-inner">
+    <p class="copyright">© Sri Badrika Ashram | All Rights Reserved - 2026</p>
+    <div class="footer-actions">
+      <a class="v2-footer-legal" href="terms.html">Terms of Service</a>
+      <a class="v2-footer-legal" href="privacy-policy.html">Privacy Policy</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode">
+        <img class="moon" src="assets/moon.svg" width="20" height="20" alt="">
+        <img class="sun" src="assets/sun.svg" width="20" height="20" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=20261116e"></script>
+<script src="assets/contact.js?v=20261115a"></script>
+<!-- Site options: switch versions and scroll clouds -->
+<div class="site-picker" id="sitePicker">
+  <div class="site-menu" role="menu" aria-label="Site options"></div>
+  <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
+</div>
+<script src="assets/versions.js?v=20261116a"></script>
+</body>
+</html>
