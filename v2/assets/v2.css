@@ -32,8 +32,8 @@
 @media (max-width: 768px) { .nav-pill { margin-left: 0; } }
 
 /* ---------- Buttons: filled olive, and a full-width outline for cards ---------- */
-.btn-primary { border-radius: 8px; }
-.btn-secondary { border-radius: 8px; }
+/* every button shares one shape: 8px corners (plain .btn, primary, secondary and the series button) */
+.btn, .btn-primary, .btn-secondary, .series-cta { border-radius: 8px; }
 .v2-btn-outline {
   display: flex; align-items: center; justify-content: center;
   min-height: 40px; padding: 8px 16px; margin-top: auto;
@@ -257,9 +257,9 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
   .nav-tab { transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
   .nav-tab:hover { background: var(--v2-wash); color: var(--v2-hover-ink); }
   /* outline buttons: About Abhishekam, Read more, Learn more … */
-  .btn-secondary { transition: background-color var(--t-hover) ease, border-color var(--t-hover) ease, color var(--t-hover) ease; }
-  .btn-secondary:hover { background: var(--v2-wash); border-color: var(--v2-event-hover-line, #8f9858); color: var(--v2-hover-ink); }
-  .btn-secondary:hover img, .btn-secondary:hover .ic, .btn-primary:hover img { transform: translateX(3px); }
+  .btn:not(.btn-primary) { transition: background-color var(--t-hover) ease, border-color var(--t-hover) ease, color var(--t-hover) ease; }
+  .btn:not(.btn-primary):hover { background: var(--v2-wash); border-color: var(--v2-event-hover-line, #8f9858); color: var(--v2-hover-ink); }
+  .btn:hover img, .btn:hover .ic { transform: translateX(3px); }
   .btn img, .btn .ic { transition: transform var(--t-hover) var(--ease-out, ease-out); }
   /* text links: Explore the Ashram, View all events, Read more … */
   .text-link, .view-all, .read-toggle { transition: color var(--t-hover) ease, background-color var(--t-hover) ease; }
