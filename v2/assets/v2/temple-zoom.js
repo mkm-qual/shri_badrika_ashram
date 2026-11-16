@@ -137,7 +137,7 @@
     soundBtn.setAttribute('aria-pressed', soundOn);
     const waiting = soundOn && !unlocked;               // on, but the browser still needs that first tap
     soundBtn.classList.toggle('is-waiting', waiting);
-    if (soundLabel) soundLabel.textContent = waiting ? 'Tap for chant' : 'Chant';
+    // the label stays "Chant"; while it waits for the first tap, a soft pulse is the only cue
   };
   const setLevel = (v) => {
     wanted = v;
@@ -161,6 +161,22 @@
     begin();
     setLevel(wanted);
     showState();
+  };
+  // Start with the scroll: as soon as the visitor scrolls, try to let the sound out. Browsers that allow it
+  // (for example Chrome for returning visitors) play straight away; the rest refuse until the first tap,
+  // click or key, which unlocks it below without any button.
+  let trying = false;
+  const tryAutostart = () => {
+    if (unlocked || trying || !soundOn || !context()) return;
+    trying = true;
+    actx.resume().then(() => {
+      trying = false;
+      if (actx.state !== 'running' || unlocked) return;
+      unlocked = true;
+      begin();
+      setLevel(wanted);
+      showState();
+    }, () => { trying = false; });
   };
   const onTouch = (e) => {
     if (soundBtn && soundBtn.contains(e.target)) return;   // the switch handles its own taps
@@ -248,7 +264,10 @@
   };
 
   let ticking = false;
-  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
+  const onScroll = () => {
+    tryAutostart();
+    if (!ticking) { ticking = true; requestAnimationFrame(draw); }
+  };
   const refit = () => { fit(); last = -1; draw(); seen = [innerWidth, innerHeight]; };
   // A phone's address bar sliding in and out (when the scroll changes direction) is reported as a resize;
   // re-fitting then would shrink the painting mid-scroll, so only a real change of size re-fits.
