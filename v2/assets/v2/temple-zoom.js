@@ -98,11 +98,47 @@
   }
   document.documentElement.classList.add('tz-motion');
 
+  // ----- Temple chant: off until the visitor turns it on (browsers allow sound only after a tap). Once on, it
+  //       rises as the doors open and fades away through the Sri Hari section; it pauses when silent. -----
+  const chant = document.getElementById('tzChant');
+  const soundBtn = document.getElementById('tzSound');
+  let audioCtx = null, gain = null, soundOn = false, wanted = 0, pauseT;
+  const MAX = 0.55;                                    // the chant sits under the page, never loud
+  const setLevel = (v) => {
+    wanted = v;
+    if (!soundOn || !gain) return;
+    gain.gain.setTargetAtTime(v * MAX, audioCtx.currentTime, 0.35);   // eased, so scrolling never jolts the volume
+    if (v > 0.002) { clearTimeout(pauseT); if (chant.paused) chant.play().catch(() => {}); }
+    else if (!chant.paused) { clearTimeout(pauseT); pauseT = setTimeout(() => { if (wanted <= 0.002) chant.pause(); }, 1500); }
+  };
+  soundBtn && soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    soundBtn.setAttribute('aria-pressed', soundOn);
+    if (soundOn && !audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AC();
+      gain = audioCtx.createGain();
+      gain.gain.value = 0;
+      audioCtx.createMediaElementSource(chant).connect(gain).connect(audioCtx.destination);
+      chant.preload = 'auto';
+    }
+    if (soundOn) { audioCtx.resume(); setLevel(wanted); }
+    else if (gain) { gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.2); clearTimeout(pauseT); pauseT = setTimeout(() => chant.pause(), 800); }
+  });
+  // how loud, for where the visitor is: rises with the doors, fades through the Sri Hari section and a little beyond
+  const chantLevel = () => {
+    const p = (scrollY - M.top) / M.run;
+    const rise = span(p, 0.2, 0.38);
+    const fade = ease(clamp((scrollY - (M.top + M.run * 0.8)) / (M.run * 0.2 + M.vh * 0.7)));
+    return rise * (1 - fade);
+  };
+
   // ----- Each frame: arithmetic, transforms and opacity only -----
   let last = -1;
   const draw = () => {
     ticking = false;
     if (!M) return;
+    setLevel(chantLevel());
     const p = clamp((scrollY - M.top) / M.run);
     if (p === last) return;
     last = p;
