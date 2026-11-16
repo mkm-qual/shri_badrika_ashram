@@ -165,9 +165,9 @@
   const onTouch = (e) => {
     if (soundBtn && soundBtn.contains(e.target)) return;   // the switch handles its own taps
     if (soundOn) unlock();
-    if (unlocked) ['touchend', 'click', 'keydown'].forEach(t => removeEventListener(t, onTouch, true));
+    if (unlocked) ['pointerdown', 'touchend', 'click', 'keydown'].forEach(t => removeEventListener(t, onTouch, true));
   };
-  ['touchend', 'click', 'keydown'].forEach(t => addEventListener(t, onTouch, true));
+  ['pointerdown', 'touchend', 'click', 'keydown'].forEach(t => addEventListener(t, onTouch, true));
   soundBtn && soundBtn.addEventListener('click', () => {
     if (soundOn && !unlocked) { unlock(); return; }    // "Tap for chant": the tap turns it on, not off
     soundOn = !soundOn;
@@ -176,10 +176,10 @@
     showState();
   });
   showState();
-  // how loud, for where the visitor is: rises with the doors, fades through the Sri Hari section and a little beyond
+  // how loud, for where the visitor is: rises as the scroll begins, fades through the Sri Hari section and a little beyond
   const chantLevel = () => {
     const p = (scrollY - M.top) / M.run;
-    const rise = span(p, 0.2, 0.38);
+    const rise = span(p, 0, 0.1);                       // rises as soon as the scroll begins
     const fade = ease(clamp((scrollY - (M.top + M.run * 0.8)) / (M.run * 0.2 + M.vh * 0.7)));
     return rise * (1 - fade);
   };
