@@ -6,15 +6,12 @@
 <title>Terms of Service — Sri Badrika Ashram</title>
 <meta name="description" content="Terms of Service for the Sri Badrika Ashram website: donations, programmes and visits, bookings and refunds, content and your responsibilities.">
 <script>
-  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // Light by default; dark only when the visitor has pressed the day/night button (remembered for this visit),
   // applied before first paint to avoid a flash
   (function () {
     var t = null;
     try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -371,7 +368,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261116e"></script>
+<script src="assets/site.js?v=20261118a"></script>
 <script src="assets/guidelines.js?v=20261004r"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">

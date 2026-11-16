@@ -6,15 +6,12 @@
 <title>Sign in — Sri Badrika Ashram</title>
 <meta name="description" content="Sign in to your Sri Badrika Ashram account.">
 <script>
-  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // Light by default; dark only when the visitor has pressed the day/night button (remembered for this visit),
   // applied before first paint to avoid a flash
   (function () {
     var t = null;
     try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -140,7 +137,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261012a"></script>
+<script src="assets/site.js?v=20261118a"></script>
 <script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
 <script src="assets/phone.js?v=20261004r"></script>
 <script src="assets/auth.js?v=20261005a"></script>
