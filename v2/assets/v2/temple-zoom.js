@@ -1,126 +1,151 @@
 // Home: scrolling through the temple walks up to its doors, they swing inward onto a lamp-lit niche,
 // the view steps through to Sri Hari, then the painting dissolves and Sri Hari glides to his place
 // beside the "Sri Hari Bhagwan" words — one continuous scene instead of a jump to a new section.
+//
+// Built to stay smooth: everything is measured once (on load and resize); each frame is arithmetic plus
+// transforms and opacity only, so scrolling never makes the browser re-measure or re-lay out the page.
 (() => {
   const section = document.getElementById('templeZoom');
   if (!section) return;
+  const sticky = section.querySelector('.tz-sticky');
   const scene = document.getElementById('tzScene');
   const stage = document.getElementById('tzStage');
   const heroBox = document.getElementById('tzHero');
   const nav = document.querySelector('.nav');
-  const RATIO = 3168 / 1344;
   const hint = document.getElementById('tzHint');
   const divine = document.getElementById('tzDivine');
   const idol = document.getElementById('tzIdol');
+  const deityBox = idol.parentElement;                 // his place in the Sri Hari layout
   const copy = document.getElementById('tzCopy');
   const halos = divine.querySelectorAll('.halo');
   const sceneDeity = scene.querySelector('.tz-deity');
   const frame = scene.querySelector('.tz-frame');
   const [leafL, leafR] = scene.querySelectorAll('.tz-leaf');
 
+  const RATIO = 3168 / 1344;
+  const IDOL = 886 / 1136;                             // Sri Hari's width / height
   // the doors, as fractions of the painting (3168 × 1344): left, top, width, height
   const DOOR = { l: 0.4744, t: 0.5952, w: 0.0505, h: 0.1525 };
+  const PERSPECTIVE = 260;                             // the doors' perspective (CSS), in the painting's own pixels
   const clamp = (v) => Math.min(1, Math.max(0, v));
-  const ease = (t) => t * t * (3 - 2 * t);   // smoothstep: a slow start, a gentle arrival
+  const ease = (t) => t * t * (3 - 2 * t);             // smoothstep: a slow start, a gentle arrival
   const span = (p, a, b) => ease(clamp((p - a) / (b - a)));
   const lerp = (a, b, t) => a + (b - a) * t;
 
-  // each leaf shows the exact slice of the painting it covers, so the closed doors look untouched
-  // the header floats over the first fold; the painting takes whatever room is left under the words
-  const fit = () => {
-    document.documentElement.style.setProperty('--nav-h', `${nav ? nav.offsetHeight : 72}px`);
-    const narrow = innerWidth <= 768;
-    // wide: the painting's top fifth is empty sky, so it tucks up under the words; the building and lawn
-    // (from 17% to 86% of its height) stay inside the window
-    const room = stage.clientHeight - 12;
-    const SKY = 0.17, GROUND = 0.86;   // the flag starts at 21%; the doors end at 75%, with lawn below for the mouse
-    // its outer sides are already faded to paper, so it may run a little past the window's edges
-    const w = Math.max(240, Math.min(narrow ? innerWidth * 1.5 : Math.min(2000, innerWidth * 1.2), (room / (GROUND - SKY)) * RATIO));
-    const h = w / RATIO;
-    const spare = Math.max(0, room - (GROUND - SKY) * h);   // when the width is what limits it, share the spare room
-    scene.style.width = `${w}px`;
-    scene.style.marginTop = `${-SKY * h + spare * 0.3}px`;
-    fitLeaves();
-  };
-  const fitLeaves = () => {
-    const w = scene.offsetWidth, h = scene.offsetHeight;
+  // Warm the images up front, so the first scroll never waits on a download or a decode
+  [scene.querySelector('.tz-painting.day'), sceneDeity, idol].forEach(img => img && img.decode && img.decode().catch(() => {}));
+  const shrine = new Image(); shrine.src = 'assets/v2/shrine.webp?v=2';
+
+  // ----- Layout: measured once, on load and on resize -----
+  let M = null;
+  const fitLeaves = (w, h) => {
+    // each leaf shows the exact slice of the painting it covers, so the closed doors look untouched
     [leafL, leafR].forEach((leaf, i) => {
       leaf.style.backgroundSize = `${w}px ${h}px`;
       leaf.style.backgroundPosition = `${-(DOOR.l + i * DOOR.w / 2) * w}px ${-DOOR.t * h}px`;
     });
   };
+  const fit = () => {
+    const navH = nav ? nav.offsetHeight : 72;
+    document.documentElement.style.setProperty('--nav-h', `${navH}px`);
+    // the painting takes the room left under the words; its top fifth is empty sky, so it tucks up under them
+    const narrow = innerWidth <= 768;
+    const room = stage.clientHeight - 12;
+    const SKY = 0.17, GROUND = 0.86;
+    const w = Math.max(240, Math.min(narrow ? innerWidth * 1.5 : Math.min(2000, innerWidth * 1.2), (room / (GROUND - SKY)) * RATIO));
+    const h = w / RATIO;
+    const spare = Math.max(0, room - (GROUND - SKY) * h);
+    scene.style.width = `${w}px`;
+    scene.style.marginTop = `${-SKY * h + spare * 0.3}px`;
+    fitLeaves(w, h);
+    // positions relative to the pinned frame, with nothing transformed
+    scene.style.transform = 'none';
+    const st = sticky.getBoundingClientRect(), sc = scene.getBoundingClientRect(), db = deityBox.getBoundingClientRect();
+    const vh = innerHeight, vw = innerWidth;
+    const atDoor = Math.max(1, (vh * 0.62) / (h * DOOR.h));
+    const atNiche = Math.max(atDoor, (vh * 0.98) / (h * DOOR.h));
+    // Sri Hari's final place, and the size he is drawn at: his largest on screen, so he is only ever scaled down (sharp)
+    const toH = db.height, toW = toH * IDOL;
+    const to = { x: db.left - st.left + (db.width - toW) / 2, y: db.top - st.top, w: toW, h: toH };
+    const bigH = Math.max(toH, 0.8 * DOOR.h * h * atNiche), bigW = bigH * IDOL;
+    idol.style.width = `${bigW}px`;
+    idol.style.height = `${bigH}px`;
+    M = {
+      w, h, vw, vh, navH, atDoor, atNiche, to, bigW,
+      sx: sc.left - st.left, sy: sc.top - st.top,                  // the scene's resting corner
+      box: { x: db.left - st.left, y: db.top - st.top },           // Sri Hari's positioned box
+      top: section.getBoundingClientRect().top + scrollY,           // where the section starts on the page
+      run: section.offsetHeight - vh,
+    };
+  };
   const setDoors = (open) => {   // 0 closed … 1 open; inward, so the free edges recede and the faces darken
     const deg = 80 * open;
     leafL.style.transform = `rotateY(${deg}deg)`;
     leafR.style.transform = `rotateY(${-deg}deg)`;
-    [leafL, leafR].forEach(l => l.style.setProperty('--shade', open.toFixed(3)));
+    leafL.style.setProperty('--shade', open.toFixed(3));
+    leafR.style.setProperty('--shade', open.toFixed(3));
     frame.style.setProperty('--frame', open.toFixed(3));
+    return deg;
   };
 
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {   // no zoom: the doors stand open, the section follows as usual
-    document.documentElement.style.setProperty('--nav-h', `${nav ? nav.offsetHeight : 72}px`);
-    fitLeaves(); setDoors(1);
-    addEventListener('resize', fitLeaves);
+    const still = () => {
+      document.documentElement.style.setProperty('--nav-h', `${nav ? nav.offsetHeight : 72}px`);
+      fitLeaves(scene.offsetWidth, scene.offsetHeight); setDoors(1);
+    };
+    still(); addEventListener('resize', still);
     return;
   }
   document.documentElement.classList.add('tz-motion');
 
-  let ticking = false;
+  // ----- Each frame: arithmetic, transforms and opacity only -----
+  let last = -1;
   const draw = () => {
     ticking = false;
-    const r = section.getBoundingClientRect(), vh = innerHeight;
-    const p = clamp(-r.top / (r.height - vh));
-    const w = scene.offsetWidth, h = scene.offsetHeight;
+    if (!M) return;
+    const p = clamp((scrollY - M.top) / M.run);
+    if (p === last) return;
+    last = p;
+    const { w, h } = M;
 
     // 1 · walk up to the doors · 2 · they swing open · 3 · step through until the niche fills the window
-    const near = span(p, 0, 0.36);
-    const through = span(p, 0.34, 0.56);
-    const atDoor = Math.max(1, (vh * 0.62) / (h * DOOR.h));
-    const atNiche = Math.max(atDoor, (vh * 0.98) / (h * DOOR.h));
-    const s = 1 + (atDoor - 1) * near + (atNiche - atDoor) * through;
-    // bring the doors to the middle of the window (below the header) as we walk up
-    const top = section.getBoundingClientRect().top < 0 ? 0 : r.top;   // the pinned frame's top
-    const doorX = scene.offsetLeft + (DOOR.l + DOOR.w / 2) * w;
-    const doorY = top + scene.offsetTop + (DOOR.t + DOOR.h / 2) * h;
-    const navH = nav ? nav.offsetHeight : 0;
-    scene.style.transform = `translate3d(${(innerWidth / 2 - doorX) * near}px, ${((vh + navH) / 2 - doorY) * near}px, 0) scale(${s})`;
+    const near = span(p, 0, 0.36), through = span(p, 0.34, 0.56);
+    const s = 1 + (M.atDoor - 1) * near + (M.atNiche - M.atDoor) * through;
+    const ox = (DOOR.l + DOOR.w / 2) * w, oy = (DOOR.t + DOOR.h / 2) * h;           // the zoom turns about the doors
+    const dx = (M.vw / 2 - (M.sx + ox)) * near, dy = ((M.vh + M.navH) / 2 - (M.sy + oy)) * near;
+    scene.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(${s})`;
+    const at = (x, y) => [M.sx + ox + dx + (x - ox) * s, M.sy + oy + dy + (y - oy) * s];   // painting → frame
+
     // the welcome lifts away as the walk begins
     const away = span(p, 0, 0.12);
-    heroBox.style.opacity = (1 - away).toFixed(3);
-    heroBox.style.transform = `translateY(${-24 * away}px)`;
+    heroBox.style.opacity = 1 - away;
+    heroBox.style.transform = `translate3d(0, ${-24 * away}px, 0)`;
     heroBox.style.visibility = away >= 1 ? 'hidden' : 'visible';
-    setDoors(span(p, 0.2, 0.44));
+    const open = span(p, 0.2, 0.44);
+    const deg = setDoors(open);
 
-    // 4 · as the doors open, the full-resolution Sri Hari takes over from the one in the painting
-    //     (which is magnified many times on a phone and would turn pixelated), tracking it exactly; then the
-    //     painting dissolves and he glides to his place by the words. He is laid out at his real size at every
-    //     step — never an enlarged small copy — so he stays sharp.
+    // 4 · as the doors open, the full-resolution Sri Hari takes over from the one in the painting (which is
+    //     magnified many times on a phone), exactly in its place; then the painting dissolves and he glides
+    //     to his place by the words. He is drawn large once and only ever scaled down, so he stays sharp.
+    const handing = p >= 0.2;
     const hand = span(p, 0.58, 0.82);
-    const handing = p >= 0.2;                       // from the moment the doors start to open
-    scene.style.opacity = (1 - span(p, 0.58, 0.72)).toFixed(3);
+    scene.style.opacity = 1 - span(p, 0.58, 0.72);
     sceneDeity.style.visibility = handing ? 'hidden' : 'visible';
     idol.style.opacity = handing ? 1 : 0;
     if (handing) {
-      const from = sceneDeity.getBoundingClientRect();
-      const box = idol.parentElement.getBoundingClientRect();          // his place in the Sri Hari layout
-      const toH = box.height, toW = toH * 886 / 1136;
-      const to = { left: box.left + (box.width - toW) / 2, top: box.top, width: toW, height: toH };
-      idol.style.position = 'absolute';
-      idol.style.transform = 'none';
-      const frame = (idol.offsetParent || divine).getBoundingClientRect();   // his box is positioned, so place him relative to it
-      const L = lerp(from.left, to.left, hand), T = lerp(from.top, to.top, hand);
-      const W = lerp(from.width, to.width, hand), H = lerp(from.height, to.height, hand);
-      idol.style.left = `${L - frame.left}px`;
-      idol.style.top = `${T - frame.top}px`;
-      idol.style.width = `${W}px`;
-      idol.style.height = `${H}px`;
-      // while the doors are still swinging, show him only through the gap between them, so they stay in front
+      const dh = 0.8 * DOOR.h * h, dw = dh * IDOL;                                    // Sri Hari in the doorway
+      const [fx, fy] = at(DOOR.l * w + (DOOR.w * w - dw) / 2, (DOOR.t + DOOR.h * 0.91) * h - dh);
+      const X = lerp(fx, M.to.x, hand), Y = lerp(fy, M.to.y, hand), W = lerp(dw * s, M.to.w, hand);
+      const k = W / M.bigW;
+      idol.style.transform = `translate3d(${X - M.box.x}px, ${Y - M.box.y}px, 0) scale(${k})`;
+      // while the doors are still swinging, he shows only through the gap between them, so they stay in front
       if (p < 0.46) {
-        const d = scene.querySelector('.tz-door').getBoundingClientRect();
-        const gapL = Math.max(d.left, leafL.getBoundingClientRect().right), gapR = Math.min(d.right, leafR.getBoundingClientRect().left);
-        const cut = (v) => `${Math.max(0, v).toFixed(1)}px`;
-        idol.style.clipPath = gapR <= gapL ? 'inset(50%)'
-          : `inset(${cut(d.top - T)} ${cut(L + W - gapR)} ${cut(T + H - d.bottom)} ${cut(gapL - L)})`;
+        const half = DOOR.w * w / 2, rad = deg * Math.PI / 180;
+        const gap = half * (1 - Math.cos(rad)) * PERSPECTIVE / (PERSPECTIVE + half * Math.sin(rad));   // the leaves' inner edges, seen in perspective
+        const [gl] = at(ox - gap, 0), [gr] = at(ox + gap, 0);
+        const [, dTop] = at(0, DOOR.t * h), [, dBot] = at(0, (DOOR.t + DOOR.h) * h);
+        const H = W / IDOL, cut = (v) => `${(Math.max(0, v) / k).toFixed(1)}px`;
+        idol.style.clipPath = gap <= 0.01 ? 'inset(50%)' : `inset(${cut(dTop - Y)} ${cut(X + W - gr)} ${cut(Y + H - dBot)} ${cut(gl - X)})`;
       } else idol.style.clipPath = 'none';
     }
     // 5 · the halo warms in behind him, then the words arrive
@@ -128,14 +153,24 @@
     halos.forEach(el => { el.style.opacity = halo; });
     const words = span(p, 0.8, 0.94);
     copy.style.opacity = words;
-    copy.style.transform = `translateY(${(1 - words) * 16}px)`;
+    copy.style.transform = `translate3d(0, ${(1 - words) * 16}px, 0)`;
     divine.classList.toggle('is-on', words > 0.5);
     hint.style.opacity = p > 0.03 ? 0 : 1;
   };
-  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
+
+  // While scrolling, the scene is held as a ready-made layer so the zoom costs nothing to redraw;
+  // a moment after the scroll stops it is redrawn sharp at its current size.
+  let ticking = false, settle;
+  const onScroll = () => {
+    scene.classList.add('is-moving');
+    clearTimeout(settle);
+    settle = setTimeout(() => scene.classList.remove('is-moving'), 160);
+    if (!ticking) { ticking = true; requestAnimationFrame(draw); }
+  };
+  const refit = () => { fit(); last = -1; draw(); };
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', () => { fit(); onScroll(); });
-  addEventListener('load', () => { fit(); draw(); });
-  fit();
-  draw();
+  addEventListener('resize', refit);
+  addEventListener('load', refit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);   // the words above settle the painting's room
+  refit();
 })();

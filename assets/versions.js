@@ -23,7 +23,10 @@
 
   // The same page in the other version. On the published site both live side by side (root and /v1/);
   // in the local previews Original runs on port 4179 and Version 1 on port 4177.
-  const LOCAL = { original: 'http://localhost:4179/', v1: 'http://localhost:4177/', v2: 'http://localhost:4180/v2/' };
+  // Local previews: port 4180 serves all three side by side (root, /v1/, /v2/); otherwise each runs on its own port
+  const LOCAL = location.port === '4180'
+    ? { original: '/', v1: '/v1/', v2: '/v2/' }
+    : { original: 'http://localhost:4179/', v1: 'http://localhost:4177/', v2: 'http://localhost:4180/v2/' };
   const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   const page = location.pathname.split('/').pop() || 'index.html';
   const urlFor = (v) => v === SITE_VERSION ? null : (local ? LOCAL[v] : LIVE + (v === 'original' ? '' : v + '/')) + page + location.hash;

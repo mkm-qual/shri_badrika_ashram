@@ -174,7 +174,12 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
 /* the hand-off: Sri Hari and the words, laid out like the section they replace */
 .tz-divine { position: absolute; inset: 0; margin: 0; pointer-events: none; }
 .tz-divine.is-on { pointer-events: auto; }
-.tz-divine .idol { opacity: 0; max-width: none; z-index: 1; filter: saturate(.86) contrast(.94) sepia(.1) drop-shadow(0 0 2px rgba(255, 214, 140, .45)); }
+/* drawn once at his largest size and only moved and scaled (down) — cheap to animate and always sharp */
+.tz-divine .idol { position: absolute; left: 0; top: 0; max-width: none; z-index: 1; opacity: 0; transform-origin: 0 0; will-change: transform, opacity;
+  filter: saturate(.86) contrast(.94) sepia(.1); }
+/* while scrolling the scene is one ready-made layer; when the scroll rests it is redrawn sharp */
+.tz-scene.is-moving { will-change: transform, opacity; }
+.tz-hero { will-change: opacity, transform; }
 /* his box keeps its size while he is placed absolutely during the glide */
 body[data-page="home"] .tz-divine .deity { aspect-ratio: 886 / 1136; }
 .tz-divine .halo, .tz-divine .divine-copy { opacity: 0; }
