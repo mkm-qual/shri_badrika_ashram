@@ -91,12 +91,12 @@
     heroBox.style.visibility = away >= 1 ? 'hidden' : 'visible';
     setDoors(span(p, 0.2, 0.44));
 
-    // 4 · once the doors stand open, the full-resolution Sri Hari takes over from the one in the painting
+    // 4 · as the doors open, the full-resolution Sri Hari takes over from the one in the painting
     //     (which is magnified many times on a phone and would turn pixelated), tracking it exactly; then the
     //     painting dissolves and he glides to his place by the words. He is laid out at his real size at every
     //     step — never an enlarged small copy — so he stays sharp.
     const hand = span(p, 0.58, 0.82);
-    const handing = p >= 0.42;
+    const handing = p >= 0.2;                       // from the moment the doors start to open
     scene.style.opacity = (1 - span(p, 0.58, 0.72)).toFixed(3);
     sceneDeity.style.visibility = handing ? 'hidden' : 'visible';
     idol.style.opacity = handing ? 1 : 0;
@@ -106,12 +106,22 @@
       const toH = box.height, toW = toH * 886 / 1136;
       const to = { left: box.left + (box.width - toW) / 2, top: box.top, width: toW, height: toH };
       idol.style.position = 'absolute';
-      const frame = (idol.offsetParent || divine).getBoundingClientRect();   // his box is positioned, so place him relative to it
       idol.style.transform = 'none';
-      idol.style.left = `${lerp(from.left, to.left, hand) - frame.left}px`;
-      idol.style.top = `${lerp(from.top, to.top, hand) - frame.top}px`;
-      idol.style.width = `${lerp(from.width, to.width, hand)}px`;
-      idol.style.height = `${lerp(from.height, to.height, hand)}px`;
+      const frame = (idol.offsetParent || divine).getBoundingClientRect();   // his box is positioned, so place him relative to it
+      const L = lerp(from.left, to.left, hand), T = lerp(from.top, to.top, hand);
+      const W = lerp(from.width, to.width, hand), H = lerp(from.height, to.height, hand);
+      idol.style.left = `${L - frame.left}px`;
+      idol.style.top = `${T - frame.top}px`;
+      idol.style.width = `${W}px`;
+      idol.style.height = `${H}px`;
+      // while the doors are still swinging, show him only through the gap between them, so they stay in front
+      if (p < 0.46) {
+        const d = scene.querySelector('.tz-door').getBoundingClientRect();
+        const gapL = Math.max(d.left, leafL.getBoundingClientRect().right), gapR = Math.min(d.right, leafR.getBoundingClientRect().left);
+        const cut = (v) => `${Math.max(0, v).toFixed(1)}px`;
+        idol.style.clipPath = gapR <= gapL ? 'inset(50%)'
+          : `inset(${cut(d.top - T)} ${cut(L + W - gapR)} ${cut(T + H - d.bottom)} ${cut(gapL - L)})`;
+      } else idol.style.clipPath = 'none';
     }
     // 5 · the halo warms in behind him, then the words arrive
     const halo = span(p, 0.74, 0.88);
