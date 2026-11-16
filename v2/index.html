@@ -19,7 +19,7 @@
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261117m">
-<link rel="stylesheet" href="assets/v2.css?v=20261116j">
+<link rel="stylesheet" href="assets/v2.css?v=20261116x">
 </head>
 <body data-page="home">
 
@@ -77,26 +77,26 @@
 
 <main>
 
-<!-- ============ Vaikuntha introduction ============ -->
-<section class="v2-hero">
+<!-- ============ First fold: the welcome and the temple; scrolling walks you in through its doors to Sri Hari ============ -->
+<section class="temple-zoom" id="templeZoom" aria-labelledby="tzTitle">
+  <div class="tz-sticky">
+    <div class="v2-hero tz-hero" id="tzHero">
   <h1 class="display-2xl">Your Gateway to Vaikuntha</h1>
   <div class="v2-hero-intro">
     <p>Tucked into the quiet folds of the Shivalik hills, Sri Badrika Ashram is a sacred space to pause, turn inward and experience the living traditions of Sanatana Dharma. Here, devotion is woven into the everyday rhythm of prayer, silence, study and seva.</p>
   </div>
   <a class="text-link" href="ashram.html"><span>Explore the Ashram</span><img src="assets/arrow-right-olive.svg" width="16" height="16" alt=""></a>
-</section>
-
-<!-- ============ Temple: scrolling walks you in through the doorway to Sri Hari ============ -->
-<section class="temple-zoom" id="templeZoom" aria-labelledby="tzTitle">
-  <div class="tz-sticky">
+    </div>
+    <div class="tz-stage" id="tzStage">
     <div class="tz-scene" id="tzScene">
-      <img class="tz-painting day" src="assets/v2/temple.webp?v=2" width="2000" height="1343" alt="A watercolour of the Sri Hari temple: a white spire with a saffron flag above a long brown roof, trees in front and green hills behind">
-      <img class="tz-painting night" src="assets/v2/temple-dark.webp?v=1" width="2000" height="1343" alt="" loading="lazy">
+      <img class="tz-painting day" src="assets/v2/temple.webp?v=3" width="3168" height="1344" alt="A watercolour of the Sri Hari temple: a white spire with a saffron flag above a long brown roof, trees in front and green hills behind">
+      <img class="tz-painting night" src="assets/v2/temple-dark.webp?v=2" width="3168" height="1344" alt="" loading="lazy">
       <div class="tz-door" aria-hidden="true">
         <div class="tz-shrine"><img class="tz-deity" src="assets/deity.png" width="886" height="1136" alt=""><span class="tz-wash"></span></div>
         <span class="tz-leaf tz-leaf-l"></span><span class="tz-leaf tz-leaf-r"></span>
         <span class="tz-frame"></span>
       </div>
+    </div>
     </div>
     <!-- once through the doors, the painting dissolves and Sri Hari settles beside the words -->
     <div class="divine tz-divine" id="tzDivine">
@@ -124,7 +124,7 @@
     </div>
   </div>
     </div>
-    <p class="tz-hint" id="tzHint" aria-hidden="true">Scroll to enter</p>
+    <div class="tz-hint" id="tzHint" aria-hidden="true"><svg width="24" height="36" viewBox="0 0 24 36" fill="none"><rect x="1.25" y="1.25" width="21.5" height="33.5" rx="10.75" stroke="currentColor" stroke-width="1.5"/><rect class="tz-wheel" x="10.75" y="7" width="2.5" height="7" rx="1.25" fill="currentColor"/></svg></div>
   </div>
 </section>
 
@@ -258,7 +258,7 @@
   <div class="site-menu" role="menu" aria-label="Site options"></div>
   <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
 </div>
-<script src="assets/v2/temple-zoom.js?v=20261116c"></script>
+<script src="assets/v2/temple-zoom.js?v=20261116j"></script>
 <script src="assets/versions.js?v=20261116a"></script>
 <script src="assets/clouds.js?v=20261004r"></script>
 </body>
