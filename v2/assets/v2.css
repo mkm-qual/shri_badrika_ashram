@@ -273,8 +273,9 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
 /* ---------- Footer site map on phones: an accordion in the footer's colours ---------- */
 .v2-footer-acc { display: none; }
 @media (max-width: 768px) {
-  .v2-footer-acc { display: block; border-top: 1px solid rgba(242, 239, 228, .18); }
+  .v2-footer-acc { display: block; }
   .v2-footer-acc .acc { border-bottom: 1px solid rgba(242, 239, 228, .18); }
+  .v2-footer-acc .acc:last-child { border-bottom: 0; }   /* dividers only between sections */
   .v2-footer-acc .acc summary { color: var(--v2-footer-ink); font-family: var(--font-heading); letter-spacing: -0.01em; font-size: var(--fs-h4); line-height: var(--lh-h4); }
   .v2-footer-acc .acc summary img { filter: invert(1) brightness(1.4); }
   .v2-footer-acc .acc-links a { color: var(--v2-footer-muted); font-size: var(--fs-ui); line-height: var(--lh-ui); }
