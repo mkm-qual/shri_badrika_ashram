@@ -91,18 +91,27 @@
     heroBox.style.visibility = away >= 1 ? 'hidden' : 'visible';
     setDoors(span(p, 0.2, 0.44));
 
-    // 4 · hand-off: the painting dissolves while Sri Hari glides from the niche to his place by the words
+    // 4 · once the doors stand open, the full-resolution Sri Hari takes over from the one in the painting
+    //     (which is magnified many times on a phone and would turn pixelated), tracking it exactly; then the
+    //     painting dissolves and he glides to his place by the words. He is laid out at his real size at every
+    //     step — never an enlarged small copy — so he stays sharp.
     const hand = span(p, 0.58, 0.82);
-    const handing = p >= 0.58;
+    const handing = p >= 0.42;
     scene.style.opacity = (1 - span(p, 0.58, 0.72)).toFixed(3);
     sceneDeity.style.visibility = handing ? 'hidden' : 'visible';
     idol.style.opacity = handing ? 1 : 0;
     if (handing) {
       const from = sceneDeity.getBoundingClientRect();
+      const box = idol.parentElement.getBoundingClientRect();          // his place in the Sri Hari layout
+      const toH = box.height, toW = toH * 886 / 1136;
+      const to = { left: box.left + (box.width - toW) / 2, top: box.top, width: toW, height: toH };
+      idol.style.position = 'absolute';
+      const frame = (idol.offsetParent || divine).getBoundingClientRect();   // his box is positioned, so place him relative to it
       idol.style.transform = 'none';
-      const to = idol.getBoundingClientRect();
-      const x = lerp(from.left, to.left, hand), y = lerp(from.top, to.top, hand), k = lerp(from.width, to.width, hand) / to.width;
-      idol.style.transform = `translate(${x - to.left}px, ${y - to.top}px) scale(${k})`;
+      idol.style.left = `${lerp(from.left, to.left, hand) - frame.left}px`;
+      idol.style.top = `${lerp(from.top, to.top, hand) - frame.top}px`;
+      idol.style.width = `${lerp(from.width, to.width, hand)}px`;
+      idol.style.height = `${lerp(from.height, to.height, hand)}px`;
     }
     // 5 · the halo warms in behind him, then the words arrive
     const halo = span(p, 0.74, 0.88);

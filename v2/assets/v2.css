@@ -106,10 +106,15 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
 }
 @media (max-width: 768px) {
   .v2-footer { padding: 40px 0 24px; gap: 32px; }
-  .v2-footer-top, .v2-footer .footer-inner { width: auto; max-width: none; margin: 0 20px; }
-  .v2-footer-links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; }
-  .v2-footer .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .v2-footer-top, .v2-footer .footer-inner { width: auto; max-width: none; margin: 0 20px; align-self: stretch; }   /* full width, same margins for both */
+  /* phones: the site map folds into one accordion per section */
+  .v2-footer-links { display: none; }
+  .v2-footer .footer-inner { flex-direction: column; align-items: stretch; gap: 14px; }
   .v2-footer .copyright { white-space: normal; }
+  /* Terms, Privacy and the light/dark switch share one row, centred on a common line, the switch at the end */
+  .v2-footer .footer-actions { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: flex-start; gap: 20px; width: 100%; }
+  .v2-footer .footer-actions > * { order: 0; }
+  .v2-footer .footer-actions .theme-toggle { margin: 0 0 0 auto; }
 }
 
 /* ---------- Home: the temple; scrolling walks up to its doors, they open, and Sri Hari is inside ---------- */
@@ -169,7 +174,9 @@ body[data-page="home"] .events .v2-cards { margin-top: 32px; }
 /* the hand-off: Sri Hari and the words, laid out like the section they replace */
 .tz-divine { position: absolute; inset: 0; margin: 0; pointer-events: none; }
 .tz-divine.is-on { pointer-events: auto; }
-.tz-divine .idol { transform-origin: 0 0; opacity: 0; filter: saturate(.86) contrast(.94) sepia(.1); }
+.tz-divine .idol { opacity: 0; max-width: none; z-index: 1; filter: saturate(.86) contrast(.94) sepia(.1) drop-shadow(0 0 2px rgba(255, 214, 140, .45)); }
+/* his box keeps its size while he is placed absolutely during the glide */
+body[data-page="home"] .tz-divine .deity { aspect-ratio: 886 / 1136; }
 .tz-divine .halo, .tz-divine .divine-copy { opacity: 0; }
 html.tz-motion .tz-static { display: none; }
 html:not(.tz-motion) .tz-divine { display: none; }
@@ -262,3 +269,14 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
   .view-all:hover { background: var(--v2-wash); }
 }
 .nav-link[aria-current="page"] { background: var(--v2-wash-strong); }
+
+/* ---------- Footer site map on phones: an accordion in the footer's colours ---------- */
+.v2-footer-acc { display: none; }
+@media (max-width: 768px) {
+  .v2-footer-acc { display: block; border-top: 1px solid rgba(242, 239, 228, .18); }
+  .v2-footer-acc .acc { border-bottom: 1px solid rgba(242, 239, 228, .18); }
+  .v2-footer-acc .acc summary { color: var(--v2-footer-ink); font-family: var(--font-heading); letter-spacing: -0.01em; font-size: var(--fs-h4); line-height: var(--lh-h4); }
+  .v2-footer-acc .acc summary img { filter: invert(1) brightness(1.4); }
+  .v2-footer-acc .acc-links a { color: var(--v2-footer-muted); font-size: var(--fs-ui); line-height: var(--lh-ui); }
+  .v2-footer-acc .acc-links a:hover, .v2-footer-acc .acc-links a.acc-overview { color: var(--v2-footer-ink); }
+}
