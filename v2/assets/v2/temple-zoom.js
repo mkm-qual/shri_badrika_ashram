@@ -98,114 +98,11 @@
   }
   document.documentElement.classList.add('tz-motion');
 
-  // ----- Temple chant, played with Web Audio so it is dependable on phones too -----
-  // The chant is fetched and decoded as the page loads and then loops quietly under a volume control that
-  // follows the scroll. Browsers allow sound only after the visitor taps, clicks or presses a key, so the
-  // first such touch unlocks it (inside that same touch, which iPhones require); a scroll alone cannot.
-  // It is on by default; the switch turns it off (remembered for the visit) and on again.
-  const soundBtn = document.getElementById('tzSound');
-  const soundLabel = soundBtn && soundBtn.querySelector('.tz-sound-label');
-  const CHANT_SRC = 'assets/v2/vishnu-chant.m4a';
-  const MAX = 0.55;                                    // the chant sits under the page, never loud
-  const AC = window.AudioContext || window.webkitAudioContext;
-  let actx = null, gain = null, buffer = null, voice = null, wanted = 0, unlocked = false, idleT;
-  let soundOn = (() => { try { return sessionStorage.getItem('sba-chant') !== 'off'; } catch (e) { return true; } })();
-  const context = () => {
-    if (!actx && AC) {
-      actx = new AC();
-      gain = actx.createGain();
-      gain.gain.value = 0;
-      gain.connect(actx.destination);
-    }
-    return actx;
-  };
-  // fetch and decode up front, so nothing waits once the doors open
-  const loading = AC ? fetch(CHANT_SRC).then(r => r.arrayBuffer())
-    .then(data => new Promise((ok, fail) => context().decodeAudioData(data, ok, fail)))
-    .then(b => { buffer = b; begin(); }).catch(() => {}) : null;
-  const begin = () => {                                 // one looping voice, started once and never stopped
-    if (voice || !buffer || !unlocked) return;
-    voice = actx.createBufferSource();
-    voice.buffer = buffer;
-    voice.loop = true;
-    voice.connect(gain);
-    voice.start(0);
-    setLevel(wanted);
-  };
-  const showState = () => {
-    if (!soundBtn) return;
-    soundBtn.setAttribute('aria-pressed', soundOn);
-    const waiting = soundOn && !unlocked;               // on, but the browser still needs that first tap
-    soundBtn.classList.toggle('is-waiting', waiting);
-    // the label stays "Chant"; while it waits for the first tap, a soft pulse is the only cue
-  };
-  const setLevel = (v) => {
-    wanted = v;
-    if (!gain || !unlocked) return;
-    const target = soundOn ? v * MAX : 0;
-    gain.gain.setTargetAtTime(target, actx.currentTime, 0.35);   // eased, so scrolling never jolts the volume
-    if (soundBtn) { soundBtn.dataset.level = target.toFixed(2); soundBtn.dataset.audio = actx.state; }   // readable state, for checks
-    clearTimeout(idleT);
-    if (target > 0.001) { if (actx.state !== 'running') actx.resume(); }
-    else idleT = setTimeout(() => { if (wanted * (soundOn ? 1 : 0) <= 0.001 && actx.state === 'running') actx.suspend(); }, 2500);   // rest the audio when silent
-  };
-  const unlock = () => {
-    if (!context()) return;
-    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}   // newer iPhones: play even in silent mode
-    actx.resume();
-    const tick = actx.createBufferSource();             // a silent sound inside the touch: what iPhones need to allow audio
-    tick.buffer = actx.createBuffer(1, 1, 22050);
-    tick.connect(actx.destination);
-    tick.start(0);
-    unlocked = true;
-    begin();
-    setLevel(wanted);
-    showState();
-  };
-  // Start with the scroll: as soon as the visitor scrolls, try to let the sound out. Browsers that allow it
-  // (for example Chrome for returning visitors) play straight away; the rest refuse until the first tap,
-  // click or key, which unlocks it below without any button.
-  let trying = false;
-  const tryAutostart = () => {
-    if (unlocked || trying || !soundOn || !context()) return;
-    trying = true;
-    actx.resume().then(() => {
-      trying = false;
-      if (actx.state !== 'running' || unlocked) return;
-      unlocked = true;
-      begin();
-      setLevel(wanted);
-      showState();
-    }, () => { trying = false; });
-  };
-  const onTouch = (e) => {
-    if (soundBtn && soundBtn.contains(e.target)) return;   // the switch handles its own taps
-    if (soundOn) unlock();
-    if (unlocked) ['pointerdown', 'touchend', 'click', 'keydown'].forEach(t => removeEventListener(t, onTouch, true));
-  };
-  ['pointerdown', 'touchend', 'click', 'keydown'].forEach(t => addEventListener(t, onTouch, true));
-  soundBtn && soundBtn.addEventListener('click', () => {
-    if (soundOn && !unlocked) { unlock(); return; }    // "Tap for chant": the tap turns it on, not off
-    soundOn = !soundOn;
-    try { sessionStorage.setItem('sba-chant', soundOn ? 'on' : 'off'); } catch (e) {}
-    if (soundOn) unlock(); else setLevel(wanted);
-    showState();
-  });
-  showState();
-  // how loud, for where the visitor is: rises as the scroll begins, fades through the Sri Hari section and a little beyond
-  const chantLevel = () => {
-    const p = (scrollY - M.top) / M.run;
-    const rise = span(p, 0, 0.1);                       // rises as soon as the scroll begins
-    const fade = ease(clamp((scrollY - (M.top + M.run * 0.8)) / (M.run * 0.2 + M.vh * 0.7)));
-    return rise * (1 - fade);
-  };
-
   // ----- Each frame: arithmetic, transforms and opacity only -----
   let last = -1;
   const draw = () => {
     ticking = false;
     if (!M) return;
-    setLevel(chantLevel());
     const p = clamp((scrollY - M.top) / M.run);
     if (p === last) return;
     last = p;
@@ -264,10 +161,7 @@
   };
 
   let ticking = false;
-  const onScroll = () => {
-    tryAutostart();
-    if (!ticking) { ticking = true; requestAnimationFrame(draw); }
-  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } };
   const refit = () => { fit(); last = -1; draw(); seen = [innerWidth, innerHeight]; };
   // A phone's address bar sliding in and out (when the scroll changes direction) is reported as a resize;
   // re-fitting then would shrink the painting mid-scroll, so only a real change of size re-fits.
