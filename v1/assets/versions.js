@@ -22,7 +22,7 @@
 
   const render = () => {
     menu.innerHTML = VERSIONS.map(([k, l, h]) =>
-      `<button type="button" role="menuitemradio" aria-checked="${k === SITE_VERSION}" data-version="${k}"><span>${l} <small>${h}</small></span></button>`).join('') +
+      `<button type="button" role="menuitemradio" aria-checked="${k === SITE_VERSION}" data-version="${k}"><span>${l}</span></button>`).join('') +
 '';
   };
   const close = () => { picker.classList.remove('open'); btn.setAttribute('aria-expanded', false); };

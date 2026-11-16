@@ -30,7 +30,7 @@
 
   const render = () => {
     menu.innerHTML = VERSIONS.map(([k, l, h]) =>
-      `<button type="button" role="menuitemradio" aria-checked="${k === SITE_VERSION}" data-version="${k}"><span>${l} <small>${h}</small></span></button>`).join('') +
+      `<button type="button" role="menuitemradio" aria-checked="${k === SITE_VERSION}" data-version="${k}"><span>${l}</span></button>`).join('') +
       `<div class="site-sep" role="separator"></div>` +
       `<button type="button" class="clouds-toggle" role="menuitemcheckbox" aria-checked="${cloudsOn}" data-clouds><span>Clouds <small>while scrolling</small></span><i class="switch" aria-hidden="true"></i></button>`;
   };
