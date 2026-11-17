@@ -282,3 +282,9 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
   .v2-footer-acc .acc-links a { color: var(--v2-footer-muted); font-size: var(--fs-ui); line-height: var(--lh-ui); }
   .v2-footer-acc .acc-links a:hover, .v2-footer-acc .acc-links a.acc-overview { color: var(--v2-footer-ink); }
 }
+
+/* ---------- Home: About the Ashram — a sanctuary for stillness, service and sadhana ---------- */
+.v2-sanctuary .section-heading { gap: 20px; }
+.v2-sanctuary .grounds-body { display: flex; flex-direction: column; gap: 14px; max-width: 720px; margin: 0 auto; color: var(--ink-muted); }
+.v2-sanctuary .grounds-body p { margin: 0; }
+.v2-sanctuary .actions { justify-content: center; flex-wrap: wrap; margin-top: 4px; }
