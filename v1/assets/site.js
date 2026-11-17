@@ -78,7 +78,9 @@ const syncThemeLabel = () => {
   themeToggle.setAttribute('aria-pressed', dark);
 };
 syncThemeLabel();
-// Light by default. Only the day/night button changes it, and the choice is remembered for this visit.
+// The computer's setting leads. The toggle overrides it for this visit only; choosing the same as the
+// computer drops the override, and changing the computer's setting is always followed straight away.
+const systemDark = matchMedia('(prefers-color-scheme: dark)');
 // Every colour swaps in the same instant (no element lags behind and shows its corners), and where the
 // browser can, the whole page crossfades from the old look to the new one.
 const setTheme = (t) => {
@@ -96,7 +98,14 @@ const setTheme = (t) => {
 themeToggle.addEventListener('click', () => {
   const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   setTheme(next);
-  try { sessionStorage.setItem('sba-theme', next); } catch (e) {}
+  try {
+    if (next === (systemDark.matches ? 'dark' : 'light')) sessionStorage.removeItem('sba-theme');
+    else sessionStorage.setItem('sba-theme', next);
+  } catch (e) {}
+});
+systemDark.addEventListener('change', (e) => {
+  try { sessionStorage.removeItem('sba-theme'); } catch (err) {}
+  setTheme(e.matches ? 'dark' : 'light');
 });
 
 // Terms of Service and the Ashram guidelines open in a pop-up when linked from a page's content
