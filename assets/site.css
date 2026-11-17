@@ -3948,3 +3948,6 @@ main > .as-section:last-of-type { padding-bottom: var(--page-end); }
 .bk-days .bk-day.wash-s::before { left: calc(-1 * var(--bk-wash) - 1px); border-top-left-radius: 14px; border-bottom-left-radius: 14px; }
 .bk-days .bk-day.wash-e::before { right: calc(-1 * var(--bk-wash) - 1px); border-top-right-radius: 14px; border-bottom-right-radius: 14px; }
 @media (max-width: 768px) { .bk-days { --bk-col-gap: 4px; --bk-wash: 4px; } }
+
+/* Home, About Ashram: two paragraphs, then Know more and Virtual tour side by side */
+.grounds-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-3); }
