@@ -17,7 +17,7 @@
 <link rel="preload" href="fonts/SourceSerif4-Light-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261118zz6">
+<link rel="stylesheet" href="assets/v2.css?v=20261118zz8">
 </head>
 <body data-page="donate">
 
@@ -95,9 +95,11 @@
     <div class="bk-head">
       <ol class="bk-steps" aria-label="Booking progress">
         <li class="bk-step" id="step1Tab" data-state="current" aria-current="step">
-          <span class="bk-step-dot" aria-hidden="true">1</span>
-          <span class="bk-step-name">Dates &amp; attendees</span>
-          <span class="visually-hidden" data-chip>In progress</span>
+          <button class="bk-step-btn" type="button" id="step1Btn" disabled>
+            <span class="bk-step-dot" aria-hidden="true">1</span>
+            <span class="bk-step-name">Dates &amp; attendees</span>
+            <span class="visually-hidden" data-chip>In progress</span>
+          </button>
         </li>
         <li class="bk-step" id="step2Tab" data-state="pending">
           <span class="bk-step-dot" aria-hidden="true">2</span>
@@ -256,7 +258,7 @@
 <script src="assets/v2/crumb-float.js?v=5"></script>
 <script src="assets/vendor/libphonenumber-min.js?v=1.13.14"></script>
 <script src="assets/phone.js?v=20261004r"></script>
-<script src="assets/booking.js?v=20261117l"></script>
+<script src="assets/booking.js?v=20261118c"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>
