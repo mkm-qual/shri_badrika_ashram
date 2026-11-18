@@ -578,3 +578,9 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; } 
 .detail .card p.card-sub:not(.eyebrow):not(.amount):not(.note):not(.notice) { font-weight: 400; line-height: 1.6; margin-top: 0; }
 .detail .card-head:has(.card-head-copy) { align-items: flex-start; }
 .detail .card-head-copy .card-title { min-height: 48px; display: flex; align-items: center; }   /* title centred on the round mark, line below */
+/* at rest nothing sits over the photo; the fade under the title appears only once the story scrolls beneath it */
+.as-story-dialog .doc-head::after { opacity: 0; transition: opacity .2s ease; }
+.as-story-dialog.scrolled .doc-head::after { opacity: 1; }
+/* room inside the header breadcrumb for the back arrow's round hover (it was clipped to a half circle) */
+.crumb-float { padding: 6px 2px 6px 6px; margin-block: -6px; margin-left: -12px; }
+@media (max-width: 768px) { .crumb-float { padding-left: 6px; } }

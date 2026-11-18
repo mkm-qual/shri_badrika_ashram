@@ -32,6 +32,9 @@ const openStory = (card, opener) => {
     storyDialog.querySelector('.doc-close').addEventListener('click', () => storyDialog.close());
     storyDialog.addEventListener('click', (e) => { if (e.target === storyDialog) storyDialog.close(); });
     storyDialog.addEventListener('close', () => { document.documentElement.classList.remove('doc-open'); storyDialog.opener?.focus(); });
+    // the fade under the title shows only once the story has scrolled beneath it
+    const sb = storyDialog.querySelector('.doc-body');
+    sb.addEventListener('scroll', () => storyDialog.classList.toggle('scrolled', sb.scrollTop > 2), { passive: true });
   }
   storyDialog.querySelector('#storyTitle').textContent = card.querySelector('h3').textContent;
   const body = storyDialog.querySelector('.doc-body');
@@ -45,6 +48,7 @@ const openStory = (card, opener) => {
   document.documentElement.classList.add('doc-open');
   storyDialog.showModal();
   body.scrollTop = 0;
+  storyDialog.classList.remove('scrolled');
 };
 if (stories) stories.addEventListener('click', (e) => {
   const btn = e.target.closest('.read-toggle');
