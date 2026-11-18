@@ -50,9 +50,10 @@
     document.documentElement.style.setProperty('--nav-h', `${navH}px`);
     // the painting takes the room left under the words; its top fifth is empty sky, so it tucks up under them
     const narrow = innerWidth <= 768;
+    const frameW = sticky.clientWidth || innerWidth;   // the site's width (it stops growing at 1600px)
     const room = stage.clientHeight - 12;
     const SKY = 0.17, GROUND = 0.86;
-    const w = Math.max(240, Math.min(narrow ? innerWidth * 1.5 : Math.min(2000, innerWidth * 1.2), (room / (GROUND - SKY)) * RATIO));
+    const w = Math.max(240, Math.min(narrow ? frameW * 1.5 : Math.min(2000, frameW * 1.2), (room / (GROUND - SKY)) * RATIO));
     const h = w / RATIO;
     const spare = Math.max(0, room - (GROUND - SKY) * h);
     scene.style.width = `${w}px`;
@@ -61,7 +62,7 @@
     // positions relative to the pinned frame, with nothing transformed
     scene.style.transform = 'none';
     const st = sticky.getBoundingClientRect(), sc = scene.getBoundingClientRect(), db = deityBox.getBoundingClientRect();
-    const vh = sticky.clientHeight, vw = innerWidth;   // the frame's steady height, not the window's (a phone's bar comes and goes)
+    const vh = sticky.clientHeight, vw = frameW;   // the frame's steady height, not the window's (a phone's bar comes and goes)
     const atDoor = Math.max(1, (vh * 0.62) / (h * DOOR.h));
     const atNiche = Math.max(atDoor, (vh * 0.98) / (h * DOOR.h));
     // Sri Hari's final place, and the size he is drawn at: his largest on screen, so he is only ever scaled down (sharp)
