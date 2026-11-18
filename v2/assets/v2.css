@@ -584,3 +584,13 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; } 
 /* room inside the header breadcrumb for the back arrow's round hover (it was clipped to a half circle) */
 .crumb-float { padding: 6px 2px 6px 6px; margin-block: -6px; margin-left: -12px; }
 @media (max-width: 768px) { .crumb-float { padding-left: 6px; } }
+
+/* Booking steps: "Dates & attendees" is a button back to the dates once you're on billing */
+.bk-step-btn { display: inline-flex; align-items: center; gap: 10px; padding: 4px 10px 4px 4px; margin: -4px -10px -4px -4px; border-radius: 999px; color: inherit; transition: background-color var(--t-hover, .15s) ease; }
+.bk-step-btn:disabled { cursor: default; }
+.bk-step-btn:not(:disabled):hover { background: var(--v2-wash); }
+.bk-step-btn:not(:disabled):hover .bk-step-name { color: var(--v2-hover-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.bk-step-btn:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; }
+/* the pill hugs the check circle evenly: 6px around it on every side */
+.bk-step-btn { padding: 6px 14px 6px 6px; margin: -6px -14px -6px -6px; }
+.bk-step-btn .bk-step-name { line-height: 24px; }

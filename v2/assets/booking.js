@@ -301,6 +301,7 @@ const setStep = (n) => {
     tab.querySelector('[data-chip]').textContent = { current: 'In progress', pending: 'Pending', done: 'Done' }[s];
     if (s === 'current') tab.setAttribute('aria-current', 'step'); else tab.removeAttribute('aria-current');
   });
+  $('step1Btn').disabled = n === 1;                     // from billing, "Dates & attendees" takes you back to edit them
   document.querySelector('.bk-steps').scrollIntoView({ block: 'nearest' });
 };
 
@@ -353,6 +354,11 @@ document.addEventListener('click', (e) => {
   e.preventDefault(); e.stopImmediatePropagation();
   if (history.state && history.state.bkStep === 2) history.back(); else { setStep(1); $('toBilling').focus({ preventScroll: true }); }
 }, true);
+const backToDates = () => {
+  if (history.state && history.state.bkStep === 2) history.back();
+  else { setStep(1); $('toBilling').focus({ preventScroll: true }); }
+};
+$('step1Btn').addEventListener('click', backToDates);
 $('backBtn').addEventListener('click', () => {
   if (history.state && history.state.bkStep === 2) history.back();
   else { setStep(1); $('toBilling').focus({ preventScroll: true }); }
