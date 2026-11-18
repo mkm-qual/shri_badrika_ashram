@@ -371,3 +371,30 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
   .key-sticky .key-sticky-copy > span { white-space: normal; }
   .key-sticky .key-sticky-stay, .key-sticky .key-sticky-note { display: none; }   /* a phone keeps it to name, dates and Book */
 }
+
+/* ---------- Heading type, measured from os.me's book pages ----------
+   os.me sets its serif light (300), tight (about -3.5% tracking on the page title, -2.5% on section
+   titles) and close-leaded (1.02 / 1.1); page titles are large (≈58px), section titles ≈30–34px.
+   */
+h1, h2, h3, h4, .display-2xl, .display-lg { font-weight: 300; }
+h1, h1.display-2xl { font-size: clamp(40px, 4.4vw, 58px); line-height: 1.02; letter-spacing: -0.035em; }
+h2.display-2xl, .section-heading .display-2xl { font-size: clamp(30px, 2.8vw, 36px); line-height: 1.1; letter-spacing: -0.025em; }
+.display-lg, h3.display-lg { letter-spacing: -0.02em; line-height: 1.12; }
+h3, h4, .card-title, .off-name, .doc-head h2 { letter-spacing: -0.015em; }
+@media (max-width: 768px) {
+  h1, h1.display-2xl { font-size: clamp(34px, 9vw, 42px); }
+  h2.display-2xl, .section-heading .display-2xl { font-size: 28px; }
+}
+
+/* ---------- Reading text, measured from os.me's event pages ----------
+   Paragraphs are Outfit light (300) at ≈18.4px with generous leading (1.85) and no added tracking;
+   intros a touch larger (19.2px, same leading); secondary text 16px regular on 1.75; small notes 15px. */
+:root { --fs-body: 1.15rem; --lh-body: 1.85; --fs-lg: 1.2rem; --lh-lg: 1.85; --fs-ui: 0.9375rem; --fw-text: 300; }
+body { letter-spacing: normal; }
+.as-story .off-text, .as-story-full { line-height: 1.85; }
+@media (max-width: 768px) {
+  :root { --fs-body: 1.0625rem; --lh-body: 1.75; --fs-lg: 1.125rem; --lh-lg: 1.75; }
+}
+/* the home welcome reads quieter than a page title, so the temple leads */
+.tz-hero h1, .v2-hero h1 { font-size: clamp(32px, 3.2vw, 42px); line-height: 1.08; letter-spacing: -0.03em; }
+@media (max-width: 768px) { .tz-hero h1, .v2-hero h1 { font-size: 32px; } }
