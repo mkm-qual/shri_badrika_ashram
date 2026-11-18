@@ -1,4 +1,4 @@
-// Ashram page: video tour cover, the spaces carousel and the map type switch
+// Ashram page: video tour cover and the map type switch
 
 // Video: swap the cover for the YouTube player on play (no YouTube requests until then)
 const video = document.querySelector('.as-video');
@@ -14,88 +14,45 @@ video.querySelector('.as-video-play').addEventListener('click', () => {
   frame.focus();
 });
 
-// Spaces carousel: previous / next move by one card; buttons fade out at either end
-const track = document.getElementById('stories');
-const prev = document.getElementById('storyPrev');
-const next = document.getElementById('storyNext');
-const section = document.getElementById('activities');
-const stage = section.querySelector('.as-pin-stage');
-// glide between cards unless the visitor has asked for less motion
-const glide = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
-const step = () => {
-  const card = track.querySelector('.as-story');
-  return card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
-};
-const syncNav = () => {
-  prev.disabled = track.scrollLeft < 4;
-  next.disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
-};
-
-// Desktop: as the page scrolls down into the section, it holds still and the same scroll slides the
-// tiles across; once the last tile is in view the page carries on down. Phones, and visitors who
-// prefer less motion, keep the plain swipeable row. An opened "Read more" lets go of the hold so the
-// full text can be read, and closing it takes the hold back up.
-const pinQuery = matchMedia('(min-width: 1101px) and (prefers-reduced-motion: no-preference)');
-let pinned = false;
-const navH = () => document.querySelector('.nav').offsetHeight;
-const pinStart = () => scrollY + section.getBoundingClientRect().top + parseFloat(getComputedStyle(section).paddingTop) - navH();
-const drive = () => {
-  if (!pinned) return;
-  const dist = track.scrollWidth - track.clientWidth;
-  track.scrollLeft = Math.min(dist, Math.max(0, scrollY - pinStart()));
-};
-const layout = () => {
-  const want = pinQuery.matches && !track.querySelector('.off-text.open');
-  if (want !== pinned) {
-    pinned = want;
-    section.classList.toggle('pinned', pinned);
-    dispatchEvent(new Event('resize'));   // re-measure the "Read more" buttons for the new card height
+// Ashram activity: "Read more" opens the space's full story in a pop-up card (the grid stays as it is)
+const stories = document.getElementById('stories');
+let storyDialog;
+const openStory = (card, opener) => {
+  if (!storyDialog) {
+    storyDialog = document.createElement('dialog');
+    storyDialog.className = 'doc-dialog as-story-dialog';
+    storyDialog.setAttribute('aria-labelledby', 'storyTitle');
+    storyDialog.innerHTML = `
+      <div class="doc-head">
+        <h2 id="storyTitle"></h2>
+        <button class="doc-close" type="button" aria-label="Close"><span class="ic" style="--i:url('icons/x.svg');--s:18px" aria-hidden="true"></span></button>
+      </div>
+      <div class="doc-body" tabindex="0"></div>`;
+    document.body.append(storyDialog);
+    storyDialog.querySelector('.doc-close').addEventListener('click', () => storyDialog.close());
+    storyDialog.addEventListener('click', (e) => { if (e.target === storyDialog) storyDialog.close(); });
+    storyDialog.addEventListener('close', () => { document.documentElement.classList.remove('doc-open'); storyDialog.opener?.focus(); });
   }
-  section.style.setProperty('--nav-h', navH() + 'px');
-  section.style.setProperty('--pin-dist', pinned ? (track.scrollWidth - track.clientWidth) + 'px' : '0px');
-  drive();
-  syncNav();
+  storyDialog.querySelector('#storyTitle').textContent = card.querySelector('h3').textContent;
+  const body = storyDialog.querySelector('.doc-body');
+  const img = card.querySelector('.as-story-media img').cloneNode();
+  img.removeAttribute('loading');
+  const text = card.querySelector('.off-text').cloneNode(true);
+  text.removeAttribute('id'); text.removeAttribute('style'); text.className = 'as-story-full';
+  const cta = card.querySelector('.as-story-cta');
+  body.replaceChildren(img, text, ...(cta ? [cta.cloneNode(true)] : []));
+  storyDialog.opener = opener;
+  document.documentElement.classList.add('doc-open');
+  storyDialog.showModal();
+  body.scrollTop = 0;
 };
-// in the hold, the arrows and any sideways swipe move the page, which moves the tiles
-const toCard = (left) => scrollTo({ top: pinStart() + left, behavior: glide() });
-prev.addEventListener('click', () => pinned ? toCard(track.scrollLeft - step()) : track.scrollBy({ left: -step(), behavior: glide() }));
-next.addEventListener('click', () => pinned ? toCard(track.scrollLeft + step()) : track.scrollBy({ left: step(), behavior: glide() }));
-track.addEventListener('scroll', syncNav, { passive: true });
-addEventListener('scroll', drive, { passive: true });
-addEventListener('resize', layout);
-pinQuery.addEventListener('change', layout);
-// Over the row, a mostly-vertical wheel or trackpad swipe always scrolls the page; in the hold a
-// sideways swipe does too, so the tiles follow one scroll position
-track.addEventListener('wheel', (e) => {
-  if (e.ctrlKey) return;
-  const vertical = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-  if (!vertical && !pinned) return;
+if (stories) stories.addEventListener('click', (e) => {
+  const btn = e.target.closest('.read-toggle');
+  if (!btn) return;
+  e.stopPropagation();   // keep the card closed in the grid; the story opens in the pop-up instead
   e.preventDefault();
-  const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? innerHeight : 1;
-  scrollBy({ top: (vertical ? e.deltaY : e.deltaX) * unit, behavior: 'instant' });
-}, { passive: false });
-// Read more / Read less: let go of the hold (or take it back) and keep the same tile in front
-track.addEventListener('click', (e) => {
-  if (!e.target.closest('.read-toggle')) return;
-  const left = track.scrollLeft;
-  requestAnimationFrame(() => {
-    const was = pinned;
-    layout();
-    if (was && !pinned) { track.scrollLeft = left; scrollTo({ top: pinStart(), behavior: 'instant' }); }
-    if (!was && pinned) scrollTo({ top: pinStart() + left, behavior: 'instant' });
-  });
-});
-layout();
-// Arriving at #sri-hari-mandir etc. from the menu brings that card into the row's view
-const fromHash = () => {
-  const card = location.hash && track.querySelector(`.as-story${CSS.escape(location.hash)}`);
-  if (!card) return;
-  const left = card.offsetLeft - track.firstElementChild.offsetLeft;
-  if (pinned) scrollTo({ top: pinStart() + left, behavior: 'instant' });
-  else track.scrollTo({ left, behavior: 'instant' });
-};
-addEventListener('hashchange', fromHash);
-fromHash();
+  openStory(btn.closest('.as-story'), btn);
+}, true);
 
 // Map: switch between the road map and satellite view
 const mapFrame = document.getElementById('mapFrame');
