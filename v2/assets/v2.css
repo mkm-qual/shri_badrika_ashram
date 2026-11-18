@@ -509,3 +509,12 @@ main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .
 body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; }   /* clip: clouds and the temple stop at the edge, sticky still works */
 /* the footer's columns never run wider than the page (they were cut off on mid-size screens) */
 .v2-footer-top { max-width: calc(100% - 2 * var(--gutter)); }
+
+/* ---------- About Swamiji: the poem, larger, filled in with ink as you scroll (assets/v2/verse-reveal.js) ---------- */
+.ab-poem .ab-verse { font-size: 40px; line-height: 1.25; letter-spacing: -0.02em; gap: 8px; font-weight: 300; }
+.ab-poem .ab-verse span:nth-child(4), .ab-poem .ab-verse span:nth-child(10) { margin-bottom: 28px; }
+.verse-ink .ab-verse i { font-style: normal; }   /* letters fill with ink as you scroll (opacity set per letter) */
+@media (max-width: 768px) {
+  .ab-poem .ab-verse { font-size: 28px; line-height: 1.3; }
+  .ab-poem .ab-verse span:nth-child(4), .ab-poem .ab-verse span:nth-child(10) { margin-bottom: 20px; }
+}
