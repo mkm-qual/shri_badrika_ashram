@@ -13,7 +13,7 @@
   document.querySelectorAll('.cloud-band').forEach((band) => {
     const pool = SHAPES.filter(src => !prev.includes(src)).sort(() => Math.random() - .5);
     const isLast = !band.nextElementSibling || band.nextElementSibling.matches('footer');
-    const n = mobile() ? 2 : Math.round(r(2, 4));                        // main clouds per junction
+    const n = mobile() ? (Math.random() < .5 ? 1 : 2) : Math.round(r(2, 3));   // main clouds per junction (a little sparser)
     const used = pool.slice(0, n);
     used.forEach((src, i) => {
       const el = new Image();
@@ -30,7 +30,7 @@
       imgs.push({ el, band, dir: 1, speed: r(.55, 1.5), base: el.style.getPropertyValue('--x'), flip: el.style.getPropertyValue('--flip') });
     });
     // backdrop layer: a few small, blurred, fainter clouds that drift slowly behind the main ones
-    const farCount = mobile() ? 1 : Math.round(r(2, 3));
+    const farCount = mobile() ? (Math.random() < .5 ? 0 : 1) : Math.round(r(1, 2));
     const farPool = SHAPES.filter(src => !used.includes(src)).sort(() => Math.random() - .5);
     for (let i = 0; i < farCount; i++) {
       const el = new Image();
