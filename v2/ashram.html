@@ -17,7 +17,7 @@
 <link rel="preload" href="fonts/SourceSerif4-Light-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261118zg">
+<link rel="stylesheet" href="assets/v2.css?v=20261118zj">
 </head>
 <body data-page="ashram">
 
@@ -234,6 +234,8 @@
 <section class="as-section as-directions" id="directions" aria-labelledby="route-title">
   <div class="as-route">
     <div class="as-map">
+      <!-- a picture of the map sits behind the live one, so the place shows even where the live map cannot load -->
+      <div class="as-map-still" aria-hidden="true"><span>© OpenStreetMap contributors</span></div>
       <iframe id="mapFrame" title="Map showing Sri Badrika Ashram" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
         src="https://maps.google.com/maps?q=Sri+Badrika+Ashram,+Himachal+Pradesh&t=m&z=11&output=embed"></iframe>
       <div class="as-map-layers" role="group" aria-label="Map type">

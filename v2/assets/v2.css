@@ -495,3 +495,17 @@ main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .
 .as-activity-head .section-heading, .as-travel .section-heading { width: auto; max-width: none; }
 .as-activity-head .section-heading .lede, .as-travel .section-heading .lede, .give-ways-head .lede { width: auto; max-width: none; text-wrap: pretty; }
 .give-ways-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+/* Directions: a still map of the Ashram's location sits behind the live Google map. Where the live map
+   loads it covers the still one; where a browser blocks it (some in-app and privacy browsers), the place still shows. */
+.as-map-still { position: absolute; inset: 5px; z-index: 0; overflow: hidden; border-radius: calc(var(--r-media) - 4px);
+  background: url("v2/map-static.webp") 54% 66% / cover no-repeat, var(--sand); }
+.as-map-still span { position: absolute; left: 8px; bottom: 6px; padding: 2px 6px; border-radius: 4px; background: rgba(255,255,255,.8); font-size: 11px; line-height: 1.4; color: #3a3a3a; }
+.as-map iframe { position: relative; z-index: 1; background: transparent; }
+.as-map-layers { z-index: 2; }
+:root[data-theme="dark"] .as-map-still { filter: brightness(.85) contrast(1.05); }
+
+/* ---------- The site never grows wider than 1600px; beyond that the paper is left empty either side ---------- */
+body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; }   /* clip: clouds and the temple stop at the edge, sticky still works */
+/* the footer's columns never run wider than the page (they were cut off on mid-size screens) */
+.v2-footer-top { max-width: calc(100% - 2 * var(--gutter)); }
