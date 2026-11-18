@@ -1,17 +1,33 @@
 // Ashram page: video tour cover and the map type switch
 
-// Video: swap the cover for the YouTube player on play (no YouTube requests until then)
+// Video: swap the cover for the YouTube player on play (no YouTube requests until then). Where a browser
+// won't show embedded players (some in-app and privacy browsers), the cover stays and the tour opens on YouTube.
 const video = document.querySelector('.as-video');
+const watchUrl = `https://www.youtube.com/watch?v=${video.dataset.video}`;
 video.querySelector('.as-video-play').addEventListener('click', () => {
+  if (video.dataset.external) { window.open(watchUrl, '_blank', 'noopener'); return; }   // this browser can't embed it
+  const cover = [...video.childNodes];
   const frame = document.createElement('iframe');
   frame.src = `https://www.youtube-nocookie.com/embed/${video.dataset.video}?autoplay=1&rel=0&modestbranding=1`;
   frame.title = 'Sri Badrika Ashram — Take a Tour';
   frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
   frame.referrerPolicy = 'strict-origin-when-cross-origin';
   frame.allowFullscreen = true;
+  let loaded = false;
+  frame.addEventListener('load', () => { loaded = true; });
   video.classList.add('playing');
   video.replaceChildren(frame);
   frame.focus();
+  setTimeout(() => {
+    if (loaded) return;
+    video.classList.remove('playing');
+    video.replaceChildren(...cover);
+    video.dataset.external = '1';
+    const title = video.querySelector('.as-video-title');
+    if (title) title.textContent = 'Watch the tour on YouTube ↗';
+    video.querySelector('.as-video-play').setAttribute('aria-label', 'Watch the Sri Badrika Ashram tour on YouTube (opens in a new tab)');
+    video.querySelector('.as-video-play').focus();
+  }, 8000);   // generous, so a slow connection still gets the player
 });
 
 // Ashram activity: "Read more" opens the space's full story in a pop-up card (the grid stays as it is)
