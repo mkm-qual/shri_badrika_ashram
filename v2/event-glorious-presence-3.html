@@ -17,7 +17,7 @@
 <link rel="preload" href="fonts/SourceSerif4-Light-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261118zz8">
+<link rel="stylesheet" href="assets/v2.css?v=20261118zz11">
 </head>
 <body data-page="detail">
 
@@ -111,11 +111,16 @@
 
 
     <section class="section-heading" id="schedule">
-      <h2 class="display-2xl">Schedule and Important Details</h2>
+      <h2 class="display-2xl">Event details</h2>
     </section>
     <div class="schedule-cards">
-      <section class="card" id="discourse" aria-labelledby="discourse-title">
-        <h3 class="card-title" id="discourse-title">Discourse Schedule</h3>
+      <section class="card schedule-card" id="discourse" aria-labelledby="discourse-title">
+        <details class="daily-fold">
+        <summary>
+          <h3 class="card-title" id="discourse-title">Discourse schedule</h3>
+          <span class="daily-meta">3 discourse days · 4 Dec to 6 Dec</span>
+          <span class="daily-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
+        </summary>
         <ol class="times">
           <li class="time-row">
             <div class="date-chip"><b>4</b><span>Dec</span></div>
@@ -133,24 +138,27 @@
             <img src="assets/icon-clock.svg" width="22" height="22" alt="">
           </li>
         </ol>
+        </details>
       </section>
-      <section class="card" aria-labelledby="stay-title">
+      <section class="card stay-dates" id="stay" aria-labelledby="stay-title">
         <div class="card-head">
-          <h3 class="card-title" id="stay-title">Stay schedule</h3>
+          <div class="card-head-copy">
+            <h3 class="card-title" id="stay-title">Stay dates</h3>
+            <p class="card-sub">1 – 10 December</p>
+          </div>
           <span class="icon-disc sm"><img src="assets/icon-calendar.svg" width="24" height="24" alt=""></span>
         </div>
         <div class="stay-list">
-          <div class="stay-item"><p class="eyebrow">Stay nights you can book</p><strong>1 – 10 December</strong></div>
           <div class="stay-item"><p class="eyebrow">Minimum stay</p><strong>2 nights, plus any available dates within the event</strong></div>
         </div>
       </section>
     </div>
 
     <!-- ============ Booking guidelines ============ -->
-    <section id="guidelines">
+    <section class="guide-card" id="guidelines">
       <details class="guide-fold" id="guideFold">
         <summary class="guide-intro">
-          <h2 class="display-2xl">Important Booking Guidelines</h2>
+          <h2 class="display-2xl">Important booking guidelines</h2>
           <p>Please read carefully before you book · 7 guidelines</p>
           <span class="fold-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
         </summary>
@@ -164,10 +172,14 @@
         <li>Day visits are not permitted at any time during the entire duration of the event.</li>
       </ol>
       </details>
+    </section>
+
+    <!-- ============ Notices ============ -->
+    <section class="notices" id="notices">
       <div class="card meeting">
         <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
         <div>
-          <h3>Personal Meetings with Swamiji</h3>
+          <h3>Personal meetings with Swamiji</h3>
           <p>Personal meetings with Swamiji will be held on discourse days only and will be selected through a draw system.</p>
         </div>
       </div>
@@ -175,7 +187,7 @@
 
     <!-- ============ Accommodation ============ -->
     <section class="section-heading wide" id="accommodation">
-      <h2 class="display-2xl">Accommodation Details</h2>
+      <h2 class="display-2xl">Accommodation &amp; contribution</h2>
     </section>
     <div class="card stay-card wide">
       <div class="card-head">
@@ -185,14 +197,14 @@
       <p class="lead">A contribution of ₹1,800 per person per day is required for your stay. This contribution covers two meals (Lunch &amp; Dinner) and dormitory accommodation.</p>
       <hr>
       <div class="card-head">
-        <h3>Room Upgrade</h3>
+        <h3>Room upgrade</h3>
         <span class="icon-disc cream"><img src="assets/icon-ac.svg" width="25" height="25" alt=""></span>
       </div>
       <p class="body">Room upgrades to sharing basis may be available on a first-come, first-served basis, subject to availability upon arrival. Additional contribution will apply, depending on the accommodation category selected.</p>
       <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">We humbly request you to kindly note that prior requests for room upgrades cannot be accommodated.</p>
       <hr>
       <div class="card-head" id="payment">
-        <h3>Important Payment Policy</h3>
+        <h3>Payment policy</h3>
       </div>
       <p class="body">All payments made are non-refundable and non-transferable.</p>
       <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">We therefore request you to carefully review all event details, eligibility requirements, schedule, accommodation arrangements, and other guidelines before proceeding with your booking.</p>
@@ -205,10 +217,9 @@
       <p class="eyebrow">On this page</p>
       <ol>
         <li><a href="#summary"><span class="gd-num">01</span>Event summary</a></li>
-        <li><a href="#schedule"><span class="gd-num">02</span>Schedule &amp; important details</a></li>
-        <li><a href="#discourse"><span class="gd-num">03</span>Discourse schedule</a></li>
-        <li><a href="#guidelines"><span class="gd-num">04</span>Booking guidelines</a></li>
-        <li><a href="#accommodation"><span class="gd-num">05</span>Accommodation details</a></li>
+        <li><a href="#schedule"><span class="gd-num">02</span>Event details</a></li>
+        <li><a href="#guidelines"><span class="gd-num">03</span>Booking guidelines</a></li>
+        <li><a href="#accommodation"><span class="gd-num">04</span>Accommodation &amp; contribution</a></li>
       </ol>
     </div>
   </nav>
@@ -238,7 +249,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261118q"></script>
+<script src="assets/site.js?v=20261118r"></script>
 <script src="assets/v2/crumb-float.js?v=5"></script>
 <script>
   // "On this page": highlight the section currently in view

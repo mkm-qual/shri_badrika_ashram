@@ -339,10 +339,14 @@ window.sbaAccount = (() => {
   }, { rootMargin: `-${(nav ? nav.offsetHeight : 64)}px 0px 0px 0px` }).observe(card);
 })();
 
-// event: open a folded section (Daily Schedule, Booking Guidelines) when someone jumps to it
+// event: open a folded section (the schedule, Booking Guidelines) when someone jumps to it
 (() => {
-  const folds = { '#daily': document.getElementById('dailyFold'), '#guidelines': document.getElementById('guideFold') };
-  const open = (hash) => { if (folds[hash]) folds[hash].open = true; };
+  const open = (hash) => {
+    let el = null;
+    try { el = hash && hash.length > 1 && document.querySelector(hash); } catch (e) {}
+    const fold = el && (el.matches('details') ? el : el.querySelector('details'));
+    if (fold) fold.open = true;
+  };
   open(location.hash);
   addEventListener('hashchange', () => open(location.hash));
   document.addEventListener('click', (e) => { const a = e.target.closest('a[href^="#"]'); if (a) open(a.getAttribute('href')); });
