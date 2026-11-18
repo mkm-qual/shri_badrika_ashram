@@ -378,7 +378,7 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
    */
 h1, h2, h3, h4, .display-2xl, .display-lg { font-weight: 300; }
 h1, h1.display-2xl { font-size: clamp(40px, 4.4vw, 58px); line-height: 1.02; letter-spacing: -0.035em; }
-h2.display-2xl, .section-heading .display-2xl { font-size: clamp(30px, 2.8vw, 36px); line-height: 1.1; letter-spacing: -0.025em; }
+h2.display-2xl, .section-heading .display-2xl { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; }
 .display-lg, h3.display-lg { letter-spacing: -0.02em; line-height: 1.12; }
 h3, h4, .card-title, .off-name, .doc-head h2 { letter-spacing: -0.015em; }
 @media (max-width: 768px) {
@@ -398,3 +398,65 @@ body { letter-spacing: normal; }
 /* the home welcome reads quieter than a page title, so the temple leads */
 .tz-hero h1, .v2-hero h1 { font-size: clamp(32px, 3.2vw, 42px); line-height: 1.08; letter-spacing: -0.03em; }
 @media (max-width: 768px) { .tz-hero h1, .v2-hero h1 { font-size: 32px; } }
+
+/* Clamped previews end on a whole line (assets/v2/whole-lines.js measures it): no fade, no half lines */
+.off-text.clamp, .swamiji-body { max-height: var(--clamp-h, calc(var(--lines) * 1lh)); }
+.off-text.clamp.open { max-height: none; }
+.off-text.clamp.truncated:not(.open), .swamiji-body { -webkit-mask-image: none; mask-image: none; }
+
+/* "On this page" lists (event pages, guidelines): small navigation text, not reading text */
+.toc a, .gd-index a { font-size: var(--fs-ui); line-height: 1.45; padding-top: 7px; padding-bottom: 7px; }
+
+/* ---------- Event pages: one type scale ----------
+   Headings (serif): page title · section 32px · card 24px · label 20px.
+   Text (sans): reading 18.4px light · facts/values 18.4px regular · notes and meta 15px. */
+.detail h2, .detail .display-2xl:not(h1), .detail .guide-intro h2 { font-size: 32px; line-height: 1.1; letter-spacing: -0.025em; font-weight: 300; }
+.detail h3, .detail .card-title { font-size: 24px; line-height: 1.15; letter-spacing: -0.015em; font-weight: 300; }
+.detail blockquote { font-size: 24px; line-height: 1.4; font-weight: 300; }
+/* labels above a fact are small headings: serif, sentence case */
+.detail .key-facts dt, .detail .card .eyebrow, .detail .stay-item .eyebrow {
+  font-family: var(--font-heading); text-transform: none; letter-spacing: -0.01em; font-weight: 300;
+  font-size: 20px; line-height: 1.2; color: var(--ink);
+}
+/* the facts themselves: body size, regular weight */
+.detail .key-facts dd, .detail .time-copy strong, .detail .stay-item strong, .detail .ev-summary strong {
+  font-family: var(--font-body); font-size: var(--fs-body); line-height: 1.6; font-weight: 400; letter-spacing: 0;
+}
+.detail .amount { font-family: var(--font-body); font-size: 32px; line-height: 1.2; font-weight: 400; }
+/* every paragraph reads at the body size */
+.detail .guide-intro p, .detail .card p:not(.eyebrow):not(.amount):not(.note):not(.notice), .detail .paras p { font-size: var(--fs-body); line-height: var(--lh-body); font-weight: var(--fw-text); }
+/* notes, notices, captions and the day above a time: one small size */
+.detail .note, .detail .notice, .detail figcaption, .detail .time-copy span { font-size: var(--fs-ui); line-height: 1.5; font-weight: 400; }
+@media (max-width: 768px) {
+  .detail h2, .detail .display-2xl:not(h1), .detail .guide-intro h2 { font-size: 26px; }
+  .detail h3, .detail .card-title, .detail blockquote { font-size: 21px; }
+  .detail .key-facts dt, .detail .card .eyebrow, .detail .stay-item .eyebrow { font-size: 18px; }
+  .detail .amount { font-size: 28px; }
+}
+/* the Booking Guidelines fold is a card, so its title is a card title */
+.detail .guide-intro h2 { font-size: 24px; line-height: 1.15; letter-spacing: -0.015em; }
+@media (max-width: 768px) { .detail .guide-intro h2 { font-size: 21px; } }
+
+/* ---------- One type scale on every page ----------
+   Serif: page title · section 32 · card/sub-section 24 · label 20.  Sans: intro 19.2 · reading 18.4 light
+   · values 18.4 regular · links and notes 15 · breadcrumbs 13.2. */
+/* "Read more" is a link: link size, with clear space above it */
+.read-toggle, .gi-card .read-toggle { margin-top: 4px; font-size: var(--fs-ui); line-height: 1.5; font-weight: 500; }
+/* Ashram page */
+.as-story h3, .as-story h3.display-lg, .as-travel-title, .as-video-title, .as-route-title, .as-quote blockquote, .as-section blockquote {
+  font-size: 24px; line-height: 1.15; letter-spacing: -0.015em; font-weight: 300;
+}
+.as-quote blockquote, .as-section blockquote { line-height: 1.4; }
+.as-sub { font-family: var(--font-heading); font-weight: 300; font-size: 20px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); margin-top: 8px; }
+.as-method-body strong { font-weight: 500; }
+.as-travel-points li, .as-note, .as-route-note, .as-map-layers button, .as-coords, figcaption { font-size: var(--fs-ui); line-height: 1.6; font-weight: 400; }
+@media (max-width: 768px) {
+  h2.display-2xl, .section-heading .display-2xl { font-size: 26px; }
+  .as-story h3, .as-story h3.display-lg, .as-travel-title, .as-video-title, .as-route-title, .as-section blockquote { font-size: 21px; }
+  .as-sub { font-size: 18px; }
+}
+/* every serif heading and label in the one light weight */
+main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .stay-item .eyebrow, .doc-head h2 { font-weight: 300; }
+/* notice cards (e.g. Personal Meetings with Swamiji): text first, the icon on the right like the other cards */
+.meeting > div:last-child { flex: 1; }
+.meeting > .icon-disc { order: 2; align-self: flex-start; }
