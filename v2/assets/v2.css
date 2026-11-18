@@ -460,3 +460,7 @@ main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .
 /* notice cards (e.g. Personal Meetings with Swamiji): text first, the icon on the right like the other cards */
 .meeting > div:last-child { flex: 1; }
 .meeting > .icon-disc { order: 2; align-self: flex-start; }
+/* About Swamiji page: the same portrait as the home page, shown whole */
+.ab-portrait { aspect-ratio: 900 / 1021; }
+.ab-portrait img { object-position: 50% 30%; }
+@media (max-width: 768px) { .ab-portrait { aspect-ratio: 900 / 1021; max-width: 480px; } }
