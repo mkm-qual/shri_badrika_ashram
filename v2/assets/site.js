@@ -303,6 +303,14 @@ window.sbaAccount = (() => {
   bar.innerHTML = `<div class="key-sticky-inner"><div class="key-sticky-copy"><strong></strong><span></span><small class="key-sticky-note" hidden><span class="ic" style="--i:url('icons/info.svg');--s:13px" aria-hidden="true"></span><em></em></small></div></div>`;
   bar.querySelector('strong').textContent = title.textContent.trim();
   bar.querySelector('.key-sticky-copy > span').textContent = dates;
+  // and the stay dates, on the same line, so the compact card still answers "when do I arrive and leave?"
+  const stay = card.querySelector('.kf-stay');
+  if (stay) {
+    const s = document.createElement('span');
+    s.className = 'key-sticky-stay';
+    s.textContent = `${stay.querySelector('dt').textContent.trim()}: ${stay.querySelector('dd').innerText.split('\n').map(t => t.trim()).filter(Boolean).join(' · ')}`;
+    bar.querySelector('.key-sticky-copy > span').after(s);
+  }
   // the one note that matters (e.g. Swamiji's presence) travels with the bar too
   const note = card.querySelector('.key-foot .note');
   if (note && note.textContent.trim()) { bar.querySelector('.key-sticky-note em').textContent = note.textContent.trim(); bar.querySelector('.key-sticky-note').hidden = false; }
