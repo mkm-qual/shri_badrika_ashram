@@ -6,15 +6,12 @@
 <title>Album — Gallery — Sri Badrika Ashram</title>
 <meta name="description" content="Photos from an event at Sri Badrika Ashram.">
 <script>
-  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // Light by default; dark only when the visitor has pressed the day/night button (remembered for this visit),
   // applied before first paint to avoid a flash
   (function () {
     var t = null;
     try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -170,7 +167,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261116e"></script>
+<script src="assets/site.js?v=20261118c"></script>
 <script src="assets/gallery-data.js?v=20261004r"></script>
 <script src="assets/gallery.js?v=20261004r"></script>
 <script src="assets/album.js?v=20261114a"></script>
@@ -179,6 +176,6 @@
   <div class="site-menu" role="menu" aria-label="Site options"></div>
   <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
 </div>
-<script src="assets/versions.js?v=20261116a"></script>
+<script src="assets/versions.js?v=20261118p"></script>
 </body>
 </html>

@@ -6,15 +6,12 @@
 <title>The Children of Tomorrow — Sri Badrika Ashram</title>
 <meta name="description" content="The Children of Tomorrow: a three-day retreat at Sri Badrika Ashram dedicated to young minds, 13–15 November 2026.">
 <script>
-  // Follow the computer's light / dark setting (a toggle press overrides it for this visit only),
+  // Light by default; dark only when the visitor has pressed the day/night button (remembered for this visit),
   // applied before first paint to avoid a flash
   (function () {
     var t = null;
     try { localStorage.removeItem('sba-theme'); t = sessionStorage.getItem('sba-theme'); } catch (e) {}
-    if (t !== 'light' && t !== 'dark') {
-      t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
   })();
 </script>
 <link rel="preload" href="fonts/Forum-Regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -235,7 +232,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261116e"></script>
+<script src="assets/site.js?v=20261118c"></script>
 <script>
   // "On this page": highlight the section currently in view
   const tocLinks = [...document.querySelectorAll('.toc a')];
@@ -262,6 +259,6 @@
   <div class="site-menu" role="menu" aria-label="Site options"></div>
   <button class="site-btn" id="siteBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Site version"><span class="ic" style="--i:url('icons/palette.svg');--s:20px" aria-hidden="true"></span></button>
 </div>
-<script src="assets/versions.js?v=20261116a"></script>
+<script src="assets/versions.js?v=20261118p"></script>
 </body>
 </html>
