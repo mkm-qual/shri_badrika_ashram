@@ -331,3 +331,6 @@ body[data-page="home"] .tz-divine .actions, body[data-page="home"] .tz-static .a
 /* Check-in / Check-out style details: the label is the heading, the date is the content */
 .stay-item .eyebrow { font-family: var(--font-heading); letter-spacing: -0.01em; text-transform: none; font-weight: 400; font-size: var(--fs-h4); line-height: var(--lh-h4); color: var(--ink); }
 .stay-item strong, .recur-summary-main { font-family: var(--font-body); letter-spacing: 0; font-weight: 500; font-size: var(--fs-lg); line-height: var(--lh-lg); }
+
+/* About Swamiji: the portrait photograph, framed like the site's other photos */
+.swamiji-photo .swamiji-portrait { display: block; width: 100%; height: auto; border-radius: var(--r-media-lg, 20px); background: #000; box-shadow: 0 8px 24px rgba(23,52,42,.14); }
