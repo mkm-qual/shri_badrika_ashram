@@ -17,7 +17,7 @@
 <link rel="preload" href="fonts/SourceSerif4-Light-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261118zz8">
+<link rel="stylesheet" href="assets/v2.css?v=20261118zz11">
 </head>
 <body data-page="detail">
 
@@ -109,7 +109,8 @@
           </div>
           </div>
         </section>
-    </div>
+
+    <!-- ============ Quote ============ -->
 
 
     <figure class="card quote">
@@ -119,13 +120,19 @@
         <figcaption>Salutations to You, O Rudra, Salutations to Your divine power and Your arrow. Salutations to Your bow, and salutations to Your mighty arms.</figcaption>
       </div>
     </figure>
+    </div>
 
     <section class="section-heading" id="schedule">
-      <h2 class="display-2xl">Maha Rudra Sadhana – Schedule and Important Details</h2>
+      <h2 class="display-2xl">Event details</h2>
     </section>
     <div class="schedule-cards">
-      <section class="card" id="sadhana" aria-labelledby="sadhana-title">
-        <h3 class="card-title" id="sadhana-title">Sadhana Schedule</h3>
+      <section class="card schedule-card" id="sadhana" aria-labelledby="sadhana-title">
+        <details class="daily-fold">
+        <summary>
+          <h3 class="card-title" id="sadhana-title">Sadhana schedule</h3>
+          <span class="daily-meta">4 dates · 5 Mar to 17 Mar</span>
+          <span class="daily-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
+        </summary>
         <ol class="times">
           <li class="time-row">
             <div class="date-chip"><b>5</b><span>Mar</span></div>
@@ -148,25 +155,27 @@
             <img src="assets/icon-clock.svg" width="22" height="22" alt="">
           </li>
         </ol>
+        </details>
       </section>
-      <section class="card" aria-labelledby="stay-title">
+      <section class="card stay-dates" id="stay" aria-labelledby="stay-title">
         <div class="card-head">
-          <h3 class="card-title" id="stay-title">Stay schedule</h3>
+          <div class="card-head-copy">
+            <h3 class="card-title" id="stay-title">Stay dates</h3>
+            <p class="card-sub">Check-in 5 March 2027 (Friday) · Check-out 17 March 2027 (Wednesday)</p>
+          </div>
           <span class="icon-disc sm"><img src="assets/icon-calendar.svg" width="24" height="24" alt=""></span>
         </div>
         <div class="stay-list">
-          <div class="stay-item"><p class="eyebrow">Check-in</p><strong>5 March 2027 (Friday)</strong></div>
-          <div class="stay-item"><p class="eyebrow">Check-out</p><strong>17 March 2027 (Wednesday)</strong></div>
           <div class="stay-item"><p class="eyebrow">Daily Yajna</p><strong>5:15 AM IST, 7 March 2027 (Sunday) to 17 March 2027 (Wednesday)</strong></div>
         </div>
       </section>
     </div>
 
     <!-- ============ Booking guidelines ============ -->
-    <section id="guidelines">
+    <section class="guide-card" id="guidelines">
       <details class="guide-fold" id="guideFold">
         <summary class="guide-intro">
-          <h2 class="display-2xl">Important Booking Guidelines</h2>
+          <h2 class="display-2xl">Important booking guidelines</h2>
           <p>Please read carefully before you book · 7 guidelines</p>
           <span class="fold-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
         </summary>
@@ -180,10 +189,14 @@
         <li>Devotees with physical limitations or conditions that may prevent them from participating fully in the Sadhana are requested not to register for this event.</li>
       </ol>
       </details>
+    </section>
+
+    <!-- ============ Notices ============ -->
+    <section class="notices" id="notices">
       <div class="card meeting">
         <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
         <div>
-          <h3>Personal Meetings with Swamiji</h3>
+          <h3>Personal meetings with Swamiji</h3>
           <p>There will be no personal meetings with Swamiji during the entire duration of the Sadhana.</p>
         </div>
       </div>
@@ -191,7 +204,7 @@
 
     <!-- ============ Yajamana ============ -->
     <section class="section-heading wide" id="yajamana">
-      <h2 class="display-2xl">Yajamana Registration</h2>
+      <h2 class="display-2xl">Yajamana registration</h2>
     </section>
     <div class="card stay-card wide apply-card">
       <div class="card-head">
@@ -206,7 +219,7 @@
 
     <!-- ============ Accommodation ============ -->
     <section class="section-heading wide" id="accommodation">
-      <h2 class="display-2xl">Accommodation and Contribution</h2>
+      <h2 class="display-2xl">Accommodation &amp; contribution</h2>
     </section>
     <div class="card stay-card wide">
       <div class="card-head">
@@ -216,13 +229,13 @@
       <p class="lead">The contribution includes dormitory accommodation for the full duration of the Sadhana, and two wholesome meals daily (Lunch &amp; Dinner).</p>
       <hr>
       <div class="card-head">
-        <h3>Room Upgrade</h3>
+        <h3>Room upgrade</h3>
         <span class="icon-disc cream"><img src="assets/icon-ac.svg" width="25" height="25" alt=""></span>
       </div>
       <p class="body">Upgrades to twin-sharing or triple-sharing accommodation may be available on a first-come, first-served basis, subject to availability upon arrival. Additional contribution will apply for room upgrades, and the applicable contribution will vary depending on the accommodation category selected.</p>
       <hr>
       <div class="card-head" id="payment">
-        <h3>Important Payment Policy</h3>
+        <h3>Payment policy</h3>
       </div>
       <p class="body">All payments made are non-refundable and non-transferable.</p>
       <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">We therefore request you to carefully review all the event details, eligibility requirements, schedule, accommodation arrangements, and other guidelines before proceeding with your booking.</p>
@@ -235,11 +248,10 @@
       <p class="eyebrow">On this page</p>
       <ol>
         <li><a href="#summary"><span class="gd-num">01</span>Event summary</a></li>
-        <li><a href="#schedule"><span class="gd-num">02</span>Schedule &amp; important details</a></li>
-        <li><a href="#sadhana"><span class="gd-num">03</span>Sadhana schedule</a></li>
-        <li><a href="#guidelines"><span class="gd-num">04</span>Booking guidelines</a></li>
-        <li><a href="#yajamana"><span class="gd-num">05</span>Yajamana registration</a></li>
-        <li><a href="#accommodation"><span class="gd-num">06</span>Accommodation &amp; contribution</a></li>
+        <li><a href="#schedule"><span class="gd-num">02</span>Event details</a></li>
+        <li><a href="#guidelines"><span class="gd-num">03</span>Booking guidelines</a></li>
+        <li><a href="#yajamana"><span class="gd-num">04</span>Yajamana registration</a></li>
+        <li><a href="#accommodation"><span class="gd-num">05</span>Accommodation &amp; contribution</a></li>
       </ol>
     </div>
   </nav>
@@ -269,7 +281,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261118q"></script>
+<script src="assets/site.js?v=20261118r"></script>
 <script src="assets/v2/crumb-float.js?v=5"></script>
 <script>
   // "On this page": highlight the section currently in view

@@ -594,3 +594,20 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; } 
 /* the pill hugs the check circle evenly: 6px around it on every side */
 .bk-step-btn { padding: 6px 14px 6px 6px; margin: -6px -14px -6px -6px; }
 .bk-step-btn .bk-step-name { line-height: 24px; }
+/* event template: the series dates read as values, and every button label has one weight */
+.detail .series-copy strong { font-size: var(--fs-body); line-height: 1.6; font-weight: 400; }
+.detail .btn span { font-weight: 400; }
+/* the line under a quote (its source, or a translation) is a plain small line, not spaced capitals */
+.detail .quote figcaption { text-transform: none; letter-spacing: 0; font-size: var(--fs-ui); line-height: 1.6; font-weight: 400; color: var(--ink-muted); }
+
+/* Event template: the booking guidelines are one card — the fold, and any warning that goes with them,
+   sit together under one border (the warning stays visible while the list is folded) */
+.guide-card { border: 1px solid var(--rule); border-radius: var(--card-radius); background: var(--card-bg); overflow: hidden; }
+.guide-card .guide-fold > summary { border: 0; border-radius: 0; background-color: transparent; }
+.guide-card .guide-fold > summary:hover { background-color: var(--light-green-hover); }
+.guide-card .guide-fold > summary:focus-visible { outline-offset: -3px; }
+.guide-card .guide-fold > .guidelines { border: 0; border-radius: 0; background: transparent; }
+.guide-card .notice.guide-warn { margin: 0; border: 0; border-top: 1px solid var(--rule); border-radius: 0; background: transparent; padding: var(--sp-4) var(--sp-6) var(--sp-5); }
+@media (max-width: 768px) { .guide-card .notice.guide-warn { padding: var(--sp-3) 20px var(--sp-4); } }
+:root[data-theme="dark"] .guide-card { background-image: var(--paper-texture); }
+:root[data-theme="dark"] .guide-card :is(.guide-fold > summary, .guide-fold > .guidelines) { background-image: none; }

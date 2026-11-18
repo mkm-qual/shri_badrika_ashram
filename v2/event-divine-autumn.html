@@ -17,7 +17,7 @@
 <link rel="preload" href="fonts/SourceSerif4-Light-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261118zz8">
+<link rel="stylesheet" href="assets/v2.css?v=20261118zz11">
 </head>
 <body data-page="detail">
 
@@ -114,13 +114,13 @@
 
 
     <section class="section-heading" id="schedule">
-      <h2 class="display-2xl">Event Details</h2>
+      <h2 class="display-2xl">Event details</h2>
     </section>
     <div class="schedule-cards">
-      <section class="card" id="daily" aria-labelledby="daily-title">
-        <details class="daily-fold" id="dailyFold">
+      <section class="card schedule-card" id="daily" aria-labelledby="daily-title">
+        <details class="daily-fold">
         <summary>
-          <h3 class="card-title" id="daily-title">Daily Schedule</h3>
+          <h3 class="card-title" id="daily-title">Daily schedule</h3>
           <span class="daily-meta">4 sessions · 6:00 AM to 5:30 PM</span>
           <span class="daily-chev" aria-hidden="true"><span class="ic" style="--i:url('icons/chevron-down.svg');--s:18px"></span></span>
         </summary>
@@ -148,7 +148,7 @@
         </ol>
         </details>
       </section>
-      <section class="card" aria-labelledby="stay-title">
+      <section class="card stay-dates" id="stay" aria-labelledby="stay-title">
         <div class="card-head">
           <div class="card-head-copy">
             <h3 class="card-title" id="stay-title">Stay dates</h3>
@@ -159,7 +159,8 @@
       </section>
     </div>
 
-    <section id="abhishekam">
+    <!-- ============ Notices ============ -->
+    <section class="notices" id="notices">
       <div class="card meeting">
         <span class="icon-disc"><img src="assets/icon-info.svg" width="24" height="24" alt=""></span>
         <div>
@@ -171,7 +172,7 @@
 
     <!-- ============ Accommodation ============ -->
     <section class="section-heading wide" id="accommodation">
-      <h2 class="display-2xl">Accommodation &amp; Stay</h2>
+      <h2 class="display-2xl">Accommodation &amp; contribution</h2>
     </section>
     <div class="card stay-card wide">
       <div class="card-head">
@@ -182,7 +183,7 @@
       <p class="notice"><img src="assets/icon-alert.svg" width="20" height="20" alt="">Contributions are non-refundable.</p>
       <hr>
       <div class="card-head">
-        <h3>Stay upgrades</h3>
+        <h3>Room upgrade</h3>
         <span class="icon-disc cream"><img src="assets/icon-ac.svg" width="25" height="25" alt=""></span>
       </div>
       <p class="body">Stay upgrades may be requested and paid for upon arrival at the Front Office, subject to availability.</p>
@@ -197,9 +198,7 @@
       <ol>
         <li><a href="#summary"><span class="gd-num">01</span>Event summary</a></li>
         <li><a href="#schedule"><span class="gd-num">02</span>Event details</a></li>
-        <li><a href="#daily"><span class="gd-num">03</span>Daily schedule</a></li>
-        <li><a href="#abhishekam"><span class="gd-num">04</span>Abhishekam</a></li>
-        <li><a href="#accommodation"><span class="gd-num">05</span>Accommodation &amp; stay</a></li>
+        <li><a href="#accommodation"><span class="gd-num">03</span>Accommodation &amp; contribution</a></li>
       </ol>
     </div>
   </nav>
@@ -229,7 +228,7 @@
   </div>
 </footer>
 
-<script src="assets/site.js?v=20261118q"></script>
+<script src="assets/site.js?v=20261118r"></script>
 <script src="assets/v2/crumb-float.js?v=5"></script>
 <script>
   // "On this page": highlight the section currently in view
