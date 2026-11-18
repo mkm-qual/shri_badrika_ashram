@@ -516,11 +516,45 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; } 
 .nav-brand { flex-shrink: 0; }   /* the logo keeps its size; the breadcrumb beside it gives way (ellipsis) */
 .nav-actions { flex-shrink: 0; }
 @media (max-width: 768px) { .nav-actions { flex: 0 0 auto; margin-left: auto; } }
+/* while scrolled down, the name folds away and the breadcrumb takes its place beside the lotus; it opens again at the top */
+.nav-brand a { display: block; max-width: 260px; overflow: hidden; transition: max-width var(--t-pop-in, .26s) var(--ease-out, ease); }
+.nav-brand a img { max-width: none; flex-shrink: 0; }
+.nav.crumb-on .nav-brand a { max-width: 44px; }   /* the whole lotus (it ends at 41.5px; the name starts at 48px) */
+.crumb-float { margin-left: -10px; padding-left: 0; border-left: 0; }   /* sits close beside the lotus, where the name was */
 @media (max-width: 768px) {
-  /* while the breadcrumb shows, the logo folds to its lotus so "← Page" has room; it opens again at the top */
-  .nav-brand a { display: block; max-width: 260px; overflow: hidden; transition: max-width var(--t-pop-in, .26s) var(--ease-out, ease); }
-  .nav-brand a img { max-width: none; flex-shrink: 0; }
-  .nav.crumb-on .nav-brand a { max-width: 34px; }
-  .crumb-float .crumb-back + .sep + a, .crumb-float [aria-current] { font-size: var(--fs-ui); }
+  .nav.crumb-on .nav-brand a { max-width: 41px; }   /* phone logo: the lotus ends at 38px */
+  .crumb-float { padding-left: 0; }
+  .crumb-float [aria-current] { font-size: var(--fs-ui); }
 }
-@media (max-width: 768px) and (prefers-reduced-motion: reduce) { .nav-brand a { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .nav-brand a { transition: none; } }
+
+/* ---------- Breadcrumb hand-over, choreographed ----------
+   Going down: the name folds into the lotus, its last letters melting rather than being cut, and a beat
+   later the breadcrumb drifts in from the left and comes into focus. Coming back up: the breadcrumb
+   steps aside first, then the name unfolds. One gentle curve throughout. */
+@property --brand-fade { syntax: '<length>'; inherits: false; initial-value: 0px; }
+:root { --hand-ease: cubic-bezier(.22, .61, .36, 1); }
+/* the letters melt at the folding edge only while it moves (the fade rises and settles back to nothing) */
+.nav-brand a {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - var(--brand-fade)), transparent);
+          mask-image: linear-gradient(to right, #000 calc(100% - var(--brand-fade)), transparent);
+  transition: max-width .42s var(--hand-ease) .14s;
+}
+.nav.crumb-off .nav-brand a { animation: brand-unfold .56s ease .14s; }   /* only when coming back up, not on load */
+.nav.crumb-on .nav-brand a { transition: max-width .46s var(--hand-ease); animation: brand-fold .46s ease; }
+@keyframes brand-fold { 0%, 100% { --brand-fade: 0px; } 25%, 75% { --brand-fade: 22px; } }
+@keyframes brand-unfold { 0%, 100% { --brand-fade: 0px; } 25%, 75% { --brand-fade: 22px; } }
+.crumb-float {
+  transform: translateX(-10px); filter: blur(3px);
+  transition: opacity .18s ease, transform .2s ease, filter .18s ease, visibility 0s linear .2s;
+}
+.crumb-float.show {
+  opacity: 1; transform: none; filter: none; visibility: visible;
+  transition: opacity .4s ease .16s, transform .55s var(--hand-ease) .16s, filter .4s ease .16s, visibility 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-brand a, .nav.crumb-on .nav-brand a, .nav.crumb-off .nav-brand a, .crumb-float, .crumb-float.show { transition: none; animation: none; filter: none; }
+}
+/* fold between the logo's exact widths, so the motion eases all the way to rest (no dead stretch, no sudden stop) */
+.nav-brand a { max-width: 222px; }
+@media (max-width: 768px) { .nav-brand a { max-width: 204px; } }

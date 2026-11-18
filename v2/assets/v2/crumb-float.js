@@ -26,6 +26,7 @@
     ticking = false;
     const past = crumbs.getBoundingClientRect().bottom < header.offsetHeight;
     if (past === shown) return;
+    header.classList.toggle('crumb-off', !past && shown === true);   // the name unfolds (only after it folded)
     shown = past;
     float.classList.toggle('show', past);
     header.classList.toggle('crumb-on', past);   // phones fold the logo to its lotus to make room
