@@ -490,3 +490,8 @@ main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .
   background: color-mix(in srgb, var(--bg) 92%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--rule) 60%, transparent); }
 @media (max-width: 768px) { .crumb-float { top: calc(100% - 4px); } }
+
+/* Section intros run as one line under their heading on wider screens (they wrap only when the screen is too narrow) */
+.as-activity-head .section-heading, .as-travel .section-heading { width: auto; max-width: none; }
+.as-activity-head .section-heading .lede, .as-travel .section-heading .lede, .give-ways-head .lede { width: auto; max-width: none; text-wrap: pretty; }
+.give-ways-head { flex-direction: column; align-items: flex-start; gap: 12px; }
