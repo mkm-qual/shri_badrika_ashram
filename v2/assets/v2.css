@@ -501,7 +501,12 @@ main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .
 :root[data-theme="dark"] .as-map-still { filter: brightness(.85) contrast(1.05); }
 
 /* ---------- The site never grows wider than 1600px; beyond that the paper is left empty either side ---------- */
-body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; }   /* clip: clouds and the temple stop at the edge, sticky still works */
+body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: visible; overflow-y: clip; }   /* sideways the temple may pass the column; html still trims at the screen edge */
+/* the clouds stay within the 1600px column (only sideways; they may still rise above and below their band) */
+.cloud-band { overflow-x: clip; }   /* sideways only: they may still rise above and below their band */
+/* the temple scene alone spans the whole screen, so the painting ends in its own brushed watercolour edge
+   rather than being cut at the column (and the zoom fills the screen) */
+.temple-zoom { width: 100vw; margin-left: calc(50% - 50vw); overflow-x: clip; }   /* trims at the screen edge itself */
 /* the footer's columns never run wider than the page (they were cut off on mid-size screens) */
 .v2-footer-top { max-width: calc(100% - 2 * var(--gutter)); }
 
@@ -619,3 +624,12 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; } 
 .crumb-back:hover .ic { transform: translateX(-3px); }
 .crumb-back:hover { color: var(--v2-hover-ink); }
 @media (prefers-reduced-motion: reduce) { .crumb-back .ic { transition: none; } .crumb-back:hover .ic { transform: none; } }
+
+/* the offerings glow fades within the page, never widening it */
+.off-intro { overflow-x: clip; }
+/* Temple zoom: while walking in, the bottom of the frame fades into the paper over its last 64px (a soft edge, not a hard line).
+   At rest the painting's own wash already ends it, so the fade switches on unseen. */
+.tz-sticky.tz-deep {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 64px), rgba(0,0,0,.6) calc(100% - 28px), transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 64px), rgba(0,0,0,.6) calc(100% - 28px), transparent 100%);
+}
