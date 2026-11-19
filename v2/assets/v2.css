@@ -611,3 +611,11 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: clip; } 
 @media (max-width: 768px) { .guide-card .notice.guide-warn { padding: var(--sp-3) 20px var(--sp-4); } }
 :root[data-theme="dark"] .guide-card { background-image: var(--paper-texture); }
 :root[data-theme="dark"] .guide-card :is(.guide-fold > summary, .guide-fold > .guidelines) { background-image: none; }
+/* breadcrumbs: the back arrow sits close to "Home" (its round hover area no longer adds a gap) */
+.crumbs .crumb-back, .crumb-float .crumb-back { margin-right: -5px; }
+/* back arrow hover: no filled circle (it looked muddy on the paper); the arrow darkens and nudges back */
+.crumb-back:hover { background: none; }
+.crumb-back .ic { transition: transform var(--t-hover, .15s) var(--ease-out, ease), color var(--t-hover, .15s) ease; }
+.crumb-back:hover .ic { transform: translateX(-3px); }
+.crumb-back:hover { color: var(--v2-hover-ink); }
+@media (prefers-reduced-motion: reduce) { .crumb-back .ic { transition: none; } .crumb-back:hover .ic { transform: none; } }
