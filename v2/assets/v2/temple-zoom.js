@@ -159,6 +159,9 @@
     copy.style.transform = `translate3d(0, ${(1 - words) * 16}px, 0)`;
     if (divine.classList.contains('is-on') !== words > 0.5) divine.classList.toggle('is-on', words > 0.5);
     hint.style.opacity = p > 0.03 ? 0 : 1;
+    // once the walk-in begins, the frame's bottom edge melts into the paper instead of cutting the painting
+    const deep = p > 0.03 && p < 0.71;   // off again once the painting has dissolved, so Sri Hari's section is never dimmed
+    if (sticky.classList.contains('tz-deep') !== deep) sticky.classList.toggle('tz-deep', deep);
   };
 
   let ticking = false;
