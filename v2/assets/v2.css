@@ -633,3 +633,8 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: visible;
   -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 64px), rgba(0,0,0,.6) calc(100% - 28px), transparent 100%);
           mask-image: linear-gradient(to bottom, #000 0, #000 calc(100% - 64px), rgba(0,0,0,.6) calc(100% - 28px), transparent 100%);
 }
+/* phones: the two Sri Hari buttons share one line, each taking half the width */
+@media (max-width: 768px) {
+  body[data-page="home"] :is(.tz-divine, .tz-static) .actions { flex-wrap: nowrap; gap: 8px; width: 100%; }
+  body[data-page="home"] :is(.tz-divine, .tz-static) .actions .btn { flex: 1 1 0; min-width: 0; padding-inline: 12px; gap: 6px; justify-content: center; white-space: nowrap; }
+}
