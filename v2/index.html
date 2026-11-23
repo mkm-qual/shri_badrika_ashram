@@ -18,7 +18,7 @@
 <link rel="preload" href="assets/v2/temple-day.webp?v=1" as="image" fetchpriority="high">
 <link rel="preload" href="assets/v2/deity.webp?v=2" as="image">
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261119i">
+<link rel="stylesheet" href="assets/v2.css?v=20261123c">
 </head>
 <body data-page="home">
 
@@ -360,6 +360,34 @@
   });
   document.addEventListener('click', (e) => { if (!e.target.closest('.callout')) closeCallouts(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCallouts(); });
+
+  // Each card opens wherever it fits on screen: above its tag if there's room under the header, otherwise
+  // below it; and it shifts sideways rather than run off either edge. It is always fully in view.
+  const placeCard = (li) => {
+    if (innerWidth <= 768) return;                            // phones: the card opens under the row of tags
+    const card = li.querySelector('.place-card'), pill = li.querySelector('.callout-pill');
+    const nav = document.querySelector('.nav');
+    const top = (nav ? nav.getBoundingClientRect().bottom : 0) + 12, bottom = innerHeight - 12;
+    const p = pill.getBoundingClientRect(), h = card.offsetHeight, w = card.offsetWidth;
+    const roomAbove = p.top - 10 - top, roomBelow = bottom - (p.bottom + 10);
+    const place = roomAbove >= h || roomAbove >= roomBelow ? 'above' : 'below';
+    li.dataset.place = place;
+    // and if even that side is short (a tag at the very edge of the screen), slide the card up or down into view
+    const cTop = place === 'above' ? p.top - 10 - h : p.bottom + 10;
+    const dy = cTop < top ? top - cTop : cTop + h > bottom ? bottom - (cTop + h) : 0;
+    li.style.setProperty('--card-dy', `${Math.round(dy)}px`);
+    // sideways: start at the tag's left edge, nudged in to stay clear of the screen edges
+    const left = Math.min(Math.max(p.left, 16), innerWidth - 16 - w);
+    li.style.setProperty('--card-dx', `${Math.round(left - p.left)}px`);
+  };
+  callouts.forEach(li => {
+    li.addEventListener('mouseenter', () => placeCard(li));
+    li.querySelector('.callout-pill').addEventListener('click', () => placeCard(li), true);
+    li.addEventListener('focusin', () => placeCard(li));
+  });
+  // a card pinned open keeps its place in view as the page scrolls
+  addEventListener('scroll', () => { const open = callouts.find(li => li.classList.contains('is-open')); if (open) placeCard(open); }, { passive: true });
+  addEventListener('resize', () => callouts.forEach(placeCard));
 </script>
 
 <!-- Site options: switch versions and scroll clouds -->
