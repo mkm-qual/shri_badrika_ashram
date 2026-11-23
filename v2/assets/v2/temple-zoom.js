@@ -210,7 +210,7 @@
   // speed = how far the gesture pushed in its first moments (px per 150 ms); it maps to 0.65 s … 1.9 s.
   const durFor = (speed) => 650 + 1250 * Math.exp(-speed / 450);
   const G = { t0: 0, ms: 1300 };
-  let gestStart = 0, gestSum = 0, lastSpeed = 300;
+  let gestStart = 0, gestSum = 0, lastSpeed = 300, tailOpen = false;
   const retime = (ms) => {                                       // change the pace mid-glide without a jump in position
     const now = performance.now(), t = Math.min(1, (now - G.t0) / G.ms);
     G.ms = ms; G.t0 = now - t * ms;
@@ -250,8 +250,11 @@
     if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
     const now = performance.now(), abs = Math.abs(e.deltaY), dir = Math.sign(e.deltaY);
     const isFresh = fresh(abs, dir, now);
+    // a trackpad's momentum only shrinks (its small values may repeat); steady mouse-wheel clicks are large and even
+    const fading = abs < lastAbs || (abs === lastAbs && abs < 40) || abs <= 4;
     lastAbs = abs; lastTime = now;
     if (gliding) {                                               // during a glide: swallow, but remember a new push
+      tailOpen = true;                                           // this gesture's momentum belongs to the glide
       if (inside()) e.preventDefault();
       if (isFresh && dir) { const to = target(dir); if (to !== undefined) queued = dir; }
       else if (dir === glideDir && now - gestStart < 260) {      // the opening of the same gesture: read its speed
@@ -261,13 +264,15 @@
       }
       return;
     }
-    if (!isFresh && now - glideEnd < 450) {                      // the fading tail of the gesture just played
-      if (inside() || now - glideEnd < 200) e.preventDefault();
-      return;
-    }
+    // The fading tail of the gesture just played is swallowed for as long as it lasts, even past the last
+    // stop, so a flick's momentum can't fling the page on past the next sections. Steady wheel ticks or a
+    // finger still moving don't fade, so they count as fresh scrolling and move the page as usual.
+    if (isFresh) tailOpen = false;                               // a new gesture: the old tail is over
+    if (tailOpen && dir === glideDir && (fading || now - glideEnd < 200)) { e.preventDefault(); return; }
+    tailOpen = false;
     gestStart = now; gestSum = abs;
     lastSpeed = abs * 1.5;                                       // a first guess from one event; refined as more arrive
-    step(dir, e);
+    if (step(dir, e)) tailOpen = true;
   }, { passive: false });
   // touch: one swipe, one stop
   let touchY = null, touchT = 0;
