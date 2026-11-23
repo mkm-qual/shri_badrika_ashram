@@ -654,3 +654,81 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: visible;
    olive and the drifting clouds run the full width of the screen ---------- */
 .nav::before { left: calc((100% - 100vw) / 2); right: calc((100% - 100vw) / 2); }
 .v2-footer { box-shadow: 0 0 0 100vmax var(--v2-footer); clip-path: inset(0 -100vmax); }
+
+/* ---------- Make an offering: "View all special days of the year" ----------
+   One card: the toggle is its header, and switching it on opens the same card to hold the special days,
+   with the offering tabs, filters and month pager sharing a single row above a compact table. */
+.mo-sp-card { margin-bottom: 16px; border: 1px solid var(--rule); border-radius: 14px; background: var(--card-bg); }
+.mo-sp-toggle { display: flex; align-items: center; gap: 16px; padding: 14px 18px; border-radius: 14px; cursor: pointer; }
+.mo-sp-card.open .mo-sp-toggle { border-radius: 14px 14px 0 0; }
+.mo-sp-toggle:hover { background: var(--v2-wash); }
+.mo-sp-toggle-copy { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.mo-sp-toggle-copy b { font-family: var(--font-heading); font-weight: 300; font-size: 20px; line-height: 1.2; color: var(--ink); }
+.mo-sp-toggle-copy small { font-size: var(--fs-ui); line-height: 1.5; color: var(--ink-muted); }
+.mo-sp-toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.mo-switch { position: relative; flex-shrink: 0; width: 44px; height: 26px; border-radius: 999px; background: var(--light-green-active, #dcdccb); transition: background-color var(--t-hover, .15s) ease; }
+.mo-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .2s var(--ease-out, ease); }
+.mo-sp-toggle input:checked + .mo-switch { background: var(--btn-primary); }
+.mo-sp-toggle input:checked + .mo-switch::after { transform: translateX(18px); }
+.mo-sp-toggle input:focus-visible + .mo-switch { outline: 2px solid var(--saffron); outline-offset: 2px; }
+.mo-sp { padding: 0 18px 12px; border-top: 1px solid var(--rule); }
+.mo-sp[hidden] { display: none; }
+.mo-sp-table { width: 100%; border-collapse: collapse; font-size: var(--fs-ui); }
+.mo-sp-table th { padding: 7px 10px; text-align: left; font-weight: 400; color: var(--ink-muted); background: var(--sand); }
+.mo-sp-table th:first-child { border-radius: 8px 0 0 8px; }
+.mo-sp-table th:last-child { border-radius: 0 8px 8px 0; }
+.mo-sp-table td { padding: 7px 10px; border-bottom: 1px solid var(--rule); color: var(--ink); line-height: 1.5; }
+.mo-sp-table tr:last-child td { border-bottom: 0; }
+.mo-sp-table tbody tr:hover td { background: var(--v2-wash); }
+.mo-sp-table tbody tr.on td { background: color-mix(in srgb, var(--btn-primary) 10%, transparent); }
+.mo-sp-table .num { text-align: right; white-space: nowrap; }
+.mo-sp-table .check { display: inline-flex; }
+.mo-sp-table td.mo-empty { color: var(--ink-muted); text-align: center; padding: 16px 10px; }
+/* a tick-box column per offering, its charge in the heading */
+.mo-sp-col { width: 1%; white-space: nowrap; }
+th.mo-sp-col { color: var(--ink); }
+th.mo-sp-col .check { margin-right: 8px; vertical-align: middle; }
+th.mo-sp-col .mo-dot { margin-right: 5px; vertical-align: middle; }
+th.mo-sp-col small { margin-left: 4px; color: var(--ink-muted); font-size: var(--fs-sm); }
+td.mo-sp-col { padding-left: 10px; }
+.mo-sp { padding-top: 12px; }
+.mo-sum-days { display: block; margin-top: 2px; font-size: var(--fs-sm); color: var(--ink-muted); }
+@media (max-width: 768px) {
+  .mo-sp-toggle { padding: 12px 14px; }
+  .mo-sp { padding: 0 12px 10px; }
+  .mo-sp-table th, .mo-sp-table td { padding: 7px 6px; }
+  .mo-sp-col small { display: none; }
+}
+.mo-legend[hidden], .mo-cal[hidden] { display: none; }   /* hidden while the special days list is in use */
+/* a day an offering isn't performed: the box is there but quiet, and can't be ticked */
+.mo-sp-pick .mo-sp-name { display: none; }                     /* desktop: the column heading names it */
+td.mo-sp-col.na .check input { opacity: .35; cursor: not-allowed; }
+td.mo-sp-col.na .check { cursor: not-allowed; }
+@media (max-width: 768px) {
+  /* phones: each day is one row: the date on the left, a named pill per offering on the right */
+  .mo-sp-table, .mo-sp-table tbody { display: block; }
+  .mo-sp-table thead { display: none; }
+  .mo-sp-table tr { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-rows: auto auto; align-items: center; column-gap: 6px; padding: 10px 2px; border-bottom: 1px solid var(--rule); }
+  .mo-sp-table tr:last-child { border-bottom: 0; }
+  .mo-sp-table td { display: block; padding: 0; border: 0; background: none !important; }
+  .mo-sp-table tbody tr:hover td { background: none; }
+  .mo-sp-table tbody tr.on { background: color-mix(in srgb, var(--btn-primary) 8%, transparent); border-radius: 8px; }
+  .mo-sp-table .mo-sp-kind { grid-column: 1; grid-row: 1; font-size: var(--fs-sm); color: var(--ink-muted); }
+  .mo-sp-table .mo-sp-date { grid-column: 1; grid-row: 2; font-size: var(--fs-ui); color: var(--ink); white-space: nowrap; }
+  .mo-sp-table td.mo-sp-col { grid-row: 1 / span 2; width: auto; }
+  .mo-sp-table td.mo-sp-col:nth-of-type(3) { grid-column: 2; }
+  .mo-sp-table td.mo-sp-col:nth-of-type(4) { grid-column: 3; }
+  .mo-sp-pick { display: inline-flex !important; align-items: center; gap: 5px; padding: 5px 9px 5px 6px; border: 1px solid var(--rule); border-radius: 999px; background: var(--card-bg); }
+  .mo-sp-pick .mo-dot { display: none; }   /* the pill names it; no room for the dot */
+  .mo-sp-pick .mo-sp-name { display: inline-flex; align-items: center; gap: 4px; font-size: var(--fs-sm); line-height: 1.2; color: var(--ink); }
+  .mo-sp-pick:has(input:checked) { border-color: var(--btn-primary); background: color-mix(in srgb, var(--btn-primary) 14%, var(--card-bg)); }
+  td.mo-sp-col.na .mo-sp-pick { opacity: .45; border-style: dashed; }
+  td.mo-sp-col.na .check input { opacity: 1; }
+}
+@media (max-width: 768px) { .mo-sp-table .mo-sp-pick input[type="checkbox"] { border-radius: 50%; } }   /* phones: round ticks inside the round pills */
+/* About Ashram: the map's painting fades in from empty sky, so it tucks up closer under the buttons */
+.v2-sanctuary .grounds-map { margin-top: -56px; }
+.v2-sanctuary .actions { position: relative; z-index: 2; }   /* the buttons stay clickable above the map's faded sky */
+@media (max-width: 768px) { .v2-sanctuary .grounds-map { margin-top: -28px; } }
+/* the special-offerings card sits close above the calendar (the step's own 20px gap less a little) */
+.mo-sp-card { margin-bottom: -8px; }
