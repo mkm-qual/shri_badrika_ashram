@@ -110,8 +110,11 @@
     const { w, h } = M;
 
     // 1 · walk up to the doors · 2 · they swing open · 3 · step through until the niche fills the window
-    const near = span(p, 0, 0.36), through = span(p, 0.34, 0.56);
-    const s = 1 + (M.atDoor - 1) * near + (M.atNiche - M.atDoor) * through;
+    // One continuous zoom from the welcome to the niche, at an even pace: it grows on a logarithmic scale
+    // (each moment magnifies by the same factor) and has no phase boundary where it could slow and pause.
+    // The glide that carries the scroll already eases in and out, so the zoom itself stays linear in p.
+    const near = clamp(p / 0.56);
+    const s = Math.exp(Math.log(M.atNiche) * near);
     const ox = (DOOR.l + DOOR.w / 2) * w, oy = (DOOR.t + DOOR.h / 2) * h;           // the zoom turns about the doors
     const dx = (M.vw / 2 - (M.sx + ox)) * near, dy = ((M.vh + M.navH) / 2 - (M.sy + oy)) * near;
     scene.style.transform = `translate3d(${dx}px, ${dy}px, 0) scale(${s})`;
@@ -130,8 +133,11 @@
     //     magnified many times on a phone), exactly in its place; then the painting dissolves and he glides
     //     to his place by the words. He is drawn large once and only ever scaled down, so he stays sharp.
     const handing = p >= 0.2;
-    const hand = span(p, 0.58, 0.82);
-    scene.style.opacity = 1 - span(p, 0.58, 0.72);
+    // second step (0.56 → 1): everything starts moving the moment it begins, at a steady pace (the glide
+    // that carries the scroll does the easing), so there is no still moment at its start
+    const lin = (a, b) => clamp((p - a) / (b - a));
+    const hand = lin(0.56, 0.86);
+    scene.style.opacity = 1 - lin(0.56, 0.74);
     const deityVis = handing ? 'hidden' : 'visible';
     if (sceneDeity.style.visibility !== deityVis) sceneDeity.style.visibility = deityVis;
     idol.style.opacity = handing ? 1 : 0;
@@ -152,9 +158,9 @@
       } else idol.style.clipPath = 'none';
     }
     // 5 · the halo warms in behind him, then the words arrive
-    const halo = span(p, 0.74, 0.88);
+    const halo = lin(0.7, 0.9);
     halos.forEach(el => { el.style.opacity = halo; });
-    const words = span(p, 0.8, 0.94);
+    const words = lin(0.78, 0.97);
     copy.style.opacity = words;
     copy.style.transform = `translate3d(0, ${(1 - words) * 16}px, 0)`;
     if (divine.classList.contains('is-on') !== words > 0.5) divine.classList.toggle('is-on', words > 0.5);
@@ -179,4 +185,102 @@
   addEventListener('load', refit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(refit);   // the words above settle the painting's room
   refit();
+
+  // ----- Two scrolls, two stops -----
+  // The first scroll carries you all the way in, through the opened doors to Sri Hari in his lamp-lit niche;
+  // the second carries you on to the Sri Hari section. Each gesture plays the whole move as one glide,
+  // whatever its size; scrolling up steps back the same way. Past the last stop the page scrolls as usual.
+  const STOPS = [0, 0.56, 1];                       // the welcome · Sri Hari in the niche · the Sri Hari section
+  const at = (p) => M.top + p * M.run;
+  const progress = () => (scrollY - M.top) / M.run;
+  const inside = () => M && scrollY >= M.top - 2 && scrollY <= M.top + M.run + 2;
+  const target = (dir) => {
+    const p = progress();
+    if (dir > 0) return STOPS.find(s => s > p + 0.01);
+    for (let i = STOPS.length - 1; i >= 0; i--) if (STOPS[i] < p - 0.01) return STOPS[i];
+  };
+  const easeInOut = (t) => (1 - Math.cos(Math.PI * t)) / 2;     // a sine ease: no sudden start, no sudden stop
+  // A glide plays one step. Input never gets "stuck":
+  //  · a fresh gesture made while a glide plays is remembered and played straight after it (one step queued);
+  //  · after a glide, only the tail of the same gesture (a trackpad's fading momentum) is swallowed, and only
+  //    briefly: a stronger push, a change of direction, or a moment's pause counts as a new gesture at once.
+  let gliding = false, glideDir = 0, glideStart = 0, glideEnd = 0, queued = 0;
+  let lastAbs = 0, lastTime = 0;
+  const glide = (to) => {
+    const from = scrollY, dest = at(to), dist = Math.abs(dest - from);
+    const ms = Math.min(1700, Math.max(1100, dist * 0.7));      // unhurried; longer moves get a little more time
+    const t0 = performance.now();
+    gliding = true; glideDir = Math.sign(dest - from); glideStart = t0;
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / ms);
+      scrollTo({ top: from + (dest - from) * easeInOut(t), behavior: 'instant' });
+      draw();                      // paint this frame now, in step with the scroll (no frame of lag)
+      if (t < 1) { requestAnimationFrame(step); return; }
+      gliding = false; glideEnd = performance.now();
+      if (queued) { const d = queued; queued = 0; const next = inside() && target(d); if (next !== undefined && next !== false) glide(next); }
+    };
+    requestAnimationFrame(step);
+  };
+  // is this event the start of a new gesture, or the tail of the one already played?
+  const fresh = (abs, dir, now) => {
+    const gap = now - lastTime;
+    if (gap > 140) return true;                                  // a pause between strokes
+    if (dir !== glideDir) return true;                           // a change of direction
+    if (gliding && now - glideStart < 400) return false;         // a swipe speeds up as it begins: still the same one
+    return abs > Math.max(12, lastAbs * 1.8);                    // momentum only fades; a new push grows
+  };
+  const step = (dir, e) => {
+    if (!inside()) return false;
+    const to = target(dir);
+    if (to === undefined) return false;                          // past the last stop (or above the first): ordinary scrolling
+    e && e.preventDefault();
+    if (gliding) { if (dir === glideDir || !queued) queued = dir; }  // play it next, don't drop it
+    else glide(to);
+    return true;
+  };
+  addEventListener('wheel', (e) => {
+    if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+    const now = performance.now(), abs = Math.abs(e.deltaY), dir = Math.sign(e.deltaY);
+    const isFresh = fresh(abs, dir, now);
+    lastAbs = abs; lastTime = now;
+    if (gliding) {                                               // during a glide: swallow, but remember a new push
+      if (inside()) e.preventDefault();
+      if (isFresh && dir) { const to = target(dir); if (to !== undefined) queued = dir; }
+      return;
+    }
+    if (!isFresh && now - glideEnd < 450) {                      // the fading tail of the gesture just played
+      if (inside() || now - glideEnd < 200) e.preventDefault();
+      return;
+    }
+    step(dir, e);
+  }, { passive: false });
+  // touch: one swipe, one stop
+  let touchY = null;
+  addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+  addEventListener('touchmove', (e) => {
+    if (touchY === null || !inside()) return;
+    const dy = touchY - e.touches[0].clientY;
+    if (Math.abs(dy) < 6) return;
+    if (gliding || target(Math.sign(dy)) !== undefined) e.preventDefault();
+  }, { passive: false });
+  addEventListener('touchend', (e) => {
+    if (touchY === null) return;
+    const dy = touchY - (e.changedTouches[0] ? e.changedTouches[0].clientY : touchY);
+    touchY = null;
+    if (Math.abs(dy) < 24) return;
+    step(Math.sign(dy));
+  }, { passive: true });
+  // keyboard: arrows, Page Up/Down and space step between the stops too
+  addEventListener('keydown', (e) => {
+    if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+    const dir = { ArrowDown: 1, PageDown: 1, ' ': e.shiftKey ? -1 : 1, ArrowUp: -1, PageUp: -1 }[e.key];
+    if (dir) step(dir, e);
+  });
+  // dragged the scrollbar or jumped to the middle of the walk: settle on the nearest stop
+  addEventListener('scrollend', () => {
+    if (gliding || !inside()) return;
+    const p = progress();
+    const near = STOPS.reduce((a, b) => (Math.abs(b - p) < Math.abs(a - p) ? b : a));
+    if (Math.abs(near - p) > 0.01) glide(near);
+  });
 })();
