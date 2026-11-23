@@ -206,13 +206,21 @@
   //    briefly: a stronger push, a change of direction, or a moment's pause counts as a new gesture at once.
   let gliding = false, glideDir = 0, glideStart = 0, glideEnd = 0, queued = 0;
   let lastAbs = 0, lastTime = 0;
-  const glide = (to) => {
-    const from = scrollY, dest = at(to), dist = Math.abs(dest - from);
-    const ms = Math.min(1700, Math.max(1100, dist * 0.7));      // unhurried; longer moves get a little more time
-    const t0 = performance.now();
-    gliding = true; glideDir = Math.sign(dest - from); glideStart = t0;
+  // The glide's pace follows the hand: a gentle scroll gets an unhurried glide, a quick flick a brisk one.
+  // speed = how far the gesture pushed in its first moments (px per 150 ms); it maps to 0.65 s … 1.9 s.
+  const durFor = (speed) => 650 + 1250 * Math.exp(-speed / 450);
+  const G = { t0: 0, ms: 1300 };
+  let gestStart = 0, gestSum = 0, lastSpeed = 300;
+  const retime = (ms) => {                                       // change the pace mid-glide without a jump in position
+    const now = performance.now(), t = Math.min(1, (now - G.t0) / G.ms);
+    G.ms = ms; G.t0 = now - t * ms;
+  };
+  const glide = (to, ms = durFor(lastSpeed)) => {
+    const from = scrollY, dest = at(to);
+    G.t0 = performance.now(); G.ms = ms;
+    gliding = true; glideDir = Math.sign(dest - from); glideStart = G.t0;
     const step = (now) => {
-      const t = Math.min(1, (now - t0) / ms);
+      const t = Math.min(1, (now - G.t0) / G.ms);
       scrollTo({ top: from + (dest - from) * easeInOut(t), behavior: 'instant' });
       draw();                      // paint this frame now, in step with the scroll (no frame of lag)
       if (t < 1) { requestAnimationFrame(step); return; }
@@ -246,17 +254,24 @@
     if (gliding) {                                               // during a glide: swallow, but remember a new push
       if (inside()) e.preventDefault();
       if (isFresh && dir) { const to = target(dir); if (to !== undefined) queued = dir; }
+      else if (dir === glideDir && now - gestStart < 260) {      // the opening of the same gesture: read its speed
+        gestSum += abs;
+        lastSpeed = gestSum * 150 / Math.max(now - gestStart, 60);
+        retime(durFor(lastSpeed));
+      }
       return;
     }
     if (!isFresh && now - glideEnd < 450) {                      // the fading tail of the gesture just played
       if (inside() || now - glideEnd < 200) e.preventDefault();
       return;
     }
+    gestStart = now; gestSum = abs;
+    lastSpeed = abs * 1.5;                                       // a first guess from one event; refined as more arrive
     step(dir, e);
   }, { passive: false });
   // touch: one swipe, one stop
-  let touchY = null;
-  addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+  let touchY = null, touchT = 0;
+  addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; touchT = performance.now(); }, { passive: true });
   addEventListener('touchmove', (e) => {
     if (touchY === null || !inside()) return;
     const dy = touchY - e.touches[0].clientY;
@@ -268,13 +283,14 @@
     const dy = touchY - (e.changedTouches[0] ? e.changedTouches[0].clientY : touchY);
     touchY = null;
     if (Math.abs(dy) < 24) return;
+    lastSpeed = Math.abs(dy) / Math.max(performance.now() - touchT, 40) * 300;   // a quick flick glides briskly
     step(Math.sign(dy));
   }, { passive: true });
   // keyboard: arrows, Page Up/Down and space step between the stops too
   addEventListener('keydown', (e) => {
     if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
     const dir = { ArrowDown: 1, PageDown: 1, ' ': e.shiftKey ? -1 : 1, ArrowUp: -1, PageUp: -1 }[e.key];
-    if (dir) step(dir, e);
+    if (dir) { lastSpeed = 300; step(dir, e); }
   });
   // dragged the scrollbar or jumped to the middle of the walk: settle on the nearest stop
   addEventListener('scrollend', () => {
