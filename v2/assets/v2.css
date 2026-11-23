@@ -503,7 +503,7 @@ main h1, main h2, main h3, main h4, .as-facts dt, .gd-times dt, .key-facts dt, .
 /* ---------- The site never grows wider than 1600px; beyond that the paper is left empty either side ---------- */
 body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: visible; overflow-y: clip; }   /* sideways the temple may pass the column; html still trims at the screen edge */
 /* the clouds stay within the 1600px column (only sideways; they may still rise above and below their band) */
-.cloud-band { overflow-x: clip; }   /* sideways only: they may still rise above and below their band */
+.cloud-band { width: 100vw; margin-left: calc(50% - 50vw); overflow-x: clip; }   /* the whole screen wide; trimmed only at its edges */
 /* the temple scene alone spans the whole screen, so the painting ends in its own brushed watercolour edge
    rather than being cut at the column (and the zoom fills the screen) */
 .temple-zoom { width: 100vw; margin-left: calc(50% - 50vw); overflow-x: clip; }   /* trims at the screen edge itself */
@@ -649,3 +649,8 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: visible;
   .callout[data-place="below"] .place-card::before { bottom: auto; top: -12px; }   /* the hover bridge sits above it */
 }
 @media (min-width: 769px) { .callout .place-card { translate: 0 var(--card-dy, 0px); } }
+
+/* ---------- Beyond 1600px: the content stays in its column, but the header's frosted band, the footer's
+   olive and the drifting clouds run the full width of the screen ---------- */
+.nav::before { left: calc((100% - 100vw) / 2); right: calc((100% - 100vw) / 2); }
+.v2-footer { box-shadow: 0 0 0 100vmax var(--v2-footer); clip-path: inset(0 -100vmax); }
