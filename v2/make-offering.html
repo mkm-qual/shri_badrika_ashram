@@ -17,7 +17,7 @@
 <link rel="preload" href="fonts/SourceSerif4-Light-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/Outfit-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/site.css?v=20261118a">
-<link rel="stylesheet" href="assets/v2.css?v=20261123d">
+<link rel="stylesheet" href="assets/v2.css?v=20261123q">
 </head>
 <body data-page="make-offering">
 
@@ -127,6 +127,15 @@
     <!-- 2 · Date -->
     <section class="mo-step" aria-labelledby="s2">
       <header class="mo-step-head"><span class="mo-num" aria-hidden="true">2</span><div><h2 id="s2">Choose your dates</h2><p>Each day shows the offerings performed at the Mandir. Select one or more days that hold every offering you chose; select a day again to remove it.</p></div></header>
+      <!-- the year's special days: the toggle's own card opens to hold them -->
+      <div class="mo-sp-card" id="spCard">
+        <label class="mo-sp-toggle">
+          <span class="mo-sp-toggle-copy"><b id="spTitle">View All 2026 Special Offerings</b></span>
+          <input type="checkbox" role="switch" id="specialToggle">
+          <span class="mo-switch" aria-hidden="true"></span>
+        </label>
+        <div class="mo-sp" id="special" hidden><div class="mo-sp-list" id="specialList"></div></div>
+      </div>
       <div class="mo-cal">
         <div class="mo-cal-head">
           <button class="mo-cal-nav" type="button" id="calPrev" aria-label="Previous month"><span class="ic" style="--i:url('icons/chevron-left.svg');--s:16px" aria-hidden="true"></span></button>
@@ -227,7 +236,7 @@
 
 <script src="assets/site.js?v=20261118r"></script>
 <script src="assets/v2/crumb-float.js?v=5"></script>
-<script src="assets/make-offering.js?v=20261012d"></script>
+<script src="assets/make-offering.js?v=20261123f"></script>
 <!-- Site options: switch versions and scroll clouds -->
 <div class="site-picker" id="sitePicker">
   <div class="site-menu" role="menu" aria-label="Site options"></div>
