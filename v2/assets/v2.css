@@ -638,3 +638,14 @@ body { width: 100%; max-width: 1600px; margin-inline: auto; overflow-x: visible;
   body[data-page="home"] :is(.tz-divine, .tz-static) .actions { flex-wrap: nowrap; gap: 8px; width: 100%; }
   body[data-page="home"] :is(.tz-divine, .tz-static) .actions .btn { flex: 1 1 0; min-width: 0; padding-inline: 12px; gap: 6px; justify-content: center; white-space: nowrap; }
 }
+/* Events: each month's cards start level with the top of the big month name (its letters begin ~8px into their line) */
+@media (min-width: 1101px) { .months .month > .month-cards.v2-cards { margin-top: 8px; } }
+
+/* Grounds map: a place card opens above its tag, or below when there isn't room above (see the page script),
+   and is nudged sideways to stay on screen */
+@media (min-width: 769px) {
+  .callout .place-card, .callout[data-align="end"] .place-card { left: var(--card-dx, 0px); right: auto; }
+  .callout[data-place="below"] .place-card { bottom: auto; top: calc(100% + 10px); transform-origin: top left; --pop-y: -4px; }
+  .callout[data-place="below"] .place-card::before { bottom: auto; top: -12px; }   /* the hover bridge sits above it */
+}
+@media (min-width: 769px) { .callout .place-card { translate: 0 var(--card-dy, 0px); } }
