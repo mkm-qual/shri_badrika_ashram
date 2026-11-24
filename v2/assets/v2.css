@@ -734,3 +734,14 @@ td.mo-sp-col.na .check { cursor: not-allowed; }
 .mo-sp-card { margin-bottom: -8px; }
 /* clicking (or quickly double-clicking) the switch or the ticks never highlights the text around them */
 .mo-sp-toggle, .mo-sp-table { -webkit-user-select: none; user-select: none; }
+
+/* No text selection by mouse anywhere on the site; form fields stay selectable so people can still edit what they type */
+body { -webkit-user-select: none; user-select: none; }
+input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+/* Header on mid-size screens (tablets): link names never wrap, and the profile capsule keeps its round shape */
+.nav-tab { white-space: nowrap; }
+.nav-pill { flex-shrink: 0; }
+@media (max-width: 1024px) and (min-width: 769px) {
+  .nav-tabs { gap: 2px; padding-inline: 4px; }
+  .nav-tab { padding: 0 9px; }
+}
