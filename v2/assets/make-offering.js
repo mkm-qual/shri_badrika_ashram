@@ -171,6 +171,8 @@ const setSpecial = (on) => {
   if (!calNeeded) $('calPicked').hidden = true;
 };
 $('specialToggle')?.addEventListener('change', (e) => setSpecial(e.target.checked));
+// a quick second click on the switch would otherwise select the words nearby
+document.querySelector('.mo-sp-toggle')?.addEventListener('mousedown', (e) => { if (e.detail > 1) e.preventDefault(); });
 $('specialList')?.addEventListener('change', (e) => {
   const c = e.target.closest('input[data-k]'); if (!c) return;
   const k = c.dataset.k, set = state.spec[k];
