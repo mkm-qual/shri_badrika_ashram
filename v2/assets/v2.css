@@ -748,3 +748,6 @@ input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; u
 
 /* Make an offering: check circle sits top-right on the cards */
 .mo-off-check { left: auto; right: 12px; }
+
+/* Auth submit: arrow is vertically centred with translateY(-50%); keep it on hover */
+.btn.auth-submit:hover img { transform: translate(3px, -50%); }
