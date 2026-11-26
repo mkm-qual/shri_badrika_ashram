@@ -745,3 +745,6 @@ input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; u
   .nav-tabs { gap: 2px; padding-inline: 4px; }
   .nav-tab { padding: 0 9px; }
 }
+
+/* Make an offering: check circle sits top-right on the cards */
+.mo-off-check { left: auto; right: 12px; }
