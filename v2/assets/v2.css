@@ -751,3 +751,6 @@ input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; u
 
 /* Auth submit: arrow is vertically centred with translateY(-50%); keep it on hover */
 .btn.auth-submit:hover img { transform: translate(3px, -50%); }
+
+/* No faded wash behind quote, poem, empty-state and auth cards */
+.card.as-quote, .ab-poem, .cr-empty, .auth-card { background: none; }
